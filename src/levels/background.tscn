@@ -1,0 +1,64 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://assets/images/background/close.png" type="Texture" id=1]
+[ext_resource path="res://assets/images/background/space.png" type="Texture" id=2]
+[ext_resource path="res://assets/images/background/moons.png" type="Texture" id=3]
+[ext_resource path="res://assets/images/background/nebula.png" type="Texture" id=4]
+[ext_resource path="res://assets/images/background/far.png" type="Texture" id=5]
+[ext_resource path="res://assets/images/background/middle.png" type="Texture" id=6]
+
+[node name="Background" type="ParallaxBackground"]
+
+[node name="Space" type="ParallaxLayer" parent="."]
+motion_scale = Vector2( 0, 0 )
+motion_mirroring = Vector2( 2048, 2048 )
+
+[node name="Sprite" type="Sprite" parent="Space"]
+texture = ExtResource( 2 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 2048, 2048 )
+
+[node name="Far" type="ParallaxLayer" parent="."]
+motion_scale = Vector2( 0.05, 0.05 )
+motion_mirroring = Vector2( 2048, 2048 )
+
+[node name="Sprite" type="Sprite" parent="Far"]
+texture = ExtResource( 5 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 2048, 2048 )
+
+[node name="Nebula" type="ParallaxLayer" parent="."]
+motion_scale = Vector2( 0.1, 0.1 )
+motion_mirroring = Vector2( 2048, 2048 )
+
+[node name="Sprite" type="Sprite" parent="Nebula"]
+texture = ExtResource( 4 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 2048, 2048 )
+
+[node name="Middle" type="ParallaxLayer" parent="."]
+motion_scale = Vector2( 0.15, 0.15 )
+motion_mirroring = Vector2( 2048, 2048 )
+
+[node name="Sprite" type="Sprite" parent="Middle"]
+texture = ExtResource( 6 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 2048, 2048 )
+
+[node name="Near" type="ParallaxLayer" parent="."]
+motion_scale = Vector2( 0.2, 0.2 )
+motion_mirroring = Vector2( 2048, 2048 )
+
+[node name="Sprite" type="Sprite" parent="Near"]
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 2048, 2048 )
+
+[node name="Moons" type="ParallaxLayer" parent="."]
+motion_scale = Vector2( 0.25, 0.25 )
+motion_mirroring = Vector2( 2048, 2048 )
+
+[node name="Sprite" type="Sprite" parent="Moons"]
+texture = ExtResource( 3 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 2048, 2048 )

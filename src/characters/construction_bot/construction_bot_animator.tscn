@@ -1,0 +1,418 @@
+[gd_scene load_steps=20 format=2]
+
+[ext_resource path="res://addons/surfacer/src/character/surfacer_character_animator.gd" type="Script" id=1]
+[ext_resource path="res://assets/images/characters/construction_bot_walking.png" type="Texture" id=2]
+[ext_resource path="res://assets/images/characters/test_character_climbing_up.png" type="Texture" id=3]
+[ext_resource path="res://assets/images/characters/test_character_climbing_down.png" type="Texture" id=4]
+[ext_resource path="res://assets/images/characters/test_character_standing.png" type="Texture" id=5]
+[ext_resource path="res://assets/images/characters/construction_jump_rise.png" type="Texture" id=6]
+[ext_resource path="res://assets/images/characters/construction_bot_standing.png" type="Texture" id=7]
+[ext_resource path="res://assets/images/characters/test_character_resting_on_wall.png" type="Texture" id=8]
+[ext_resource path="res://assets/images/characters/construction_jump_fall.png" type="Texture" id=9]
+
+[sub_resource type="Animation" id=1]
+resource_name = "ClimbDown"
+length = 0.14
+loop = true
+step = 0.07
+tracks/0/type = "value"
+tracks/0/path = NodePath("ClimbDown:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.07 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 0, 1 ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "ClimbUp"
+length = 0.14
+loop = true
+step = 0.07
+tracks/0/type = "value"
+tracks/0/path = NodePath("ClimbUp:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.07 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 0, 1 ]
+}
+
+[sub_resource type="Animation" id=8]
+resource_name = "CrawlOnCeiling"
+length = 0.14
+loop = true
+step = 0.07
+tracks/0/type = "value"
+tracks/0/path = NodePath("CrawlOnCeiling:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.07 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 0, 1 ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "JumpFall"
+length = 0.14
+loop = true
+step = 0.07
+tracks/0/type = "value"
+tracks/0/path = NodePath("JumpFall:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.07 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 0, 1 ]
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "JumpRise"
+length = 0.14
+loop = true
+step = 0.07
+tracks/0/type = "value"
+tracks/0/path = NodePath("JumpRise:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.07 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 0, 1 ]
+}
+
+[sub_resource type="Animation" id=11]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Rest:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("ClimbDown:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("ClimbUp:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("CrawlOnCeiling:frame")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0 ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("JumpFall:frame")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0 ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("JumpRise:frame")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0 ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("RestOnCeiling:frame")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0 ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("RestOnWall:frame")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0 ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("Walk:frame")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0 ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "Rest"
+length = 0.56
+loop = true
+step = 0.07
+tracks/0/type = "value"
+tracks/0/path = NodePath("Rest:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.07, 0.14, 0.21, 0.28, 0.35, 0.42, 0.49 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4, 5, 6, 7 ]
+}
+
+[sub_resource type="Animation" id=10]
+resource_name = "RestOnCeiling"
+length = 0.14
+loop = true
+step = 0.07
+tracks/0/type = "value"
+tracks/0/path = NodePath("RestOnCeiling:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.07 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 0, 1 ]
+}
+
+[sub_resource type="Animation" id=6]
+length = 0.14
+loop = true
+step = 0.07
+tracks/0/type = "value"
+tracks/0/path = NodePath("RestOnWall:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.07 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 0, 1 ]
+}
+
+[sub_resource type="Animation" id=7]
+length = 0.56
+loop = true
+step = 0.07
+tracks/0/type = "value"
+tracks/0/path = NodePath("Walk:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.07, 0.14, 0.21, 0.28, 0.35, 0.42, 0.49 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4, 5, 6, 7 ]
+}
+
+[node name="ConstructionBotAnimator" type="Node2D"]
+z_index = 2
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_horizontal_guides_": [  ],
+"_edit_lock_": true
+}
+animations = {
+"ClimbDown": {
+"name": "ClimbDown",
+"speed": 1.0,
+"sprite_name": "ClimbDown"
+},
+"ClimbUp": {
+"name": "ClimbUp",
+"speed": 1.0,
+"sprite_name": "ClimbUp"
+},
+"CrawlOnCeiling": {
+"name": "CrawlOnCeiling",
+"speed": 1.0,
+"sprite_name": "CrawlOnCeiling"
+},
+"JumpFall": {
+"name": "JumpFall",
+"speed": 2.0,
+"sprite_name": "JumpFall"
+},
+"JumpRise": {
+"name": "JumpRise",
+"speed": 2.0,
+"sprite_name": "JumpRise"
+},
+"RESET": {
+"name": "RESET",
+"speed": 1.0,
+"sprite_name": "RESET"
+},
+"Rest": {
+"name": "Rest",
+"speed": 0.3,
+"sprite_name": "Rest"
+},
+"RestOnCeiling": {
+"name": "RestOnCeiling",
+"speed": 1.0,
+"sprite_name": "RestOnCeiling"
+},
+"RestOnWall": {
+"name": "RestOnWall",
+"speed": 1.0,
+"sprite_name": "RestOnWall"
+},
+"Walk": {
+"name": "Walk",
+"speed": 0.5,
+"sprite_name": "Walk"
+}
+}
+
+[node name="Walk" type="Sprite" parent="."]
+visible = false
+light_mask = 0
+position = Vector2( 0, -16 )
+texture = ExtResource( 2 )
+hframes = 8
+
+[node name="ClimbUp" type="Sprite" parent="."]
+visible = false
+light_mask = 0
+texture = ExtResource( 3 )
+hframes = 2
+
+[node name="ClimbDown" type="Sprite" parent="."]
+visible = false
+light_mask = 0
+texture = ExtResource( 4 )
+hframes = 2
+
+[node name="CrawlOnCeiling" type="Sprite" parent="."]
+visible = false
+light_mask = 0
+rotation = -1.5708
+texture = ExtResource( 4 )
+hframes = 2
+
+[node name="Rest" type="Sprite" parent="."]
+light_mask = 0
+position = Vector2( 0, -16 )
+texture = ExtResource( 7 )
+hframes = 8
+
+[node name="RestOnWall" type="Sprite" parent="."]
+visible = false
+light_mask = 0
+texture = ExtResource( 8 )
+hframes = 2
+
+[node name="RestOnCeiling" type="Sprite" parent="."]
+visible = false
+light_mask = 0
+rotation = 3.14159
+scale = Vector2( -1, 1 )
+texture = ExtResource( 5 )
+hframes = 2
+
+[node name="JumpFall" type="Sprite" parent="."]
+visible = false
+light_mask = 0
+position = Vector2( 0, -14 )
+texture = ExtResource( 9 )
+hframes = 2
+
+[node name="JumpRise" type="Sprite" parent="."]
+visible = false
+light_mask = 0
+position = Vector2( 0, -14 )
+texture = ExtResource( 6 )
+hframes = 2
+
+[node name="RESET" type="Sprite" parent="."]
+light_mask = 0
+position = Vector2( 0, -1 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/ClimbDown = SubResource( 1 )
+anims/ClimbUp = SubResource( 2 )
+anims/CrawlOnCeiling = SubResource( 8 )
+anims/JumpFall = SubResource( 3 )
+anims/JumpRise = SubResource( 4 )
+anims/RESET = SubResource( 11 )
+anims/Rest = SubResource( 5 )
+anims/RestOnCeiling = SubResource( 10 )
+anims/RestOnWall = SubResource( 6 )
+anims/Walk = SubResource( 7 )

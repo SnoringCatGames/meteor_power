@@ -1,0 +1,23 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/wire_break.wav-e18f051cebf467f443157baf9bc3d7b0.sample"
+
+[deps]
+
+source_file="res://assets/sounds/wire_break.wav"
+dest_files=[ "res://.import/wire_break.wav-e18f051cebf467f443157baf9bc3d7b0.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

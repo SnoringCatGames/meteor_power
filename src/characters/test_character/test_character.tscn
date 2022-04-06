@@ -1,0 +1,72 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://src/characters/test_character/test_character.gd" type="Script" id=1]
+[ext_resource path="res://src/characters/test_character/test_character_animator.tscn" type="PackedScene" id=2]
+[ext_resource path="res://addons/surfacer/src/platform_graph/edge/models/movement_parameters.tscn" type="PackedScene" id=3]
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 16.0
+
+[node name="TestCharacter" type="KinematicBody2D"]
+collision_layer = 8
+script = ExtResource( 1 )
+character_name = "test_character"
+collision_detection_layers = 8
+is_bouncy = false
+rotates_to_match_surface_normal = true
+primary_annotation_color = Object(Reference,"script":Resource( "res://addons/scaffolder/src/config/color_config/static_color_config.gd" ),"h":0.683333,"s":0.384618,"v":0.203922,"a":1.0,"r":0.133333,"g":0.12549,"b":0.203922,"color":Color( 0.133333, 0.12549, 0.203922, 1 ),"_h":0.683333,"_s":0.384618,"_v":0.203922,"_a":1.0,"_color":null)
+
+secondary_annotation_color = Object(Reference,"script":Resource( "res://addons/scaffolder/src/config/color_config/palette_color_config.gd" ),"h":0.0,"s":0.0,"v":0.0,"a":0.0,"key":"white","_h_override":-1.0,"_s_override":-1.0,"_v_override":-1.0,"_a_override":-1.0,"h_delta":0.0,"s_delta":0.0,"v_delta":0.0,"a_delta":0.0,"override_color":Color( -1, -2, -2, -1 ),"delta_color":Color( 0, 0, 0, 0 ),"key":"white","_h_override":-1.0,"_s_override":-1.0,"_v_override":-1.0,"_a_override":-1.0,"h_delta":0.0,"s_delta":0.0,"v_delta":0.0,"a_delta":0.0)
+
+navigation_annotation_color_override = Object(Reference,"script":Resource( "res://addons/scaffolder/src/config/color_config/static_color_config.gd" ),"h":0.288991,"s":0.592391,"v":0.721569,"a":1.0,"r":0.407843,"g":0.721569,"b":0.294118,"color":Color( 0.407843, 0.721569, 0.294118, 1 ),"_h":0.288991,"_s":0.592391,"_v":0.721569,"_a":1.0,"_color":null)
+
+position_annotation_color_override = Object(Reference,"script":Resource( "res://addons/scaffolder/src/config/color_config/static_color_config.gd" ),"h":0.288991,"s":0.592391,"v":0.721569,"a":1.0,"r":0.407843,"g":0.721569,"b":0.294118,"color":Color( 0.407843, 0.721569, 0.294118, 1 ),"_h":0.288991,"_s":0.592391,"_v":0.721569,"_a":1.0,"_color":null)
+
+exclamation_mark_width_start = 4.0
+exclamation_mark_length_start = 24.0
+exclamation_mark_stroke_width_start = 1.2
+exclamation_mark_duration = 1.8
+exclamation_mark_throttle_interval = 1.0
+logs_common_debugging_events = true
+logs_custom_events = true
+logs_behavior_events = true
+logs_navigator_events = true
+logs_collision_events = true
+logs_surface_events = true
+logs_action_events = true
+logs_verbose_events = false
+logs_verbose_navigator_events = false
+stores_logs_on_character_instances = false
+
+[node name="MovementParameters" parent="." instance=ExtResource( 3 )]
+collider_shape = SubResource( 2 )
+collider_rotation = 1.5708
+character_category_name = "test_character"
+__movement_params_identifier__ = "_"
+can_grab_walls = true
+can_grab_ceilings = true
+surface_speed_multiplier = 1.0
+air_horizontal_speed_multiplier = 1.0
+walk_acceleration_multiplier = 1.5
+in_air_horizontal_acceleration_multiplier = 1.5
+climb_up_speed_multiplier = 1.2
+climb_down_speed_multiplier = 1.2
+ceiling_crawl_speed_multiplier = 1.2
+friction_coefficient_multiplier = 1.1
+jump_boost_multiplier = 1.3
+max_horizontal_speed_default_multiplier = 1.5
+max_jump_chain = 2
+move_to_collinear_surface_edge_weight_multiplier_override = -1.0
+air_edge_weight_multiplier_override = 10.0
+collision_margin_for_edge_calculations = 1.0
+collision_margin_for_waypoint_positions = 4.0
+oblique_collison_normal_aspect_ratio_threshold = 10.0
+
+[node name="TestCharacterAnimator" parent="." instance=ExtResource( 2 )]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_lock_": true
+}

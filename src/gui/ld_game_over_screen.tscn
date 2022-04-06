@@ -1,0 +1,306 @@
+[gd_scene load_steps=21 format=2]
+
+[ext_resource path="res://addons/scaffolder/src/gui/widgets/scaffolder_label.tscn" type="PackedScene" id=1]
+[ext_resource path="res://addons/scaffolder/assets/fonts/pxlzr_font_m.tres" type="DynamicFont" id=2]
+[ext_resource path="res://addons/scaffolder/src/gui/style_box_texture_scalable.gd" type="Script" id=3]
+[ext_resource path="res://addons/scaffolder/src/gui/screens/game_over_screen.gd" type="Script" id=4]
+[ext_resource path="res://addons/scaffolder/src/gui/widgets/spacer.tscn" type="PackedScene" id=5]
+[ext_resource path="res://addons/scaffolder/src/gui/control_row_list/control_row_list.tscn" type="PackedScene" id=6]
+[ext_resource path="res://addons/scaffolder/assets/images/gui/nine_patch/dropdown_hover.png" type="Texture" id=7]
+[ext_resource path="res://addons/scaffolder/assets/images/gui/nine_patch/dropdown_pressed.png" type="Texture" id=8]
+[ext_resource path="res://addons/scaffolder/assets/images/gui/nine_patch/dropdown_normal.png" type="Texture" id=9]
+[ext_resource path="res://addons/scaffolder/src/gui/widgets/scaffolder_button.tscn" type="PackedScene" id=10]
+[ext_resource path="res://addons/scaffolder/src/gui/widgets/accordion_panel.tscn" type="PackedScene" id=11]
+[ext_resource path="res://addons/scaffolder/src/gui/widgets/accordion_body.tscn" type="PackedScene" id=12]
+[ext_resource path="res://addons/scaffolder/src/gui/widgets/accordion_header.tscn" type="PackedScene" id=13]
+[ext_resource path="res://addons/scaffolder/src/gui/widgets/scaffolder_label.gd" type="Script" id=14]
+[ext_resource path="res://addons/scaffolder/assets/images/gui/nine_patch/focus_border.png" type="Texture" id=15]
+
+[sub_resource type="StyleBoxTexture" id=1]
+content_margin_left = 16.0
+content_margin_right = 16.0
+content_margin_top = 8.0
+content_margin_bottom = 8.0
+texture = ExtResource( 7 )
+region_rect = Rect2( 0, 0, 9, 9 )
+margin_left = 3.5
+margin_right = 3.5
+margin_top = 3.5
+margin_bottom = 3.5
+script = ExtResource( 3 )
+
+[sub_resource type="StyleBoxTexture" id=2]
+content_margin_left = 16.0
+content_margin_right = 16.0
+content_margin_top = 8.0
+content_margin_bottom = 8.0
+texture = ExtResource( 8 )
+region_rect = Rect2( 0, 0, 9, 9 )
+margin_left = 3.5
+margin_right = 3.5
+margin_top = 3.5
+margin_bottom = 3.5
+script = ExtResource( 3 )
+
+[sub_resource type="StyleBoxTexture" id=3]
+content_margin_left = 0.0
+content_margin_right = 0.0
+content_margin_top = 0.0
+content_margin_bottom = 0.0
+texture = ExtResource( 15 )
+region_rect = Rect2( 0, 0, 9, 9 )
+margin_left = 3.5
+margin_right = 3.5
+margin_top = 3.5
+margin_bottom = 3.5
+expand_margin_left = 3.0
+expand_margin_right = 3.0
+expand_margin_top = 3.0
+expand_margin_bottom = 3.0
+script = ExtResource( 3 )
+
+[sub_resource type="StyleBoxTexture" id=4]
+content_margin_left = 16.0
+content_margin_right = 16.0
+content_margin_top = 8.0
+content_margin_bottom = 8.0
+texture = ExtResource( 7 )
+region_rect = Rect2( 0, 0, 9, 9 )
+margin_left = 3.5
+margin_right = 3.5
+margin_top = 3.5
+margin_bottom = 3.5
+script = ExtResource( 3 )
+
+[sub_resource type="StyleBoxTexture" id=5]
+content_margin_left = 16.0
+content_margin_right = 16.0
+content_margin_top = 8.0
+content_margin_bottom = 8.0
+texture = ExtResource( 9 )
+region_rect = Rect2( 0, 0, 9, 9 )
+margin_left = 3.5
+margin_right = 3.5
+margin_top = 3.5
+margin_bottom = 3.5
+script = ExtResource( 3 )
+
+[node name="LdGameOverScreen" type="VBoxContainer"]
+margin_right = 1024.0
+margin_bottom = 768.0
+rect_min_size = Vector2( 1024, 768 )
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+screen_name = "game_over"
+nav_bar_text = "Game over"
+nav_bar_font_size = "Xl"
+is_back_button_shown = false
+is_about_button_shown = false
+is_settings_button_shown = false
+is_nav_bar_logo_shown = false
+layer = "menu"
+is_always_alive = false
+width_override = 0.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+margin_right = 1024.0
+margin_bottom = 768.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Spacer" parent="VBoxContainer" instance=ExtResource( 5 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 512.0
+margin_right = 512.0
+margin_bottom = 10.0
+rect_min_size = Vector2( 0, 10 )
+size = Vector2( 0, 10 )
+
+[node name="GameOverImageContainer" type="VBoxContainer" parent="VBoxContainer"]
+margin_left = 350.0
+margin_top = 14.0
+margin_right = 674.0
+margin_bottom = 199.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Spacer2" parent="VBoxContainer/GameOverImageContainer" instance=ExtResource( 5 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 162.0
+margin_right = 162.0
+margin_bottom = 10.0
+rect_min_size = Vector2( 0, 10 )
+size = Vector2( 0, 10 )
+
+[node name="ScaffolderLabel" type="Label" parent="VBoxContainer/GameOverImageContainer"]
+margin_top = 146.0
+margin_right = 324.0
+margin_bottom = 185.0
+custom_fonts/font = ExtResource( 2 )
+text = "You ran out of energy!"
+script = ExtResource( 14 )
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer"]
+margin_top = 203.0
+margin_right = 1024.0
+margin_bottom = 203.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="UnlockedNewLevelLabel" parent="VBoxContainer/VBoxContainer2" instance=ExtResource( 1 )]
+visible = false
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 382.0
+margin_bottom = 39.0
+custom_colors/font_color = Color( 1, 0.945098, 0.458824, 1 )
+custom_fonts/font = ExtResource( 2 )
+text = "You unlocked a new level!"
+valign = 0
+
+[node name="WasBestPlaythroughLabel" parent="VBoxContainer/VBoxContainer2" instance=ExtResource( 1 )]
+visible = false
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 18.0
+margin_right = 352.0
+margin_bottom = 57.0
+custom_colors/font_color = Color( 1, 0.945098, 0.458824, 1 )
+custom_fonts/font = ExtResource( 2 )
+text = "That's a new high score!"
+valign = 0
+
+[node name="WasFastestPlaythroughLabel" parent="VBoxContainer/VBoxContainer2" instance=ExtResource( 1 )]
+visible = false
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 36.0
+margin_right = 372.0
+margin_bottom = 75.0
+custom_colors/font_color = Color( 1, 0.945098, 0.458824, 1 )
+custom_fonts/font = ExtResource( 2 )
+text = "That's your fastest time!"
+valign = 0
+
+[node name="Spacer6" parent="VBoxContainer" instance=ExtResource( 5 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 512.0
+margin_top = 207.0
+margin_right = 512.0
+margin_bottom = 217.0
+rect_min_size = Vector2( 0, 10 )
+size = Vector2( 0, 10 )
+
+[node name="AccordionPanel" parent="VBoxContainer" instance=ExtResource( 11 )]
+margin_left = 282.0
+margin_top = 221.0
+margin_right = 742.0
+margin_bottom = 277.0
+rect_min_size = Vector2( 460, 0 )
+
+[node name="AccordionHeader" parent="VBoxContainer/AccordionPanel" instance=ExtResource( 13 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 460.0
+margin_bottom = 56.0
+custom_styles/hover = SubResource( 1 )
+custom_styles/pressed = SubResource( 2 )
+custom_styles/focus = SubResource( 3 )
+custom_styles/disabled = SubResource( 4 )
+custom_styles/normal = SubResource( 5 )
+header_text = "Details"
+
+[node name="AccordionBody" parent="VBoxContainer/AccordionPanel" instance=ExtResource( 12 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 56.0
+margin_right = 460.0
+margin_bottom = 56.0
+rect_min_size = Vector2( 460, 0 )
+
+[node name="LabeledControlList" parent="VBoxContainer/AccordionPanel/AccordionBody" instance=ExtResource( 6 )]
+visible = false
+margin_right = 460.0
+__meta__ = {
+"_edit_use_anchors_": false,
+"sc_separation": 0
+}
+
+[node name="Spacer8" parent="VBoxContainer" instance=ExtResource( 5 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 512.0
+margin_top = 281.0
+margin_right = 512.0
+margin_bottom = 301.0
+rect_min_size = Vector2( 0, 20 )
+size = Vector2( 0, 20 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer"]
+margin_left = 448.0
+margin_top = 305.0
+margin_right = 576.0
+margin_bottom = 465.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+custom_constants/separation = 16
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SelectLevelButton" parent="VBoxContainer/VBoxContainer" instance=ExtResource( 10 )]
+margin_right = 128.0
+margin_bottom = 88.0
+rect_min_size = Vector2( 128, 88 )
+texture_key = "go_normal"
+texture_scale = Vector2( 1.5, 1.5 )
+size_override = Vector2( 128, 88 )
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer"]
+margin_top = 104.0
+margin_right = 128.0
+margin_bottom = 160.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+custom_constants/separation = 16
+
+[node name="HomeButton" parent="VBoxContainer/VBoxContainer/HBoxContainer" instance=ExtResource( 10 )]
+margin_right = 56.0
+rect_min_size = Vector2( 56, 56 )
+texture_key = "home_normal"
+texture_scale = Vector2( 2, 2 )
+size_override = Vector2( 56, 56 )
+
+[node name="RetryButton" parent="VBoxContainer/VBoxContainer/HBoxContainer" instance=ExtResource( 10 )]
+margin_left = 72.0
+margin_right = 128.0
+rect_min_size = Vector2( 56, 56 )
+texture_key = "retry_normal"
+texture_scale = Vector2( 2, 2 )
+size_override = Vector2( 56, 56 )
+
+[node name="Spacer9" parent="VBoxContainer" instance=ExtResource( 5 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 512.0
+margin_top = 469.0
+margin_right = 512.0
+margin_bottom = 499.0
+rect_min_size = Vector2( 0, 30 )
+size = Vector2( 0, 30 )
+
+[connection signal="pressed" from="VBoxContainer/VBoxContainer/SelectLevelButton" to="." method="_on_SelectLevelButton_pressed"]
+[connection signal="pressed" from="VBoxContainer/VBoxContainer/HBoxContainer/HomeButton" to="." method="_on_HomeButton_pressed"]
+[connection signal="pressed" from="VBoxContainer/VBoxContainer/HBoxContainer/RetryButton" to="." method="_on_RetryButton_pressed"]
