@@ -1,23 +1,17 @@
 # Meteor Power
 
+> _**[Play the game!](https://levi.dev/meteor_power)**_
+> 
+> _**[Watch a gameplay video!](https://levi.dev/meteor_power)**_
+> 
+> _**[Checkout the original Ludum Dare version!](https://ldjam.com/events/ludum-dare/50/meteor-power)**_
+
 <p align="center">
   <img src="assets/images/cover_art.png"
        alt="A cover image for the Meteor Power game.">
 </p>
 
-> _**[Play the game!](https://levi.dev/meteor_power)**_
-
-> A point-and-click AI platformer.
-
-> Build solar stations, connect power lines, and collect more energy before you run out and overwhelmed by meteors!
-
-## 🎮 Controls
-
--   Mouse and keyboard.
--   A/S/D/Q/W/E to select a bot.
--   Left-click on a platform to move the bot.
--   Left-click a station button to do that command.
--   Right-click to cancel a command.
+> ☄️🤖 A point-and-click AI platformer: Build solar stations, connect power, avoid meteors!
 
 ## 💿 Software used
 
