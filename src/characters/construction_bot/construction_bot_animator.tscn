@@ -1,14 +1,34 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://addons/surfacer/src/character/surfacer_character_animator.gd" type="Script" id=1]
 [ext_resource path="res://assets/images/characters/construction_bot_walking.png" type="Texture" id=2]
-[ext_resource path="res://assets/images/characters/test_character_climbing_up.png" type="Texture" id=3]
-[ext_resource path="res://assets/images/characters/test_character_climbing_down.png" type="Texture" id=4]
-[ext_resource path="res://assets/images/characters/test_character_standing.png" type="Texture" id=5]
 [ext_resource path="res://assets/images/characters/construction_jump_rise.png" type="Texture" id=6]
 [ext_resource path="res://assets/images/characters/construction_bot_standing.png" type="Texture" id=7]
-[ext_resource path="res://assets/images/characters/test_character_resting_on_wall.png" type="Texture" id=8]
 [ext_resource path="res://assets/images/characters/construction_jump_fall.png" type="Texture" id=9]
+[ext_resource path="res://assets/images/characters/construction_bot_building.png" type="Texture" id=10]
+[ext_resource path="res://addons/scaffolder/src/character/outlineable_sprite.tscn" type="PackedScene" id=11]
+[ext_resource path="res://assets/images/characters/construction_bot_walking_outline.png" type="Texture" id=12]
+[ext_resource path="res://assets/images/characters/construction_jump_rise_outline.png" type="Texture" id=13]
+[ext_resource path="res://assets/images/characters/construction_jump_fall_outline.png" type="Texture" id=14]
+[ext_resource path="res://assets/images/characters/construction_bot_building_outline.png" type="Texture" id=15]
+[ext_resource path="res://assets/images/characters/construction_bot_standing_outline.png" type="Texture" id=16]
+
+[sub_resource type="Animation" id=12]
+resource_name = "Build"
+length = 1.7
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Build:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 ]
+}
 
 [sub_resource type="Animation" id=1]
 resource_name = "ClimbDown"
@@ -210,6 +230,18 @@ tracks/8/keys = {
 "update": 0,
 "values": [ 0 ]
 }
+tracks/9/type = "value"
+tracks/9/path = NodePath("Build:frame")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0 ]
+}
 
 [sub_resource type="Animation" id=5]
 resource_name = "Rest"
@@ -289,6 +321,11 @@ __meta__ = {
 "_edit_lock_": true
 }
 animations = {
+"Build": {
+"name": "Build",
+"speed": 1.0,
+"sprite_name": "Build"
+},
 "ClimbDown": {
 "name": "ClimbDown",
 "speed": 1.0,
@@ -340,72 +377,98 @@ animations = {
 "sprite_name": "Walk"
 }
 }
+is_outlined = true
 
-[node name="Walk" type="Sprite" parent="."]
+[node name="Walk" parent="." instance=ExtResource( 11 )]
 visible = false
-light_mask = 0
 position = Vector2( 0, -16 )
-texture = ExtResource( 2 )
+texture = ExtResource( 12 )
 hframes = 8
+is_outlined = true
+normal_texture = ExtResource( 2 )
+outlined_texture = ExtResource( 12 )
 
-[node name="ClimbUp" type="Sprite" parent="."]
+[node name="ClimbUp" parent="." instance=ExtResource( 11 )]
 visible = false
-light_mask = 0
-texture = ExtResource( 3 )
-hframes = 2
+texture = ExtResource( 12 )
+hframes = 8
+is_outlined = true
+normal_texture = ExtResource( 2 )
+outlined_texture = ExtResource( 12 )
 
-[node name="ClimbDown" type="Sprite" parent="."]
+[node name="ClimbDown" parent="." instance=ExtResource( 11 )]
 visible = false
-light_mask = 0
-texture = ExtResource( 4 )
-hframes = 2
+texture = ExtResource( 12 )
+hframes = 8
+is_outlined = true
+normal_texture = ExtResource( 2 )
+outlined_texture = ExtResource( 12 )
 
-[node name="CrawlOnCeiling" type="Sprite" parent="."]
+[node name="CrawlOnCeiling" parent="." instance=ExtResource( 11 )]
 visible = false
-light_mask = 0
-rotation = -1.5708
-texture = ExtResource( 4 )
-hframes = 2
+texture = ExtResource( 12 )
+hframes = 8
+is_outlined = true
+normal_texture = ExtResource( 2 )
+outlined_texture = ExtResource( 12 )
 
-[node name="Rest" type="Sprite" parent="."]
-light_mask = 0
+[node name="Rest" parent="." instance=ExtResource( 11 )]
+visible = false
 position = Vector2( 0, -16 )
-texture = ExtResource( 7 )
+texture = ExtResource( 16 )
 hframes = 8
+is_outlined = true
+normal_texture = ExtResource( 7 )
+outlined_texture = ExtResource( 16 )
 
-[node name="RestOnWall" type="Sprite" parent="."]
+[node name="RestOnWall" parent="." instance=ExtResource( 11 )]
 visible = false
-light_mask = 0
-texture = ExtResource( 8 )
-hframes = 2
+texture = ExtResource( 12 )
+hframes = 8
+is_outlined = true
+normal_texture = ExtResource( 2 )
+outlined_texture = ExtResource( 12 )
 
-[node name="RestOnCeiling" type="Sprite" parent="."]
+[node name="RestOnCeiling" parent="." instance=ExtResource( 11 )]
 visible = false
-light_mask = 0
-rotation = 3.14159
-scale = Vector2( -1, 1 )
-texture = ExtResource( 5 )
-hframes = 2
+texture = ExtResource( 12 )
+hframes = 8
+is_outlined = true
+normal_texture = ExtResource( 2 )
+outlined_texture = ExtResource( 12 )
 
-[node name="JumpFall" type="Sprite" parent="."]
+[node name="JumpFall" parent="." instance=ExtResource( 11 )]
 visible = false
-light_mask = 0
-position = Vector2( 0, -14 )
-texture = ExtResource( 9 )
+position = Vector2( 1, -15 )
+texture = ExtResource( 14 )
 hframes = 2
+is_outlined = true
+normal_texture = ExtResource( 9 )
+outlined_texture = ExtResource( 14 )
 
-[node name="JumpRise" type="Sprite" parent="."]
+[node name="JumpRise" parent="." instance=ExtResource( 11 )]
 visible = false
-light_mask = 0
-position = Vector2( 0, -14 )
-texture = ExtResource( 6 )
+position = Vector2( 1, -15 )
+texture = ExtResource( 13 )
 hframes = 2
+is_outlined = true
+normal_texture = ExtResource( 6 )
+outlined_texture = ExtResource( 13 )
 
-[node name="RESET" type="Sprite" parent="."]
-light_mask = 0
-position = Vector2( 0, -1 )
+[node name="Build" parent="." instance=ExtResource( 11 )]
+position = Vector2( 5, -18 )
+texture = ExtResource( 15 )
+hframes = 17
+is_outlined = true
+normal_texture = ExtResource( 10 )
+outlined_texture = ExtResource( 15 )
+
+[node name="RESET" parent="." instance=ExtResource( 11 )]
+visible = false
+is_outlined = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/Build = SubResource( 12 )
 anims/ClimbDown = SubResource( 1 )
 anims/ClimbUp = SubResource( 2 )
 anims/CrawlOnCeiling = SubResource( 8 )

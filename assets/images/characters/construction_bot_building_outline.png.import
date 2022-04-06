@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/icon_enlarged.png-1e51911655e34c788262185bd6dcf30c.stex"
+path="res://.import/construction_bot_building_outline.png-229edcb1bbf652ce7092a8ad94a12631.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/images/characters/icon_enlarged.png"
-dest_files=[ "res://.import/icon_enlarged.png-1e51911655e34c788262185bd6dcf30c.stex" ]
+source_file="res://assets/images/characters/construction_bot_building_outline.png"
+dest_files=[ "res://.import/construction_bot_building_outline.png-229edcb1bbf652ce7092a8ad94a12631.stex" ]
 
 [params]
 

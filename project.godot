@@ -79,6 +79,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/scaffolder/src/utils/audio.gd"
 }, {
+"base": "ParallaxBackground",
+"class": "Background",
+"language": "GDScript",
+"path": "res://src/levels/background.gd"
+}, {
 "base": "Node",
 "class": "BeatTracker",
 "language": "GDScript",
@@ -1429,6 +1434,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/surfacer/src/gui/legend/origin_surface_legend_item.gd"
 }, {
+"base": "Sprite",
+"class": "OutlineableSprite",
+"language": "GDScript",
+"path": "res://addons/scaffolder/src/character/outlineable_sprite.gd"
+}, {
 "base": "Node2D",
 "class": "OverlayButtonPanel",
 "language": "GDScript",
@@ -2704,6 +2714,7 @@ _global_script_class_icons={
 "AnnotationElementType": "",
 "AnnotatorType": "",
 "Audio": "",
+"Background": "",
 "BeatTracker": "",
 "Behavior": "",
 "BehaviorMoveResult": "",
@@ -2974,6 +2985,7 @@ _global_script_class_icons={
 "OriginSurfaceAnnotationElement": "",
 "OriginSurfaceItemController": "",
 "OriginSurfaceLegendItem": "",
+"OutlineableSprite": "res://addons/scaffolder/assets/images/editor_icons/outlineable_sprite.png",
 "OverlayButtonPanel": "",
 "OverlayButtonType": "",
 "OverlayMaskTransition": "",

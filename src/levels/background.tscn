@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://assets/images/background/close.png" type="Texture" id=1]
 [ext_resource path="res://assets/images/background/space.png" type="Texture" id=2]
@@ -6,8 +6,10 @@
 [ext_resource path="res://assets/images/background/nebula.png" type="Texture" id=4]
 [ext_resource path="res://assets/images/background/far.png" type="Texture" id=5]
 [ext_resource path="res://assets/images/background/middle.png" type="Texture" id=6]
+[ext_resource path="res://src/levels/background.gd" type="Script" id=7]
 
 [node name="Background" type="ParallaxBackground"]
+script = ExtResource( 7 )
 
 [node name="Space" type="ParallaxLayer" parent="."]
 motion_scale = Vector2( 0, 0 )
