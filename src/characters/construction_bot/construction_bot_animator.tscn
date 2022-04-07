@@ -378,11 +378,12 @@ animations = {
 }
 }
 is_outlined = true
+outline_color = Color( 1, 1, 1, 0 )
 
 [node name="Walk" parent="." instance=ExtResource( 11 )]
 visible = false
 position = Vector2( 0, -16 )
-texture = ExtResource( 12 )
+texture = ExtResource( 2 )
 hframes = 8
 is_outlined = true
 normal_texture = ExtResource( 2 )
@@ -390,7 +391,7 @@ outlined_texture = ExtResource( 12 )
 
 [node name="ClimbUp" parent="." instance=ExtResource( 11 )]
 visible = false
-texture = ExtResource( 12 )
+texture = ExtResource( 2 )
 hframes = 8
 is_outlined = true
 normal_texture = ExtResource( 2 )
@@ -398,7 +399,7 @@ outlined_texture = ExtResource( 12 )
 
 [node name="ClimbDown" parent="." instance=ExtResource( 11 )]
 visible = false
-texture = ExtResource( 12 )
+texture = ExtResource( 2 )
 hframes = 8
 is_outlined = true
 normal_texture = ExtResource( 2 )
@@ -406,7 +407,7 @@ outlined_texture = ExtResource( 12 )
 
 [node name="CrawlOnCeiling" parent="." instance=ExtResource( 11 )]
 visible = false
-texture = ExtResource( 12 )
+texture = ExtResource( 2 )
 hframes = 8
 is_outlined = true
 normal_texture = ExtResource( 2 )
@@ -415,7 +416,7 @@ outlined_texture = ExtResource( 12 )
 [node name="Rest" parent="." instance=ExtResource( 11 )]
 visible = false
 position = Vector2( 0, -16 )
-texture = ExtResource( 16 )
+texture = ExtResource( 7 )
 hframes = 8
 is_outlined = true
 normal_texture = ExtResource( 7 )
@@ -423,7 +424,7 @@ outlined_texture = ExtResource( 16 )
 
 [node name="RestOnWall" parent="." instance=ExtResource( 11 )]
 visible = false
-texture = ExtResource( 12 )
+texture = ExtResource( 2 )
 hframes = 8
 is_outlined = true
 normal_texture = ExtResource( 2 )
@@ -431,7 +432,7 @@ outlined_texture = ExtResource( 12 )
 
 [node name="RestOnCeiling" parent="." instance=ExtResource( 11 )]
 visible = false
-texture = ExtResource( 12 )
+texture = ExtResource( 2 )
 hframes = 8
 is_outlined = true
 normal_texture = ExtResource( 2 )
@@ -440,7 +441,7 @@ outlined_texture = ExtResource( 12 )
 [node name="JumpFall" parent="." instance=ExtResource( 11 )]
 visible = false
 position = Vector2( 1, -15 )
-texture = ExtResource( 14 )
+texture = ExtResource( 9 )
 hframes = 2
 is_outlined = true
 normal_texture = ExtResource( 9 )
@@ -449,7 +450,7 @@ outlined_texture = ExtResource( 14 )
 [node name="JumpRise" parent="." instance=ExtResource( 11 )]
 visible = false
 position = Vector2( 1, -15 )
-texture = ExtResource( 13 )
+texture = ExtResource( 6 )
 hframes = 2
 is_outlined = true
 normal_texture = ExtResource( 6 )
@@ -457,7 +458,7 @@ outlined_texture = ExtResource( 13 )
 
 [node name="Build" parent="." instance=ExtResource( 11 )]
 position = Vector2( 5, -18 )
-texture = ExtResource( 15 )
+texture = ExtResource( 10 )
 hframes = 17
 is_outlined = true
 normal_texture = ExtResource( 10 )
