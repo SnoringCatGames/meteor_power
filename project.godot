@@ -1434,10 +1434,10 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/surfacer/src/gui/legend/origin_surface_legend_item.gd"
 }, {
-"base": "Sprite",
+"base": "Reference",
 "class": "OutlineableSprite",
 "language": "GDScript",
-"path": "res://addons/scaffolder/src/character/outlineable_sprite.gd"
+"path": "res://addons/scaffolder/src/outlineable_sprite.gd"
 }, {
 "base": "Node2D",
 "class": "OverlayButtonPanel",
@@ -2004,6 +2004,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/scaffolder/src/gui/screens/settings_screen.gd"
 }, {
+"base": "OutlineableSprite",
+"class": "ShaderOutlineableSprite",
+"language": "GDScript",
+"path": "res://addons/scaffolder/src/shader_outlineable_sprite.gd"
+}, {
 "base": "Reference",
 "class": "Singletons",
 "language": "GDScript",
@@ -2499,6 +2504,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/scaffolder/src/gui/control_row_list/text_control_row.gd"
 }, {
+"base": "Reference",
+"class": "TextureOutlineableSprite",
+"language": "GDScript",
+"path": "res://addons/scaffolder/src/texture_outlineable_sprite.gd"
+}, {
 "base": "Node",
 "class": "ThirdPartyLicenses",
 "language": "GDScript",
@@ -2985,7 +2995,7 @@ _global_script_class_icons={
 "OriginSurfaceAnnotationElement": "",
 "OriginSurfaceItemController": "",
 "OriginSurfaceLegendItem": "",
-"OutlineableSprite": "res://addons/scaffolder/assets/images/editor_icons/outlineable_sprite.png",
+"OutlineableSprite": "",
 "OverlayButtonPanel": "",
 "OverlayButtonType": "",
 "OverlayMaskTransition": "",
@@ -3099,6 +3109,7 @@ _global_script_class_icons={
 "SelectionDescription": "",
 "SettingsGroup": "res://addons/scaffolder/assets/images/editor_icons/scaffolder_placeholder.png",
 "SettingsScreen": "",
+"ShaderOutlineableSprite": "res://addons/scaffolder/assets/images/editor_icons/outlineable_sprite.png",
 "Singletons": "",
 "SliderControlRow": "",
 "SlowMotionController": "",
@@ -3198,6 +3209,7 @@ _global_script_class_icons={
 "TestOddShapesTilemap": "",
 "TestOddShapesTileset": "",
 "TextControlRow": "",
+"TextureOutlineableSprite": "",
 "ThirdPartyLicenses": "",
 "ThirdPartyLicensesScreen": "",
 "TileAnnotationsParser": "",
