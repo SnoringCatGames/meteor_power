@@ -4,8 +4,8 @@ extends Area2D
 
 const MAX_Y := 10000.0
 
-var LARGE_SIZE := Vector2(32, 32)
-var SMALL_SIZE := Vector2(16, 16)
+var LARGE_RADIUS := 15.0
+var SMALL_RADIUS := 7.0
 
 var DEFAULT_SPEED := 200.0
 
@@ -25,18 +25,22 @@ func run() -> void:
     
     if is_large:
         $Large.visible = true
+        $LargeTail.visible = true
+        $CollisionShape2D.shape.radius = LARGE_RADIUS
         $Small.visible = false
-        $CollisionShape2D.shape.radius = 16.0
+        $SmallTail.visible = false
     else:
-        $Large.visible = false
         $Small.visible = true
-        $CollisionShape2D.shape.radius = 8.0
+        $SmallTail.visible = true
+        $CollisionShape2D.shape.radius = SMALL_RADIUS
+        $Large.visible = false
+        $LargeTail.visible = false
     
     var rotation := PI * (randf() * 1.0/6.0 - 1.0/12.0)
-    velocity = Vector2.DOWN.rotated(rotation)
+    self.rotation = rotation
     
     var speed := DEFAULT_SPEED * (1.0 + randf() * 0.2 - 0.1)
-    velocity *= speed
+    velocity = Vector2.DOWN.rotated(rotation) * speed
 
 
 func _physics_process(delta: float) -> void:
