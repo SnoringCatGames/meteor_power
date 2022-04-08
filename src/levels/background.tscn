@@ -9,10 +9,13 @@
 [ext_resource path="res://src/levels/background.gd" type="Script" id=7]
 
 [node name="Background" type="ParallaxBackground"]
+scroll_ignore_camera_zoom = true
 script = ExtResource( 7 )
 
 [node name="Space" type="ParallaxLayer" parent="."]
+scale = Vector2( 3, 3 )
 motion_scale = Vector2( 0, 0 )
+motion_offset = Vector2( -100, -800 )
 motion_mirroring = Vector2( 2048, 2048 )
 
 [node name="Sprite" type="Sprite" parent="Space"]
@@ -21,7 +24,9 @@ region_enabled = true
 region_rect = Rect2( 0, 0, 2048, 2048 )
 
 [node name="Far" type="ParallaxLayer" parent="."]
+scale = Vector2( 3, 3 )
 motion_scale = Vector2( 0.05, 0.05 )
+motion_offset = Vector2( -100, -800 )
 motion_mirroring = Vector2( 2048, 2048 )
 
 [node name="Sprite" type="Sprite" parent="Far"]
@@ -30,7 +35,9 @@ region_enabled = true
 region_rect = Rect2( 0, 0, 2048, 2048 )
 
 [node name="Nebula" type="ParallaxLayer" parent="."]
+scale = Vector2( 3, 3 )
 motion_scale = Vector2( 0.1, 0.1 )
+motion_offset = Vector2( -100, -800 )
 motion_mirroring = Vector2( 2048, 2048 )
 
 [node name="Sprite" type="Sprite" parent="Nebula"]
@@ -39,7 +46,9 @@ region_enabled = true
 region_rect = Rect2( 0, 0, 2048, 2048 )
 
 [node name="Middle" type="ParallaxLayer" parent="."]
+scale = Vector2( 3, 3 )
 motion_scale = Vector2( 0.15, 0.15 )
+motion_offset = Vector2( -100, -800 )
 motion_mirroring = Vector2( 2048, 2048 )
 
 [node name="Sprite" type="Sprite" parent="Middle"]
@@ -48,7 +57,9 @@ region_enabled = true
 region_rect = Rect2( 0, 0, 2048, 2048 )
 
 [node name="Near" type="ParallaxLayer" parent="."]
+scale = Vector2( 3, 3 )
 motion_scale = Vector2( 0.2, 0.2 )
+motion_offset = Vector2( -100, -800 )
 motion_mirroring = Vector2( 2048, 2048 )
 
 [node name="Sprite" type="Sprite" parent="Near"]
@@ -57,7 +68,9 @@ region_enabled = true
 region_rect = Rect2( 0, 0, 2048, 2048 )
 
 [node name="Moons" type="ParallaxLayer" parent="."]
+scale = Vector2( 3, 3 )
 motion_scale = Vector2( 0.25, 0.25 )
+motion_offset = Vector2( -100, -800 )
 motion_mirroring = Vector2( 2048, 2048 )
 
 [node name="Sprite" type="Sprite" parent="Moons"]
