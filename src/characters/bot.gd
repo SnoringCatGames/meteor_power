@@ -52,8 +52,7 @@ func _init() -> void:
 func _ready() -> void:
     navigator.connect("navigation_started", self, "_on_navigation_started")
     navigator.connect("navigation_ended", self, "_on_navigation_ended")
-    navigator.connect(
-            "navigation_interrupted", self, "_on_navigation_interrupted")
+    _update_status()
 
 
 func _physics_process(delta: float) -> void:
@@ -103,23 +102,29 @@ func set_is_selected(is_selected: bool) -> void:
 
 func _update_status() -> void:
     if is_selected:
-        set_highlight(BotStatus.SELECTED)
+        self.status = BotStatus.SELECTED
     elif is_new:
-        set_highlight(BotStatus.NEW)
+        self.status = BotStatus.NEW
     elif is_active:
-        set_highlight(BotStatus.ACTIVE)
+        self.status = BotStatus.ACTIVE
     elif !is_powered_on:
-        set_highlight(BotStatus.POWERED_DOWN)
+        self.status = BotStatus.POWERED_DOWN
     else:
-        set_highlight(BotStatus.IDLE)
+        self.status = BotStatus.IDLE
+#    Sc.logger.print("Bot._update_status: %s" % BotStatus.get_string(status))
+    set_highlight(status)
 
 
 func set_highlight(status: int) -> void:
-    self.status = status
     var config: Dictionary = BotStatus.HIGHLIGHT_CONFIGS[status]
     light.color = config.color
     light.texture_scale = config.scale
     light.energy = config.energy
+    if is_instance_valid(animator):
+        var outline_color: Color = config.color
+        outline_color.a = config.outline_alpha
+        animator.outline_color = outline_color
+        animator.is_outlined = config.outline_alpha > 0.0
 
 
 func move_to_attach_power_line(
@@ -275,6 +280,9 @@ func _stop_nav() -> void:
 
 
 func _on_command_started(command: int) -> void:
+#    Sc.logger.print(
+#            "Bot._on_command_started: %s" % BotCommand.get_string(command))
+    
     Sc.audio.play_sound("command_acc")
     
     self.command = command
@@ -292,6 +300,9 @@ func _on_command_started(command: int) -> void:
 
 
 func _on_command_ended() -> void:
+#    Sc.logger.print(
+#            "Bot._on_command_ended: %s" % BotCommand.get_string(command))
+    
     self.command = BotCommand.UNKNOWN
     is_active = false
     is_new = false
@@ -319,14 +330,15 @@ func _on_powered_down() -> void:
 
 
 func _on_navigation_started(is_retry: bool) -> void:
+#    Sc.logger.print("Bot._on_navigation_started: %s" % \
+#            str(navigation_state.is_triggered_by_player_selection))
+    if navigation_state.is_triggered_by_player_selection:
+        _on_command_started(BotCommand.MOVE)
     show_exclamation_mark()
 
 
 func _on_navigation_ended(did_reach_destination: bool) -> void:
-    pass
-
-
-func _on_navigation_interrupted(interruption_resolution_mode: int) -> void:
+#    Sc.logger.print("Bot._on_navigation_ended")
     _on_command_ended()
 
 

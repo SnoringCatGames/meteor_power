@@ -1,19 +1,24 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://addons/surfacer/src/character/surfacer_character_animator.gd" type="Script" id=1]
 [ext_resource path="res://assets/images/characters/construction_bot_walking.png" type="Texture" id=2]
+[ext_resource path="res://assets/images/characters/construction_bot_standing_outline.png" type="Texture" id=3]
+[ext_resource path="res://assets/images/characters/construction_bot_building_outline.png" type="Texture" id=4]
+[ext_resource path="res://assets/images/characters/construction_jump_rise_outline.png" type="Texture" id=5]
 [ext_resource path="res://assets/images/characters/construction_jump_rise.png" type="Texture" id=6]
 [ext_resource path="res://assets/images/characters/construction_bot_standing.png" type="Texture" id=7]
+[ext_resource path="res://assets/images/characters/construction_jump_fall_outline.png" type="Texture" id=8]
 [ext_resource path="res://assets/images/characters/construction_jump_fall.png" type="Texture" id=9]
 [ext_resource path="res://assets/images/characters/construction_bot_building.png" type="Texture" id=10]
 [ext_resource path="res://addons/scaffolder/src/texture_outlineable_sprite.tscn" type="PackedScene" id=11]
+[ext_resource path="res://assets/images/characters/construction_bot_walking_outline.png" type="Texture" id=12]
 
 [sub_resource type="Animation" id=12]
 resource_name = "Build"
 length = 1.7
 loop = true
 tracks/0/type = "value"
-tracks/0/path = NodePath("Build:frame")
+tracks/0/path = NodePath("Build:my_frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -31,7 +36,7 @@ length = 0.14
 loop = true
 step = 0.07
 tracks/0/type = "value"
-tracks/0/path = NodePath("ClimbDown:frame")
+tracks/0/path = NodePath("ClimbDown:my_frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -49,7 +54,7 @@ length = 0.14
 loop = true
 step = 0.07
 tracks/0/type = "value"
-tracks/0/path = NodePath("ClimbUp:frame")
+tracks/0/path = NodePath("ClimbUp:my_frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -67,7 +72,7 @@ length = 0.14
 loop = true
 step = 0.07
 tracks/0/type = "value"
-tracks/0/path = NodePath("CrawlOnCeiling:frame")
+tracks/0/path = NodePath("CrawlOnCeiling:my_frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -85,7 +90,7 @@ length = 0.14
 loop = true
 step = 0.07
 tracks/0/type = "value"
-tracks/0/path = NodePath("JumpFall:frame")
+tracks/0/path = NodePath("JumpFall:my_frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -103,7 +108,7 @@ length = 0.14
 loop = true
 step = 0.07
 tracks/0/type = "value"
-tracks/0/path = NodePath("JumpRise:frame")
+tracks/0/path = NodePath("JumpRise:my_frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -118,7 +123,7 @@ tracks/0/keys = {
 [sub_resource type="Animation" id=11]
 length = 0.001
 tracks/0/type = "value"
-tracks/0/path = NodePath("Rest:frame")
+tracks/0/path = NodePath("Rest:my_frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -130,7 +135,7 @@ tracks/0/keys = {
 "values": [ 0 ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("ClimbDown:frame")
+tracks/1/path = NodePath("ClimbDown:my_frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -142,7 +147,7 @@ tracks/1/keys = {
 "values": [ 0 ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("ClimbUp:frame")
+tracks/2/path = NodePath("ClimbUp:my_frame")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -154,7 +159,7 @@ tracks/2/keys = {
 "values": [ 0 ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("CrawlOnCeiling:frame")
+tracks/3/path = NodePath("CrawlOnCeiling:my_frame")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -166,7 +171,7 @@ tracks/3/keys = {
 "values": [ 0 ]
 }
 tracks/4/type = "value"
-tracks/4/path = NodePath("JumpFall:frame")
+tracks/4/path = NodePath("JumpFall:my_frame")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
@@ -178,7 +183,7 @@ tracks/4/keys = {
 "values": [ 0 ]
 }
 tracks/5/type = "value"
-tracks/5/path = NodePath("JumpRise:frame")
+tracks/5/path = NodePath("JumpRise:my_frame")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/imported = false
@@ -190,7 +195,7 @@ tracks/5/keys = {
 "values": [ 0 ]
 }
 tracks/6/type = "value"
-tracks/6/path = NodePath("RestOnCeiling:frame")
+tracks/6/path = NodePath("RestOnCeiling:my_frame")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/imported = false
@@ -202,7 +207,7 @@ tracks/6/keys = {
 "values": [ 0 ]
 }
 tracks/7/type = "value"
-tracks/7/path = NodePath("RestOnWall:frame")
+tracks/7/path = NodePath("RestOnWall:my_frame")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/imported = false
@@ -214,7 +219,7 @@ tracks/7/keys = {
 "values": [ 0 ]
 }
 tracks/8/type = "value"
-tracks/8/path = NodePath("Walk:frame")
+tracks/8/path = NodePath("Walk:my_frame")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/imported = false
@@ -226,7 +231,7 @@ tracks/8/keys = {
 "values": [ 0 ]
 }
 tracks/9/type = "value"
-tracks/9/path = NodePath("Build:frame")
+tracks/9/path = NodePath("Build:my_frame")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/imported = false
@@ -244,7 +249,7 @@ length = 0.56
 loop = true
 step = 0.07
 tracks/0/type = "value"
-tracks/0/path = NodePath("Rest:frame")
+tracks/0/path = NodePath("Rest:my_frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -262,7 +267,7 @@ length = 0.14
 loop = true
 step = 0.07
 tracks/0/type = "value"
-tracks/0/path = NodePath("RestOnCeiling:frame")
+tracks/0/path = NodePath("RestOnCeiling:my_frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -279,7 +284,7 @@ length = 0.14
 loop = true
 step = 0.07
 tracks/0/type = "value"
-tracks/0/path = NodePath("RestOnWall:frame")
+tracks/0/path = NodePath("RestOnWall:my_frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -296,7 +301,7 @@ length = 0.56
 loop = true
 step = 0.07
 tracks/0/type = "value"
-tracks/0/path = NodePath("Walk:frame")
+tracks/0/path = NodePath("Walk:my_frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -378,55 +383,74 @@ visible = false
 position = Vector2( 0, -16 )
 texture = ExtResource( 2 )
 hframes = 8
+normal_texture = ExtResource( 2 )
+outlined_texture = ExtResource( 12 )
 
 [node name="ClimbUp" parent="." instance=ExtResource( 11 )]
 visible = false
 texture = ExtResource( 2 )
 hframes = 8
+normal_texture = ExtResource( 2 )
+outlined_texture = ExtResource( 12 )
 
 [node name="ClimbDown" parent="." instance=ExtResource( 11 )]
 visible = false
 texture = ExtResource( 2 )
 hframes = 8
+normal_texture = ExtResource( 2 )
+outlined_texture = ExtResource( 12 )
 
 [node name="CrawlOnCeiling" parent="." instance=ExtResource( 11 )]
 visible = false
 texture = ExtResource( 2 )
 hframes = 8
+normal_texture = ExtResource( 2 )
+outlined_texture = ExtResource( 12 )
 
 [node name="Rest" parent="." instance=ExtResource( 11 )]
-visible = false
 position = Vector2( 0, -16 )
 texture = ExtResource( 7 )
 hframes = 8
+normal_texture = ExtResource( 7 )
+outlined_texture = ExtResource( 3 )
 
 [node name="RestOnWall" parent="." instance=ExtResource( 11 )]
 visible = false
 texture = ExtResource( 2 )
 hframes = 8
+normal_texture = ExtResource( 2 )
+outlined_texture = ExtResource( 12 )
 
 [node name="RestOnCeiling" parent="." instance=ExtResource( 11 )]
 visible = false
 texture = ExtResource( 2 )
 hframes = 8
+normal_texture = ExtResource( 2 )
+outlined_texture = ExtResource( 12 )
 
 [node name="JumpFall" parent="." instance=ExtResource( 11 )]
 visible = false
 position = Vector2( 1, -15 )
 texture = ExtResource( 9 )
 hframes = 2
+normal_texture = ExtResource( 9 )
+outlined_texture = ExtResource( 8 )
 
 [node name="JumpRise" parent="." instance=ExtResource( 11 )]
 visible = false
 position = Vector2( 1, -15 )
 texture = ExtResource( 6 )
 hframes = 2
+normal_texture = ExtResource( 6 )
+outlined_texture = ExtResource( 5 )
 
 [node name="Build" parent="." instance=ExtResource( 11 )]
 visible = false
 position = Vector2( 5, -18 )
 texture = ExtResource( 10 )
 hframes = 17
+normal_texture = ExtResource( 10 )
+outlined_texture = ExtResource( 4 )
 
 [node name="RESET" parent="." instance=ExtResource( 11 )]
 visible = false

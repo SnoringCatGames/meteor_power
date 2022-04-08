@@ -129,7 +129,7 @@ func _destroy() -> void:
 
 
 func _on_bot_selection_changed(selected_bot) -> void:
-    print("_on_bot_selection_changed")
+#    Sc.logger.print("GameLevel._on_bot_selection_changed")
     clear_station_selection()
     for station in stations:
         station._on_bot_selection_changed(selected_bot)
