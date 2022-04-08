@@ -1,8 +1,9 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://addons/surfacer/src/character/surfacer_character_animator.gd" type="Script" id=1]
 [ext_resource path="res://assets/images/characters/construction_bot_walking.png" type="Texture" id=2]
 [ext_resource path="res://addons/scaffolder/src/shader_outlineable_sprite.tscn" type="PackedScene" id=3]
+[ext_resource path="res://addons/scaffolder/src/antialiased_outline.gdshader" type="Shader" id=4]
 [ext_resource path="res://assets/images/characters/construction_jump_rise.png" type="Texture" id=6]
 [ext_resource path="res://assets/images/characters/construction_bot_standing.png" type="Texture" id=7]
 [ext_resource path="res://assets/images/characters/construction_jump_fall.png" type="Texture" id=9]
@@ -309,6 +310,11 @@ tracks/0/keys = {
 "values": [ 0, 1, 2, 3, 4, 5, 6, 7 ]
 }
 
+[sub_resource type="ShaderMaterial" id=13]
+shader = ExtResource( 4 )
+shader_param/color = Color( 0.517647, 0.890196, 0.815686, 1 )
+shader_param/thickness = 2.0
+
 [node name="ConstructionBotAnimator" type="Node2D"]
 z_index = 2
 script = ExtResource( 1 )
@@ -446,6 +452,12 @@ anims/RestOnWall = SubResource( 6 )
 anims/Walk = SubResource( 7 )
 
 [node name="ShaderOutlineableSprite" parent="." instance=ExtResource( 3 )]
+material = SubResource( 13 )
 texture = ExtResource( 10 )
 hframes = 17
-outline_color = Color( 0.427451, 0.807843, 0.560784, 1 )
+is_outlined = true
+outline_color = Color( 0.517647, 0.890196, 0.815686, 1 )
+is_antialiased = true
+thickness = 2.0
+pattern = 1
+adds_margins = false

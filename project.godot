@@ -1434,7 +1434,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/surfacer/src/gui/legend/origin_surface_legend_item.gd"
 }, {
-"base": "Reference",
+"base": "Sprite",
 "class": "OutlineableSprite",
 "language": "GDScript",
 "path": "res://addons/scaffolder/src/outlineable_sprite.gd"
@@ -2504,7 +2504,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/scaffolder/src/gui/control_row_list/text_control_row.gd"
 }, {
-"base": "Reference",
+"base": "OutlineableSprite",
 "class": "TextureOutlineableSprite",
 "language": "GDScript",
 "path": "res://addons/scaffolder/src/texture_outlineable_sprite.gd"
@@ -2995,7 +2995,7 @@ _global_script_class_icons={
 "OriginSurfaceAnnotationElement": "",
 "OriginSurfaceItemController": "",
 "OriginSurfaceLegendItem": "",
-"OutlineableSprite": "",
+"OutlineableSprite": "res://addons/scaffolder/assets/images/editor_icons/outlineable_sprite.png",
 "OverlayButtonPanel": "",
 "OverlayButtonType": "",
 "OverlayMaskTransition": "",
@@ -3209,7 +3209,7 @@ _global_script_class_icons={
 "TestOddShapesTilemap": "",
 "TestOddShapesTileset": "",
 "TextControlRow": "",
-"TextureOutlineableSprite": "",
+"TextureOutlineableSprite": "res://addons/scaffolder/assets/images/editor_icons/outlineable_sprite.png",
 "ThirdPartyLicenses": "",
 "ThirdPartyLicensesScreen": "",
 "TileAnnotationsParser": "",
