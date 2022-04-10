@@ -1349,6 +1349,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/surfacer/src/platform_graph/navigation_interruption_resolution.gd"
 }, {
+"base": "CameraPanController",
+"class": "NavigationPreselectionDragPanController",
+"language": "GDScript",
+"path": "res://addons/surfacer/src/level/navigation_preselection_drag_pan_controller.gd"
+}, {
 "base": "Node2D",
 "class": "NavigationPulseAnnotator",
 "language": "GDScript",
@@ -2484,6 +2489,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/surfacer/src/tiles/surfaces_tileset_initializer.gd"
 }, {
+"base": "CameraPanController",
+"class": "SwipePanController",
+"language": "GDScript",
+"path": "res://addons/surfacer/src/level/swipe_pan_controller.gd"
+}, {
 "base": "SurfacerCharacter",
 "class": "TestCharacter",
 "language": "GDScript",
@@ -2978,6 +2988,7 @@ _global_script_class_icons={
 "MusicControlRow": "",
 "NavBar": "res://addons/scaffolder/assets/images/editor_icons/nav_bar.png",
 "NavigationInterruptionResolution": "",
+"NavigationPreselectionDragPanController": "",
 "NavigationPulseAnnotator": "",
 "NavigatorAnnotator": "",
 "NotificationData": "",
@@ -3205,6 +3216,7 @@ _global_script_class_icons={
 "SurfacesTilemap": "res://addons/surfacer/assets/images/editor_icons/surfaces_tilemap.png",
 "SurfacesTileset": "",
 "SurfacesTilesetInitializer": "",
+"SwipePanController": "",
 "TestCharacter": "",
 "TestOddShapesTilemap": "",
 "TestOddShapesTileset": "",

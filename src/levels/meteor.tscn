@@ -1,10 +1,11 @@
-[gd_scene load_steps=49 format=2]
+[gd_scene load_steps=50 format=2]
 
 [ext_resource path="res://src/levels/meteor.gd" type="Script" id=1]
 [ext_resource path="res://assets/images/meteor.png" type="Texture" id=2]
 [ext_resource path="res://assets/images/meteor_small.png" type="Texture" id=3]
 [ext_resource path="res://assets/images/meteor_tail_large.png" type="Texture" id=4]
 [ext_resource path="res://assets/images/meteor_trail.png" type="Texture" id=5]
+[ext_resource path="res://addons/scaffolder/assets/images/misc/circle_gradient_modified_1024.png" type="Texture" id=6]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 15.0
@@ -196,23 +197,36 @@ shape = SubResource( 1 )
 
 [node name="Large" type="Sprite" parent="."]
 visible = false
+light_mask = 0
 texture = ExtResource( 2 )
 
 [node name="Small" type="Sprite" parent="."]
+light_mask = 0
 texture = ExtResource( 3 )
 
 [node name="LargeTail" type="AnimatedSprite" parent="."]
 visible = false
+light_mask = 0
 position = Vector2( 1, -42 )
 frames = SubResource( 64 )
-frame = 13
+frame = 11
 playing = true
 
 [node name="SmallTail" type="AnimatedSprite" parent="."]
+light_mask = 0
 position = Vector2( 1, -27 )
 frames = SubResource( 43 )
-frame = 4
+frame = 2
 playing = true
+
+[node name="Light2D" type="Light2D" parent="."]
+visible = false
+position = Vector2( 0, -5 )
+texture = ExtResource( 6 )
+texture_scale = 0.08
+color = Color( 0.37, 0.8845, 1, 1 )
+range_layer_min = -100
+range_layer_max = 100
 
 [connection signal="area_entered" from="." to="." method="_on_Meteor_area_entered"]
 [connection signal="body_entered" from="." to="." method="_on_Meteor_body_entered"]

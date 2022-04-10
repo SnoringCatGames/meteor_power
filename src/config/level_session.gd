@@ -5,7 +5,9 @@ extends SurfacerLevelSession
 #       destroyed.
 
 
-const START_ENERGY := 1000
+# FIXME: -------- Reset starting energy after done developing.
+#const START_ENERGY := 1000
+const START_ENERGY := 2000
 
 
 var total_energy := START_ENERGY
