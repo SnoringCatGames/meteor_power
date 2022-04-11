@@ -378,7 +378,7 @@ var _gui_manifest := {
             ["Move bot", "L-click on platform"],
             ["Command bot", "L-click on button"],
             ["Cancel command", "R-click"],
-            ["Zoom in/out", "ctrl + =/-"],
+            ["Zoom in/out", "Scroll-wheel"],
         ],
     },
     screen_manifest = {
@@ -431,7 +431,9 @@ var _additive_overrides := {
         movement_manifest = {
             do_player_actions_interrupt_navigation = false,
         },
-        default_camera_pan_controller_class = [TYPE_SCRIPT, null],
+        camera_manifest = {
+            default_camera_pan_controller_class = DefaultPanController,
+        },
     },
     SurfaceTilerSchema: {
         includes_intra_subtile_45_concave_cusps = false,

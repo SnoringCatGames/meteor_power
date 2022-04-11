@@ -509,6 +509,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/surfacer/src/character/behaviors/default_behavior.gd"
 }, {
+"base": "CameraPanController",
+"class": "DefaultPanController",
+"language": "GDScript",
+"path": "res://addons/surfacer/src/level/default_pan_controller.gd"
+}, {
 "base": "InspectorItemController",
 "class": "DescriptionItemController",
 "language": "GDScript",
@@ -1744,6 +1749,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/scaffolder/src/gui/widgets/scaffolder_button.gd"
 }, {
+"base": "Node",
+"class": "ScaffolderCameraManifest",
+"language": "GDScript",
+"path": "res://addons/scaffolder/src/global/scaffolder_camera_manifest.gd"
+}, {
 "base": "KinematicBody2D",
 "class": "ScaffolderCharacter",
 "language": "GDScript",
@@ -2324,6 +2334,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/surfacer/src/global/surfacer_bootstrap.gd"
 }, {
+"base": "ScaffolderCameraManifest",
+"class": "SurfacerCameraManifest",
+"language": "GDScript",
+"path": "res://addons/surfacer/src/global/surfacer_camera_manifest.gd"
+}, {
 "base": "ScaffolderCharacter",
 "class": "SurfacerCharacter",
 "language": "GDScript",
@@ -2820,6 +2835,7 @@ _global_script_class_icons={
 "DebugPanelControlRow": "",
 "DebugTimeDisplayControlRow": "",
 "DefaultBehavior": "",
+"DefaultPanController": "",
 "DescriptionItemController": "",
 "DestinationLegendItem": "",
 "DestinationSurfaceAnnotationElement": "",
@@ -3067,6 +3083,7 @@ _global_script_class_icons={
 "ScaffolderAppMetadata": "",
 "ScaffolderAudioManifest": "",
 "ScaffolderButton": "res://addons/scaffolder/assets/images/editor_icons/scaffolder_button.png",
+"ScaffolderCameraManifest": "",
 "ScaffolderCharacter": "res://addons/scaffolder/assets/images/editor_icons/scaffolder_character.png",
 "ScaffolderCharacterAnimator": "res://addons/scaffolder/assets/images/editor_icons/scaffolder_character_animator.png",
 "ScaffolderCharacterAnnotator": "",
@@ -3183,6 +3200,7 @@ _global_script_class_icons={
 "SurfacerAnnotators": "",
 "SurfacerBeatTracker": "",
 "SurfacerBootstrap": "",
+"SurfacerCameraManifest": "",
 "SurfacerCharacter": "res://addons/scaffolder/assets/images/editor_icons/scaffolder_character.png",
 "SurfacerCharacterAnimationState": "",
 "SurfacerCharacterAnimator": "res://addons/scaffolder/assets/images/editor_icons/scaffolder_character_animator.png",
