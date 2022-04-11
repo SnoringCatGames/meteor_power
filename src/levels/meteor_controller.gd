@@ -50,12 +50,9 @@ var current_wave_duration := WAVE_DURATION_START
 var current_wave_meteor_frequency := METEOR_WAVE_FREQUENCY_START
 var current_non_wave_meteor_frequency := NON_WAVE_METEOR_FREQUENCY_START
 
-var level_region: Rect2
-
 
 func _init() -> void:
     start_time = Sc.time.get_scaled_play_time()
-    level_region = Sc.level.get_combined_tile_map_region()
     next_wave_start_time = start_time + WAVE_PERIOD
     next_meteor_time = 5.0
 
@@ -111,6 +108,8 @@ func _trigger_meteor() -> void:
 func _spawn_meteor() -> void:
     var meteor: Meteor = Sc.utils.add_scene(self, METEOR_CLASS)
     meteor.is_large = randf() < LARGE_METEOR_RATIO
-    meteor.position.y = level_region.position.y - 1000.0
-    meteor.position.x = randf() * level_region.size.x + level_region.position.x
+    meteor.position.y = Sc.level.surfaces_bounds.position.y - 1000.0
+    meteor.position.x = \
+            randf() * Sc.level.surfaces_bounds.size.x + \
+            Sc.level.surfaces_bounds.position.x
     meteor.run()

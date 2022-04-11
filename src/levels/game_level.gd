@@ -138,7 +138,7 @@ func _on_bot_selection_changed(selected_bot) -> void:
     if is_instance_valid(selected_bot):
         swap_camera_pan_controllers(NavigationPreselectionDragPanController)
     else:
-        swap_camera_pan_controllers(DefaultPanController)
+        swap_camera_pan_controllers(SwipePanController)
     camera_pan_controller.reset()
 
 
@@ -212,10 +212,16 @@ func clear_station_selection() -> void:
 func add_power_line(power_line: PowerLine) -> void:
     $PowerLines.add_child(power_line)
     _on_power_line_created(power_line)
+
+
 func remove_power_line(power_line: PowerLine) -> void:
     _on_power_line_destroyed(power_line)
+
+
 func _on_power_line_created(power_line: PowerLine) -> void:
     power_lines.push_back(power_line)
+
+
 func _on_power_line_destroyed(power_line: PowerLine) -> void:
     self.power_lines.erase(power_line)
     power_line.queue_free()
@@ -239,10 +245,15 @@ func add_bot(bot_name: String) -> Bot:
     _on_bot_created(bot)
     return bot
 
+
 func remove_bot(bot: Bot) -> void:
     _on_bot_destroyed(bot)
+
+
 func _on_bot_created(bot: Bot) -> void:
     self.bots.push_back(bot)
+
+
 func _on_bot_destroyed(bot: Bot) -> void:
     self.bots.erase(bot)
     bot.queue_free()
@@ -276,6 +287,7 @@ func add_station(station: Station) -> void:
     $Stations.add_child(station)
     _on_station_created(station)
 
+
 func remove_station(station: Station) -> void:
     # Remove any attached power lines.
     for power_line in power_lines:
@@ -287,6 +299,8 @@ func remove_station(station: Station) -> void:
 
 func _on_station_created(station: Station) -> void:
     self.stations.push_back(station)
+
+
 func _on_station_destroyed(station: Station) -> void:
     self.stations.erase(station)
     station.queue_free()
@@ -299,27 +313,3 @@ func get_music_name() -> String:
 func get_slow_motion_music_name() -> String:
     # FIXME: Add slo-mo music
     return ""
-
-
-func get_combined_tile_map_region() -> Rect2:
-    var tile_maps := \
-            get_tree().get_nodes_in_group(SurfacesTilemap.GROUP_NAME_SURFACES)
-    assert(!tile_maps.empty())
-    var tile_map: TileMap = tile_maps[0]
-    var tile_map_region := get_tile_map_bounds_in_world_coordinates(tile_map)
-    for i in range(1, tile_maps.size()):
-        tile_map = tile_maps[i]
-        tile_map_region = tile_map_region.merge(
-                get_tile_map_bounds_in_world_coordinates(tile_map))
-    return tile_map_region
-
-
-static func get_tile_map_bounds_in_world_coordinates(
-        tile_map: TileMap) -> Rect2:
-    var used_rect := tile_map.get_used_rect()
-    var cell_size := tile_map.cell_size
-    return Rect2(
-            tile_map.position.x + used_rect.position.x * cell_size.x,
-            tile_map.position.y + used_rect.position.y * cell_size.y,
-            used_rect.size.x * cell_size.x,
-            used_rect.size.y * cell_size.y)

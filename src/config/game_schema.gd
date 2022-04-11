@@ -432,7 +432,7 @@ var _additive_overrides := {
             do_player_actions_interrupt_navigation = false,
         },
         camera_manifest = {
-            default_camera_pan_controller_class = DefaultPanController,
+            default_camera_pan_controller_class = SwipePanController,
         },
     },
     SurfaceTilerSchema: {
