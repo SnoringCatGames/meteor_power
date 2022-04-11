@@ -431,6 +431,7 @@ var _additive_overrides := {
         movement_manifest = {
             do_player_actions_interrupt_navigation = false,
         },
+        default_camera_pan_controller_class = [TYPE_SCRIPT, null],
     },
     SurfaceTilerSchema: {
         includes_intra_subtile_45_concave_cusps = false,

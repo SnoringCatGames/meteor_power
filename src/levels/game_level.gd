@@ -135,6 +135,18 @@ func _on_bot_selection_changed(selected_bot) -> void:
         station._on_bot_selection_changed(selected_bot)
     for bot in bots:
         bot.set_is_selected(bot == selected_bot)
+    if is_instance_valid(selected_bot):
+        _swap_camera_pan_controllers(NavigationPreselectionDragPanController)
+    else:
+        _swap_camera_pan_controllers(null)
+
+
+func _swap_camera_pan_controllers(camera_pan_controller_class: Script) -> void:
+    if is_instance_valid(camera_pan_controller):
+        camera_pan_controller.queue_free()
+    if is_instance_valid(camera_pan_controller_class):
+        camera_pan_controller = camera_pan_controller_class.new()
+        add_child(camera_pan_controller)
 
 
 func deduct_energy_for_action(button_type: int) -> void:
