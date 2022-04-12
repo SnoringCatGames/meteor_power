@@ -14,6 +14,6 @@ func _init(__ = null).(
 
 
 func get_text() -> String:
-    return str(Sc.level_session.current_energy) if \
-            Sc.level_session.has_started else \
+    return str(Sc.levels.session.current_energy) if \
+            Sc.levels.session.has_started else \
             str(LevelSession.START_ENERGY)

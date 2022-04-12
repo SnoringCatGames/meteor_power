@@ -108,8 +108,8 @@ func _trigger_meteor() -> void:
 func _spawn_meteor() -> void:
     var meteor: Meteor = Sc.utils.add_scene(self, METEOR_CLASS)
     meteor.is_large = randf() < LARGE_METEOR_RATIO
-    meteor.position.y = Sc.level.surfaces_bounds.position.y - 1000.0
+    meteor.position.y = Sc.level.level_bounds.position.y - 1000.0
     meteor.position.x = \
-            randf() * Sc.level.surfaces_bounds.size.x + \
-            Sc.level.surfaces_bounds.position.x
+            randf() * Sc.level.level_bounds.size.x + \
+            Sc.level.level_bounds.position.x
     meteor.run()

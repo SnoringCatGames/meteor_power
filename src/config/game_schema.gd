@@ -406,6 +406,15 @@ var _character_manifest := {
     is_camera_auto_assigned_to_player_character = true,
 }
 
+var _level_manifest := {
+    level_config_class = LevelConfig,
+    level_session_class = LevelSession,
+    default_camera_bounds_level_margin = \
+        ScaffolderLevelConfig.DEFAULT_CAMERA_BOUNDS_LEVEL_MARGIN,
+    default_character_bounds_level_margin = \
+        ScaffolderLevelConfig.DEFAULT_CHARACTER_BOUNDS_LEVEL_MARGIN,
+}
+
 var _properties := {
 }
 
@@ -416,9 +425,8 @@ var _additive_overrides := {
         images_manifest_pixelated = _images_manifest_pixelated,
         styles_manifest_pixelated = _styles_manifest_pixelated,
         character_manifest = _character_manifest,
+        level_manifest = _level_manifest,
         gui_manifest = _gui_manifest,
-        level_config_class = LevelConfig,
-        level_session_class = LevelSession,
         colors_manifest = \
             Utils.get_direct_color_properties(GameDefaultColors.new()),
         annotation_parameters_manifest = Sc.utils.merge(
