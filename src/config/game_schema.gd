@@ -426,13 +426,13 @@ var _additive_overrides := {
                 GameDefaultAnnotationParameters.new()),
             Utils.get_direct_non_color_properties(
                 GameDefaultColors.new())),
+        camera_manifest = {
+            default_camera_pan_controller_class = SwipePanController,
+        },
     },
     SurfacerSchema: {
         movement_manifest = {
             do_player_actions_interrupt_navigation = false,
-        },
-        camera_manifest = {
-            default_camera_pan_controller_class = SwipePanController,
         },
     },
     SurfaceTilerSchema: {
