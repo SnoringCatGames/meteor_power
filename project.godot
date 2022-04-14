@@ -139,7 +139,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/scaffolder/src/camera/camera_pan_controller.gd"
 }, {
-"base": "Reference",
+"base": "Node2D",
 "class": "CameraShake",
 "language": "GDScript",
 "path": "res://addons/scaffolder/src/camera/camera_shake.gd"
