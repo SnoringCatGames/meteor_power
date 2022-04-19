@@ -403,7 +403,6 @@ var _character_manifest := {
     character_categories = _character_categories,
     omits_npcs = false,
     can_include_player_characters = true,
-    is_camera_auto_assigned_to_player_character = true,
 }
 
 var _level_manifest := {
@@ -435,7 +434,7 @@ var _additive_overrides := {
             Utils.get_direct_non_color_properties(
                 GameDefaultColors.new())),
         camera_manifest = {
-            default_camera_pan_controller_class = SwipePanController,
+            default_camera_class = SwipePanController,
         },
     },
     SurfacerSchema: {

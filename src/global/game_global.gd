@@ -75,7 +75,7 @@ func _get_manifest_overrides() -> Array:
     var are_annotations_emphasized: bool = \
             Sc.modes.get_is_active("annotations", "emphasized")
     
-    var moves_debug_game_window_to_other_monitor := false
+    var moves_debug_game_window_to_other_monitor := true
 #    var debug_window_size = ScaffolderGuiConfig.SCREEN_RESOLUTIONS.default
 #    var debug_window_size = ScaffolderGuiConfig.SCREEN_RESOLUTIONS.full_screen
     var debug_window_size = ScaffolderGuiConfig.SCREEN_RESOLUTIONS.youtube
