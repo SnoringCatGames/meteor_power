@@ -434,7 +434,7 @@ var _additive_overrides := {
             Utils.get_direct_non_color_properties(
                 GameDefaultColors.new())),
         camera_manifest = {
-            default_camera_class = SwipePanController,
+            default_camera_class = SwipeCamera,
         },
     },
     SurfacerSchema: {

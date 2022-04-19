@@ -35,7 +35,7 @@ const ENERGY_COST_PER_BUTTON := {
     OverlayButtonType.BOT_ALIVE: 1,
 }
 
-var _nav_preselection_camera: NavigationPreselectionDragPanController
+var _nav_preselection_camera: NavigationPreselectionCamera
 
 var bot_selector: BotSelector
 
@@ -66,7 +66,7 @@ func _load() -> void:
 func _start() -> void:
     ._start()
     
-    _nav_preselection_camera = NavigationPreselectionDragPanController.new()
+    _nav_preselection_camera = NavigationPreselectionCamera.new()
     add_child(_nav_preselection_camera)
     
     Sc.levels.session.current_energy = LevelSession.START_ENERGY
@@ -141,6 +141,7 @@ func _on_bot_selection_changed(selected_bot) -> void:
     for bot in bots:
         bot.set_is_selected(bot == selected_bot)
     if is_instance_valid(selected_bot):
+        _nav_preselection_camera.target_character = selected_bot
         swap_camera(_nav_preselection_camera)
     else:
         swap_camera(_default_camera)

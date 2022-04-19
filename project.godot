@@ -499,8 +499,8 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/surfacer/src/character/behaviors/default_behavior.gd"
 }, {
-"base": "Reference",
-"class": "DefaultPanController",
+"base": "ScaffolderCamera",
+"class": "DefaultCamera",
 "language": "GDScript",
 "path": "res://addons/scaffolder/src/camera/default_camera.gd"
 }, {
@@ -1349,10 +1349,10 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/surfacer/src/platform_graph/navigation_interruption_resolution.gd"
 }, {
-"base": "Reference",
-"class": "NavigationPreselectionDragPanController",
+"base": "ScaffolderCamera",
+"class": "NavigationPreselectionCamera",
 "language": "GDScript",
-"path": "res://addons/surfacer/src/level/navigation_preselection_drag_camera.gd"
+"path": "res://addons/surfacer/src/level/navigation_preselection_camera.gd"
 }, {
 "base": "Node2D",
 "class": "NavigationPulseAnnotator",
@@ -2504,8 +2504,8 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/surfacer/src/tiles/surfaces_tileset_initializer.gd"
 }, {
-"base": "Reference",
-"class": "SwipePanController",
+"base": "ScaffolderCamera",
+"class": "SwipeCamera",
 "language": "GDScript",
 "path": "res://addons/scaffolder/src/camera/swipe_camera.gd"
 }, {
@@ -2833,7 +2833,7 @@ _global_script_class_icons={
 "DebugPanelControlRow": "",
 "DebugTimeDisplayControlRow": "",
 "DefaultBehavior": "",
-"DefaultPanController": "",
+"DefaultCamera": "",
 "DescriptionItemController": "",
 "DestinationLegendItem": "",
 "DestinationSurfaceAnnotationElement": "",
@@ -3003,7 +3003,7 @@ _global_script_class_icons={
 "MusicControlRow": "",
 "NavBar": "res://addons/scaffolder/assets/images/editor_icons/nav_bar.png",
 "NavigationInterruptionResolution": "",
-"NavigationPreselectionDragPanController": "",
+"NavigationPreselectionCamera": "",
 "NavigationPulseAnnotator": "",
 "NavigatorAnnotator": "",
 "NotificationData": "",
@@ -3234,7 +3234,7 @@ _global_script_class_icons={
 "SurfacesTilemap": "res://addons/surfacer/assets/images/editor_icons/surfaces_tilemap.png",
 "SurfacesTileset": "",
 "SurfacesTilesetInitializer": "",
-"SwipePanController": "",
+"SwipeCamera": "",
 "TestCharacter": "",
 "TestOddShapesTilemap": "",
 "TestOddShapesTileset": "",
