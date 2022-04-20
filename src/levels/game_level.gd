@@ -145,7 +145,6 @@ func _on_bot_selection_changed(selected_bot) -> void:
         swap_camera(_nav_preselection_camera)
     else:
         swap_camera(_default_camera)
-    camera.reset()
 
 
 func deduct_energy_for_action(button_type: int) -> void:
