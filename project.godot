@@ -79,7 +79,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/scaffolder/src/utils/audio.gd"
 }, {
-"base": "ParallaxBackground",
+"base": "ScaffolderBackground",
 "class": "Background",
 "language": "GDScript",
 "path": "res://src/levels/background.gd"
@@ -1739,6 +1739,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/scaffolder/src/global/scaffolder_audio_manifest.gd"
 }, {
+"base": "ParallaxBackground",
+"class": "ScaffolderBackground",
+"language": "GDScript",
+"path": "res://addons/scaffolder/src/level/scaffolder_background.gd"
+}, {
 "base": "Button",
 "class": "ScaffolderButton",
 "language": "GDScript",
@@ -3081,6 +3086,7 @@ _global_script_class_icons={
 "ScaffolderAnnotators": "",
 "ScaffolderAppMetadata": "",
 "ScaffolderAudioManifest": "",
+"ScaffolderBackground": "",
 "ScaffolderButton": "res://addons/scaffolder/assets/images/editor_icons/scaffolder_button.png",
 "ScaffolderCamera": "",
 "ScaffolderCameraManifest": "",
