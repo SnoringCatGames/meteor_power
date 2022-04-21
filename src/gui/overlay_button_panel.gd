@@ -26,7 +26,7 @@ const _HOVER_DISTANCE_SQUARED := 128.0 * 128.0
 # Array<TextureButton>
 var buttons := []
 
-var buttons_container: Control
+var buttons_container: Node2D
 
 var station
 
@@ -42,9 +42,20 @@ func _ready() -> void:
         button.connect(
                 "mouse_exited", self, "_on_button_mouse_exited", [button])
         button.connect("pressed", self, "_on_button_pressed", [button])
-        button.rect_size = _BUTTON_SIZE
+        button.scale = _BUTTON_SIZE / button.texture.get_size()
     
     deemphasize()
+    
+    if Engine.editor_hint:
+        set_buttons([
+            OverlayButtonType.DESTROY,
+            OverlayButtonType.BATTERY_STATION,
+            OverlayButtonType.SCANNER_STATION,
+            OverlayButtonType.SOLAR_COLLECTOR,
+            OverlayButtonType.RUN_WIRE,
+            OverlayButtonType.BUILD_CONSTRUCTOR_BOT,
+        ],
+        [])
 
 
 func set_up_controls(
@@ -61,7 +72,7 @@ func set_buttons(
     
     # Set up hover behavior.
     for button in buttons_container.get_children():
-        button.modulate.a = _OPACITY_NORMAL
+        button.alpha_multiplier = _OPACITY_NORMAL
         var button_type := _get_type_for_button(button)
         var is_button_visible := button_types.find(button_type) >= 0
         var is_button_disabled := disabled_buttons.find(button_type) >= 0
@@ -73,25 +84,25 @@ func set_buttons(
     # Calculate the button row and column counts.
     var row_count: int
     var button_count := visible_buttons.size()
-    if row_count > 6:
+    if button_count > 6:
         row_count = 3
-    elif row_count > 2:
+    elif button_count > 2:
         row_count = 2
     else:
         row_count = 1
     var column_count := int(ceil(button_count / row_count))
     
+    var container_size := Vector2(column_count, row_count) * _BUTTON_SIZE
+    
     # Assign the individual button positions.
     for row_i in row_count:
         for column_i in column_count:
             var button_i: int = row_i * column_count + column_i
-            var button_position := _BUTTON_SIZE * Vector2(column_i, row_i)
-            visible_buttons[button_i].rect_position = button_position
-    
-    # Assign the container position and size.
-    var container_size := Vector2(column_count, row_count) * _BUTTON_SIZE
-    buttons_container.rect_size = container_size
-    buttons_container.rect_position = container_size * Vector2(-0.5, 0.0) + _PANEL_OFFSET
+            var button_position := \
+                    _BUTTON_SIZE * Vector2(column_i, row_i) + \
+                    _BUTTON_SIZE / 2.0 - \
+                    container_size / 2.0
+            visible_buttons[button_i].position = button_position
 
 
 func emphasize() -> void:
@@ -114,7 +125,7 @@ func _on_button_mouse_exited(button: TextureButton) -> void:
     button.modulate.a = _OPACITY_NORMAL
 
 
-func _on_button_pressed(button: TextureButton) -> void:
+func _on_button_pressed(button: SpriteModulationButton) -> void:
     Sc.utils.give_button_press_feedback()
     var button_type := _get_type_for_button(button)
     Sc.logger.print("OverlayButton pressed: button=%s, station=%s, p=%s" % [
@@ -125,7 +136,7 @@ func _on_button_pressed(button: TextureButton) -> void:
     emit_signal("button_pressed", button_type)
 
 
-func _get_type_for_button(button: TextureButton) -> int:
+func _get_type_for_button(button: SpriteModulationButton) -> int:
     if button == buttons_container.get_node("Destroy"):
         return OverlayButtonType.DESTROY
     elif button == buttons_container.get_node("Battery"):
@@ -152,6 +163,9 @@ func _on_mouse_exited() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+    if Engine.editor_hint:
+        return
+    
     if event is InputEventMouseMotion:
         var click_position: Vector2 = \
                 Sc.utils.get_level_touch_position(event)

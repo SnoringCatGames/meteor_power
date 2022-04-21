@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://assets/images/gui/overlay_buttons/solar_overlay_button.png" type="Texture" id=1]
 [ext_resource path="res://assets/images/gui/overlay_buttons/battery_overlay_button.png" type="Texture" id=2]
@@ -7,71 +7,94 @@
 [ext_resource path="res://src/gui/overlay_button_panel.gd" type="Script" id=5]
 [ext_resource path="res://assets/images/gui/overlay_buttons/run_power_line_button.png" type="Texture" id=6]
 [ext_resource path="res://assets/images/gui/overlay_buttons/build_constructor_bot.png" type="Texture" id=7]
+[ext_resource path="res://addons/scaffolder/src/gui/level_overlay_button/sprite_modulation_button.tscn" type="PackedScene" id=8]
 
 [node name="OverlayButtonPanel" type="Node2D"]
 modulate = Color( 1, 1, 1, 0.6 )
 script = ExtResource( 5 )
 
-[node name="Buttons" type="Control" parent="."]
-mouse_filter = 1
+[node name="Buttons" type="Node2D" parent="."]
 
-[node name="RunPowerLine" type="TextureButton" parent="Buttons"]
-visible = false
-margin_right = 32.0
-margin_bottom = 32.0
-hint_tooltip = "80"
-mouse_filter = 1
-mouse_default_cursor_shape = 2
-texture_normal = ExtResource( 6 )
-texture_hover = ExtResource( 6 )
-expand = true
+[node name="RunPowerLine" parent="Buttons" instance=ExtResource( 8 )]
+position = Vector2( -32, -16 )
+scale = Vector2( 2, 2 )
+is_disabled = false
+is_focused = false
+is_rectangular = true
+rectangle_extents = Vector2( 8, 8 )
+circle_radius = -1.0
+texture = ExtResource( 6 )
+normal_modulate = Color( 0.415686, 0.745098, 0.188235, 0.8 )
+hover_modulate = Color( 0.109804, 0.690196, 1, 1 )
+disabled_modulate = Color( 0.160784, 0.160784, 0.160784, 0.466667 )
+alpha_multiplier = 0.75
 
-[node name="Battery" type="TextureButton" parent="Buttons"]
-visible = false
-margin_right = 32.0
-margin_bottom = 32.0
-mouse_filter = 1
-mouse_default_cursor_shape = 2
-texture_normal = ExtResource( 2 )
-texture_hover = ExtResource( 2 )
-expand = true
+[node name="Battery" parent="Buttons" instance=ExtResource( 8 )]
+position = Vector2( 0, -16 )
+scale = Vector2( 2, 2 )
+is_disabled = false
+is_focused = false
+is_rectangular = true
+rectangle_extents = Vector2( 8, 8 )
+circle_radius = -1.0
+texture = ExtResource( 2 )
+normal_modulate = Color( 0.415686, 0.745098, 0.188235, 0.8 )
+hover_modulate = Color( 0.109804, 0.690196, 1, 1 )
+disabled_modulate = Color( 0.160784, 0.160784, 0.160784, 0.466667 )
+alpha_multiplier = 0.75
 
-[node name="Scanner" type="TextureButton" parent="Buttons"]
-visible = false
-margin_right = 32.0
-margin_bottom = 32.0
-mouse_filter = 1
-mouse_default_cursor_shape = 2
-texture_normal = ExtResource( 3 )
-texture_hover = ExtResource( 3 )
-expand = true
+[node name="Scanner" parent="Buttons" instance=ExtResource( 8 )]
+position = Vector2( 32, -16 )
+scale = Vector2( 2, 2 )
+is_disabled = false
+is_focused = false
+is_rectangular = true
+rectangle_extents = Vector2( 8, 8 )
+circle_radius = -1.0
+texture = ExtResource( 3 )
+normal_modulate = Color( 0.415686, 0.745098, 0.188235, 0.8 )
+hover_modulate = Color( 0.109804, 0.690196, 1, 1 )
+disabled_modulate = Color( 0.160784, 0.160784, 0.160784, 0.466667 )
+alpha_multiplier = 0.75
 
-[node name="Solar" type="TextureButton" parent="Buttons"]
-visible = false
-margin_right = 32.0
-margin_bottom = 32.0
-hint_tooltip = "300"
-mouse_filter = 1
-mouse_default_cursor_shape = 2
-texture_normal = ExtResource( 1 )
-texture_hover = ExtResource( 1 )
-expand = true
+[node name="Solar" parent="Buttons" instance=ExtResource( 8 )]
+position = Vector2( -32, 16 )
+scale = Vector2( 2, 2 )
+is_disabled = false
+is_focused = false
+is_rectangular = true
+rectangle_extents = Vector2( 8, 8 )
+circle_radius = -1.0
+texture = ExtResource( 1 )
+normal_modulate = Color( 0.415686, 0.745098, 0.188235, 0.8 )
+hover_modulate = Color( 0.109804, 0.690196, 1, 1 )
+disabled_modulate = Color( 0.160784, 0.160784, 0.160784, 0.466667 )
+alpha_multiplier = 0.75
 
-[node name="ConstructorBot" type="TextureButton" parent="Buttons"]
-margin_right = 32.0
-margin_bottom = 32.0
-hint_tooltip = "800"
-mouse_filter = 1
-mouse_default_cursor_shape = 2
-texture_normal = ExtResource( 7 )
-texture_hover = ExtResource( 7 )
-expand = true
+[node name="ConstructorBot" parent="Buttons" instance=ExtResource( 8 )]
+position = Vector2( 0, 16 )
+scale = Vector2( 2, 2 )
+is_disabled = false
+is_focused = false
+is_rectangular = true
+rectangle_extents = Vector2( 8, 8 )
+circle_radius = -1.0
+texture = ExtResource( 7 )
+normal_modulate = Color( 0.415686, 0.745098, 0.188235, 0.8 )
+hover_modulate = Color( 0.109804, 0.690196, 1, 1 )
+disabled_modulate = Color( 0.160784, 0.160784, 0.160784, 0.466667 )
+alpha_multiplier = 0.75
 
-[node name="Destroy" type="TextureButton" parent="Buttons"]
-margin_right = 32.0
-margin_bottom = 32.0
-mouse_filter = 1
-mouse_default_cursor_shape = 2
-texture_normal = ExtResource( 4 )
-texture_hover = ExtResource( 4 )
-expand = true
+[node name="Destroy" parent="Buttons" instance=ExtResource( 8 )]
+position = Vector2( 32, 16 )
+scale = Vector2( 2, 2 )
+is_disabled = false
+is_focused = false
+is_rectangular = true
+rectangle_extents = Vector2( 8, 8 )
+circle_radius = -1.0
+texture = ExtResource( 4 )
+normal_modulate = Color( 0.415686, 0.745098, 0.188235, 0.8 )
+hover_modulate = Color( 0.109804, 0.690196, 1, 1 )
+disabled_modulate = Color( 0.160784, 0.160784, 0.160784, 0.466667 )
+alpha_multiplier = 0.75
