@@ -1249,11 +1249,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/scaffolder/src/gui/level_overlay_button/level_overlay_button.gd"
 }, {
-"base": "Node",
-"class": "LevelOverlayButtonContainer",
-"language": "GDScript",
-"path": "res://addons/scaffolder/src/gui/level_overlay_button/level_overlay_button_container.gd"
-}, {
 "base": "Area2D",
 "class": "LevelOverlayControl",
 "language": "GDScript",
@@ -3008,7 +3003,6 @@ _global_script_class_icons={
 "LevelConfig": "",
 "LevelControlRow": "",
 "LevelOverlayButton": "res://addons/scaffolder/assets/images/editor_icons/scaffolder_button.png",
-"LevelOverlayButtonContainer": "",
 "LevelOverlayControl": "",
 "LevelSelectItem": "res://addons/scaffolder/assets/images/editor_icons/scaffolder_placeholder.png",
 "LevelSelectItemBody": "",
