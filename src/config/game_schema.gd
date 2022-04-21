@@ -37,15 +37,16 @@ var _metadata := {
     data_agreement_version = "0.0.1",
     
     # Must start with "UA-".
-    google_analytics_id = "",
-    privacy_policy_url = "",
-    terms_and_conditions_url = "",
+    google_analytics_id = "UA-186405125-4",
+    privacy_policy_url = "https://docs.google.com/document/d/1WYzGSfv1Xywpk9rYWDr0yf78o1Th_5m-4009Q_XEKlk/preview",
+    terms_and_conditions_url = "https://docs.google.com/document/d/1aegg8nErqIRX0rMwzv1pfe_y6ralXeLPpTXM4TMwQUg/preview",
     android_app_store_url = "",
     ios_app_store_url = "",
-    support_url = "",
+    support_url = "https://snoringcat.games/support",
     log_gestures_url = "",
-    error_logs_url = "",
-    app_id_query_param = "",
+    error_logs_url = \
+            "https://storage.googleapis.com/upload/storage/v1/b/meteor-power-logs/o",
+    app_id_query_param = "meteor-power",
     
     developer_name = "Snoring Cat",
     developer_url = "https://snoringcat.games",
