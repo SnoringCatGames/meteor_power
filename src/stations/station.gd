@@ -1,6 +1,7 @@
 tool
-class_name Station
-extends Area2D
+class_name Station, \
+"res://addons/scaffolder/assets/images/editor_icons/scaffolder_node.png"
+extends ShapedLevelControl
 
 
 const _OVERLAY_BUTTON_PANEL_CLASS := \
@@ -10,7 +11,7 @@ export var rope_attachment_offset := Vector2.ZERO
 
 var buttons: OverlayButtonPanel
 
-var collision_shape: CollisionShape2D
+var camera_detector: CameraDetector
 
 var health := 1.0
 
@@ -23,22 +24,34 @@ var meteor_hit_count := 0
 
 
 func _ready() -> void:
-    self.collision_shape = Sc.utils.get_child_by_type(self, CollisionShape2D)
-    assert(collision_shape.shape is RectangleShape2D)
-    
     buttons = Sc.utils.add_scene(self, _OVERLAY_BUTTON_PANEL_CLASS)
     buttons.connect("button_pressed", self, "_on_button_pressed")
-    _set_up_mouse_hover_area()
+    buttons.station = self
     
     if is_instance_valid(Sc.level.bot_selector):
         _on_bot_selection_changed(Sc.level.bot_selector.selected_bot)
+    
+    _set_up_camera_detector()
 
 
-func _set_up_mouse_hover_area() -> void:
-    buttons.set_up_controls(
-            self,
-            collision_shape.position,
-            collision_shape.shape.extents * 2.0)
+func _set_up_camera_detector() -> void:
+    var preexisting_camera_detectors := \
+            Sc.utils.get_children_by_type(self, CameraDetector)
+    if !preexisting_camera_detectors.empty():
+        camera_detector = preexisting_camera_detectors[0]
+        for i in range(1, preexisting_camera_detectors.size()):
+            remove_child(preexisting_camera_detectors[i])
+    else:
+        camera_detector = CameraDetector.new()
+        add_child(camera_detector)
+        camera_detector.owner = self
+    _update_camera_detector()
+
+
+func _update_camera_detector() -> void:
+    # FIXME: LEFT OFF HERE: -----------------------------------------
+    pass
+#    camera_detector
 
 
 func _on_bot_selection_changed(bot) -> void:
