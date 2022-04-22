@@ -30,7 +30,8 @@ func _on_connected() -> void:
     origin_station.add_connection(destination_station)
     destination_station.add_connection(origin_station)
     Sc.time.set_timeout(
-            funcref(self, "_replace_with_static_line"),
+            self,
+            "_replace_with_static_line",
             _STABILIZATION_DELAY_BEFORE_SWITCHING_TO_STATIC_LINE)
 
 
