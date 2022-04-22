@@ -32,9 +32,6 @@ func _ready() -> void:
     buttons.connect("button_pressed", self, "_on_button_pressed")
     buttons.station = self
     
-    if is_instance_valid(Sc.level.bot_selector):
-        _on_bot_selection_changed(Sc.level.bot_selector.selected_bot)
-    
     _set_up_camera_detector()
 
 
@@ -52,6 +49,8 @@ func _set_up_camera_detector() -> void:
     camera_detector.connect("camera_enter", self, "_on_camera_enter")
     camera_detector.connect("camera_exit", self, "_on_camera_exit")
     _update_camera_detector()
+    if camera_detector.is_camera_intersecting:
+        _on_camera_enter()
 
 
 func _update_camera_detector() -> void:
@@ -60,13 +59,8 @@ func _update_camera_detector() -> void:
     camera_detector.viewport_ratio = _CAMERA_DETECTOR_VIEWPORT_RATIO
 
 
-func _on_bot_selection_changed(bot) -> void:
-    buttons.visible = get_are_buttons_shown_for_bot_selection(bot)
-    buttons.set_buttons(get_buttons(bot), get_disabled_buttons(bot))
-
-
 func _on_level_started() -> void:
-    _on_bot_selection_changed(Sc.level.bot_selector.selected_bot)
+    pass
 
 
 func _on_button_pressed(button_type: int) -> void:
@@ -74,30 +68,26 @@ func _on_button_pressed(button_type: int) -> void:
 
 
 func _on_camera_enter() -> void:
-    # FIXME: LEFT OFF HERE: ------------------------------
-    print(">>>>>> ENTER")
-    pass
+    buttons.visible = true
+    # FIXME: -------------------------
+    # - Update button visibility and enablement in a different, more direct and
+    #   on-demand, way.
+    buttons.set_buttons(get_buttons(), get_disabled_buttons())
 
 
 func _on_camera_exit() -> void:
-    # FIXME: LEFT OFF HERE: ------------------------------
-    print(">>>>>> EXIT")
-    pass
+    buttons.visible = false
 
 
 func get_power_line_attachment_position() -> Vector2:
     return self.position + self.rope_attachment_offset
 
 
-func get_are_buttons_shown_for_bot_selection(bot) -> bool:
-    return false
-
-
-func get_buttons(bot) -> Array:
+func get_buttons() -> Array:
     return []
 
 
-func get_disabled_buttons(bot) -> Array:
+func get_disabled_buttons() -> Array:
     return []
 
 

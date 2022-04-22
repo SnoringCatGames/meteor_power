@@ -136,8 +136,6 @@ func _destroy() -> void:
 func _on_bot_selection_changed(selected_bot) -> void:
 #    Sc.logger.print("GameLevel._on_bot_selection_changed")
     clear_station_selection()
-    for station in stations:
-        station._on_bot_selection_changed(selected_bot)
     for bot in bots:
         bot.set_is_selected(bot == selected_bot)
     if is_instance_valid(selected_bot):

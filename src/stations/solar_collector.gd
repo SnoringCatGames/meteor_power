@@ -25,18 +25,14 @@ func _physics_process(delta: float) -> void:
             Sc.level.add_energy(1)
 
 
-func get_are_buttons_shown_for_bot_selection(bot) -> bool:
-    return is_instance_valid(bot)
-
-
-func get_buttons(bot) -> Array:
+func get_buttons() -> Array:
     return [
         OverlayButtonType.RUN_WIRE,
 #        OverlayButtonType.DESTROY,
     ]
 
 
-func get_disabled_buttons(bot) -> Array:
+func get_disabled_buttons() -> Array:
     return []
 
 

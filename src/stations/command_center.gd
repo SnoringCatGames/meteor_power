@@ -3,11 +3,7 @@ class_name CommandCenter
 extends Station
 
 
-func get_are_buttons_shown_for_bot_selection(bot) -> bool:
-    return is_instance_valid(bot)
-
-
-func get_buttons(bot) -> Array:
+func get_buttons() -> Array:
     return [
         OverlayButtonType.RUN_WIRE,
         OverlayButtonType.BUILD_CONSTRUCTOR_BOT,
@@ -17,7 +13,7 @@ func get_buttons(bot) -> Array:
     ]
 
 
-func get_disabled_buttons(bot) -> Array:
+func get_disabled_buttons() -> Array:
     return []
 
 

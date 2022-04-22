@@ -34,6 +34,7 @@ var is_mouse_in_region := false
 
 
 func _ready() -> void:
+    visible = false
     buttons_container = $Buttons
     
     for button in buttons_container.get_children():
