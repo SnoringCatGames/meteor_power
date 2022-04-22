@@ -7,7 +7,7 @@
 [ext_resource path="res://src/gui/overlay_button_panel.gd" type="Script" id=5]
 [ext_resource path="res://assets/images/gui/overlay_buttons/run_power_line_button.png" type="Texture" id=6]
 [ext_resource path="res://assets/images/gui/overlay_buttons/build_constructor_bot.png" type="Texture" id=7]
-[ext_resource path="res://addons/scaffolder/src/gui/level_overlay_button/sprite_modulation_button.tscn" type="PackedScene" id=8]
+[ext_resource path="res://addons/scaffolder/src/gui/level_button/sprite_modulation_button.tscn" type="PackedScene" id=8]
 
 [node name="OverlayButtonPanel" type="Node2D"]
 modulate = Color( 1, 1, 1, 0.6 )

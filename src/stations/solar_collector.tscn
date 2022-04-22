@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://src/stations/solar_collector.gd" type="Script" id=1]
 [ext_resource path="res://assets/images/stations/solar_collector.png" type="Texture" id=2]
@@ -65,14 +65,14 @@ tracks/0/keys = {
 "values": [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33 ]
 }
 
-[sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 24, 28 )
-
 [node name="SolarCollector" type="Area2D"]
-collision_layer = 16
+collision_layer = 1073741824
 collision_mask = 0
 monitoring = false
+monitorable = false
 script = ExtResource( 1 )
+shape_rectangle_extents = Vector2( 24, 28 )
+shape_offset = Vector2( 0, -28 )
 rope_attachment_offset = Vector2( 0, -2 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -89,7 +89,3 @@ hframes = 34
 [node name="Dark" type="Sprite" parent="."]
 position = Vector2( 0, -32 )
 texture = ExtResource( 3 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 0, -28 )
-shape = SubResource( 3 )
