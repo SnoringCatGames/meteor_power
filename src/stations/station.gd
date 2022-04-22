@@ -6,6 +6,10 @@ extends ShapedLevelControl
 
 const _OVERLAY_BUTTON_PANEL_CLASS := \
         preload("res://src/gui/overlay_button_panel.tscn")
+const _VIEWPORT_CENTER_REGION_DETECTOR_SCENE := preload(
+        "res://addons/scaffolder/src/camera/camera_detector/viewport_center_region_detector.tscn")
+
+const _CAMERA_DETECTOR_VIEWPORT_RATIO := Vector2(0.5, 0.5)
 
 export var rope_attachment_offset := Vector2.ZERO
 
@@ -36,22 +40,24 @@ func _ready() -> void:
 
 func _set_up_camera_detector() -> void:
     var preexisting_camera_detectors := \
-            Sc.utils.get_children_by_type(self, CameraDetector)
+            Sc.utils.get_children_by_type(self, ViewportCenterRegionDetector)
     if !preexisting_camera_detectors.empty():
         camera_detector = preexisting_camera_detectors[0]
         for i in range(1, preexisting_camera_detectors.size()):
             remove_child(preexisting_camera_detectors[i])
     else:
-        camera_detector = CameraDetector.new()
-        add_child(camera_detector)
+        camera_detector = Sc.utils.add_scene(
+                self, _VIEWPORT_CENTER_REGION_DETECTOR_SCENE)
         camera_detector.owner = self
+    camera_detector.connect("camera_enter", self, "_on_camera_enter")
+    camera_detector.connect("camera_exit", self, "_on_camera_exit")
     _update_camera_detector()
 
 
 func _update_camera_detector() -> void:
-    # FIXME: LEFT OFF HERE: -----------------------------------------
-    pass
-#    camera_detector
+    camera_detector.shape_rectangle_extents = self.shape_rectangle_extents
+    camera_detector.shape_offset = self.shape_offset
+    camera_detector.viewport_ratio = _CAMERA_DETECTOR_VIEWPORT_RATIO
 
 
 func _on_bot_selection_changed(bot) -> void:
@@ -65,6 +71,18 @@ func _on_level_started() -> void:
 
 func _on_button_pressed(button_type: int) -> void:
     Sc.level._on_station_button_pressed(self, button_type)
+
+
+func _on_camera_enter() -> void:
+    # FIXME: LEFT OFF HERE: ------------------------------
+    print(">>>>>> ENTER")
+    pass
+
+
+func _on_camera_exit() -> void:
+    # FIXME: LEFT OFF HERE: ------------------------------
+    print(">>>>>> EXIT")
+    pass
 
 
 func get_power_line_attachment_position() -> Vector2:
