@@ -101,13 +101,13 @@ func set_buttons(
             visible_buttons[button_i].position = button_position
 
 
-func _on_button_mouse_entered(button: TextureButton) -> void:
+func _on_button_mouse_entered(button: SpriteModulationButton) -> void:
 #    button.modulate.s = 1.0 + _SATURATION_DELTA_HOVER
 #    button.modulate.v = 1.0 + _VALUE_DELTA_HOVER
     button.modulate.a = _OPACITY_HOVER
 
 
-func _on_button_mouse_exited(button: TextureButton) -> void:
+func _on_button_mouse_exited(button: SpriteModulationButton) -> void:
 #    button.modulate.s = 1.0 + _SATURATION_DELTA_NORMAL
 #    button.modulate.v = 1.0 + _VALUE_DELTA_NORMAL
     button.modulate.a = _OPACITY_NORMAL

@@ -91,7 +91,7 @@ func _get_manifest_overrides() -> Array:
         ["Sc.manifest.metadata.app_version", "0.0.1"],
         
         ["Sc.manifest.metadata.rng_seed", 723],
-        ["Sc.manifest.metadata.pauses_on_focus_out", true],
+        ["Sc.manifest.metadata.pauses_on_focus_out", false],
         ["Sc.manifest.metadata.also_prints_to_stdout", true],
         ["Sc.manifest.metadata.logs_character_events", true],
         ["Sc.manifest.metadata.logs_analytics_events", false],

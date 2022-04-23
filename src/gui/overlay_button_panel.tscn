@@ -10,19 +10,15 @@
 [ext_resource path="res://addons/scaffolder/src/gui/level_button/sprite_modulation_button.tscn" type="PackedScene" id=8]
 
 [node name="OverlayButtonPanel" type="Node2D"]
+visible = false
 modulate = Color( 1, 1, 1, 0.6 )
 script = ExtResource( 5 )
 
 [node name="Buttons" type="Node2D" parent="."]
 
 [node name="RunPowerLine" parent="Buttons" instance=ExtResource( 8 )]
-position = Vector2( -32, -16 )
+position = Vector2( -32, 16 )
 scale = Vector2( 2, 2 )
-is_disabled = false
-is_focused = false
-is_rectangular = true
-rectangle_extents = Vector2( 8, 8 )
-circle_radius = -1.0
 texture = ExtResource( 6 )
 normal_modulate = Color( 0.415686, 0.745098, 0.188235, 0.8 )
 hover_modulate = Color( 0.109804, 0.690196, 1, 1 )
@@ -30,13 +26,8 @@ disabled_modulate = Color( 0.160784, 0.160784, 0.160784, 0.466667 )
 alpha_multiplier = 0.75
 
 [node name="Battery" parent="Buttons" instance=ExtResource( 8 )]
-position = Vector2( 0, -16 )
+position = Vector2( 0, 16 )
 scale = Vector2( 2, 2 )
-is_disabled = false
-is_focused = false
-is_rectangular = true
-rectangle_extents = Vector2( 8, 8 )
-circle_radius = -1.0
 texture = ExtResource( 2 )
 normal_modulate = Color( 0.415686, 0.745098, 0.188235, 0.8 )
 hover_modulate = Color( 0.109804, 0.690196, 1, 1 )
@@ -44,13 +35,8 @@ disabled_modulate = Color( 0.160784, 0.160784, 0.160784, 0.466667 )
 alpha_multiplier = 0.75
 
 [node name="Scanner" parent="Buttons" instance=ExtResource( 8 )]
-position = Vector2( 32, -16 )
+position = Vector2( 32, 16 )
 scale = Vector2( 2, 2 )
-is_disabled = false
-is_focused = false
-is_rectangular = true
-rectangle_extents = Vector2( 8, 8 )
-circle_radius = -1.0
 texture = ExtResource( 3 )
 normal_modulate = Color( 0.415686, 0.745098, 0.188235, 0.8 )
 hover_modulate = Color( 0.109804, 0.690196, 1, 1 )
@@ -58,13 +44,8 @@ disabled_modulate = Color( 0.160784, 0.160784, 0.160784, 0.466667 )
 alpha_multiplier = 0.75
 
 [node name="Solar" parent="Buttons" instance=ExtResource( 8 )]
-position = Vector2( -32, 16 )
+position = Vector2( -32, 48 )
 scale = Vector2( 2, 2 )
-is_disabled = false
-is_focused = false
-is_rectangular = true
-rectangle_extents = Vector2( 8, 8 )
-circle_radius = -1.0
 texture = ExtResource( 1 )
 normal_modulate = Color( 0.415686, 0.745098, 0.188235, 0.8 )
 hover_modulate = Color( 0.109804, 0.690196, 1, 1 )
@@ -72,13 +53,8 @@ disabled_modulate = Color( 0.160784, 0.160784, 0.160784, 0.466667 )
 alpha_multiplier = 0.75
 
 [node name="ConstructorBot" parent="Buttons" instance=ExtResource( 8 )]
-position = Vector2( 0, 16 )
+position = Vector2( 0, 48 )
 scale = Vector2( 2, 2 )
-is_disabled = false
-is_focused = false
-is_rectangular = true
-rectangle_extents = Vector2( 8, 8 )
-circle_radius = -1.0
 texture = ExtResource( 7 )
 normal_modulate = Color( 0.415686, 0.745098, 0.188235, 0.8 )
 hover_modulate = Color( 0.109804, 0.690196, 1, 1 )
@@ -86,13 +62,8 @@ disabled_modulate = Color( 0.160784, 0.160784, 0.160784, 0.466667 )
 alpha_multiplier = 0.75
 
 [node name="Destroy" parent="Buttons" instance=ExtResource( 8 )]
-position = Vector2( 32, 16 )
+position = Vector2( 32, 48 )
 scale = Vector2( 2, 2 )
-is_disabled = false
-is_focused = false
-is_rectangular = true
-rectangle_extents = Vector2( 8, 8 )
-circle_radius = -1.0
 texture = ExtResource( 4 )
 normal_modulate = Color( 0.415686, 0.745098, 0.188235, 0.8 )
 hover_modulate = Color( 0.109804, 0.690196, 1, 1 )
