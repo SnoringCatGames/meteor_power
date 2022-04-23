@@ -5,9 +5,6 @@ extends Node2D
 
 signal button_pressed(button_type)
 
-const _CONTAINER_OPACITY_EMPHASIZED := 0.99
-const _CONTAINER_OPACITY_DEEMPHASIZED := 0.6
-
 const _OPACITY_NORMAL := 0.75
 const _OPACITY_HOVER := 0.999
 
@@ -44,8 +41,6 @@ func _ready() -> void:
                 "mouse_exited", self, "_on_button_mouse_exited", [button])
         button.connect("pressed", self, "_on_button_pressed", [button])
         button.scale = _BUTTON_SIZE / button.texture.get_size()
-    
-    deemphasize()
     
     if Engine.editor_hint:
         set_buttons([
@@ -102,16 +97,8 @@ func set_buttons(
             var button_position := \
                     _BUTTON_SIZE * Vector2(column_i, row_i) + \
                     _BUTTON_SIZE / 2.0 - \
-                    container_size / 2.0
+                    Vector2(container_size.x / 2.0, 0.0)
             visible_buttons[button_i].position = button_position
-
-
-func emphasize() -> void:
-    self.modulate.a = _CONTAINER_OPACITY_EMPHASIZED
-
-
-func deemphasize() -> void:
-    self.modulate.a = _CONTAINER_OPACITY_DEEMPHASIZED
 
 
 func _on_button_mouse_entered(button: TextureButton) -> void:
@@ -153,38 +140,3 @@ func _get_type_for_button(button: SpriteModulationButton) -> int:
     else:
         Sc.logger.error("OverlayButtonPanel._get_type_for_button")
         return OverlayButtonType.UNKNOWN
-
-
-func _on_mouse_entered() -> void:
-    emphasize()
-
-
-func _on_mouse_exited() -> void:
-    deemphasize()
-
-
-func _unhandled_input(event: InputEvent) -> void:
-    if Engine.editor_hint:
-        return
-    
-    if event is InputEventMouseMotion:
-        var click_position: Vector2 = \
-                Sc.utils.get_level_touch_position(event)
-        var next_is_mouse_in_region := \
-                click_position.distance_squared_to(station.position) < \
-                _HOVER_DISTANCE_SQUARED
-        if is_mouse_in_region != next_is_mouse_in_region:
-            is_mouse_in_region = next_is_mouse_in_region
-            if is_mouse_in_region:
-                _on_mouse_entered()
-            else:
-                _on_mouse_exited()
-    
-    if Sc.gui.is_player_interaction_enabled and \
-            event is InputEventMouseButton and \
-            event.button_index == BUTTON_LEFT and \
-            event.pressed:
-        var click_position: Vector2 = \
-                Sc.utils.get_level_touch_position(event)
-        # FIXME: ---------------------
-        # - Replace scroll-killing TextureButtons with custom button logic.
