@@ -38,14 +38,10 @@ func _ready() -> void:
 func _set_up_camera_detector() -> void:
     var preexisting_camera_detectors := \
             Sc.utils.get_children_by_type(self, ViewportCenterRegionDetector)
-    if !preexisting_camera_detectors.empty():
-        camera_detector = preexisting_camera_detectors[0]
-        for i in range(1, preexisting_camera_detectors.size()):
-            remove_child(preexisting_camera_detectors[i])
-    else:
-        camera_detector = Sc.utils.add_scene(
-                self, _VIEWPORT_CENTER_REGION_DETECTOR_SCENE)
-        camera_detector.owner = self
+    for detector in preexisting_camera_detectors:
+        remove_child(detector)
+    camera_detector = Sc.utils.add_scene(
+            self, _VIEWPORT_CENTER_REGION_DETECTOR_SCENE)
     camera_detector.connect("camera_enter", self, "_on_camera_enter")
     camera_detector.connect("camera_exit", self, "_on_camera_exit")
     _update_camera_detector()
