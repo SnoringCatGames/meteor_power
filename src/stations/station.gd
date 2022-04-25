@@ -9,7 +9,7 @@ const _OVERLAY_BUTTON_PANEL_CLASS := \
 const _VIEWPORT_CENTER_REGION_DETECTOR_SCENE := preload(
         "res://addons/scaffolder/src/camera/camera_detector/viewport_center_region_detector.tscn")
 
-const _CAMERA_DETECTOR_VIEWPORT_RATIO := Vector2(0.5, 0.5)
+const _CAMERA_DETECTOR_VIEWPORT_RATIO := Vector2(0.95, 0.95)
 
 export var rope_attachment_offset := Vector2.ZERO
 

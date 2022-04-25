@@ -1459,7 +1459,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/scaffolder/src/outlineable_sprite.gd"
 }, {
-"base": "Node2D",
+"base": "ShapedLevelControl",
 "class": "OverlayButtonPanel",
 "language": "GDScript",
 "path": "res://src/gui/overlay_button_panel.gd"

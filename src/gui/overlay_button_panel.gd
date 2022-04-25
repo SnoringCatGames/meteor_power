@@ -1,9 +1,15 @@
 tool
 class_name OverlayButtonPanel
-extends Node2D
+extends ShapedLevelControl
 
 
 signal button_pressed(button_type)
+
+const _MIN_OPACITY_VIEWPORT_BOUNDS_RATIO := 0.95
+const _MAX_OPACITY_VIEWPORT_BOUNDS_RATIO := 0.05
+
+const _MIN_OPACITY_FOR_VIEWPORT_POSITION := 0.0
+const _MAX_OPACITY_FOR_VIEWPORT_POSITION := 1.0
 
 const _OPACITY_NORMAL := 0.75
 const _OPACITY_HOVER := 0.999
@@ -18,16 +24,12 @@ const _BUTTON_SIZE := Vector2(32, 32)
 
 const _PANEL_OFFSET := Vector2(0, 4)
 
-const _HOVER_DISTANCE_SQUARED := 128.0 * 128.0
-
 # Array<TextureButton>
 var buttons := []
 
 var buttons_container: Node2D
 
 var station
-
-var is_mouse_in_region := false
 
 
 func _ready() -> void:
@@ -52,6 +54,9 @@ func _ready() -> void:
             OverlayButtonType.BUILD_CONSTRUCTOR_BOT,
         ],
         [])
+    
+    Sc.camera.connect("panned", self, "_on_panned")
+    Sc.camera.connect("zoomed", self, "_on_zoomed")
 
 
 func set_up_controls(
@@ -72,7 +77,7 @@ func set_buttons(
         var button_type := _get_type_for_button(button)
         var is_button_visible := button_types.find(button_type) >= 0
         var is_button_disabled := disabled_buttons.find(button_type) >= 0
-        # FIXME: ------------
+        # FIXME: ------------ Disabled
         button.visible = is_button_visible
         if is_button_visible:
             visible_buttons.push_back(button)
@@ -99,18 +104,82 @@ func set_buttons(
                     _BUTTON_SIZE / 2.0 - \
                     Vector2(container_size.x / 2.0, 0.0)
             visible_buttons[button_i].position = button_position
+    
+    _set_shape_rectangle_extents(container_size / 2.0)
+    _set_shape_offset(Vector2(0.0, container_size.y / 2.0))
+
+
+func _update_opacity_for_camera_position() -> void:
+    var global_position := self.global_position
+    
+    var camera_bounds: Rect2 = Sc.level.camera.get_visible_region()
+    var min_opacity_bounds_size := \
+            camera_bounds.size * _MIN_OPACITY_VIEWPORT_BOUNDS_RATIO
+    var min_opacity_bounds_position := \
+            camera_bounds.position + \
+            (camera_bounds.size - min_opacity_bounds_size) / 2.0
+    var min_opacity_bounds := \
+            Rect2(min_opacity_bounds_position, min_opacity_bounds_size)
+    var max_opacity_bounds_size := \
+            camera_bounds.size * _MAX_OPACITY_VIEWPORT_BOUNDS_RATIO
+    var max_opacity_bounds_position := \
+            camera_bounds.position + \
+            (camera_bounds.size - max_opacity_bounds_size) / 2.0
+    var max_opacity_bounds := \
+            Rect2(max_opacity_bounds_position, max_opacity_bounds_size)
+    
+    var opacity_weight: float
+    if max_opacity_bounds.has_point(global_position):
+        opacity_weight = _MAX_OPACITY_FOR_VIEWPORT_POSITION
+    elif !min_opacity_bounds.has_point(global_position):
+        opacity_weight = _MIN_OPACITY_FOR_VIEWPORT_POSITION
+    else:
+        var x_weight: float
+        if global_position.x >= max_opacity_bounds.position.x and \
+                global_position.x <= max_opacity_bounds.end.x:
+            x_weight = 1.0
+        elif global_position.x <= max_opacity_bounds.position.x:
+            x_weight = \
+                    (global_position.x - \
+                        min_opacity_bounds.position.x) / \
+                    (max_opacity_bounds.position.x - \
+                        min_opacity_bounds.position.x)
+        else:
+            x_weight = \
+                    (min_opacity_bounds.end.x - global_position.x) / \
+                    (min_opacity_bounds.end.x - max_opacity_bounds.end.x)
+        var y_weight: float
+        if global_position.y >= max_opacity_bounds.position.y and \
+                global_position.y <= max_opacity_bounds.end.y:
+            y_weight = 1.0
+        elif global_position.y <= max_opacity_bounds.position.y:
+            y_weight = \
+                    (global_position.y - \
+                        min_opacity_bounds.position.y) / \
+                    (max_opacity_bounds.position.y - \
+                        min_opacity_bounds.position.y)
+        else:
+            y_weight = \
+                    (min_opacity_bounds.end.y - global_position.y) / \
+                    (min_opacity_bounds.end.y - max_opacity_bounds.end.y)
+        opacity_weight = min(x_weight, y_weight)
+    
+    self.modulate.a = lerp(
+            _MIN_OPACITY_FOR_VIEWPORT_POSITION,
+            _MAX_OPACITY_FOR_VIEWPORT_POSITION,
+            opacity_weight)
 
 
 func _on_button_mouse_entered(button: SpriteModulationButton) -> void:
 #    button.modulate.s = 1.0 + _SATURATION_DELTA_HOVER
 #    button.modulate.v = 1.0 + _VALUE_DELTA_HOVER
-    button.modulate.a = _OPACITY_HOVER
+    button.alpha_multiplier = _OPACITY_HOVER
 
 
 func _on_button_mouse_exited(button: SpriteModulationButton) -> void:
 #    button.modulate.s = 1.0 + _SATURATION_DELTA_NORMAL
 #    button.modulate.v = 1.0 + _VALUE_DELTA_NORMAL
-    button.modulate.a = _OPACITY_NORMAL
+    button.alpha_multiplier = _OPACITY_NORMAL
 
 
 func _on_button_pressed(button: SpriteModulationButton) -> void:
@@ -122,6 +191,24 @@ func _on_button_pressed(button: SpriteModulationButton) -> void:
         station.position,
        ])
     emit_signal("button_pressed", button_type)
+
+
+func _on_panned() -> void:
+    _update_opacity_for_camera_position()
+
+
+func _on_zoomed() -> void:
+    _update_opacity_for_camera_position()
+
+
+func _on_mouse_entered() -> void:
+    ._on_mouse_entered()
+    self.modulate.a = _MAX_OPACITY_FOR_VIEWPORT_POSITION
+
+
+func _on_mouse_exited() -> void:
+    ._on_mouse_exited()
+    _update_opacity_for_camera_position()
 
 
 func _get_type_for_button(button: SpriteModulationButton) -> int:
