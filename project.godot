@@ -1314,6 +1314,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/scaffolder/src/gui/screens/main_menu_screen.gd"
 }, {
+"base": "ScaffolderPanelContainer",
+"class": "MessagePanel",
+"language": "GDScript",
+"path": "res://addons/scaffolder/src/gui/message_panel/message_panel.gd"
+}, {
+"base": "Reference",
+"class": "MessagePanelSize",
+"language": "GDScript",
+"path": "res://addons/scaffolder/src/gui/message_panel/message_panel_size.gd"
+}, {
 "base": "Area2D",
 "class": "Meteor",
 "language": "GDScript",
@@ -1398,11 +1408,6 @@ _global_script_classes=[ {
 "class": "NotificationScreen",
 "language": "GDScript",
 "path": "res://addons/scaffolder/src/gui/screens/notification_screen.gd"
-}, {
-"base": "Reference",
-"class": "NotificationSize",
-"language": "GDScript",
-"path": "res://addons/scaffolder/src/gui/notifications/notification_size.gd"
 }, {
 "base": "Node",
 "class": "Notifications",
@@ -3041,6 +3046,8 @@ _global_script_class_icons={
 "LockAnimation": "res://addons/scaffolder/assets/images/editor_icons/scaffolder_placeholder.png",
 "Main": "res://addons/scaffolder/assets/images/editor_icons/star.png",
 "MainMenuScreen": "",
+"MessagePanel": "",
+"MessagePanelSize": "",
 "Meteor": "",
 "MeteorController": "",
 "MetronomeControlRow": "",
@@ -3058,7 +3065,6 @@ _global_script_class_icons={
 "NotificationDuration": "",
 "NotificationPanel": "",
 "NotificationScreen": "",
-"NotificationSize": "",
 "Notifications": "",
 "NpcNavigationDestinationAnnotatorControlRow": "",
 "NpcNonSlowMoTrajectoryAnnotatorControlRow": "",
