@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://src/stations/solar_collector.gd" type="Script" id=1]
 [ext_resource path="res://assets/images/stations/solar_collector.png" type="Texture" id=2]
 [ext_resource path="res://assets/images/stations/solar_collector_dark.png" type="Texture" id=3]
+[ext_resource path="res://addons/scaffolder/src/shader_outlineable_sprite.tscn" type="PackedScene" id=4]
 
 [sub_resource type="Animation" id=1]
 length = 0.001
@@ -80,12 +81,12 @@ anims/RESET = SubResource( 1 )
 anims/dark = SubResource( 4 )
 anims/shine = SubResource( 2 )
 
-[node name="Shine" type="Sprite" parent="."]
+[node name="Shine" parent="." instance=ExtResource( 4 )]
 visible = false
 position = Vector2( 0, -32 )
 texture = ExtResource( 2 )
 hframes = 34
 
-[node name="Dark" type="Sprite" parent="."]
+[node name="Dark" parent="." instance=ExtResource( 4 )]
 position = Vector2( 0, -32 )
 texture = ExtResource( 3 )

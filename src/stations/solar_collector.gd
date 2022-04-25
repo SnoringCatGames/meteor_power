@@ -58,3 +58,10 @@ func _on_hit_by_meteor() -> void:
     ._on_hit_by_meteor()
     if meteor_hit_count >= 3:
         Sc.level.replace_station(self, "empty")
+
+
+func _update_outline() -> void:
+    for sprite in [$Shine, $Dark]:
+        sprite.is_outlined = outline_alpha_multiplier > 0.0
+        sprite.outline_color = outline_color
+        sprite.outline_color.a *= outline_alpha_multiplier

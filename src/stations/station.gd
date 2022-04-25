@@ -23,6 +23,9 @@ var buttons: OverlayButtonPanel
 
 var camera_detector: CameraDetector
 
+var outline_alpha_multiplier := 0.0
+var outline_color := Color.transparent
+
 var health := 1.0
 
 # Dictionary<Station, bool>
@@ -45,6 +48,8 @@ func _ready() -> void:
 
 
 func _set_up_camera_detector() -> void:
+    if Engine.editor_hint:
+        return
     var preexisting_camera_detectors := \
             Sc.utils.get_children_by_type(self, ViewportCenterRegionDetector)
     for detector in preexisting_camera_detectors:
@@ -163,8 +168,18 @@ func _update_highlight_for_camera_position() -> void:
 
 
 func set_highlight_weight(weight: float) -> void:
-    # FIXME: LEFT OFF HERE: ----------------------- Adjust border opacity.
+    # FIXME: --------------------
+    # - Fix color.
+    # - Change color when selected.
+    # - Force max highlight when selected.
+    outline_color = Color("7753c700")
+    outline_alpha_multiplier = weight
+    _update_outline()
     buttons.set_viewport_opacity_weight(weight)
+
+
+func _update_outline() -> void:
+    Sc.logger.error("Abstract Station._update_outline is not implemented")
 
 
 func get_power_line_attachment_position() -> Vector2:

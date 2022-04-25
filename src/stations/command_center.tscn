@@ -1,131 +1,132 @@
-[gd_scene load_steps=34 format=2]
+[gd_scene load_steps=35 format=2]
 
 [ext_resource path="res://src/stations/command_center.gd" type="Script" id=1]
 [ext_resource path="res://assets/images/stations/command_center.png" type="Texture" id=2]
-
-[sub_resource type="AtlasTexture" id=1]
-atlas = ExtResource( 2 )
-region = Rect2( 0, 0, 64, 64 )
+[ext_resource path="res://addons/scaffolder/src/shader_outlineable_animated_sprite.tscn" type="PackedScene" id=3]
 
 [sub_resource type="AtlasTexture" id=2]
 atlas = ExtResource( 2 )
-region = Rect2( 64, 0, 64, 64 )
+region = Rect2( 0, 0, 65, 66 )
 
 [sub_resource type="AtlasTexture" id=3]
 atlas = ExtResource( 2 )
-region = Rect2( 128, 0, 64, 64 )
+region = Rect2( 65, 0, 65, 66 )
 
 [sub_resource type="AtlasTexture" id=4]
 atlas = ExtResource( 2 )
-region = Rect2( 192, 0, 64, 64 )
+region = Rect2( 130, 0, 65, 66 )
 
 [sub_resource type="AtlasTexture" id=5]
 atlas = ExtResource( 2 )
-region = Rect2( 256, 0, 64, 64 )
+region = Rect2( 195, 0, 65, 66 )
 
 [sub_resource type="AtlasTexture" id=6]
 atlas = ExtResource( 2 )
-region = Rect2( 320, 0, 64, 64 )
+region = Rect2( 260, 0, 65, 66 )
 
 [sub_resource type="AtlasTexture" id=7]
 atlas = ExtResource( 2 )
-region = Rect2( 384, 0, 64, 64 )
+region = Rect2( 325, 0, 65, 66 )
 
 [sub_resource type="AtlasTexture" id=8]
 atlas = ExtResource( 2 )
-region = Rect2( 448, 0, 64, 64 )
+region = Rect2( 390, 0, 65, 66 )
 
 [sub_resource type="AtlasTexture" id=9]
 atlas = ExtResource( 2 )
-region = Rect2( 512, 0, 64, 64 )
+region = Rect2( 455, 0, 65, 66 )
 
 [sub_resource type="AtlasTexture" id=10]
 atlas = ExtResource( 2 )
-region = Rect2( 576, 0, 64, 64 )
+region = Rect2( 520, 0, 65, 66 )
 
 [sub_resource type="AtlasTexture" id=11]
 atlas = ExtResource( 2 )
-region = Rect2( 640, 0, 64, 64 )
+region = Rect2( 585, 0, 65, 66 )
 
 [sub_resource type="AtlasTexture" id=12]
 atlas = ExtResource( 2 )
-region = Rect2( 704, 0, 64, 64 )
+region = Rect2( 650, 0, 65, 66 )
 
 [sub_resource type="AtlasTexture" id=13]
 atlas = ExtResource( 2 )
-region = Rect2( 768, 0, 64, 64 )
+region = Rect2( 715, 0, 65, 66 )
 
 [sub_resource type="AtlasTexture" id=14]
 atlas = ExtResource( 2 )
-region = Rect2( 832, 0, 64, 64 )
+region = Rect2( 780, 0, 65, 66 )
 
 [sub_resource type="AtlasTexture" id=15]
 atlas = ExtResource( 2 )
-region = Rect2( 896, 0, 64, 64 )
+region = Rect2( 845, 0, 65, 66 )
 
 [sub_resource type="AtlasTexture" id=16]
 atlas = ExtResource( 2 )
-region = Rect2( 960, 0, 64, 64 )
+region = Rect2( 910, 0, 65, 66 )
 
 [sub_resource type="AtlasTexture" id=17]
 atlas = ExtResource( 2 )
-region = Rect2( 1024, 0, 64, 64 )
+region = Rect2( 975, 0, 65, 66 )
 
 [sub_resource type="AtlasTexture" id=18]
 atlas = ExtResource( 2 )
-region = Rect2( 1088, 0, 64, 64 )
+region = Rect2( 1040, 0, 65, 66 )
 
 [sub_resource type="AtlasTexture" id=19]
 atlas = ExtResource( 2 )
-region = Rect2( 1152, 0, 64, 64 )
+region = Rect2( 1105, 0, 65, 66 )
 
 [sub_resource type="AtlasTexture" id=20]
 atlas = ExtResource( 2 )
-region = Rect2( 1216, 0, 64, 64 )
+region = Rect2( 1170, 0, 65, 66 )
 
 [sub_resource type="AtlasTexture" id=21]
 atlas = ExtResource( 2 )
-region = Rect2( 1280, 0, 64, 64 )
+region = Rect2( 1235, 0, 65, 66 )
 
 [sub_resource type="AtlasTexture" id=22]
 atlas = ExtResource( 2 )
-region = Rect2( 1344, 0, 64, 64 )
+region = Rect2( 1300, 0, 65, 66 )
 
 [sub_resource type="AtlasTexture" id=23]
 atlas = ExtResource( 2 )
-region = Rect2( 1408, 0, 64, 64 )
+region = Rect2( 1365, 0, 65, 66 )
 
 [sub_resource type="AtlasTexture" id=24]
 atlas = ExtResource( 2 )
-region = Rect2( 1472, 0, 64, 64 )
+region = Rect2( 1430, 0, 65, 66 )
 
 [sub_resource type="AtlasTexture" id=25]
 atlas = ExtResource( 2 )
-region = Rect2( 1536, 0, 64, 64 )
+region = Rect2( 1495, 0, 65, 66 )
 
 [sub_resource type="AtlasTexture" id=26]
 atlas = ExtResource( 2 )
-region = Rect2( 1600, 0, 64, 64 )
+region = Rect2( 1560, 0, 65, 66 )
 
 [sub_resource type="AtlasTexture" id=27]
 atlas = ExtResource( 2 )
-region = Rect2( 1664, 0, 64, 64 )
+region = Rect2( 1625, 0, 65, 66 )
 
 [sub_resource type="AtlasTexture" id=28]
 atlas = ExtResource( 2 )
-region = Rect2( 1728, 0, 64, 64 )
+region = Rect2( 1690, 0, 65, 66 )
 
 [sub_resource type="AtlasTexture" id=29]
 atlas = ExtResource( 2 )
-region = Rect2( 1792, 0, 64, 64 )
+region = Rect2( 1755, 0, 65, 66 )
 
 [sub_resource type="AtlasTexture" id=30]
 atlas = ExtResource( 2 )
-region = Rect2( 1856, 0, 64, 64 )
+region = Rect2( 1820, 0, 65, 66 )
 
-[sub_resource type="SpriteFrames" id=31]
+[sub_resource type="AtlasTexture" id=31]
+atlas = ExtResource( 2 )
+region = Rect2( 1885, 0, 65, 66 )
+
+[sub_resource type="SpriteFrames" id=32]
 animations = [ {
-"frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ), SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ), SubResource( 24 ), SubResource( 25 ), SubResource( 26 ), SubResource( 27 ), SubResource( 28 ), SubResource( 29 ), SubResource( 30 ) ],
+"frames": [ SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ), SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ), SubResource( 24 ), SubResource( 25 ), SubResource( 26 ), SubResource( 27 ), SubResource( 28 ), SubResource( 29 ), SubResource( 30 ), SubResource( 31 ) ],
 "loop": true,
 "name": "default",
 "speed": 5.0
@@ -141,8 +142,9 @@ shape_rectangle_extents = Vector2( 29, 24 )
 shape_offset = Vector2( 0, -24 )
 rope_attachment_offset = Vector2( 0, -36 )
 
-[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+[node name="ShaderOutlineableAnimatedSprite" parent="." instance=ExtResource( 3 )]
 position = Vector2( 0, -32 )
-frames = SubResource( 31 )
-frame = 13
+frames = SubResource( 32 )
+frame = 24
 playing = true
+adds_margins = false

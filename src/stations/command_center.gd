@@ -19,3 +19,10 @@ func get_disabled_buttons() -> Array:
 
 func get_name() -> String:
     return "command"
+
+
+func _update_outline() -> void:
+    $ShaderOutlineableAnimatedSprite.is_outlined = \
+            outline_alpha_multiplier > 0.0
+    $ShaderOutlineableAnimatedSprite.outline_color = outline_color
+    $ShaderOutlineableAnimatedSprite.outline_color.a *= outline_alpha_multiplier
