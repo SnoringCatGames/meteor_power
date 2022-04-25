@@ -1,12 +1,9 @@
 tool
 class_name OverlayButtonPanel
-extends ShapedLevelControl
+extends Node2D
 
 
 signal button_pressed(button_type)
-
-const _MIN_OPACITY_VIEWPORT_BOUNDS_RATIO := 0.95
-const _MAX_OPACITY_VIEWPORT_BOUNDS_RATIO := 0.05
 
 const _MIN_OPACITY_FOR_VIEWPORT_POSITION := 0.0
 const _MAX_OPACITY_FOR_VIEWPORT_POSITION := 1.0
@@ -54,9 +51,6 @@ func _ready() -> void:
             OverlayButtonType.BUILD_CONSTRUCTOR_BOT,
         ],
         [])
-    
-    Sc.camera.connect("panned", self, "_on_panned")
-    Sc.camera.connect("zoomed", self, "_on_zoomed")
 
 
 func set_up_controls(
@@ -105,70 +99,15 @@ func set_buttons(
                     Vector2(container_size.x / 2.0, 0.0)
             visible_buttons[button_i].position = button_position
     
-    _set_shape_rectangle_extents(container_size / 2.0)
-    _set_shape_offset(Vector2(0.0, container_size.y / 2.0))
+#    _set_shape_rectangle_extents(container_size / 2.0)
+#    _set_shape_offset(Vector2(0.0, container_size.y / 2.0))
 
 
-func _update_opacity_for_camera_position() -> void:
-    var global_position := self.global_position
-    
-    var camera_bounds: Rect2 = Sc.level.camera.get_visible_region()
-    var min_opacity_bounds_size := \
-            camera_bounds.size * _MIN_OPACITY_VIEWPORT_BOUNDS_RATIO
-    var min_opacity_bounds_position := \
-            camera_bounds.position + \
-            (camera_bounds.size - min_opacity_bounds_size) / 2.0
-    var min_opacity_bounds := \
-            Rect2(min_opacity_bounds_position, min_opacity_bounds_size)
-    var max_opacity_bounds_size := \
-            camera_bounds.size * _MAX_OPACITY_VIEWPORT_BOUNDS_RATIO
-    var max_opacity_bounds_position := \
-            camera_bounds.position + \
-            (camera_bounds.size - max_opacity_bounds_size) / 2.0
-    var max_opacity_bounds := \
-            Rect2(max_opacity_bounds_position, max_opacity_bounds_size)
-    
-    var opacity_weight: float
-    if max_opacity_bounds.has_point(global_position):
-        opacity_weight = _MAX_OPACITY_FOR_VIEWPORT_POSITION
-    elif !min_opacity_bounds.has_point(global_position):
-        opacity_weight = _MIN_OPACITY_FOR_VIEWPORT_POSITION
-    else:
-        var x_weight: float
-        if global_position.x >= max_opacity_bounds.position.x and \
-                global_position.x <= max_opacity_bounds.end.x:
-            x_weight = 1.0
-        elif global_position.x <= max_opacity_bounds.position.x:
-            x_weight = \
-                    (global_position.x - \
-                        min_opacity_bounds.position.x) / \
-                    (max_opacity_bounds.position.x - \
-                        min_opacity_bounds.position.x)
-        else:
-            x_weight = \
-                    (min_opacity_bounds.end.x - global_position.x) / \
-                    (min_opacity_bounds.end.x - max_opacity_bounds.end.x)
-        var y_weight: float
-        if global_position.y >= max_opacity_bounds.position.y and \
-                global_position.y <= max_opacity_bounds.end.y:
-            y_weight = 1.0
-        elif global_position.y <= max_opacity_bounds.position.y:
-            y_weight = \
-                    (global_position.y - \
-                        min_opacity_bounds.position.y) / \
-                    (max_opacity_bounds.position.y - \
-                        min_opacity_bounds.position.y)
-        else:
-            y_weight = \
-                    (min_opacity_bounds.end.y - global_position.y) / \
-                    (min_opacity_bounds.end.y - max_opacity_bounds.end.y)
-        opacity_weight = min(x_weight, y_weight)
-    
-    var opacity: float = lerp(
+func set_viewport_opacity_weight(weight: float) -> void:
+    self.modulate.a = lerp(
             _MIN_OPACITY_FOR_VIEWPORT_POSITION,
             _MAX_OPACITY_FOR_VIEWPORT_POSITION,
-            opacity_weight)
-    self.modulate.a = opacity * opacity
+            weight)
 
 
 func _on_button_mouse_entered(button: SpriteModulationButton) -> void:
@@ -192,24 +131,6 @@ func _on_button_pressed(button: SpriteModulationButton) -> void:
         station.position,
        ])
     emit_signal("button_pressed", button_type)
-
-
-func _on_panned() -> void:
-    _update_opacity_for_camera_position()
-
-
-func _on_zoomed() -> void:
-    _update_opacity_for_camera_position()
-
-
-func _on_mouse_entered() -> void:
-    ._on_mouse_entered()
-    self.modulate.a = _MAX_OPACITY_FOR_VIEWPORT_POSITION
-
-
-func _on_mouse_exited() -> void:
-    ._on_mouse_exited()
-    _update_opacity_for_camera_position()
 
 
 func _get_type_for_button(button: SpriteModulationButton) -> int:

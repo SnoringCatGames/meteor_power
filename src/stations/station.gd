@@ -11,6 +11,12 @@ const _VIEWPORT_CENTER_REGION_DETECTOR_SCENE := preload(
 
 const _CAMERA_DETECTOR_VIEWPORT_RATIO := Vector2(0.95, 0.95)
 
+const _MIN_HIGHLIGHT_OPACITY_FOR_VIEWPORT_POSITION := 0.0
+const _MAX_HIGHLIGHT_OPACITY_FOR_VIEWPORT_POSITION := 0.95
+
+const _MIN_HIGHLIGHT_VIEWPORT_BOUNDS_RATIO := 0.95
+const _MAX_HIGHLIGHT_VIEWPORT_BOUNDS_RATIO := 0.05
+
 export var rope_attachment_offset := Vector2.ZERO
 
 var buttons: OverlayButtonPanel
@@ -33,6 +39,9 @@ func _ready() -> void:
     buttons.station = self
     
     _set_up_camera_detector()
+    
+    Sc.camera.connect("panned", self, "_on_panned")
+    Sc.camera.connect("zoomed", self, "_on_zoomed")
 
 
 func _set_up_camera_detector() -> void:
@@ -65,7 +74,7 @@ func _on_button_pressed(button_type: int) -> void:
 
 func _on_camera_enter() -> void:
     buttons.visible = true
-    # FIXME: -------------------------
+    # FIXME: --------------------------
     # - Update button visibility and enablement in a different, more direct and
     #   on-demand, way.
     buttons.set_buttons(get_buttons(), get_disabled_buttons())
@@ -73,6 +82,89 @@ func _on_camera_enter() -> void:
 
 func _on_camera_exit() -> void:
     buttons.visible = false
+
+
+func _on_panned() -> void:
+    _update_highlight_for_camera_position()
+
+
+func _on_zoomed() -> void:
+    _update_highlight_for_camera_position()
+
+
+func _on_mouse_entered() -> void:
+    ._on_mouse_entered()
+    set_highlight_weight(1.0)
+
+
+func _on_mouse_exited() -> void:
+    ._on_mouse_exited()
+    _update_highlight_for_camera_position()
+
+
+func _update_highlight_for_camera_position() -> void:
+    var global_position := self.global_position
+    
+    var camera_bounds: Rect2 = Sc.level.camera.get_visible_region()
+    var min_opacity_bounds_size := \
+            camera_bounds.size * _MIN_HIGHLIGHT_VIEWPORT_BOUNDS_RATIO
+    var min_opacity_bounds_position := \
+            camera_bounds.position + \
+            (camera_bounds.size - min_opacity_bounds_size) / 2.0
+    var min_opacity_bounds := \
+            Rect2(min_opacity_bounds_position, min_opacity_bounds_size)
+    var max_opacity_bounds_size := \
+            camera_bounds.size * _MAX_HIGHLIGHT_VIEWPORT_BOUNDS_RATIO
+    var max_opacity_bounds_position := \
+            camera_bounds.position + \
+            (camera_bounds.size - max_opacity_bounds_size) / 2.0
+    var max_opacity_bounds := \
+            Rect2(max_opacity_bounds_position, max_opacity_bounds_size)
+    
+    var opacity_weight: float
+    if max_opacity_bounds.has_point(global_position):
+        opacity_weight = _MAX_HIGHLIGHT_OPACITY_FOR_VIEWPORT_POSITION
+    elif !min_opacity_bounds.has_point(global_position):
+        opacity_weight = _MIN_HIGHLIGHT_OPACITY_FOR_VIEWPORT_POSITION
+    else:
+        var x_weight: float
+        if global_position.x >= max_opacity_bounds.position.x and \
+                global_position.x <= max_opacity_bounds.end.x:
+            x_weight = 1.0
+        elif global_position.x <= max_opacity_bounds.position.x:
+            x_weight = \
+                    (global_position.x - \
+                        min_opacity_bounds.position.x) / \
+                    (max_opacity_bounds.position.x - \
+                        min_opacity_bounds.position.x)
+        else:
+            x_weight = \
+                    (min_opacity_bounds.end.x - global_position.x) / \
+                    (min_opacity_bounds.end.x - max_opacity_bounds.end.x)
+        var y_weight: float
+        if global_position.y >= max_opacity_bounds.position.y and \
+                global_position.y <= max_opacity_bounds.end.y:
+            y_weight = 1.0
+        elif global_position.y <= max_opacity_bounds.position.y:
+            y_weight = \
+                    (global_position.y - \
+                        min_opacity_bounds.position.y) / \
+                    (max_opacity_bounds.position.y - \
+                        min_opacity_bounds.position.y)
+        else:
+            y_weight = \
+                    (min_opacity_bounds.end.y - global_position.y) / \
+                    (min_opacity_bounds.end.y - max_opacity_bounds.end.y)
+        opacity_weight = min(x_weight, y_weight)
+    
+    var weight := opacity_weight * opacity_weight
+    
+    set_highlight_weight(weight)
+
+
+func set_highlight_weight(weight: float) -> void:
+    # FIXME: LEFT OFF HERE: ----------------------- Adjust border opacity.
+    buttons.set_viewport_opacity_weight(weight)
 
 
 func get_power_line_attachment_position() -> Vector2:

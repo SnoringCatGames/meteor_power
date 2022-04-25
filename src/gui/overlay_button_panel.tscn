@@ -12,13 +12,10 @@
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 8, 8 )
 
-[node name="OverlayButtonPanel" type="Area2D"]
+[node name="OverlayButtonPanel" type="Node2D"]
 visible = false
 modulate = Color( 1, 1, 1, 0.6 )
 z_index = 4
-collision_layer = 1073741824
-monitoring = false
-monitorable = false
 script = ExtResource( 5 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
