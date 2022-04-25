@@ -164,10 +164,11 @@ func _update_opacity_for_camera_position() -> void:
                     (min_opacity_bounds.end.y - max_opacity_bounds.end.y)
         opacity_weight = min(x_weight, y_weight)
     
-    self.modulate.a = lerp(
+    var opacity: float = lerp(
             _MIN_OPACITY_FOR_VIEWPORT_POSITION,
             _MAX_OPACITY_FOR_VIEWPORT_POSITION,
             opacity_weight)
+    self.modulate.a = opacity * opacity
 
 
 func _on_button_mouse_entered(button: SpriteModulationButton) -> void:
