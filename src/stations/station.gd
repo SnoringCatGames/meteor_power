@@ -117,9 +117,28 @@ func _on_button_interaction_mode_changed() -> void:
 func _on_touch_down(
         level_position: Vector2,
         screen_position: Vector2) -> void:
-    var contents := Control.new()
-    var info := InfoPanelData.new("Hello info panel!", contents)
-    Sc.info_panel.show_panel(info)
+    set_is_selected(true)
+
+
+func set_is_selected(is_selected: bool) -> void:
+    if is_selected == get_is_selected():
+        # No change.
+        return
+    if is_selected:
+        var contents := Control.new()
+        var info := InfoPanelData.new("Hello info panel!", contents)
+        info.meta = self
+        Sc.info_panel.show_panel(info)
+    else:
+        var data: InfoPanelData = Sc.info_panel.get_current_data()
+        if is_instance_valid(data) and data.meta == self:
+            Sc.info_panel.close_panel()
+    Sc.level._on_station_selection_changed(self, is_selected)
+    _update_highlight()
+
+
+func get_is_selected() -> bool:
+    return Sc.level.selected_station == self
 
 
 func _update_highlight_for_camera_position() -> void:
@@ -188,12 +207,10 @@ func set_highlight_weight(weight: float) -> void:
 
 
 func _update_highlight() -> void:
-    # FIXME: ---------------------
-    # - Change color when selected.
-    # - Force max highlight when selected.
     if interaction_mode == InteractionMode.HOVER or \
             interaction_mode == InteractionMode.PRESSED or \
-            buttons.get_is_hovered_or_pressed():
+            buttons.get_is_hovered_or_pressed() or \
+            get_is_selected():
         outline_color = SpriteModulationButton.DEFAULT_HOVER_MODULATE
         active_outline_alpha_multiplier = \
                 _MAX_HIGHLIGHT_OPACITY_FOR_VIEWPORT_POSITION * \

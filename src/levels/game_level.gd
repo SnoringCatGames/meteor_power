@@ -41,9 +41,10 @@ var bot_selector: BotSelector
 
 var command_center: CommandCenter
 
-var main_bot: ConstructionBot
-
 var meteor_controller: MeteorController
+
+var selected_station: Station
+var selected_bot: Bot
 
 # Array<Station>
 var stations := []
@@ -55,6 +56,13 @@ var bots := []
 var power_lines := []
 
 var _first_selected_station_for_running_power_line: Station = null
+
+
+func _ready() -> void:
+    self.connect(
+            "active_player_character_changed",
+            self,
+            "_on_active_player_character_changed")
 
 
 func _load() -> void:
@@ -83,7 +91,8 @@ func _start() -> void:
     for empty_station in empty_stations:
         Sc.level._on_station_created(empty_station)
     
-    main_bot = add_bot("constructor_bot")
+    # Always start with a constructor bot.
+    add_bot("constructor_bot")
     
     for station in stations:
         station._on_level_started()
@@ -140,7 +149,10 @@ func _unhandled_input(event: InputEvent) -> void:
         # Close the info panel if it wasn't just opened.
         if Sc.info_panel.get_is_open() and \
                 !Sc.info_panel.get_is_transitioning():
-            Sc.info_panel.close_panel()
+            if is_instance_valid(selected_station):
+                selected_station.set_is_selected(false)
+            if is_instance_valid(selected_bot):
+                Sc.info_panel.close_panel()
 
 
 func _on_bot_selection_changed(selected_bot) -> void:
@@ -153,6 +165,37 @@ func _on_bot_selection_changed(selected_bot) -> void:
         swap_camera(_nav_preselection_camera)
     else:
         swap_camera(_default_camera)
+
+
+func _on_active_player_character_changed() -> void:
+    selected_bot = _active_player_character
+    
+    if is_instance_valid(selected_bot):
+        if is_instance_valid(selected_station):
+            selected_station.set_is_selected(false)
+            selected_station = null
+
+
+func _on_station_selection_changed(
+        station: Station,
+        is_selected: bool) -> void:
+    if is_selected:
+        if is_instance_valid(selected_station):
+            if station == selected_station:
+                # No change.
+                return
+            else:
+                selected_station.set_is_selected(false)
+        selected_station = station
+    else:
+        if station != selected_station:
+            # No change.
+            return
+        selected_station = null
+    
+    if is_instance_valid(selected_bot):
+        selected_bot.set_is_selected(false)
+        selected_bot = null
 
 
 func deduct_energy_for_action(button_type: int) -> void:

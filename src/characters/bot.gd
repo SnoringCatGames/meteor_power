@@ -98,6 +98,15 @@ func set_is_selected(is_selected: bool) -> void:
     self.is_selected = is_selected
     _update_status()
     self.set_is_player_control_active(is_selected)
+    if is_selected:
+        var contents := Control.new()
+        var info := InfoPanelData.new("Hello info panel!", contents)
+        info.meta = self
+        Sc.info_panel.show_panel(info)
+    else:
+        var data: InfoPanelData = Sc.info_panel.get_current_data()
+        if is_instance_valid(data) and data.meta == self:
+            Sc.info_panel.close_panel()
 
 
 func _update_status() -> void:
