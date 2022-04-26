@@ -18,6 +18,6 @@ func get_name() -> String:
 
 
 func _update_outline() -> void:
-    $ShaderOutlineableSprite.is_outlined = outline_alpha_multiplier > 0.0
+    $ShaderOutlineableSprite.is_outlined = active_outline_alpha_multiplier > 0.0
     $ShaderOutlineableSprite.outline_color = outline_color
-    $ShaderOutlineableSprite.outline_color.a *= outline_alpha_multiplier
+    $ShaderOutlineableSprite.outline_color.a *= active_outline_alpha_multiplier

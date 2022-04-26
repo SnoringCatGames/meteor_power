@@ -4,6 +4,9 @@ extends Node2D
 
 
 signal button_pressed(button_type)
+signal mouse_entered()
+signal mouse_exited()
+signal interaction_mode_changed()
 
 const _MIN_OPACITY_FOR_VIEWPORT_POSITION := 0.0
 const _MAX_OPACITY_FOR_VIEWPORT_POSITION := 1.0
@@ -39,6 +42,10 @@ func _ready() -> void:
         button.connect(
                 "mouse_exited", self, "_on_button_mouse_exited", [button])
         button.connect("pressed", self, "_on_button_pressed", [button])
+        button.connect(
+                "interaction_mode_changed",
+                self,
+                "_on_interaction_mode_changed")
         button.scale = _BUTTON_SIZE / button.texture.get_size()
     
     if Engine.editor_hint:
@@ -110,6 +117,33 @@ func set_viewport_opacity_weight(weight: float) -> void:
             weight)
 
 
+func get_is_hovered_or_pressed() -> bool:
+    return ($Buttons/RunPowerLine.interaction_mode == \
+                LevelControl.InteractionMode.HOVER or \
+            $Buttons/RunPowerLine.interaction_mode == \
+                LevelControl.InteractionMode.PRESSED) or \
+        ($Buttons/Battery.interaction_mode == \
+                LevelControl.InteractionMode.HOVER or \
+            $Buttons/Battery.interaction_mode == \
+                LevelControl.InteractionMode.PRESSED) or \
+        ($Buttons/Scanner.interaction_mode == \
+                LevelControl.InteractionMode.HOVER or \
+            $Buttons/Scanner.interaction_mode == \
+                LevelControl.InteractionMode.PRESSED) or \
+        ($Buttons/Solar.interaction_mode == \
+                LevelControl.InteractionMode.HOVER or \
+            $Buttons/Solar.interaction_mode == \
+                LevelControl.InteractionMode.PRESSED) or \
+        ($Buttons/ConstructorBot.interaction_mode == \
+                LevelControl.InteractionMode.HOVER or \
+            $Buttons/ConstructorBot.interaction_mode == \
+                LevelControl.InteractionMode.PRESSED) or \
+        ($Buttons/Destroy.interaction_mode == \
+                LevelControl.InteractionMode.HOVER or \
+            $Buttons/Destroy.interaction_mode == \
+                LevelControl.InteractionMode.PRESSED)
+
+
 func _on_button_mouse_entered(button: SpriteModulationButton) -> void:
 #    button.modulate.s = 1.0 + _SATURATION_DELTA_HOVER
 #    button.modulate.v = 1.0 + _VALUE_DELTA_HOVER
@@ -120,6 +154,10 @@ func _on_button_mouse_exited(button: SpriteModulationButton) -> void:
 #    button.modulate.s = 1.0 + _SATURATION_DELTA_NORMAL
 #    button.modulate.v = 1.0 + _VALUE_DELTA_NORMAL
     button.alpha_multiplier = _OPACITY_NORMAL
+
+
+func _on_interaction_mode_changed(interaction_mode: int) -> void:
+    emit_signal("interaction_mode_changed")
 
 
 func _on_button_pressed(button: SpriteModulationButton) -> void:

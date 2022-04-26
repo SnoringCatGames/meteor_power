@@ -133,6 +133,16 @@ func _destroy() -> void:
 #    .on_unpause()
 
 
+func _unhandled_input(event: InputEvent) -> void:
+    if (event is InputEventScreenTouch or \
+            event is InputEventMouseButton) and \
+            event.pressed:
+        # Close the info panel if it wasn't just opened.
+        if Sc.info_panel.get_is_open() and \
+                !Sc.info_panel.get_is_transitioning():
+            Sc.info_panel.close_panel()
+
+
 func _on_bot_selection_changed(selected_bot) -> void:
 #    Sc.logger.print("GameLevel._on_bot_selection_changed")
     clear_station_selection()

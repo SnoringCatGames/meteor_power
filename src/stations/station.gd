@@ -23,7 +23,8 @@ var buttons: OverlayButtonPanel
 
 var camera_detector: CameraDetector
 
-var outline_alpha_multiplier := 0.0
+var active_outline_alpha_multiplier := 0.0
+var viewport_position_outline_alpha_multiplier := 0.0
 var outline_color := Color.transparent
 
 var health := 1.0
@@ -39,18 +40,25 @@ var meteor_hit_count := 0
 func _ready() -> void:
     buttons = Sc.utils.add_scene(self, _OVERLAY_BUTTON_PANEL_CLASS)
     buttons.connect("button_pressed", self, "_on_button_pressed")
+    buttons.connect(
+            "interaction_mode_changed",
+            self,
+            "_on_button_interaction_mode_changed")
     buttons.station = self
     
     _set_up_camera_detector()
     
     Sc.camera.connect("panned", self, "_on_panned")
     Sc.camera.connect("zoomed", self, "_on_zoomed")
+    
+    mouse_cursor_override = Input.CURSOR_POINTING_HAND
+    property_list_changed_notify()
 
 
 func _set_up_camera_detector() -> void:
     if Engine.editor_hint:
         return
-    var preexisting_camera_detectors := \
+    var preexisting_camera_detectors: Array = \
             Sc.utils.get_children_by_type(self, ViewportCenterRegionDetector)
     for detector in preexisting_camera_detectors:
         remove_child(detector)
@@ -97,14 +105,21 @@ func _on_zoomed() -> void:
     _update_highlight_for_camera_position()
 
 
-func _on_mouse_entered() -> void:
-    ._on_mouse_entered()
-    set_highlight_weight(1.0)
+func _on_interaction_mode_changed(interaction_mode: int) -> void:
+    ._on_interaction_mode_changed(interaction_mode)
+    _update_highlight()
 
 
-func _on_mouse_exited() -> void:
-    ._on_mouse_exited()
-    _update_highlight_for_camera_position()
+func _on_button_interaction_mode_changed() -> void:
+    _update_highlight()
+
+
+func _on_touch_down(
+        level_position: Vector2,
+        screen_position: Vector2) -> void:
+    var contents := Control.new()
+    var info := InfoPanelData.new("Hello info panel!", contents)
+    Sc.info_panel.show_panel(info)
 
 
 func _update_highlight_for_camera_position() -> void:
@@ -168,14 +183,27 @@ func _update_highlight_for_camera_position() -> void:
 
 
 func set_highlight_weight(weight: float) -> void:
-    # FIXME: --------------------
-    # - Fix color.
+    viewport_position_outline_alpha_multiplier = weight
+    _update_highlight()
+
+
+func _update_highlight() -> void:
+    # FIXME: ---------------------
     # - Change color when selected.
     # - Force max highlight when selected.
-    outline_color = Color("7753c700")
-    outline_alpha_multiplier = weight
+    if interaction_mode == InteractionMode.HOVER or \
+            interaction_mode == InteractionMode.PRESSED or \
+            buttons.get_is_hovered_or_pressed():
+        outline_color = SpriteModulationButton.DEFAULT_HOVER_MODULATE
+        active_outline_alpha_multiplier = \
+                _MAX_HIGHLIGHT_OPACITY_FOR_VIEWPORT_POSITION * \
+                _MAX_HIGHLIGHT_OPACITY_FOR_VIEWPORT_POSITION
+    else:
+        outline_color = SpriteModulationButton.DEFAULT_NORMAL_MODULATE
+        active_outline_alpha_multiplier = \
+                viewport_position_outline_alpha_multiplier
     _update_outline()
-    buttons.set_viewport_opacity_weight(weight)
+    buttons.set_viewport_opacity_weight(active_outline_alpha_multiplier)
 
 
 func _update_outline() -> void:

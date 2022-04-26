@@ -24,17 +24,14 @@ shape = SubResource( 1 )
 [node name="Buttons" type="Node2D" parent="."]
 
 [node name="RunPowerLine" parent="Buttons" instance=ExtResource( 8 )]
-visible = false
 position = Vector2( -32, 16 )
 scale = Vector2( 2, 2 )
 texture = ExtResource( 6 )
-normal_modulate = Color( 0.415686, 0.745098, 0.188235, 0.8 )
 hover_modulate = Color( 0.109804, 0.690196, 1, 1 )
 disabled_modulate = Color( 0.160784, 0.160784, 0.160784, 0.466667 )
 alpha_multiplier = 0.75
 
 [node name="Battery" parent="Buttons" instance=ExtResource( 8 )]
-visible = false
 position = Vector2( 0, 16 )
 scale = Vector2( 2, 2 )
 texture = ExtResource( 2 )
@@ -44,7 +41,6 @@ disabled_modulate = Color( 0.160784, 0.160784, 0.160784, 0.466667 )
 alpha_multiplier = 0.75
 
 [node name="Scanner" parent="Buttons" instance=ExtResource( 8 )]
-visible = false
 position = Vector2( 32, 16 )
 scale = Vector2( 2, 2 )
 texture = ExtResource( 3 )
@@ -54,7 +50,6 @@ disabled_modulate = Color( 0.160784, 0.160784, 0.160784, 0.466667 )
 alpha_multiplier = 0.75
 
 [node name="Solar" parent="Buttons" instance=ExtResource( 8 )]
-visible = false
 position = Vector2( -32, 48 )
 scale = Vector2( 2, 2 )
 texture = ExtResource( 1 )
@@ -64,7 +59,6 @@ disabled_modulate = Color( 0.160784, 0.160784, 0.160784, 0.466667 )
 alpha_multiplier = 0.75
 
 [node name="ConstructorBot" parent="Buttons" instance=ExtResource( 8 )]
-visible = false
 position = Vector2( 0, 48 )
 scale = Vector2( 2, 2 )
 texture = ExtResource( 7 )
@@ -74,7 +68,6 @@ disabled_modulate = Color( 0.160784, 0.160784, 0.160784, 0.466667 )
 alpha_multiplier = 0.75
 
 [node name="Destroy" parent="Buttons" instance=ExtResource( 8 )]
-visible = false
 position = Vector2( 32, 48 )
 scale = Vector2( 2, 2 )
 texture = ExtResource( 4 )

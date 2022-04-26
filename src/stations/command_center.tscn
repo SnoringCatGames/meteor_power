@@ -145,6 +145,6 @@ rope_attachment_offset = Vector2( 0, -36 )
 [node name="ShaderOutlineableAnimatedSprite" parent="." instance=ExtResource( 3 )]
 position = Vector2( 0, -32 )
 frames = SubResource( 32 )
-frame = 24
+frame = 14
 playing = true
 adds_margins = false
