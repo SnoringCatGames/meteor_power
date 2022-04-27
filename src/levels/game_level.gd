@@ -150,18 +150,6 @@ func _unhandled_input(event: InputEvent) -> void:
                 Sc.info_panel.close_panel()
 
 
-func _on_bot_selection_changed(selected_bot) -> void:
-#    Sc.logger.print("GameLevel._on_bot_selection_changed")
-    clear_station_selection()
-    for bot in bots:
-        bot.set_is_selected(bot == selected_bot)
-    if is_instance_valid(selected_bot):
-        _nav_preselection_camera.target_character = selected_bot
-        swap_camera(_nav_preselection_camera)
-    else:
-        swap_camera(_default_camera)
-
-
 func _on_active_player_character_changed() -> void:
     selected_bot = _active_player_character
     
@@ -169,6 +157,14 @@ func _on_active_player_character_changed() -> void:
             is_instance_valid(selected_station):
         selected_station.set_is_selected(false)
         selected_station = null
+    
+    clear_station_power_line_selection()
+    
+    if is_instance_valid(selected_bot):
+        _nav_preselection_camera.target_character = selected_bot
+        swap_camera(_nav_preselection_camera)
+    else:
+        swap_camera(_default_camera)
 
 
 func _on_station_selection_changed(
@@ -236,7 +232,7 @@ func _on_station_button_pressed(
                 bot.move_to_attach_power_line(
                         _first_selected_station_for_running_power_line,
                         station)
-                clear_station_selection()
+                clear_station_power_line_selection()
             else:
                 print("First wire end")
                 _first_selected_station_for_running_power_line = station
@@ -265,10 +261,10 @@ func _on_station_button_pressed(
             Sc.logger.error("GameLevel._on_station_button_pressed")
     
     if button_type != OverlayButtonType.RUN_WIRE:
-        clear_station_selection()
+        clear_station_power_line_selection()
 
 
-func clear_station_selection() -> void:
+func clear_station_power_line_selection() -> void:
     _first_selected_station_for_running_power_line = null
 
 
