@@ -353,13 +353,14 @@ func remove_station(station: Station) -> void:
             Sc.level.remove_power_line(power_line)
     _on_station_destroyed(station)
 
+
 func _on_station_created(station: Station) -> void:
     self.stations.push_back(station)
 
 
 func _on_station_destroyed(station: Station) -> void:
     self.stations.erase(station)
-    station.queue_free()
+    station._destroy()
 
 
 func get_music_name() -> String:

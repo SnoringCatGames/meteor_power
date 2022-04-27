@@ -56,6 +56,9 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
+    if Engine.editor_hint:
+        return
+    
     var previous_total_time := total_time
     total_time = Sc.time.get_scaled_play_time() - start_time
     
@@ -80,6 +83,9 @@ func _physics_process(delta: float) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+    if Engine.editor_hint:
+        return
+    
     # Cancel commands with right-click.
     if event is InputEventMouseButton and \
             event.button_index == BUTTON_RIGHT and \

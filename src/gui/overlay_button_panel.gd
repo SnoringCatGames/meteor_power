@@ -60,6 +60,11 @@ func _ready() -> void:
         [])
 
 
+func _destroy() -> void:
+    for button in buttons_container.get_children():
+        button._destroy()
+
+
 func set_up_controls(
         station,
         station_area_position: Vector2,

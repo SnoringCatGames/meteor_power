@@ -1269,6 +1269,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/scaffolder/src/gui/level_button/level_control.gd"
 }, {
+"base": "Node2D",
+"class": "LevelControlPressController",
+"language": "GDScript",
+"path": "res://addons/scaffolder/src/level/level_control_press_controller.gd"
+}, {
 "base": "TextControlRow",
 "class": "LevelControlRow",
 "language": "GDScript",
@@ -3062,6 +3067,7 @@ _global_script_class_icons={
 "LevelButtonInput": "",
 "LevelConfig": "",
 "LevelControl": "res://addons/scaffolder/assets/images/editor_icons/scaffolder_node.png",
+"LevelControlPressController": "",
 "LevelControlRow": "",
 "LevelSelectItem": "res://addons/scaffolder/assets/images/editor_icons/scaffolder_placeholder.png",
 "LevelSelectItemBody": "",

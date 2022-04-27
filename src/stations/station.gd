@@ -51,8 +51,14 @@ func _ready() -> void:
     Sc.camera.connect("panned", self, "_on_panned")
     Sc.camera.connect("zoomed", self, "_on_zoomed")
     
-    mouse_cursor_override = Input.CURSOR_POINTING_HAND
+    screen_radius = 64.0
     property_list_changed_notify()
+
+
+func _destroy() -> void:
+    ._destroy()
+    buttons._destroy()
+    queue_free()
 
 
 func _set_up_camera_detector() -> void:
@@ -114,9 +120,7 @@ func _on_button_interaction_mode_changed() -> void:
     _update_highlight()
 
 
-func _on_touch_down(
-        level_position: Vector2,
-        screen_position: Vector2) -> void:
+func _on_touch_down(level_position: Vector2) -> void:
     set_is_selected(true)
 
 
