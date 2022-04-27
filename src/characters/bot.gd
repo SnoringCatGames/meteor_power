@@ -99,6 +99,7 @@ func _on_level_started() -> void:
 
 func _on_touch_down(level_position: Vector2) -> void:
     ._on_touch_down(level_position)
+    _was_activated_on_touch_down = true
     set_is_selected(true)
 
 
