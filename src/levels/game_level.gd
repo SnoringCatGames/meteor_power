@@ -37,8 +37,6 @@ const ENERGY_COST_PER_BUTTON := {
 
 var _nav_preselection_camera: NavigationPreselectionCamera
 
-var bot_selector: BotSelector
-
 var command_center: CommandCenter
 
 var meteor_controller: MeteorController
@@ -79,9 +77,6 @@ func _start() -> void:
     
     Sc.levels.session.current_energy = LevelSession.START_ENERGY
     Sc.levels.session.total_energy = LevelSession.START_ENERGY
-    
-    bot_selector = BotSelector.new()
-    add_child(bot_selector)
     
     command_center = Sc.utils.get_child_by_type($Stations, CommandCenter)
     Sc.level._on_station_created(command_center)
@@ -170,10 +165,10 @@ func _on_bot_selection_changed(selected_bot) -> void:
 func _on_active_player_character_changed() -> void:
     selected_bot = _active_player_character
     
-    if is_instance_valid(selected_bot):
-        if is_instance_valid(selected_station):
-            selected_station.set_is_selected(false)
-            selected_station = null
+    if is_instance_valid(selected_bot) and \
+            is_instance_valid(selected_station):
+        selected_station.set_is_selected(false)
+        selected_station = null
 
 
 func _on_station_selection_changed(
@@ -193,9 +188,19 @@ func _on_station_selection_changed(
             return
         selected_station = null
     
+    if is_selected and \
+            is_instance_valid(selected_bot):
+        selected_bot.set_is_selected(false)
+        selected_bot = null
+
+
+func _clear_selection() -> void:
     if is_instance_valid(selected_bot):
         selected_bot.set_is_selected(false)
         selected_bot = null
+    if is_instance_valid(selected_station):
+        selected_station.set_is_selected(false)
+        selected_station = null
 
 
 func deduct_energy_for_action(button_type: int) -> void:
@@ -218,7 +223,9 @@ func add_energy(enery: int) -> void:
 func _on_station_button_pressed(
         station: Station,
         button_type: int) -> void:
-    var bot: Bot = bot_selector.selected_bot
+    # FIXME: LEFT OFF HERE: ---------------------------------------------
+    # - Automatically select bot based on temporal distance.
+    var bot: Bot = bots[0]
     match button_type:
         OverlayButtonType.DESTROY:
             bot.move_to_destroy_station(station)
@@ -297,7 +304,6 @@ func add_bot(bot_name: String) -> Bot:
             true,
             false,
             true)
-    bot_selector._on_bot_created(bot)
     _on_bot_created(bot)
     return bot
 

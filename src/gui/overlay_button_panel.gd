@@ -38,10 +38,10 @@ func _ready() -> void:
     
     for button in buttons_container.get_children():
         button.connect(
-                "mouse_entered", self, "_on_button_mouse_entered", [button])
+                "touch_entered", self, "_on_button_touch_entered", [button])
         button.connect(
-                "mouse_exited", self, "_on_button_mouse_exited", [button])
-        button.connect("pressed", self, "_on_button_pressed", [button])
+                "touch_exited", self, "_on_button_touch_exited", [button])
+        button.connect("full_pressed", self, "_on_button_pressed", [button])
         button.connect(
                 "interaction_mode_changed",
                 self,
@@ -149,13 +149,13 @@ func get_is_hovered_or_pressed() -> bool:
                 LevelControl.InteractionMode.PRESSED)
 
 
-func _on_button_mouse_entered(button: SpriteModulationButton) -> void:
+func _on_button_touch_entered(button: SpriteModulationButton) -> void:
 #    button.modulate.s = 1.0 + _SATURATION_DELTA_HOVER
 #    button.modulate.v = 1.0 + _VALUE_DELTA_HOVER
     button.alpha_multiplier = _OPACITY_HOVER
 
 
-func _on_button_mouse_exited(button: SpriteModulationButton) -> void:
+func _on_button_touch_exited(button: SpriteModulationButton) -> void:
 #    button.modulate.s = 1.0 + _SATURATION_DELTA_NORMAL
 #    button.modulate.v = 1.0 + _VALUE_DELTA_NORMAL
     button.alpha_multiplier = _OPACITY_NORMAL

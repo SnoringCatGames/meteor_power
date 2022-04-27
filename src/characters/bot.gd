@@ -97,6 +97,11 @@ func _on_level_started() -> void:
     pass
 
 
+func _on_touch_down(level_position: Vector2) -> void:
+    ._on_touch_down(level_position)
+    set_is_selected(true)
+
+
 func set_is_selected(is_selected: bool) -> void:
     if self.is_selected == is_selected:
         # No change.
@@ -350,6 +355,7 @@ func _on_navigation_started(is_retry: bool) -> void:
     if navigation_state.is_triggered_by_player_selection:
         _on_command_started(BotCommand.MOVE)
     show_exclamation_mark()
+    set_is_selected(false)
 
 
 func _on_navigation_ended(did_reach_destination: bool) -> void:

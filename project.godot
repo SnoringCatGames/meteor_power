@@ -109,16 +109,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/characters/bot_command.gd"
 }, {
-"base": "ScaffolderPanelContainer",
-"class": "BotKeysOverlay",
-"language": "GDScript",
-"path": "res://src/gui/bot_keys_overlay.gd"
-}, {
-"base": "Node2D",
-"class": "BotSelector",
-"language": "GDScript",
-"path": "res://src/levels/bot_selector.gd"
-}, {
 "base": "Reference",
 "class": "BotStatus",
 "language": "GDScript",
@@ -2835,8 +2825,6 @@ _global_script_class_icons={
 "BehaviorMoveResult": "",
 "Bot": "",
 "BotCommand": "",
-"BotKeysOverlay": "",
-"BotSelector": "",
 "BotStatus": "",
 "ButtonControlsControlRow": "",
 "CameraDetector": "res://addons/scaffolder/assets/images/editor_icons/camera_detector.png",
