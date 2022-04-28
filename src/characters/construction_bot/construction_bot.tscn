@@ -13,7 +13,7 @@ collision_layer = 8
 script = ExtResource( 1 )
 character_name = "construction_bot"
 collision_detection_layers = 56
-pointer_screen_radius = 120.0
+pointer_screen_radius = 48.0
 rope_attachment_offset = Vector2( -1, -4 )
 primary_annotation_color = Object(Reference,"script":Resource( "res://addons/scaffolder/src/config/color_config/static_color_config.gd" ),"h":0.123932,"s":0.509804,"v":0.6,"a":1.0,"r":0.6,"g":0.521569,"b":0.294118,"color":Color( 0.6, 0.521569, 0.294118, 1 ),"_h":0.123932,"_s":0.509804,"_v":0.6,"_a":1.0,"_color":null)
 
@@ -57,6 +57,8 @@ collision_margin_for_waypoint_positions = 4.0
 oblique_collison_normal_aspect_ratio_threshold = 10.0
 
 [node name="ConstructionBotAnimator" parent="." instance=ExtResource( 2 )]
+is_outlined = true
+outline_color = Color( 0.878431, 0.705882, 0, 0.2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 3 )

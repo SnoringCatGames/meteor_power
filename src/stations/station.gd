@@ -51,7 +51,7 @@ func _ready() -> void:
     Sc.camera.connect("panned", self, "_on_panned")
     Sc.camera.connect("zoomed", self, "_on_zoomed")
     
-    screen_radius = 64.0
+    screen_radius = 48.0
     property_list_changed_notify()
 
 
