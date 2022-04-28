@@ -8,6 +8,7 @@ enum {
     ACTIVE,
     IDLE,
     SELECTED,
+    HOVERED,
     POWERED_DOWN,
     STOPPING,
 }
@@ -43,6 +44,12 @@ const HIGHLIGHT_CONFIGS := {
         energy = 1.1,
         outline_alpha = 0.5,
     },
+    HOVERED: {
+        color = Color("99dbff"),
+        scale = 0.1,
+        energy = 1.1,
+        outline_alpha = 0.5,
+    },
     POWERED_DOWN: {
         color = Color("cc2c16"),
         scale = 0.1,
@@ -64,6 +71,8 @@ static func get_string(type: int) -> String:
             return "IDLE"
         SELECTED:
             return "SELECTED"
+        HOVERED:
+            return "HOVERED"
         POWERED_DOWN:
             return "POWERED_DOWN"
         STOPPING:

@@ -29,6 +29,7 @@ var is_new := true
 var is_active := false
 var is_powered_on := true
 var is_stopping := false
+var is_hovered := false
 
 var start_time := INF
 var total_time := INF
@@ -103,6 +104,17 @@ func _on_touch_down(level_position: Vector2) -> void:
     set_is_selected(true)
 
 
+func _on_interaction_mode_changed(interaction_mode: int) -> void:
+    is_hovered = false
+    match interaction_mode:
+        LevelControl.InteractionMode.HOVER, \
+        LevelControl.InteractionMode.PRESSED:
+            is_hovered = true
+        _:
+            pass
+    _update_status()
+
+
 func set_is_selected(is_selected: bool) -> void:
     if self.is_selected == is_selected:
         # No change.
@@ -122,7 +134,9 @@ func set_is_selected(is_selected: bool) -> void:
 
 
 func _update_status() -> void:
-    if is_selected:
+    if is_hovered:
+        self.status = BotStatus.HOVERED
+    elif is_selected:
         self.status = BotStatus.SELECTED
     elif is_new:
         self.status = BotStatus.NEW
