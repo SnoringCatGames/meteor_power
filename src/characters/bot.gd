@@ -102,6 +102,16 @@ func _on_touch_down(level_position: Vector2) -> void:
     ._on_touch_down(level_position)
     _was_activated_on_touch_down = true
     set_is_selected(true)
+    var radial_menu: GameRadialMenu = Sc.gui.hud.open_radial_menu(
+            Sc.gui.hud.radial_menu_class,
+            _get_radial_menu_item_data(),
+            self.get_position_in_screen_space())
+    radial_menu.connect(
+            "touch_up_item", self, "_on_radial_menu_item_selected")
+    radial_menu.connect(
+            "touch_up_center", self, "_on_radial_menu_touch_up_center")
+    radial_menu.connect(
+            "touch_up_outside", self, "_on_radial_menu_touch_up_outside")
 
 
 func _on_interaction_mode_changed(interaction_mode: int) -> void:
@@ -152,11 +162,11 @@ func _update_status() -> void:
 
 func set_highlight(status: int) -> void:
     var config: Dictionary = BotStatus.HIGHLIGHT_CONFIGS[status]
-    light.color = config.color
+    light.color = Sc.palette.get_color(config.color)
     light.texture_scale = config.scale
     light.energy = config.energy
     if is_instance_valid(animator):
-        var outline_color: Color = config.color
+        var outline_color: Color = Sc.palette.get_color(config.color)
         outline_color.a = config.outline_alpha
         animator.outline_color = outline_color
         animator.is_outlined = config.outline_alpha > 0.0
@@ -421,6 +431,34 @@ func _on_reached_target_station() -> void:
                     str(command))
 
 
+func _on_radial_menu_item_selected(item: RadialMenuItemData) -> void:
+    # FIXME: LEFT OFF HERE: ------------------------------------
+    match item.id:
+        "command":
+            pass
+        "stop":
+            pass
+        "recycle":
+            pass
+        "info":
+            pass
+        _:
+            Sc.logger.error("Bot._on_radial_menu_item_selected")
+
+
+func _on_radial_menu_touch_up_center() -> void:
+    # FIXME: LEFT OFF HERE: ------------------------------------
+    # - Touch-up in center, results in bot being selected, and ready for
+    #   command via next tap (same as with the "command" button).
+    pass
+
+
+func _on_radial_menu_touch_up_outside() -> void:
+    # FIXME: LEFT OFF HERE: ------------------------------------
+    # - Touch-up outside, results in bot being deselected and menu closed.
+    pass
+
+
 func _process_sounds() -> void:
     if just_triggered_jump:
         Sc.audio.play_sound("jump")
@@ -457,3 +495,54 @@ func _get_button_type_for_bot_type(bot_type: String) -> int:
         _:
             Sc.logger.error("Bot._get_button_type_for_bot_type")
             return OverlayButtonType.UNKNOWN
+
+
+func _get_common_radial_menu_item_data() -> Array:
+    var command_item := GameRadialMenuItemData.new()
+    # FIXME: LEFT OFF HERE: ---------------------------------------
+    command_item.cost
+    command_item.id = "command"
+    command_item.description
+    command_item.texture
+    # TODO: Use this?
+#    command_item.outlined_texture
+    
+    var stop_item := GameRadialMenuItemData.new()
+    # FIXME: LEFT OFF HERE: ---------------------------------------
+    stop_item.cost
+    stop_item.id = "stop"
+    stop_item.description
+    stop_item.texture
+    # TODO: Use this?
+#    stop_item.outlined_texture
+    
+    var recycle_item := GameRadialMenuItemData.new()
+    # FIXME: LEFT OFF HERE: ---------------------------------------
+    recycle_item.cost
+    recycle_item.id = "recycle"
+    recycle_item.description
+    recycle_item.texture
+    # TODO: Use this?
+#    recycle_item.outlined_texture
+    
+    var info_item := GameRadialMenuItemData.new()
+    # FIXME: LEFT OFF HERE: ---------------------------------------
+    info_item.cost
+    info_item.id = "info"
+    info_item.description
+    info_item.texture
+    # TODO: Use this?
+#    info_item.outlined_texture
+    
+    return [
+        command_item,
+        stop_item,
+        recycle_item,
+        info_item,
+    ]
+
+
+func _get_radial_menu_item_data() -> Array:
+    Sc.logger.error(
+            "Abstract Bot._get_radial_menu_item_data is not implemented")
+    return []

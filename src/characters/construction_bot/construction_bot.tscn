@@ -15,18 +15,18 @@ character_name = "construction_bot"
 collision_detection_layers = 56
 pointer_screen_radius = 48.0
 rope_attachment_offset = Vector2( -1, -4 )
-primary_annotation_color = Object(Reference,"script":Resource( "res://addons/scaffolder/src/config/color_config/static_color_config.gd" ),"h":0.123932,"s":0.509804,"v":0.6,"a":1.0,"r":0.6,"g":0.521569,"b":0.294118,"color":Color( 0.6, 0.521569, 0.294118, 1 ),"_h":0.123932,"_s":0.509804,"_v":0.6,"_a":1.0,"_color":null)
+primary_annotation_color = Object(Reference,"script":Resource( "res://addons/scaffolder/src/config/color_config/palette_color_config.gd" ),"h":0.0,"s":0.0,"v":0.0,"a":0.0,"key":"black","_h_override":-1.0,"_s_override":-1.0,"_v_override":-1.0,"_a_override":-1.0,"h_delta":0.0,"s_delta":0.0,"v_delta":0.0,"a_delta":0.0,"override_color":Color( -1, -2, -2, -1 ),"delta_color":Color( 0, 0, 0, 0 ),"key":"black","_h_override":-1.0,"_s_override":-1.0,"_v_override":-1.0,"_a_override":-1.0,"h_delta":0.0,"s_delta":0.0,"v_delta":0.0,"a_delta":0.0)
 
 secondary_annotation_color = Object(Reference,"script":Resource( "res://addons/scaffolder/src/config/color_config/palette_color_config.gd" ),"h":0.0,"s":0.0,"v":0.0,"a":0.0,"key":"white","_h_override":-1.0,"_s_override":-1.0,"_v_override":-1.0,"_a_override":-1.0,"h_delta":0.0,"s_delta":0.0,"v_delta":0.0,"a_delta":0.0,"override_color":Color( -1, -2, -2, -1 ),"delta_color":Color( 0, 0, 0, 0 ),"key":"white","_h_override":-1.0,"_s_override":-1.0,"_v_override":-1.0,"_a_override":-1.0,"h_delta":0.0,"s_delta":0.0,"v_delta":0.0,"a_delta":0.0)
 
-navigation_annotation_color_override = Object(Reference,"script":Resource( "res://addons/scaffolder/src/config/color_config/static_color_config.gd" ),"h":0.65625,"s":0.369231,"v":0.509804,"a":1.0,"r":0.321569,"g":0.333333,"b":0.509804,"color":Color( 0.321569, 0.333333, 0.509804, 1 ),"_h":0.65625,"_s":0.369231,"_v":0.509804,"_a":1.0,"_color":null)
+navigation_annotation_color_override = Object(Reference,"script":Resource( "res://addons/scaffolder/src/config/color_config/palette_color_config.gd" ),"h":0.0,"s":0.0,"v":0.0,"a":0.0,"key":"black","_h_override":-1.0,"_s_override":-1.0,"_v_override":-1.0,"_a_override":-1.0,"h_delta":0.0,"s_delta":0.0,"v_delta":0.0,"a_delta":0.0,"override_color":Color( -1, -2, -2, -1 ),"delta_color":Color( 0, 0, 0, 0 ),"key":"black","_h_override":-1.0,"_s_override":-1.0,"_v_override":-1.0,"_a_override":-1.0,"h_delta":0.0,"s_delta":0.0,"v_delta":0.0,"a_delta":0.0)
 
-position_annotation_color_override = Object(Reference,"script":Resource( "res://addons/scaffolder/src/config/color_config/static_color_config.gd" ),"h":0.65625,"s":0.369231,"v":0.509804,"a":1.0,"r":0.321569,"g":0.333333,"b":0.509804,"color":Color( 0.321569, 0.333333, 0.509804, 1 ),"_h":0.65625,"_s":0.369231,"_v":0.509804,"_a":1.0,"_color":null)
+position_annotation_color_override = Object(Reference,"script":Resource( "res://addons/scaffolder/src/config/color_config/palette_color_config.gd" ),"h":0.0,"s":0.0,"v":0.0,"a":0.0,"key":"black","_h_override":-1.0,"_s_override":-1.0,"_v_override":-1.0,"_a_override":-1.0,"h_delta":0.0,"s_delta":0.0,"v_delta":0.0,"a_delta":0.0,"override_color":Color( -1, -2, -2, -1 ),"delta_color":Color( 0, 0, 0, 0 ),"key":"black","_h_override":-1.0,"_s_override":-1.0,"_v_override":-1.0,"_a_override":-1.0,"h_delta":0.0,"s_delta":0.0,"v_delta":0.0,"a_delta":0.0)
 
-exclamation_mark_width_start = 3.0
-exclamation_mark_length_start = 18.0
+exclamation_mark_width_start = 4.0
+exclamation_mark_length_start = 24.0
 exclamation_mark_stroke_width_start = 1.2
-exclamation_mark_duration = 1.5
+exclamation_mark_duration = 1.8
 exclamation_mark_throttle_interval = 1.0
 logs_common_debugging_events = false
 logs_custom_events = true

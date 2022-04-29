@@ -372,6 +372,16 @@ var _gui_manifest := {
         is_hud_visible_by_default = true,
         is_inspector_enabled_default = false,
         inspector_panel_starts_open = false,
+        
+        radial_menu_class = GameRadialMenu,
+        radial_menu_item_hovered_scale = 2.0,
+        radial_menu_radius = 128.0,
+        radial_menu_item_radius = 8.0,
+        radial_menu_open_duration = 0.1,
+        radial_menu_close_duration = 0.2,
+        radial_menu_item_hover_duration = 0.1,
+        radial_menu_closed_item_angular_offset = -PI,
+        radial_menu_item_hover_outline_color = ColorFactory.palette("hovered"),
     },
     welcome_panel_manifest = {
         items = [
