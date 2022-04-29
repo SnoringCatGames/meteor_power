@@ -59,3 +59,13 @@ var notification_panel_border := _COLOR_TEXT
 var header_panel_background := _COLOR_BACKGROUND
 var screen_border := _COLOR_TEXT
 var shadow := _COLOR_SHADOW
+
+# ---
+
+var new := Color("e0b400")
+var active := Color("53c700")
+var idle := Color("ffd000")
+var stopping := Color("ffd000")
+var selected := Color("1cb0ff")
+var hovered := Color("99dbff")
+var powered_down := Color("cc2c16")
