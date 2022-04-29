@@ -5,11 +5,11 @@ extends Station
 
 func get_buttons() -> Array:
     return [
-        OverlayButtonType.RUN_WIRE,
-        OverlayButtonType.BUILD_CONSTRUCTOR_BOT,
-#        OverlayButtonType.BUILD_LINE_RUNNER_BOT,
-#        OverlayButtonType.BUILD_REPAIR_BOT,
-#        OverlayButtonType.BUILD_BARRIER_BOT,
+        Commands.RUN_WIRE,
+        Commands.BOT_CONSTRUCTOR,
+#        Commands.BOT_LINE_RUNNER,
+#        Commands.BOT_REPAIR,
+#        Commands.BOT_BARRIER,
     ]
 
 
@@ -17,8 +17,8 @@ func get_disabled_buttons() -> Array:
     return []
 
 
-func get_name() -> String:
-    return "command"
+func get_type() -> int:
+    return Commands.STATION_COMMAND
 
 
 func _update_outline() -> void:

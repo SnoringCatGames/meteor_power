@@ -27,8 +27,8 @@ func _physics_process(delta: float) -> void:
 
 func get_buttons() -> Array:
     return [
-        OverlayButtonType.RUN_WIRE,
-#        OverlayButtonType.DESTROY,
+        Commands.RUN_WIRE,
+#        Commands.STATION_RECYCLE,
     ]
 
 
@@ -36,8 +36,8 @@ func get_disabled_buttons() -> Array:
     return []
 
 
-func get_name() -> String:
-    return "solar"
+func get_type() -> int:
+    return Commands.STATION_SOLAR
 
 
 func _on_connected_to_command_center() -> void:
@@ -57,7 +57,7 @@ func _on_disconnected_from_command_center() -> void:
 func _on_hit_by_meteor() -> void:
     ._on_hit_by_meteor()
     if meteor_hit_count >= 3:
-        Sc.level.replace_station(self, "empty")
+        Sc.level.replace_station(self, Commands.STATION_EMPTY)
 
 
 func _update_outline() -> void:

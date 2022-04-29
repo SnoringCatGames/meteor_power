@@ -374,6 +374,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/stations/command_center.gd"
 }, {
+"base": "Reference",
+"class": "Commands",
+"language": "GDScript",
+"path": "res://src/config/commands.gd"
+}, {
 "base": "Screen",
 "class": "ConfirmDataDeletionScreenLocal",
 "language": "GDScript",
@@ -448,6 +453,11 @@ _global_script_classes=[ {
 "class": "CornerMatchTilesetShapeCalculator",
 "language": "GDScript",
 "path": "res://addons/surface_tiler/src/calculators/corner_match_tileset_shape_calculator.gd"
+}, {
+"base": "Reference",
+"class": "Costs",
+"language": "GDScript",
+"path": "res://src/config/costs.gd"
 }, {
 "base": "Node",
 "class": "CrashReporter",
@@ -1488,11 +1498,6 @@ _global_script_classes=[ {
 "class": "OverlayButtonPanel",
 "language": "GDScript",
 "path": "res://src/gui/overlay_button_panel.gd"
-}, {
-"base": "Reference",
-"class": "OverlayButtonType",
-"language": "GDScript",
-"path": "res://src/gui/overlay_button_type.gd"
 }, {
 "base": "Node",
 "class": "OverlayMaskTransition",
@@ -2898,6 +2903,7 @@ _global_script_class_icons={
 "ColorFactory": "",
 "ColorPalette": "",
 "CommandCenter": "",
+"Commands": "",
 "ConfirmDataDeletionScreenLocal": "",
 "ConfirmDataDeletionScreenWithAnalytics": "",
 "ConnectionDirection": "",
@@ -2913,6 +2919,7 @@ _global_script_class_icons={
 "CornerMatchTileset": "",
 "CornerMatchTilesetInitializer": "",
 "CornerMatchTilesetShapeCalculator": "",
+"Costs": "",
 "CrashReporter": "",
 "CrashTestDummy": "",
 "CurrentEnergyControlRow": "",
@@ -3121,7 +3128,6 @@ _global_script_class_icons={
 "OutlineableAnimatedSprite": "res://addons/scaffolder/assets/images/editor_icons/outlineable_sprite.png",
 "OutlineableSprite": "res://addons/scaffolder/assets/images/editor_icons/outlineable_sprite.png",
 "OverlayButtonPanel": "",
-"OverlayButtonType": "",
 "OverlayMaskTransition": "",
 "PaletteColorConfig": "",
 "PathBeatPrediction": "",

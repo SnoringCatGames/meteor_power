@@ -291,7 +291,7 @@ func _check_is_connected_to_command_center_recursive(
         visited_stations: Dictionary) -> bool:
     visited_stations[station] = true
     for other_station in station.connections:
-        if other_station.get_name() == "command":
+        if other_station.get_type() == Commands.STATION_COMMAND:
             return true
         if visited_stations.has(other_station):
             continue

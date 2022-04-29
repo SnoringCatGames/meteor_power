@@ -19,8 +19,8 @@ var command := BotCommand.UNKNOWN
 
 var target_station: Station
 var next_target_station: Station
-var station_type: String
-var bot_type: String
+var station_type := Commands.UNKNOWN
+var bot_type := Commands.UNKNOWN
 
 var light: Light2D
 
@@ -76,11 +76,11 @@ func _physics_process(delta: float) -> void:
             movement_distance_per_one_enery_value) != \
             int(total_movement_distance_cost / \
             movement_distance_per_one_enery_value):
-        Sc.level.deduct_energy_for_action(OverlayButtonType.MOVE)
+        Sc.level.deduct_energy(Costs.BOT_MOVE)
     
     if int(previous_total_time / CONSTANT_ENERGY_DRAIN_PERIOD) != \
             int(total_time / CONSTANT_ENERGY_DRAIN_PERIOD):
-        Sc.level.deduct_energy_for_action(OverlayButtonType.BOT_ALIVE)
+        Sc.level.deduct_energy(Costs.BOT_ALIVE)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -189,7 +189,7 @@ func _on_reached_first_station_for_power_line() -> void:
     Sc.logger.print(
         "Bot._on_reached_first_station_for_power_line: bot=%s, station=%s, p=%s" % [
             self.character_name,
-            target_station.get_name(),
+            Commands.get_string(target_station.get_type()),
             target_station.position,
         ])
     assert(is_instance_valid(target_station))
@@ -205,7 +205,7 @@ func _on_reached_first_station_for_power_line() -> void:
             PowerLine.HELD_BY_BOT)
     Sc.level.add_power_line(held_power_line)
     _navigate_to_target_station()
-    Sc.level.deduct_energy_for_action(OverlayButtonType.RUN_WIRE)
+    Sc.level.deduct_energy(Costs.RUN_WIRE)
 
 
 func _on_reached_second_station_for_power_line() -> void:
@@ -214,12 +214,12 @@ func _on_reached_second_station_for_power_line() -> void:
     Sc.logger.print(
         "Bot._on_reached_second_station_for_power_line: bot=%s, station=%s, p=%s" % [
             self.character_name,
-            target_station.get_name(),
+            Commands.get_string(target_station.get_type()),
             target_station.position,
         ])
     assert(is_instance_valid(held_power_line))
     self.held_power_line._on_connected()
-    Sc.level.deduct_energy_for_action(OverlayButtonType.RUN_WIRE)
+    Sc.level.deduct_energy(Costs.RUN_WIRE)
     self.held_power_line = null
     self.target_station = null
     _on_command_ended()
@@ -233,7 +233,7 @@ func get_power_line_attachment_position() -> Vector2:
 
 func move_to_build_station(
         station: EmptyStation,
-        station_type: String) -> void:
+        station_type: int) -> void:
     _on_command_started(BotCommand.BUILD_STATION)
     self.target_station = station
     self.station_type = station_type
@@ -247,12 +247,11 @@ func _on_reached_station_to_build() -> void:
     Sc.logger.print(
         "Bot._on_reached_station_to_build: bot=%s, station=%s, p=%s" % [
             self.character_name,
-            target_station.get_name(),
+            Commands.get_string(target_station.get_type()),
             target_station.position,
         ])
     Sc.level.replace_station(target_station, station_type)
-    Sc.level.deduct_energy_for_action(
-            _get_button_type_for_station_type(station_type))
+    Sc.level.deduct_energy(Commands.COSTS[station_type])
     target_station = null
     _on_command_ended()
 
@@ -269,19 +268,19 @@ func _on_reached_station_to_destroy() -> void:
     Sc.logger.print(
         "Bot._on_reached_station_to_destroy: bot=%s, station=%s, p=%s" % [
             self.character_name,
-            target_station.get_name(),
+            Commands.get_string(target_station.get_type()),
             target_station.position,
         ])
     assert(is_instance_valid(target_station))
-    Sc.level.replace_station(target_station, "empty")
-    Sc.level.deduct_energy_for_action(OverlayButtonType.DESTROY)
+    Sc.level.replace_station(target_station, Commands.STATION_EMPTY)
+    Sc.level.deduct_energy(Costs.DESTROY)
     target_station = null
     _on_command_ended()
 
 
 func move_to_build_bot(
         station: Station,
-        bot_type: String) -> void:
+        bot_type: int) -> void:
     _on_command_started(BotCommand.BUILD_BOT)
     self.target_station = station
     self.bot_type = bot_type
@@ -294,14 +293,14 @@ func _on_reached_station_to_build_bot() -> void:
     Sc.logger.print(
         "Bot._on_reached_station_to_build_bot: bot=%s, bot_to_build=%s, p=%s" % [
             self.character_name,
-            station_type,
+            Commands.get_string(station_type),
             target_station.position,
         ])
     assert(is_instance_valid(target_station))
     Sc.level.add_bot(bot_type)
-    Sc.level.deduct_energy_for_action(_get_button_type_for_bot_type(bot_type))
+    Sc.level.deduct_energy(Commands.COSTS[bot_type])
     self.target_station = null
-    self.bot_type = ""
+    self.bot_type = Commands.UNKNOWN
     _on_command_ended()
 
 func _navigate_to_target_station() -> void:
@@ -337,7 +336,7 @@ func _on_command_started(command: int) -> void:
     
     target_station = null
     next_target_station = null
-    station_type = ""
+    station_type = Commands.UNKNOWN
     if is_instance_valid(held_power_line):
         Sc.level.remove_power_line(held_power_line)
         
@@ -355,8 +354,8 @@ func _on_command_ended() -> void:
     
     target_station = null
     next_target_station = null
-    station_type = ""
-    bot_type = ""
+    station_type = Commands.UNKNOWN
+    bot_type = Commands.UNKNOWN
     if is_instance_valid(held_power_line):
         Sc.level.remove_power_line(held_power_line)
     
@@ -432,7 +431,7 @@ func _on_reached_target_station() -> void:
 
 
 func _on_radial_menu_item_selected(item: RadialMenuItemData) -> void:
-    # FIXME: LEFT OFF HERE: ------------------------------------
+    # FIXME: LEFT OFF HERE: -------------------------------------
     match item.id:
         "command":
             pass
@@ -447,14 +446,14 @@ func _on_radial_menu_item_selected(item: RadialMenuItemData) -> void:
 
 
 func _on_radial_menu_touch_up_center() -> void:
-    # FIXME: LEFT OFF HERE: ------------------------------------
+    # FIXME: LEFT OFF HERE: -------------------------------------
     # - Touch-up in center, results in bot being selected, and ready for
     #   command via next tap (same as with the "command" button).
     pass
 
 
 func _on_radial_menu_touch_up_outside() -> void:
-    # FIXME: LEFT OFF HERE: ------------------------------------
+    # FIXME: LEFT OFF HERE: -------------------------------------
     # - Touch-up outside, results in bot being deselected and menu closed.
     pass
 
@@ -466,40 +465,12 @@ func _process_sounds() -> void:
     if surface_state.just_left_air:
         Sc.audio.play_sound("bot_land")
     elif surface_state.just_touched_surface:
-        Sc.audio.play_sound("bot_land")
-
-
-func _get_button_type_for_station_type(station_type: String) -> int:
-    match station_type:
-        "solar":
-            return OverlayButtonType.SOLAR_COLLECTOR
-        "scanner":
-            return OverlayButtonType.SCANNER_STATION
-        "battery":
-            return OverlayButtonType.BATTERY_STATION
-        _:
-            Sc.logger.error("Bot._get_button_type_for_station_type")
-            return OverlayButtonType.UNKNOWN
-
-
-func _get_button_type_for_bot_type(bot_type: String) -> int:
-    match bot_type:
-        "constructor_bot":
-            return OverlayButtonType.BUILD_CONSTRUCTOR_BOT
-        "line_runner_bot":
-            return OverlayButtonType.BUILD_LINE_RUNNER_BOT
-        "repair_bot":
-            return OverlayButtonType.BUILD_REPAIR_BOT
-        "barrier_bot":
-            return OverlayButtonType.BUILD_BARRIER_BOT
-        _:
-            Sc.logger.error("Bot._get_button_type_for_bot_type")
-            return OverlayButtonType.UNKNOWN
+            Sc.audio.play_sound("bot_land")
 
 
 func _get_common_radial_menu_item_data() -> Array:
     var command_item := GameRadialMenuItemData.new()
-    # FIXME: LEFT OFF HERE: ---------------------------------------
+    # FIXME: LEFT OFF HERE: ----------------------------------------
     command_item.cost
     command_item.id = "command"
     command_item.description
@@ -508,7 +479,7 @@ func _get_common_radial_menu_item_data() -> Array:
 #    command_item.outlined_texture
     
     var stop_item := GameRadialMenuItemData.new()
-    # FIXME: LEFT OFF HERE: ---------------------------------------
+    # FIXME: LEFT OFF HERE: ----------------------------------------
     stop_item.cost
     stop_item.id = "stop"
     stop_item.description
@@ -517,7 +488,7 @@ func _get_common_radial_menu_item_data() -> Array:
 #    stop_item.outlined_texture
     
     var recycle_item := GameRadialMenuItemData.new()
-    # FIXME: LEFT OFF HERE: ---------------------------------------
+    # FIXME: LEFT OFF HERE: ----------------------------------------
     recycle_item.cost
     recycle_item.id = "recycle"
     recycle_item.description
@@ -526,7 +497,7 @@ func _get_common_radial_menu_item_data() -> Array:
 #    recycle_item.outlined_texture
     
     var info_item := GameRadialMenuItemData.new()
-    # FIXME: LEFT OFF HERE: ---------------------------------------
+    # FIXME: LEFT OFF HERE: ----------------------------------------
     info_item.cost
     info_item.id = "info"
     info_item.description

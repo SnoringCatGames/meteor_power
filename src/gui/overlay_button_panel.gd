@@ -50,12 +50,12 @@ func _ready() -> void:
     
     if Engine.editor_hint:
         set_buttons([
-            OverlayButtonType.DESTROY,
-            OverlayButtonType.BATTERY_STATION,
-            OverlayButtonType.SCANNER_STATION,
-            OverlayButtonType.SOLAR_COLLECTOR,
-            OverlayButtonType.RUN_WIRE,
-            OverlayButtonType.BUILD_CONSTRUCTOR_BOT,
+            Commands.STATION_RECYCLE,
+            Commands.STATION_BATTERY,
+            Commands.STATION_SCANNER,
+            Commands.STATION_SOLAR,
+            Commands.RUN_WIRE,
+            Commands.BOT_CONSTRUCTOR,
         ],
         [])
 
@@ -169,8 +169,8 @@ func _on_button_pressed(button: SpriteModulationButton) -> void:
     Sc.utils.give_button_press_feedback()
     var button_type := _get_type_for_button(button)
     Sc.logger.print("OverlayButton pressed: button=%s, station=%s, p=%s" % [
-        OverlayButtonType.get_string(button_type),
-        station.get_name(),
+        Commands.get_string(button_type),
+        Commands.get_string(station.get_type()),
         station.position,
        ])
     emit_signal("button_pressed", button_type)
@@ -178,17 +178,17 @@ func _on_button_pressed(button: SpriteModulationButton) -> void:
 
 func _get_type_for_button(button: SpriteModulationButton) -> int:
     if button == buttons_container.get_node("Destroy"):
-        return OverlayButtonType.DESTROY
+        return Commands.STATION_RECYCLE
     elif button == buttons_container.get_node("Battery"):
-        return OverlayButtonType.BATTERY_STATION
+        return Commands.STATION_BATTERY
     elif button == buttons_container.get_node("Scanner"):
-        return OverlayButtonType.SCANNER_STATION
+        return Commands.STATION_SCANNER
     elif button == buttons_container.get_node("Solar"):
-        return OverlayButtonType.SOLAR_COLLECTOR
+        return Commands.STATION_SOLAR
     elif button == buttons_container.get_node("RunPowerLine"):
-        return OverlayButtonType.RUN_WIRE
+        return Commands.RUN_WIRE
     elif button == buttons_container.get_node("ConstructorBot"):
-        return OverlayButtonType.BUILD_CONSTRUCTOR_BOT
+        return Commands.BOT_CONSTRUCTOR
     else:
         Sc.logger.error("OverlayButtonPanel._get_type_for_button")
-        return OverlayButtonType.UNKNOWN
+        return Commands.UNKNOWN

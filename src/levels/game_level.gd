@@ -10,31 +10,6 @@ const _EMPTY_STATION_SCENE := preload("res://src/stations/empty_station.tscn")
 const _SOLAR_COLLECTOR_SCENE := preload(
         "res://src/stations/solar_collector.tscn")
 
-
-const ENERGY_COST_PER_BUTTON := {
-    OverlayButtonType.MOVE: 1,
-    OverlayButtonType.DESTROY: 10,
-    
-    OverlayButtonType.RUN_WIRE: 30,
-    
-    OverlayButtonType.COMMAND_CENTER: 500,
-    OverlayButtonType.SOLAR_COLLECTOR: 300,
-    OverlayButtonType.SCANNER_STATION: 500,
-    OverlayButtonType.BATTERY_STATION: 500,
-    
-    OverlayButtonType.BUILD_CONSTRUCTOR_BOT: 200,
-    OverlayButtonType.BUILD_LINE_RUNNER_BOT: 1000,
-    OverlayButtonType.BUILD_REPAIR_BOT: 1000,
-    OverlayButtonType.BUILD_BARRIER_BOT: 1000,
-    
-    OverlayButtonType.DYNAMIC_POWER_LINE_HIT: 20,
-    OverlayButtonType.STATIC_POWER_LINE_HIT: 10,
-    OverlayButtonType.STATION_HIT: 40,
-    OverlayButtonType.BOT_HIT: 80,
-    
-    OverlayButtonType.BOT_ALIVE: 1,
-}
-
 var _nav_preselection_camera: NavigationPreselectionCamera
 
 var command_center: CommandCenter
@@ -87,7 +62,7 @@ func _start() -> void:
         Sc.level._on_station_created(empty_station)
     
     # Always start with a constructor bot.
-    add_bot("constructor_bot")
+    add_bot(Commands.BOT_CONSTRUCTOR)
     
     for station in stations:
         station._on_level_started()
@@ -199,11 +174,10 @@ func _clear_selection() -> void:
         selected_station = null
 
 
-func deduct_energy_for_action(button_type: int) -> void:
+func deduct_energy(cost: int) -> void:
     if Sc.levels.session.current_energy == 0:
         return
-    var energy_cost: int = ENERGY_COST_PER_BUTTON[button_type]
-    Sc.levels.session.current_energy -= energy_cost
+    Sc.levels.session.current_energy -= cost
     Sc.levels.session.current_energy = max(Sc.levels.session.current_energy, 0)
     if Sc.levels.session.current_energy == 0:
         Sc.level.quit(false, false)
@@ -223,9 +197,9 @@ func _on_station_button_pressed(
     # - Automatically select bot based on temporal distance.
     var bot: Bot = bots[0]
     match button_type:
-        OverlayButtonType.DESTROY:
+        Commands.STATION_RECYCLE:
             bot.move_to_destroy_station(station)
-        OverlayButtonType.RUN_WIRE:
+        Commands.RUN_WIRE:
             if is_instance_valid(
                     _first_selected_station_for_running_power_line):
                 print("Second wire end")
@@ -237,30 +211,30 @@ func _on_station_button_pressed(
                 print("First wire end")
                 _first_selected_station_for_running_power_line = station
         
-        OverlayButtonType.COMMAND_CENTER:
+        Commands.STATION_COMMAND:
             pass
-        OverlayButtonType.SOLAR_COLLECTOR:
+        Commands.STATION_SOLAR:
             assert(station is EmptyStation)
-            bot.move_to_build_station(station, "solar")
-        OverlayButtonType.SCANNER_STATION:
+            bot.move_to_build_station(station, button_type)
+        Commands.STATION_SCANNER:
             assert(station is EmptyStation)
-            bot.move_to_build_station(station, "scanner")
-        OverlayButtonType.BATTERY_STATION:
+            bot.move_to_build_station(station, button_type)
+        Commands.STATION_BATTERY:
             assert(station is EmptyStation)
-            bot.move_to_build_station(station, "battery")
+            bot.move_to_build_station(station, button_type)
         
-        OverlayButtonType.BUILD_CONSTRUCTOR_BOT:
-            bot.move_to_build_bot(station, "constructor_bot")
-        OverlayButtonType.BUILD_LINE_RUNNER_BOT:
-            bot.move_to_build_bot(station, "line_runner_bot")
-        OverlayButtonType.BUILD_REPAIR_BOT:
-            bot.move_to_build_bot(station, "repair_bot")
-        OverlayButtonType.BUILD_BARRIER_BOT:
-            bot.move_to_build_bot(station, "barrier_bot")
+        Commands.BOT_CONSTRUCTOR:
+            bot.move_to_build_bot(station, button_type)
+        Commands.BOT_LINE_RUNNER:
+            bot.move_to_build_bot(station, button_type)
+        Commands.BOT_REPAIR:
+            bot.move_to_build_bot(station, button_type)
+        Commands.BOT_BARRIER:
+            bot.move_to_build_bot(station, button_type)
         _:
             Sc.logger.error("GameLevel._on_station_button_pressed")
     
-    if button_type != OverlayButtonType.RUN_WIRE:
+    if button_type != Commands.RUN_WIRE:
         clear_station_power_line_selection()
 
 
@@ -286,10 +260,10 @@ func _on_power_line_destroyed(power_line: PowerLine) -> void:
     power_line.queue_free()
 
 
-func add_bot(bot_name: String) -> Bot:
+func add_bot(bot_type: int) -> Bot:
     var bot_scene: PackedScene
-    match bot_name:
-        "constructor_bot":
+    match bot_type:
+        Commands.BOT_CONSTRUCTOR:
             bot_scene = _CONSTRUCTOR_BOT_SCENE
         _:
             Sc.logger.error("GameLevel.add_bot")
@@ -319,20 +293,20 @@ func _on_bot_destroyed(bot: Bot) -> void:
 
 func replace_station(
         old_station: Station,
-        new_station_type: String) -> void:
+        new_station_type: int) -> void:
     var station_position := old_station.position
     remove_station(old_station)
     var station_scene: PackedScene
     match new_station_type:
-        "command_center":
+        Commands.STATION_COMMAND:
             station_scene = _COMMAND_CENTER_SCENE
-        "solar":
+        Commands.STATION_SOLAR:
             station_scene = _SOLAR_COLLECTOR_SCENE
-        "scanner":
+        Commands.STATION_BATTERY:
             pass
-        "battery":
+        Commands.STATION_SCANNER:
             pass
-        "empty":
+        Commands.STATION_EMPTY:
             station_scene = _EMPTY_STATION_SCENE
         _:
             Sc.logger.error("GameLevel.add_station")

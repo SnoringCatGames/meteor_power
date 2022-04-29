@@ -27,6 +27,6 @@ func _on_hit_by_meteor() -> void:
     Sc.logger.print("StaticPowerLine._on_hit_by_meteor")
     start_attachment.remove_connection(end_attachment)
     end_attachment.remove_connection(start_attachment)
-    Sc.level.deduct_energy_for_action(OverlayButtonType.STATIC_POWER_LINE_HIT)
+    Sc.level.deduct_energy(Costs.STATIC_POWER_LINE_HIT)
     Sc.audio.play_sound("wire_break")
     Sc.level.remove_power_line(self)

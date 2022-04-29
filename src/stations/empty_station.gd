@@ -5,7 +5,7 @@ extends Station
 
 func get_buttons() -> Array:
     return [
-        OverlayButtonType.SOLAR_COLLECTOR,
+        Commands.STATION_SOLAR,
     ]
 
 
@@ -13,8 +13,8 @@ func get_disabled_buttons() -> Array:
     return []
 
 
-func get_name() -> String:
-    return "empty"
+func get_type() -> int:
+    return Commands.STATION_EMPTY
 
 
 func _update_outline() -> void:
