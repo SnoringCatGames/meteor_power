@@ -431,7 +431,7 @@ func _on_reached_target_station() -> void:
 
 
 func _on_radial_menu_item_selected(item: RadialMenuItemData) -> void:
-    # FIXME: LEFT OFF HERE: -------------------------------------
+    # FIXME: LEFT OFF HERE: --------------------------------------
     match item.id:
         "command":
             pass
@@ -446,14 +446,14 @@ func _on_radial_menu_item_selected(item: RadialMenuItemData) -> void:
 
 
 func _on_radial_menu_touch_up_center() -> void:
-    # FIXME: LEFT OFF HERE: -------------------------------------
+    # FIXME: LEFT OFF HERE: --------------------------------------
     # - Touch-up in center, results in bot being selected, and ready for
     #   command via next tap (same as with the "command" button).
     pass
 
 
 func _on_radial_menu_touch_up_outside() -> void:
-    # FIXME: LEFT OFF HERE: -------------------------------------
+    # FIXME: LEFT OFF HERE: --------------------------------------
     # - Touch-up outside, results in bot being deselected and menu closed.
     pass
 
@@ -468,52 +468,30 @@ func _process_sounds() -> void:
             Sc.audio.play_sound("bot_land")
 
 
-func _get_common_radial_menu_item_data() -> Array:
-    var command_item := GameRadialMenuItemData.new()
-    # FIXME: LEFT OFF HERE: ----------------------------------------
-    command_item.cost
-    command_item.id = "command"
-    command_item.description
-    command_item.texture
-    # TODO: Use this?
-#    command_item.outlined_texture
-    
-    var stop_item := GameRadialMenuItemData.new()
-    # FIXME: LEFT OFF HERE: ----------------------------------------
-    stop_item.cost
-    stop_item.id = "stop"
-    stop_item.description
-    stop_item.texture
-    # TODO: Use this?
-#    stop_item.outlined_texture
-    
-    var recycle_item := GameRadialMenuItemData.new()
-    # FIXME: LEFT OFF HERE: ----------------------------------------
-    recycle_item.cost
-    recycle_item.id = "recycle"
-    recycle_item.description
-    recycle_item.texture
-    # TODO: Use this?
-#    recycle_item.outlined_texture
-    
-    var info_item := GameRadialMenuItemData.new()
-    # FIXME: LEFT OFF HERE: ----------------------------------------
-    info_item.cost
-    info_item.id = "info"
-    info_item.description
-    info_item.texture
-    # TODO: Use this?
-#    info_item.outlined_texture
-    
+func _get_common_radial_menu_item_types() -> Array:
     return [
-        command_item,
-        stop_item,
-        recycle_item,
-        info_item,
+        Commands.BOT_COMMAND,
+        Commands.BOT_STOP,
+        Commands.BOT_RECYCLE,
+        Commands.BOT_INFO,
     ]
 
 
 func _get_radial_menu_item_data() -> Array:
+    var types := _get_radial_menu_item_types()
+    var result := []
+    for type in types:
+        var command_item := GameRadialMenuItemData.new()
+        command_item.cost = Commands.COSTS[type]
+        command_item.id = type
+        command_item.description = Commands.SHORT_DESCRIPTIONS[type]
+        command_item.texture = Commands.TEXTURES[type]
+        command_item.outlined_texture = Commands.OUTLINED_TEXTURES[type]
+        result.push_back(command_item)
+    return result
+
+
+func _get_radial_menu_item_types() -> Array:
     Sc.logger.error(
-            "Abstract Bot._get_radial_menu_item_data is not implemented")
+            "Abstract Bot._get_radial_menu_item_types is not implemented")
     return []

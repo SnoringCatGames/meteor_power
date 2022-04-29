@@ -514,6 +514,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/surfacer/src/gui/platform_graph_inspector/inspector_item_controllers/description_item_controller.gd"
 }, {
+"base": "Reference",
+"class": "Descriptions",
+"language": "GDScript",
+"path": "res://src/config/descriptions.gd"
+}, {
 "base": "LegendItem",
 "class": "DestinationLegendItem",
 "language": "GDScript",
@@ -2931,6 +2936,7 @@ _global_script_class_icons={
 "DefaultBehavior": "",
 "DefaultCamera": "",
 "DescriptionItemController": "",
+"Descriptions": "",
 "DestinationLegendItem": "",
 "DestinationSurfaceAnnotationElement": "",
 "DestinationSurfaceItemController": "",
