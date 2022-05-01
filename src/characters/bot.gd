@@ -113,6 +113,7 @@ func _on_touch_down(level_position: Vector2) -> void:
             "touch_up_center", self, "_on_radial_menu_touch_up_center")
     radial_menu.connect(
             "touch_up_outside", self, "_on_radial_menu_touch_up_outside")
+    _pointer_detector.is_touch_disabled = true
 
 
 func _on_interaction_mode_changed(interaction_mode: int) -> void:
@@ -447,6 +448,7 @@ func _on_reached_target_station() -> void:
 
 
 func _on_radial_menu_item_selected(item: RadialMenuItemData) -> void:
+    _pointer_detector.is_touch_disabled = false
     match item.id:
         Commands.BOT_COMMAND:
             set_is_player_control_active(true)
@@ -477,12 +479,14 @@ func _on_radial_menu_touch_up_center() -> void:
     # - Touch-up in center, results in bot being selected, and ready for
     #   command via next tap (same as with the "command" button).
     pass
+    _pointer_detector.is_touch_disabled = false
 
 
 func _on_radial_menu_touch_up_outside() -> void:
     # FIXME: LEFT OFF HERE: ---------------------------------------
     # - Touch-up outside, results in bot being deselected and menu closed.
     pass
+    _pointer_detector.is_touch_disabled = false
 
 
 func _process_sounds() -> void:

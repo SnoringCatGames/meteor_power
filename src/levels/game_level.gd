@@ -62,7 +62,9 @@ func _start() -> void:
         Sc.level._on_station_created(empty_station)
     
     # Always start with a constructor bot.
-    add_bot(Commands.BOT_CONSTRUCTOR)
+    var starting_bot := add_bot(Commands.BOT_CONSTRUCTOR)
+    # FIXME: ------------------- REMOVE.
+    starting_bot.position.x += 96.0
     
     for station in stations:
         station._on_level_started()
@@ -126,6 +128,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _on_active_player_character_changed() -> void:
+    # FIXME: LEFT OFF HERE: ---------------- Decouple bot-selection from active-character-for-player-control.
     selected_bot = _active_player_character
     
     if is_instance_valid(selected_bot) and \
