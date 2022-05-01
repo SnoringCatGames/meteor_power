@@ -377,10 +377,10 @@ var _gui_manifest := {
         radial_menu_item_hovered_scale = 2.0,
         radial_menu_radius = 96.0,
         radial_menu_item_radius = 32.0,
-        radial_menu_open_duration = 0.15,
+        radial_menu_open_duration = 0.25,
         radial_menu_close_duration = 0.25,
         radial_menu_item_hover_duration = 0.2,
-        radial_menu_closed_item_angular_offset = -PI,
+        radial_menu_closed_item_angular_offset = -PI / 3,
         radial_menu_item_hover_outline_color = ColorFactory.palette("hovered"),
     },
     welcome_panel_manifest = {
