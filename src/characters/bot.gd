@@ -100,12 +100,13 @@ func _on_level_started() -> void:
 
 func _on_touch_down(level_position: Vector2) -> void:
     ._on_touch_down(level_position)
-    _was_activated_on_touch_down = true
+    # FIXME: LEFT OFF HERE: ---------------- Decouple bot-selection from active-character-for-player-control.
     set_is_selected(true)
     var radial_menu: GameRadialMenu = Sc.gui.hud.open_radial_menu(
             Sc.gui.hud.radial_menu_class,
             _get_radial_menu_item_data(),
-            self.get_position_in_screen_space())
+            self.get_position_in_screen_space(),
+            self)
     radial_menu.connect(
             "touch_up_item", self, "_on_radial_menu_item_selected")
     radial_menu.connect(
@@ -125,20 +126,35 @@ func _on_interaction_mode_changed(interaction_mode: int) -> void:
     _update_status()
 
 
+func set_is_player_control_active(
+        value: bool,
+        should_also_update_level := true) -> void:
+    .set_is_player_control_active(value, should_also_update_level)
+    if value:
+        set_is_selected(true)
+        update_bot_info_panel_visibility(false)
+
+
 func set_is_selected(is_selected: bool) -> void:
+    # FIXME: LEFT OFF HERE: ---------------- Decouple bot-selection from active-character-for-player-control.
     if self.is_selected == is_selected:
         # No change.
         return
     self.is_selected = is_selected
+    if !is_selected:
+        set_is_player_control_active(false)
     _update_status()
-    self.set_is_player_control_active(is_selected)
-    if is_selected:
-        var contents := Control.new()
-        var info := InfoPanelData.new("Hello info panel!", contents)
-        info.meta = self
-        Sc.info_panel.show_panel(info)
+
+
+func update_bot_info_panel_visibility(is_visible: bool) -> void:
+    var data: InfoPanelData = Sc.info_panel.get_current_data()
+    if is_visible:
+        if !is_instance_valid(data) or data.meta != self:
+            var contents := Control.new()
+            var info := InfoPanelData.new("Hello info panel!", contents)
+            info.meta = self
+            Sc.info_panel.show_panel(info)
     else:
-        var data: InfoPanelData = Sc.info_panel.get_current_data()
         if is_instance_valid(data) and data.meta == self:
             Sc.info_panel.close_panel()
 
@@ -431,29 +447,40 @@ func _on_reached_target_station() -> void:
 
 
 func _on_radial_menu_item_selected(item: RadialMenuItemData) -> void:
-    # FIXME: LEFT OFF HERE: --------------------------------------
     match item.id:
-        "command":
+        Commands.BOT_COMMAND:
+            set_is_player_control_active(true)
+        Commands.BOT_STOP:
+            # FIXME: LEFT OFF HERE: ---------------------------------------
             pass
-        "stop":
+            set_is_selected(false)
+            set_is_player_control_active(false)
+            update_bot_info_panel_visibility(false)
+        Commands.BOT_RECYCLE:
+            # FIXME: LEFT OFF HERE: ---------------------------------------
             pass
-        "recycle":
+            set_is_selected(false)
+            set_is_player_control_active(false)
+            update_bot_info_panel_visibility(false)
+        Commands.BOT_INFO:
+            # FIXME: LEFT OFF HERE: ---------------------------------------
             pass
-        "info":
-            pass
+            set_is_selected(true)
+            set_is_player_control_active(false)
+            update_bot_info_panel_visibility(true)
         _:
             Sc.logger.error("Bot._on_radial_menu_item_selected")
 
 
 func _on_radial_menu_touch_up_center() -> void:
-    # FIXME: LEFT OFF HERE: --------------------------------------
+    # FIXME: LEFT OFF HERE: ---------------------------------------
     # - Touch-up in center, results in bot being selected, and ready for
     #   command via next tap (same as with the "command" button).
     pass
 
 
 func _on_radial_menu_touch_up_outside() -> void:
-    # FIXME: LEFT OFF HERE: --------------------------------------
+    # FIXME: LEFT OFF HERE: ---------------------------------------
     # - Touch-up outside, results in bot being deselected and menu closed.
     pass
 
