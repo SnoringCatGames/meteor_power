@@ -160,20 +160,36 @@ func _on_active_player_character_changed() -> void:
     _update_camera()
 
 
-func _update_camera() -> void:
-    if Sc.gui.hud.get_is_radial_menu_open():
-        swap_camera(_static_camera)
-    elif is_instance_valid(_active_player_character):
-        _nav_preselection_camera.target_character = _active_player_character
-        swap_camera(_nav_preselection_camera)
+func _on_bot_selection_changed(
+        bot: Bot,
+        is_selected: bool) -> void:
+    if is_selected:
+        # Deselect any previously selected bot.
+        if is_instance_valid(selected_bot):
+            if bot == selected_bot:
+                # No change.
+                return
+            else:
+                selected_bot.set_is_selected(false)
+        selected_bot = bot
     else:
-        swap_camera(_default_camera)
+        if bot != selected_bot:
+            # No change.
+            return
+        selected_bot = null
+    
+    # Deselect any selected station.
+    if is_selected and \
+            is_instance_valid(selected_station):
+        selected_station.set_is_selected(false)
+        selected_station = null
 
 
 func _on_station_selection_changed(
         station: Station,
         is_selected: bool) -> void:
     if is_selected:
+        # Deselect any previously selected station.
         if is_instance_valid(selected_station):
             if station == selected_station:
                 # No change.
@@ -187,6 +203,7 @@ func _on_station_selection_changed(
             return
         selected_station = null
     
+    # Deselect any selected bot.
     if is_selected and \
             is_instance_valid(selected_bot):
         selected_bot.set_is_selected(false)
@@ -200,6 +217,16 @@ func _clear_selection() -> void:
     if is_instance_valid(selected_station):
         selected_station.set_is_selected(false)
         selected_station = null
+
+
+func _update_camera() -> void:
+    if Sc.gui.hud.get_is_radial_menu_open():
+        swap_camera(_static_camera)
+    elif is_instance_valid(_active_player_character):
+        _nav_preselection_camera.target_character = _active_player_character
+        swap_camera(_nav_preselection_camera)
+    else:
+        swap_camera(_default_camera)
 
 
 func deduct_energy(cost: int) -> void:
