@@ -133,10 +133,9 @@ func _unhandled_input(event: InputEvent) -> void:
         # Close the info panel if it wasn't just opened.
         if Sc.info_panel.get_is_open() and \
                 !Sc.info_panel.get_is_transitioning():
+            Sc.info_panel.close_panel()
             if is_instance_valid(selected_station):
                 selected_station.set_is_selected(false)
-            if is_instance_valid(selected_bot):
-                Sc.info_panel.close_panel()
 
 
 func _on_radial_menu_opened() -> void:

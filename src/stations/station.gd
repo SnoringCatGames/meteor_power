@@ -120,8 +120,20 @@ func _on_button_interaction_mode_changed() -> void:
     _update_highlight()
 
 
-func _on_touch_down(level_position: Vector2) -> void:
-    set_is_selected(true)
+func _on_touch_down(
+        level_position: Vector2,
+        is_already_handled: bool) -> void:
+    if is_instance_valid(Sc.level.selected_bot):
+        Sc.level.selected_bot.set_is_player_control_active(false)
+        
+        # FIXME: LEFT OFF HERE: ------------------------------------
+        # - If first-run-wire-station is selected, then run wire.
+        # - Else, show radial-menu, and maintain this bot as selected.
+        # - Then, update radial-menu-selection handling to check if there is a
+        #   selected bot, and use that one if so.
+        pass
+    else:
+        set_is_selected(true)
 
 
 func set_is_selected(is_selected: bool) -> void:

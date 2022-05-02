@@ -16,6 +16,8 @@ func _on_level_touch_up(
     metadata.set_is_selected(false)
 
 
-func _on_center_area_touch_up(touch_position: Vector2) -> void:
-    ._on_center_area_touch_up(touch_position)
+func _on_center_area_touch_up(
+        touch_position: Vector2,
+        is_already_handled: bool) -> void:
+    ._on_center_area_touch_up(touch_position, is_already_handled)
     metadata.set_is_player_control_active(true)

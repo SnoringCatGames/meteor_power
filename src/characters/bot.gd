@@ -98,21 +98,38 @@ func _on_level_started() -> void:
     pass
 
 
-func _on_touch_down(level_position: Vector2) -> void:
-    ._on_touch_down(level_position)
-    # FIXME: LEFT OFF HERE: ----------------- Decouple bot-selection from active-character-for-player-control.
-    set_is_selected(true)
-    var radial_menu: GameRadialMenu = Sc.gui.hud.open_radial_menu(
-            Sc.gui.hud.radial_menu_class,
-            _get_radial_menu_item_data(),
-            self.get_position_in_screen_space(),
-            self)
-    radial_menu.connect(
-            "touch_up_item", self, "_on_radial_menu_item_selected")
-    radial_menu.connect(
-            "touch_up_center", self, "_on_radial_menu_touch_up_center")
-    radial_menu.connect(
-            "touch_up_outside", self, "_on_radial_menu_touch_up_outside")
+func _on_touch_down(
+        level_position: Vector2,
+        is_already_handled: bool) -> void:
+    ._on_touch_down(level_position, is_already_handled)
+    set_is_player_control_active(false)
+    
+    if is_selected:
+        set_is_selected(false)
+    else:
+        set_is_selected(true)
+        
+        var radial_menu: GameRadialMenu = Sc.gui.hud.open_radial_menu(
+                Sc.gui.hud.radial_menu_class,
+                _get_radial_menu_item_data(),
+                self.get_position_in_screen_space(),
+                self)
+        radial_menu.connect(
+                "touch_up_item", self, "_on_radial_menu_item_selected")
+        radial_menu.connect(
+                "touch_up_center", self, "_on_radial_menu_touch_up_center")
+        radial_menu.connect(
+                "touch_up_outside", self, "_on_radial_menu_touch_up_outside")
+
+
+func _on_touch_up(
+        level_position: Vector2,
+        is_already_handled: bool) -> void:
+    ._on_touch_up(level_position, is_already_handled)
+    
+    if is_instance_valid(Sc.level.active_player_character) and \
+            Sc.level.active_player_character != self:
+        Sc.level.touch_listener.set_current_touch_as_not_handled()
 
 
 func _on_interaction_mode_changed(interaction_mode: int) -> void:
@@ -136,11 +153,11 @@ func set_is_player_control_active(
 
 
 func set_is_selected(is_selected: bool) -> void:
-    # FIXME: LEFT OFF HERE: ----------------- Decouple bot-selection from active-character-for-player-control.
     if self.is_selected == is_selected:
         # No change.
         return
     self.is_selected = is_selected
+    Sc.level._on_bot_selection_changed(self, is_selected)
     if !is_selected:
         set_is_player_control_active(false)
     _update_status()
@@ -454,17 +471,13 @@ func _on_radial_menu_item_selected(item: RadialMenuItemData) -> void:
             # FIXME: LEFT OFF HERE: ----------------------------------------
             pass
             set_is_selected(false)
-            set_is_player_control_active(false)
             update_bot_info_panel_visibility(false)
         Commands.BOT_RECYCLE:
             # FIXME: LEFT OFF HERE: ----------------------------------------
             pass
             set_is_selected(false)
-            set_is_player_control_active(false)
             update_bot_info_panel_visibility(false)
         Commands.BOT_INFO:
-            # FIXME: LEFT OFF HERE: ----------------------------------------
-            pass
             set_is_selected(true)
             set_is_player_control_active(false)
             update_bot_info_panel_visibility(true)
@@ -473,16 +486,11 @@ func _on_radial_menu_item_selected(item: RadialMenuItemData) -> void:
 
 
 func _on_radial_menu_touch_up_center() -> void:
-    # FIXME: LEFT OFF HERE: ----------------------------------------
-    # - Touch-up in center, results in bot being selected, and ready for
-    #   command via next tap (same as with the "command" button).
-    pass
+    set_is_player_control_active(true)
 
 
 func _on_radial_menu_touch_up_outside() -> void:
-    # FIXME: LEFT OFF HERE: ----------------------------------------
-    # - Touch-up outside, results in bot being deselected and menu closed.
-    pass
+    set_is_selected(false)
 
 
 func _process_sounds() -> void:
