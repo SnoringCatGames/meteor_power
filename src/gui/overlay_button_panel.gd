@@ -165,7 +165,10 @@ func _on_interaction_mode_changed(interaction_mode: int) -> void:
     emit_signal("interaction_mode_changed")
 
 
-func _on_button_pressed(button: SpriteModulationButton) -> void:
+func _on_button_pressed(
+        level_position: Vector2,
+        is_already_handled: bool,
+        button: SpriteModulationButton) -> void:
     Sc.utils.give_button_press_feedback()
     var button_type := _get_type_for_button(button)
     Sc.logger.print("OverlayButton pressed: button=%s, station=%s, p=%s" % [
