@@ -134,8 +134,7 @@ func _unhandled_input(event: InputEvent) -> void:
         if Sc.info_panel.get_is_open() and \
                 !Sc.info_panel.get_is_transitioning():
             Sc.info_panel.close_panel()
-            if is_instance_valid(selected_station):
-                selected_station.set_is_selected(false)
+            _clear_selection()
 
 
 func _on_radial_menu_opened() -> void:
