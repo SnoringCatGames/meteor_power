@@ -504,11 +504,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/surfacer/src/character/behaviors/default_behavior.gd"
 }, {
-"base": "ScaffolderCamera",
-"class": "DefaultCamera",
-"language": "GDScript",
-"path": "res://addons/scaffolder/src/camera/default_camera.gd"
-}, {
 "base": "InspectorItemController",
 "class": "DescriptionItemController",
 "language": "GDScript",
@@ -2229,6 +2224,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/surface_tiler/src/global/st.gd"
 }, {
+"base": "ScaffolderCamera",
+"class": "StaticCamera",
+"language": "GDScript",
+"path": "res://addons/scaffolder/src/camera/default_camera.gd"
+}, {
 "base": "ColorConfig",
 "class": "StaticColorConfig",
 "language": "GDScript",
@@ -2934,7 +2934,6 @@ _global_script_class_icons={
 "DebugPanelControlRow": "",
 "DebugTimeDisplayControlRow": "",
 "DefaultBehavior": "",
-"DefaultCamera": "",
 "DescriptionItemController": "",
 "Descriptions": "",
 "DestinationLegendItem": "",
@@ -3279,6 +3278,7 @@ _global_script_class_icons={
 "SquirrelAwayTilemap": "",
 "SquirrelAwayTilemapWithManyAngles": "",
 "StInterface": "",
+"StaticCamera": "",
 "StaticColorConfig": "",
 "StaticPowerLine": "",
 "StaticTextControlRow": "",

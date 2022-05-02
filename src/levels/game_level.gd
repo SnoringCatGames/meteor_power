@@ -30,18 +30,30 @@ var power_lines := []
 
 var _first_selected_station_for_running_power_line: Station = null
 
+var _static_camera: StaticCamera
+
 
 func _ready() -> void:
     self.connect(
             "active_player_character_changed",
             self,
             "_on_active_player_character_changed")
+    _static_camera = StaticCamera.new()
+    add_child(_static_camera)
 
 
 func _load() -> void:
     ._load()
     
     Sc.gui.hud.set_up()
+    Sc.gui.hud.connect(
+            "radial_menu_opened",
+            self,
+            "_on_radial_menu_opened")
+    Sc.gui.hud.connect(
+            "radial_menu_closed",
+            self,
+            "_on_radial_menu_closed")
 
 
 func _start() -> void:
@@ -127,6 +139,14 @@ func _unhandled_input(event: InputEvent) -> void:
                 Sc.info_panel.close_panel()
 
 
+func _on_radial_menu_opened() -> void:
+    _update_camera()
+
+
+func _on_radial_menu_closed() -> void:
+    _update_camera()
+
+
 func _on_active_player_character_changed() -> void:
     # FIXME: LEFT OFF HERE: ---------------- Decouple bot-selection from active-character-for-player-control.
     selected_bot = _active_player_character
@@ -137,9 +157,14 @@ func _on_active_player_character_changed() -> void:
         selected_station = null
     
     clear_station_power_line_selection()
-    
-    if is_instance_valid(selected_bot):
-        _nav_preselection_camera.target_character = selected_bot
+    _update_camera()
+
+
+func _update_camera() -> void:
+    if Sc.gui.hud.get_is_radial_menu_open():
+        swap_camera(_static_camera)
+    elif is_instance_valid(_active_player_character):
+        _nav_preselection_camera.target_character = _active_player_character
         swap_camera(_nav_preselection_camera)
     else:
         swap_camera(_default_camera)
