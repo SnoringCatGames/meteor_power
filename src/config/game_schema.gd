@@ -446,6 +446,7 @@ var _additive_overrides := {
                 GameDefaultColors.new())),
         camera_manifest = {
             default_camera_class = SwipeCamera,
+            snaps_camera_back_to_character = false,
         },
     },
     SurfacerSchema: {

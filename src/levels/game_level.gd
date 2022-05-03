@@ -219,12 +219,12 @@ func _clear_selection() -> void:
 
 func _update_camera() -> void:
     if Sc.gui.hud.get_is_radial_menu_open():
-        swap_camera(_static_camera)
+        swap_camera(_static_camera, true)
     elif is_instance_valid(_active_player_character):
         _nav_preselection_camera.target_character = _active_player_character
-        swap_camera(_nav_preselection_camera)
+        swap_camera(_nav_preselection_camera, true)
     else:
-        swap_camera(_default_camera)
+        swap_camera(_default_camera, true)
 
 
 func deduct_energy(cost: int) -> void:

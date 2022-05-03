@@ -2227,7 +2227,7 @@ _global_script_classes=[ {
 "base": "ScaffolderCamera",
 "class": "StaticCamera",
 "language": "GDScript",
-"path": "res://addons/scaffolder/src/camera/default_camera.gd"
+"path": "res://addons/scaffolder/src/camera/static_camera.gd"
 }, {
 "base": "ColorConfig",
 "class": "StaticColorConfig",
