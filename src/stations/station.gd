@@ -51,6 +51,8 @@ func _ready() -> void:
     Sc.camera.connect("panned", self, "_on_panned")
     Sc.camera.connect("zoomed", self, "_on_zoomed")
     
+    Sc.info_panel.connect("closed", self, "_on_info_panel_closed")
+    
     screen_radius = 48.0
     property_list_changed_notify()
 
@@ -89,6 +91,10 @@ func _on_level_started() -> void:
 
 func _on_button_pressed(button_type: int) -> void:
     Sc.level._on_station_button_pressed(self, button_type)
+
+
+func _on_info_panel_closed(data: InfoPanelData) -> void:
+    set_is_selected(false)
 
 
 func _on_camera_enter() -> void:

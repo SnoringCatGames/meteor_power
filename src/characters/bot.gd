@@ -53,6 +53,7 @@ func _init() -> void:
 func _ready() -> void:
     navigator.connect("navigation_started", self, "_on_navigation_started")
     navigator.connect("navigation_ended", self, "_on_navigation_ended")
+    Sc.info_panel.connect("closed", self, "_on_info_panel_closed")
     _update_status()
 
 
@@ -401,6 +402,10 @@ func _on_powered_down() -> void:
     _on_command_ended()
     is_powered_on = false
     _update_status()
+
+
+func _on_info_panel_closed(data: InfoPanelData) -> void:
+    set_is_selected(false)
 
 
 func _on_navigation_started(is_retry: bool) -> void:
