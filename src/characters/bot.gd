@@ -126,10 +126,7 @@ func _on_touch_up(
         level_position: Vector2,
         is_already_handled: bool) -> void:
     ._on_touch_up(level_position, is_already_handled)
-    
-    if is_instance_valid(Sc.level.active_player_character) and \
-            Sc.level.active_player_character != self:
-        Sc.level.touch_listener.set_current_touch_as_not_handled()
+    Sc.level.touch_listener.set_current_touch_as_not_handled()
 
 
 func _on_interaction_mode_changed(interaction_mode: int) -> void:

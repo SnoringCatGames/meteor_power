@@ -136,6 +136,13 @@ func _on_touch_down(
         set_is_selected(true)
 
 
+func _on_touch_up(
+        level_position: Vector2,
+        is_already_handled: bool) -> void:
+    ._on_touch_up(level_position, is_already_handled)
+    Sc.level.touch_listener.set_current_touch_as_not_handled()
+
+
 func set_is_selected(is_selected: bool) -> void:
     if is_selected == get_is_selected():
         # No change.
