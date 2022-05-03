@@ -1589,11 +1589,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/surfacer/src/gui/control_rows/player/player_non_slow_mo_trajectory_annotator_control_row.gd"
 }, {
-"base": "Node2D",
-"class": "PlayerPointerListener",
-"language": "GDScript",
-"path": "res://addons/surfacer/src/character/player_pointer_listener.gd"
-}, {
 "base": "CheckboxControlRow",
 "class": "PlayerPreselectionTrajectoryAnnotatorControlRow",
 "language": "GDScript",
@@ -1608,6 +1603,11 @@ _global_script_classes=[ {
 "class": "PlayerSlowMoTrajectoryAnnotatorControlRow",
 "language": "GDScript",
 "path": "res://addons/surfacer/src/gui/control_rows/player/player_slow_mo_trajectory_annotator_control_row.gd"
+}, {
+"base": "Node2D",
+"class": "PlayerTouchListener",
+"language": "GDScript",
+"path": "res://addons/surfacer/src/character/player_touch_listener.gd"
 }, {
 "base": "VBoxContainer",
 "class": "PluginAccordionBody",
@@ -3151,10 +3151,10 @@ _global_script_class_icons={
 "PlayerNavigationBehavior": "",
 "PlayerNavigationDestinationAnnotatorControlRow": "",
 "PlayerNonSlowMoTrajectoryAnnotatorControlRow": "",
-"PlayerPointerListener": "",
 "PlayerPreselectionTrajectoryAnnotatorControlRow": "",
 "PlayerPreviousTrajectoryAnnotatorControlRow": "",
 "PlayerSlowMoTrajectoryAnnotatorControlRow": "",
+"PlayerTouchListener": "",
 "PluginAccordionBody": "res://addons/scaffolder/assets/images/editor_icons/accordion_body.png",
 "PluginAccordionHeader": "res://addons/scaffolder/assets/images/editor_icons/accordion_header.png",
 "PluginAccordionHeaderCaret": "res://addons/scaffolder/addons/plugger/assets/images/caret_right_dark_theme_1.png",
