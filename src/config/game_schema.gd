@@ -448,6 +448,12 @@ var _additive_overrides := {
             default_camera_class = SwipeCamera,
             snaps_camera_back_to_character = false,
         },
+        slow_motion_manifest = {
+            default_time_scale = 0.5,
+            gui_mode_time_scale = 0.07,
+            tick_tock_tempo_multiplier = 1,
+            saturation = 0.5,
+        }
     },
     SurfacerSchema: {
         movement_manifest = {
