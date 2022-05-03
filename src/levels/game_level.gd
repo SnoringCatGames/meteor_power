@@ -218,13 +218,18 @@ func _clear_selection() -> void:
 
 
 func _update_camera() -> void:
+    var extra_zoom: float
     if Sc.gui.hud.get_is_radial_menu_open():
         swap_camera(_static_camera, true)
+        extra_zoom = 1.0
     elif is_instance_valid(_active_player_character):
         _nav_preselection_camera.target_character = _active_player_character
         swap_camera(_nav_preselection_camera, true)
+        extra_zoom = 1.4
     else:
         swap_camera(_default_camera, true)
+        extra_zoom = 1.0
+    Sc.level.camera.transition_extra_zoom(extra_zoom)
 
 
 func deduct_energy(cost: int) -> void:
