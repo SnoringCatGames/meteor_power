@@ -13,12 +13,14 @@ scroll_ignore_camera_zoom = true
 script = ExtResource( 7 )
 
 [node name="Space" type="ParallaxLayer" parent="."]
+light_mask = 2
 scale = Vector2( 3, 3 )
 motion_scale = Vector2( 0, 0 )
 motion_offset = Vector2( -100, -800 )
 motion_mirroring = Vector2( 2048, 2048 )
 
 [node name="Sprite" type="Sprite" parent="Space"]
+light_mask = 2
 texture = ExtResource( 2 )
 region_enabled = true
 region_rect = Rect2( 0, 0, 2048, 2048 )
@@ -35,12 +37,14 @@ region_enabled = true
 region_rect = Rect2( 0, 0, 2048, 2048 )
 
 [node name="Nebula" type="ParallaxLayer" parent="."]
+light_mask = 2
 scale = Vector2( 3, 3 )
 motion_scale = Vector2( 0.1, 0.1 )
 motion_offset = Vector2( -100, -800 )
 motion_mirroring = Vector2( 2048, 2048 )
 
 [node name="Sprite" type="Sprite" parent="Nebula"]
+light_mask = 2
 texture = ExtResource( 4 )
 region_enabled = true
 region_rect = Rect2( 0, 0, 2048, 2048 )

@@ -7,6 +7,7 @@ const DEFAULT_TILE_SET := preload("res://src/tiles/collidable_tileset.tres")
 
 
 func _ready() -> void:
+    light_mask = 2
     if tile_set == null or \
             tile_set == Su.default_tileset:
         tile_set = DEFAULT_TILE_SET

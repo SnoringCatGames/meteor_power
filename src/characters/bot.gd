@@ -39,18 +39,24 @@ var total_movement_distance_cost := 0.0
 
 
 func _init() -> void:
-    self.light = Light2D.new()
+    light = Light2D.new()
     light.texture = _LIGHT_TEXTURE
     light.texture_scale = 0.1
     light.range_layer_min = -100
     light.range_layer_max = 100
+    light.range_item_cull_mask = 2
+    light.shadow_item_cull_mask = 2
     add_child(light)
+    light.owner = self
     _update_status()
     start_time = Sc.time.get_scaled_play_time()
     total_time = 0.0
 
 
 func _ready() -> void:
+    for light in Sc.utils.get_children_by_type(self, Light2D):
+        if light != self.light:
+            remove_child(light)
     navigator.connect("navigation_started", self, "_on_navigation_started")
     navigator.connect("navigation_ended", self, "_on_navigation_ended")
     Sc.info_panel.connect("closed", self, "_on_info_panel_closed")

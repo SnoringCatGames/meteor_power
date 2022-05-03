@@ -38,6 +38,8 @@ var meteor_hit_count := 0
 
 
 func _ready() -> void:
+    light_mask = 2
+    
     buttons = Sc.utils.add_scene(self, _OVERLAY_BUTTON_PANEL_CLASS)
     buttons.connect("button_pressed", self, "_on_button_pressed")
     buttons.connect(

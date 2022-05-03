@@ -74,3 +74,5 @@ texture_scale = 0.1
 color = Color( 0.27, 0.708, 1, 1 )
 range_layer_min = -100
 range_layer_max = 100
+range_item_cull_mask = 2
+shadow_item_cull_mask = 2
