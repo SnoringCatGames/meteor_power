@@ -10,9 +10,11 @@ collision_mask = 0
 monitoring = false
 monitorable = false
 script = ExtResource( 1 )
+screen_radius = 48.0
 shape_rectangle_extents = Vector2( 32, 20 )
 shape_offset = Vector2( 0, -20 )
 
 [node name="ShaderOutlineableSprite" parent="." instance=ExtResource( 3 )]
+light_mask = 2
 position = Vector2( 0, -24 )
 texture = ExtResource( 2 )

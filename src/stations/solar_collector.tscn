@@ -72,6 +72,7 @@ collision_mask = 0
 monitoring = false
 monitorable = false
 script = ExtResource( 1 )
+screen_radius = 48.0
 shape_rectangle_extents = Vector2( 24, 28 )
 shape_offset = Vector2( 0, -28 )
 rope_attachment_offset = Vector2( 0, -2 )
@@ -83,10 +84,12 @@ anims/shine = SubResource( 2 )
 
 [node name="Shine" parent="." instance=ExtResource( 4 )]
 visible = false
+light_mask = 2
 position = Vector2( 0, -32 )
 texture = ExtResource( 2 )
 hframes = 34
 
 [node name="Dark" parent="." instance=ExtResource( 4 )]
+light_mask = 2
 position = Vector2( 0, -32 )
 texture = ExtResource( 3 )

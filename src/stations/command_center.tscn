@@ -133,18 +133,21 @@ animations = [ {
 } ]
 
 [node name="CommandCenter" type="Area2D"]
+light_mask = 2
 collision_layer = 1073741824
 collision_mask = 0
 monitoring = false
 monitorable = false
 script = ExtResource( 1 )
+screen_radius = 48.0
 shape_rectangle_extents = Vector2( 29, 24 )
 shape_offset = Vector2( 0, -24 )
 rope_attachment_offset = Vector2( 0, -36 )
 
 [node name="ShaderOutlineableAnimatedSprite" parent="." instance=ExtResource( 3 )]
+light_mask = 2
 position = Vector2( 0, -32 )
 frames = SubResource( 32 )
-frame = 14
+frame = 25
 playing = true
 adds_margins = false

@@ -25,7 +25,7 @@ var camera_detector: CameraDetector
 
 var active_outline_alpha_multiplier := 0.0
 var viewport_position_outline_alpha_multiplier := 0.0
-var outline_color := Color.transparent
+var outline_color := ColorConfig.TRANSPARENT
 
 var health := 1.0
 
@@ -38,8 +38,6 @@ var meteor_hit_count := 0
 
 
 func _ready() -> void:
-    light_mask = 2
-    
     buttons = Sc.utils.add_scene(self, _OVERLAY_BUTTON_PANEL_CLASS)
     buttons.connect("button_pressed", self, "_on_button_pressed")
     buttons.connect(
@@ -238,16 +236,19 @@ func set_highlight_weight(weight: float) -> void:
 
 
 func _update_highlight() -> void:
+    active_outline_alpha_multiplier = \
+            _MAX_HIGHLIGHT_OPACITY_FOR_VIEWPORT_POSITION * \
+            _MAX_HIGHLIGHT_OPACITY_FOR_VIEWPORT_POSITION
     if interaction_mode == InteractionMode.HOVER or \
             interaction_mode == InteractionMode.PRESSED or \
-            buttons.get_is_hovered_or_pressed() or \
-            get_is_selected():
-        outline_color = SpriteModulationButton.DEFAULT_HOVER_MODULATE
-        active_outline_alpha_multiplier = \
-                _MAX_HIGHLIGHT_OPACITY_FOR_VIEWPORT_POSITION * \
-                _MAX_HIGHLIGHT_OPACITY_FOR_VIEWPORT_POSITION
+            buttons.get_is_hovered_or_pressed():
+        outline_color = Sc.palette.get_color("hovered")
+    elif get_is_selected():
+        outline_color = Sc.palette.get_color("selected")
     else:
-        outline_color = SpriteModulationButton.DEFAULT_NORMAL_MODULATE
+        # FIXME: ------------------------------------------------------
+        # - Not transparent.
+        outline_color = ColorConfig.TRANSPARENT
         active_outline_alpha_multiplier = \
                 viewport_position_outline_alpha_multiplier
     _update_outline()
