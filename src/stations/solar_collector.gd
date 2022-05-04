@@ -3,11 +3,17 @@ class_name SolarCollector
 extends Station
 
 
+const IS_CONNECTABLE := true
+
 var seconds_per_one_energy_value := 0.05
 var total_seconds := 0.0
 
 var start_time := INF
 var total_time := INF
+
+
+func _init().(IS_CONNECTABLE) -> void:
+    pass
 
 
 func _ready() -> void:

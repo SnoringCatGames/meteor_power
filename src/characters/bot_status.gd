@@ -7,6 +7,7 @@ enum {
     NEW,
     ACTIVE,
     IDLE,
+    PLAYER_CONTROL_ACTIVE,
     SELECTED,
     HOVERED,
     POWERED_DOWN,
@@ -18,43 +19,43 @@ const HIGHLIGHT_CONFIGS := {
         color = "bot_new",
         scale = 0.1,
         energy = 1.0,
-        outline_alpha = 0.2,
+        outline_alpha_multiplier = 0.99,
     },
     ACTIVE: {
         color = "bot_active",
         scale = 0.1,
         energy = 0.3,
-        outline_alpha = 0.0,
+        outline_alpha_multiplier = 0.99,
     },
     IDLE: {
         color = "bot_idle",
         scale = 0.1,
         energy = 0.8,
-        outline_alpha = 0.2,
+        outline_alpha_multiplier = 0.99,
     },
-    STOPPING: {
-        color = "bot_stopping",
+    PLAYER_CONTROL_ACTIVE: {
+        color = "bot_player_control_active",
         scale = 0.1,
-        energy = 0.9,
-        outline_alpha = 0.0,
+        energy = 1.1,
+        outline_alpha_multiplier = 0.99,
     },
     SELECTED: {
         color = "bot_selected",
         scale = 0.1,
         energy = 1.1,
-        outline_alpha = 0.5,
+        outline_alpha_multiplier = 0.99,
     },
     HOVERED: {
         color = "bot_hovered",
         scale = 0.1,
         energy = 1.1,
-        outline_alpha = 0.5,
+        outline_alpha_multiplier = 0.99,
     },
     POWERED_DOWN: {
         color = "bot_powered_down",
         scale = 0.1,
         energy = 0.6,
-        outline_alpha = 0.5,
+        outline_alpha_multiplier = 0.99,
     },
 }
 
@@ -69,6 +70,8 @@ static func get_string(type: int) -> String:
             return "ACTIVE"
         IDLE:
             return "IDLE"
+        PLAYER_CONTROL_ACTIVE:
+            return "PLAYER_CONTROL_ACTIVE"
         SELECTED:
             return "SELECTED"
         HOVERED:

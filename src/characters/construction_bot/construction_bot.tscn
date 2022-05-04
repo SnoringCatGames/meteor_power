@@ -19,9 +19,9 @@ primary_annotation_color = Object(Reference,"script":Resource( "res://addons/sca
 
 secondary_annotation_color = Object(Reference,"script":Resource( "res://addons/scaffolder/src/config/color_config/palette_color_config.gd" ),"h":0.0,"s":0.0,"v":0.0,"a":0.0,"key":"white","_h_override":-1.0,"_s_override":-1.0,"_v_override":-1.0,"_a_override":-1.0,"h_delta":0.0,"s_delta":0.0,"v_delta":0.0,"a_delta":0.0,"override_color":Color( -1, -2, -2, -1 ),"delta_color":Color( 0, 0, 0, 0 ),"key":"white","_h_override":-1.0,"_s_override":-1.0,"_v_override":-1.0,"_a_override":-1.0,"h_delta":0.0,"s_delta":0.0,"v_delta":0.0,"a_delta":0.0)
 
-navigation_annotation_color_override = Object(Reference,"script":Resource( "res://addons/scaffolder/src/config/color_config/static_color_config.gd" ),"h":0.65625,"s":0.369231,"v":0.509804,"a":1.0,"r":0.321569,"g":0.333333,"b":0.509804,"color":Color( 0.321569, 0.333333, 0.509804, 1 ),"_h":0.65625,"_s":0.369231,"_v":0.509804,"_a":1.0,"_color":null)
+navigation_annotation_color_override = Object(Reference,"script":Resource( "res://addons/scaffolder/src/config/color_config/static_color_config.gd" ),"h":0.758523,"s":0.690196,"v":1.0,"a":1.0,"r":0.690196,"g":0.309804,"b":1.0,"color":Color( 0.690196, 0.309804, 1, 1 ),"_h":0.758523,"_s":0.690196,"_v":1.0,"_a":1.0,"_color":null)
 
-position_annotation_color_override = Object(Reference,"script":Resource( "res://addons/scaffolder/src/config/color_config/static_color_config.gd" ),"h":0.65625,"s":0.369231,"v":0.509804,"a":1.0,"r":0.321569,"g":0.333333,"b":0.509804,"color":Color( 0.321569, 0.333333, 0.509804, 1 ),"_h":0.65625,"_s":0.369231,"_v":0.509804,"_a":1.0,"_color":null)
+position_annotation_color_override = Object(Reference,"script":Resource( "res://addons/scaffolder/src/config/color_config/static_color_config.gd" ),"h":0.758523,"s":0.690196,"v":1.0,"a":1.0,"r":0.690196,"g":0.309804,"b":1.0,"color":Color( 0.690196, 0.309804, 1, 1 ),"_h":0.758523,"_s":0.690196,"_v":1.0,"_a":1.0,"_color":null)
 
 exclamation_mark_width_start = 3.0
 exclamation_mark_length_start = 18.0
@@ -38,6 +38,15 @@ logs_action_events = false
 logs_verbose_events = false
 logs_verbose_navigator_events = false
 stores_logs_on_character_instances = false
+
+[node name="Light2D" type="Light2D" parent="."]
+texture = ExtResource( 4 )
+texture_scale = 0.1
+color = Color( 0.976471, 1, 0.521569, 0.9 )
+range_layer_min = -100
+range_layer_max = 100
+range_item_cull_mask = 2
+shadow_item_cull_mask = 2
 
 [node name="MovementParameters" parent="." instance=ExtResource( 3 )]
 collider_shape = SubResource( 3 )
@@ -65,14 +74,3 @@ shape = SubResource( 3 )
 __meta__ = {
 "_edit_lock_": true
 }
-
-[node name="Light2D" type="Light2D" parent="."]
-position = Vector2( 0, -16 )
-z_as_relative = false
-texture = ExtResource( 4 )
-texture_scale = 0.1
-color = Color( 0.27, 0.708, 1, 1 )
-range_layer_min = -100
-range_layer_max = 100
-range_item_cull_mask = 2
-shadow_item_cull_mask = 2

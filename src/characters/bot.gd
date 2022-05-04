@@ -154,6 +154,7 @@ func set_is_player_control_active(
     if value:
         set_is_selected(true)
         update_bot_info_panel_visibility(false)
+    _update_status()
 
 
 func set_is_selected(is_selected: bool) -> void:
@@ -181,7 +182,9 @@ func update_bot_info_panel_visibility(is_visible: bool) -> void:
 
 
 func _update_status() -> void:
-    if is_hovered:
+    if _get_is_player_control_active():
+        self.status = BotStatus.PLAYER_CONTROL_ACTIVE
+    elif is_hovered:
         self.status = BotStatus.HOVERED
     elif is_selected:
         self.status = BotStatus.SELECTED
@@ -204,9 +207,9 @@ func set_highlight(status: int) -> void:
     light.energy = config.energy
     if is_instance_valid(animator):
         var outline_color: Color = Sc.palette.get_color(config.color)
-        outline_color.a = config.outline_alpha
+        outline_color.a *= config.outline_alpha_multiplier
         animator.outline_color = outline_color
-        animator.is_outlined = config.outline_alpha > 0.0
+        animator.is_outlined = outline_color.a > 0.0
 
 
 func move_to_attach_power_line(

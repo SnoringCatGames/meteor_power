@@ -3,6 +3,17 @@ class_name EmptyStation
 extends Station
 
 
+const IS_CONNECTABLE := false
+
+
+func _init().(IS_CONNECTABLE) -> void:
+    pass
+
+
+func _get_normal_highlight_color() -> Color:
+    return ColorConfig.TRANSPARENT
+
+
 func get_buttons() -> Array:
     return [
         Commands.STATION_SOLAR,

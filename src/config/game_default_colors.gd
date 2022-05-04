@@ -62,25 +62,67 @@ var shadow := _COLOR_SHADOW
 
 # ---
 
-var highlight_green := Color("cc6abe30")
-var highlight_light_blue := Color("aaa8ecff")
-var highlight_blue := Color("cc1cb0ff")
-var highlight_dark_blue := Color("ff003066")
-var highlight_disabled := Color("88292929")
-var highlight_yellow := Color("ccccc016")
-var highlight_orange := Color("cccc7a16")
-var highlight_red := Color("cccc2c16")
-var highlight_purple := Color("cc9f16cc")
+var highlight_light_green := Color("eaffdb")
+var highlight_green := Color("85f23a")
+var highlight_light_blue := Color("a8ecff")
+var highlight_blue := Color("1cb0ff")
+var highlight_dark_blue := Color("003066")
+var highlight_disabled := Color("bb8b8b8b")
+var highlight_yellow := Color("ccc016")
+var highlight_orange := Color("cc7a16")
+var highlight_red := Color("cc2c16")
+var highlight_light_purple := Color("f2e0ff")
+var highlight_purple := Color("b04fff")
+var highlight_dark_purple := Color("51048f")
 
-var bot_idle := ColorFactory.opacify("highlight_yellow", 0.9)
-var bot_active := ColorFactory.opacify("highlight_green", 0.6)
-var bot_new := ColorFactory.opacify("highlight_orange", 0.999)
-var bot_stopping := ColorFactory.opacify("highlight_red", 0.6)
-var bot_powered_down := ColorFactory.opacify("highlight_red", 0.999)
-var bot_selected := ColorFactory.opacify("highlight_blue", 0.9)
-var bot_hovered := ColorFactory.opacify("highlight_light_blue", 0.7)
+#var highlight_pink := Color("ca4fff")
+#var highlight_pink_new := Color("d94fff")
+#var highlight_blue_selected := Color("667aff")
+#var highlight_light_blue_selected := Color("d9deff")
 
-var station_normal := ColorFactory.opacify("highlight_green", 0.7)
+var highlight_teal := Color("4fffc4")
+var highlight_light_teal := Color("d4fff0")
+var highlight_dark_teal := Color("005236")
+var highlight_green_selected := Color("4fff7b")
+var highlight_light_green_selected := Color("d4ffde")
+var highlight_blue_selected := Color("39e1f7")
+var highlight_light_blue_selected := Color("adf5ff")
+#var highlight_green_idle_selected := Color("81ff4f")
+#var highlight_green_new_selected := Color("9bff4f")
+var highlight_yellow_idle_selected := Color("e5ff4f")
+var highlight_yellow_new_selected := Color("f9ff85")
+
+var modulation_button_normal := highlight_teal
+var modulation_button_hover := highlight_light_teal
+var modulation_button_pressed := highlight_dark_teal
+var modulation_button_disabled := highlight_disabled
+
+var bot_idle := ColorFactory.opacify("highlight_yellow_idle_selected", 0.6)
+var bot_active := ColorFactory.opacify("highlight_teal", 0.4)
+var bot_new := ColorFactory.opacify("highlight_yellow_new_selected", 0.9)
+var bot_powered_down := ColorFactory.opacify("highlight_red", 0.9)
+var bot_selected := ColorFactory.opacify("highlight_blue_selected", 0.9)
+var bot_player_control_active := ColorFactory.opacify("highlight_purple", 0.9)
+var bot_hovered := ColorFactory.opacify("highlight_light_blue_selected", 0.9)
+
+var station_normal := ColorFactory.opacify("highlight_teal", 0.65)
 var station_disconnected := ColorFactory.opacify("highlight_red", 0.9)
-var station_selected := ColorFactory.opacify("highlight_blue", 0.9)
-var station_hovered := ColorFactory.opacify("highlight_light_blue", 0.7)
+var station_selected := ColorFactory.opacify("highlight_blue_selected", 0.9)
+var station_hovered := ColorFactory.opacify("highlight_light_blue_selected", 0.9)
+
+#var modulation_button_normal := highlight_purple
+#var modulation_button_hover := highlight_light_purple
+#var modulation_button_pressed := highlight_dark_purple
+#var modulation_button_disabled := highlight_disabled
+
+#var bot_idle := ColorFactory.opacify("highlight_pink", 0.8)
+#var bot_active := ColorFactory.opacify("highlight_purple", 0.6)
+#var bot_new := ColorFactory.opacify("highlight_pink_new", 0.9)
+#var bot_powered_down := ColorFactory.opacify("highlight_red", 0.9)
+#var bot_selected := ColorFactory.opacify("highlight_blue_selected", 0.9)
+#var bot_hovered := ColorFactory.opacify("highlight_light_blue_selected", 0.9)
+#
+#var station_normal := ColorFactory.opacify("highlight_purple", 0.7)
+#var station_disconnected := ColorFactory.opacify("highlight_red", 0.9)
+#var station_selected := ColorFactory.opacify("highlight_blue_selected", 0.9)
+#var station_hovered := ColorFactory.opacify("highlight_light_blue_selected", 0.9)

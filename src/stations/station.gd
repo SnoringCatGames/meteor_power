@@ -36,6 +36,12 @@ var is_connected_to_command_center := false
 
 var meteor_hit_count := 0
 
+var is_connectable := true
+
+
+func _init(is_connectable: bool) -> void:
+    self.is_connectable = is_connectable
+
 
 func _ready() -> void:
     buttons = Sc.utils.add_scene(self, _OVERLAY_BUTTON_PANEL_CLASS)
@@ -245,14 +251,19 @@ func _update_highlight() -> void:
         outline_color = Sc.palette.get_color("station_hovered")
     elif get_is_selected():
         outline_color = Sc.palette.get_color("station_selected")
-    elif !is_connected_to_command_center:
+    elif !is_connected_to_command_center and \
+            is_connectable:
         outline_color = Sc.palette.get_color("station_disconnected")
     else:
-        outline_color = Sc.palette.get_color("station_normal")
+        outline_color = _get_normal_highlight_color()
         active_outline_alpha_multiplier = \
                 viewport_position_outline_alpha_multiplier
     _update_outline()
     buttons.set_viewport_opacity_weight(active_outline_alpha_multiplier)
+
+
+func _get_normal_highlight_color() -> Color:
+    return Sc.palette.get_color("station_normal")
 
 
 func _update_outline() -> void:

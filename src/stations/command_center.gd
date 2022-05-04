@@ -3,6 +3,13 @@ class_name CommandCenter
 extends Station
 
 
+const IS_CONNECTABLE := false
+
+
+func _init().(IS_CONNECTABLE) -> void:
+    pass
+
+
 func get_buttons() -> Array:
     return [
         Commands.RUN_WIRE,
