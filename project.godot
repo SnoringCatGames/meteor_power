@@ -994,8 +994,8 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/gui/game_radial_menu.gd"
 }, {
-"base": "RadialMenuItemData",
-"class": "GameRadialMenuItemData",
+"base": "SpriteModulationRadialMenuItem",
+"class": "GameRadialMenuItem",
 "language": "GDScript",
 "path": "res://src/gui/game_radial_menu_item_data.gd"
 }, {
@@ -1494,6 +1494,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/scaffolder/src/outlineable_sprite.gd"
 }, {
+"base": "RadialMenuItem",
+"class": "OutlineableSpriteRadialMenuItem",
+"language": "GDScript",
+"path": "res://addons/scaffolder/src/gui/radial_menu/outlineable_sprite_radial_menu_item.gd"
+}, {
 "base": "Node2D",
 "class": "OverlayButtonPanel",
 "language": "GDScript",
@@ -1705,9 +1710,9 @@ _global_script_classes=[ {
 "path": "res://addons/scaffolder/src/gui/radial_menu/radial_menu.gd"
 }, {
 "base": "Reference",
-"class": "RadialMenuItemData",
+"class": "RadialMenuItem",
 "language": "GDScript",
-"path": "res://addons/scaffolder/src/gui/radial_menu/radial_menu_item_data.gd"
+"path": "res://addons/scaffolder/src/gui/radial_menu/radial_menu_item.gd"
 }, {
 "base": "Screen",
 "class": "RateAppScreen",
@@ -2138,6 +2143,11 @@ _global_script_classes=[ {
 "class": "SpriteModulationButton",
 "language": "GDScript",
 "path": "res://addons/scaffolder/src/gui/level_button/sprite_modulation_button.gd"
+}, {
+"base": "RadialMenuItem",
+"class": "SpriteModulationRadialMenuItem",
+"language": "GDScript",
+"path": "res://addons/scaffolder/src/gui/radial_menu/sprite_modulation_radial_menu_item.gd"
 }, {
 "base": "SurfacerCharacter",
 "class": "Squirrel",
@@ -3032,7 +3042,7 @@ _global_script_class_icons={
 "GameOverScreen": "",
 "GamePlugin": "",
 "GameRadialMenu": "",
-"GameRadialMenuItemData": "",
+"GameRadialMenuItem": "",
 "GameSchema": "",
 "GameScreen": "",
 "GestureRecord": "",
@@ -3132,6 +3142,7 @@ _global_script_class_icons={
 "OriginSurfaceLegendItem": "",
 "OutlineableAnimatedSprite": "res://addons/scaffolder/assets/images/editor_icons/outlineable_sprite.png",
 "OutlineableSprite": "res://addons/scaffolder/assets/images/editor_icons/outlineable_sprite.png",
+"OutlineableSpriteRadialMenuItem": "",
 "OverlayButtonPanel": "",
 "OverlayMaskTransition": "",
 "PaletteColorConfig": "",
@@ -3174,7 +3185,7 @@ _global_script_class_icons={
 "ProximityDetector": "res://addons/scaffolder/assets/images/editor_icons/proximity_detector.png",
 "QuadrantShapeType": "",
 "RadialMenu": "",
-"RadialMenuItemData": "",
+"RadialMenuItem": "",
 "RateAppScreen": "",
 "RecalculateTilesetCustomProperty": "",
 "RecentMovementAnnotatorControlRow": "",
@@ -3261,6 +3272,7 @@ _global_script_class_icons={
 "Spacer": "res://addons/scaffolder/assets/images/editor_icons/spacer.png",
 "SplashScreen": "",
 "SpriteModulationButton": "res://addons/scaffolder/assets/images/editor_icons/scaffolder_texture_button.png",
+"SpriteModulationRadialMenuItem": "",
 "Squirrel": "",
 "SquirrelAwayDefaultAnnotationParameters": "",
 "SquirrelAwayDefaultColors": "",

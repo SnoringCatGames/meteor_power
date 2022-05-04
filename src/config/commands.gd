@@ -122,31 +122,6 @@ const TEXTURES := {
     RUN_WIRE: preload("res://assets/images/gui/overlay_buttons/run_power_line_button.png"),
 }
 
-# TODO: Add more-efficient separate textures for outlines?
-const OUTLINED_TEXTURES := {
-    UNKNOWN: null,
-    
-    BOT_CONSTRUCTOR: null,
-    BOT_LINE_RUNNER: null,
-    BOT_REPAIR: null,
-    BOT_BARRIER: null,
-    BOT_COMMAND: null,
-    BOT_STOP: null,
-    BOT_MOVE: null,
-    BOT_RECYCLE: null,
-    BOT_INFO: null,
-    
-    STATION_EMPTY: null,
-    STATION_COMMAND: null,
-    STATION_SOLAR: null,
-    STATION_SCANNER: null,
-    STATION_BATTERY: null,
-    STATION_RECYCLE: null,
-    STATION_INFO: null,
-    
-    RUN_WIRE: null,
-}
-
 
 static func get_string(type: int) -> String:
     match type:

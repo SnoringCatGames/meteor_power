@@ -242,13 +242,13 @@ func _update_highlight() -> void:
     if interaction_mode == InteractionMode.HOVER or \
             interaction_mode == InteractionMode.PRESSED or \
             buttons.get_is_hovered_or_pressed():
-        outline_color = Sc.palette.get_color("hovered")
+        outline_color = Sc.palette.get_color("station_hovered")
     elif get_is_selected():
-        outline_color = Sc.palette.get_color("selected")
+        outline_color = Sc.palette.get_color("station_selected")
+    elif !is_connected_to_command_center:
+        outline_color = Sc.palette.get_color("station_disconnected")
     else:
-        # FIXME: ------------------------------------------------------
-        # - Not transparent.
-        outline_color = ColorConfig.TRANSPARENT
+        outline_color = Sc.palette.get_color("station_normal")
         active_outline_alpha_multiplier = \
                 viewport_position_outline_alpha_multiplier
     _update_outline()

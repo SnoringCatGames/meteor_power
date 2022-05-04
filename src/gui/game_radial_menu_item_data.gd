@@ -1,7 +1,7 @@
-class_name GameRadialMenuItemData
-extends RadialMenuItemData
+class_name GameRadialMenuItem
+extends SpriteModulationRadialMenuItem
 
 
-# FIXME: --------------------------------
+# FIXME: LEFT OFF HERE: -------------------------------------
 var is_highlighted := false
 var cost := 0

@@ -62,10 +62,25 @@ var shadow := _COLOR_SHADOW
 
 # ---
 
-var new := Color("e0b400")
-var active := Color("53c700")
-var idle := Color("ffd000")
-var stopping := Color("ffd000")
-var selected := Color("1cb0ff")
-var hovered := Color("99dbff")
-var powered_down := Color("cc2c16")
+var highlight_green := Color("cc6abe30")
+var highlight_light_blue := Color("aaa8ecff")
+var highlight_blue := Color("cc1cb0ff")
+var highlight_dark_blue := Color("ff003066")
+var highlight_disabled := Color("88292929")
+var highlight_yellow := Color("ccccc016")
+var highlight_orange := Color("cccc7a16")
+var highlight_red := Color("cccc2c16")
+var highlight_purple := Color("cc9f16cc")
+
+var bot_idle := ColorFactory.opacify("highlight_yellow", 0.9)
+var bot_active := ColorFactory.opacify("highlight_green", 0.6)
+var bot_new := ColorFactory.opacify("highlight_orange", 0.999)
+var bot_stopping := ColorFactory.opacify("highlight_red", 0.6)
+var bot_powered_down := ColorFactory.opacify("highlight_red", 0.999)
+var bot_selected := ColorFactory.opacify("highlight_blue", 0.9)
+var bot_hovered := ColorFactory.opacify("highlight_light_blue", 0.7)
+
+var station_normal := ColorFactory.opacify("highlight_green", 0.7)
+var station_disconnected := ColorFactory.opacify("highlight_red", 0.9)
+var station_selected := ColorFactory.opacify("highlight_blue", 0.9)
+var station_hovered := ColorFactory.opacify("highlight_light_blue", 0.7)

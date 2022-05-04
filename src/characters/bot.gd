@@ -118,7 +118,7 @@ func _on_touch_down(
         
         var radial_menu: GameRadialMenu = Sc.gui.hud.open_radial_menu(
                 Sc.gui.hud.radial_menu_class,
-                _get_radial_menu_item_data(),
+                _get_radial_menu_item(),
                 self.get_position_in_screen_space(),
                 self)
         radial_menu.connect(
@@ -471,7 +471,7 @@ func _on_reached_target_station() -> void:
                     str(command))
 
 
-func _on_radial_menu_item_selected(item: RadialMenuItemData) -> void:
+func _on_radial_menu_item_selected(item: RadialMenuItem) -> void:
     match item.id:
         Commands.BOT_COMMAND:
             set_is_player_control_active(true)
@@ -520,16 +520,15 @@ func _get_common_radial_menu_item_types() -> Array:
     ]
 
 
-func _get_radial_menu_item_data() -> Array:
+func _get_radial_menu_item() -> Array:
     var types := _get_radial_menu_item_types()
     var result := []
     for type in types:
-        var command_item := GameRadialMenuItemData.new()
+        var command_item := GameRadialMenuItem.new()
         command_item.cost = Commands.COSTS[type]
         command_item.id = type
         command_item.description = Commands.SHORT_DESCRIPTIONS[type]
         command_item.texture = Commands.TEXTURES[type]
-        command_item.outlined_texture = Commands.OUTLINED_TEXTURES[type]
         result.push_back(command_item)
     return result
 
