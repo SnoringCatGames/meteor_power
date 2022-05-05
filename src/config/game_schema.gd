@@ -322,6 +322,8 @@ var _gui_manifest := {
     game_over_image_scale = 0.5,
     loading_image_scale = 0.5,
     
+    display_time_type = TimeType.PLAY_PHYSICS_SCALED,
+    
     main_menu_image_scene = preload("res://src/gui/loading_image.tscn"),
     game_over_image_scene = preload("res://src/gui/loading_image.tscn"),
     loading_image_scene = preload("res://src/gui/loading_image.tscn"),
