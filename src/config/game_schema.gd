@@ -57,12 +57,15 @@ var _metadata := {
 }
 
 var _music_manifest := [
+    # NOTE:
+    # -   I'm hacking this a bit.
+    # -   BPMs are used as a seconds tracker, and aren't actually accurate.
     {
         name = "just_keep_building",
         path_prefix = "res://assets/music/",
         volume_db = -9.0,
-        bpm = 75.0,
-        meter = 4,
+        bpm = 120.0,
+        meter = 1,
     },
 ]
 
@@ -153,19 +156,19 @@ var _audio_manifest := {
     
     main_menu_music = "just_keep_building",
     game_over_music = "just_keep_building",
-    pause_menu_music = "just_keep_building",
+    pause_menu_music = "",
     default_level_music = "just_keep_building",
     
     pauses_level_music_on_pause = true,
     
-    are_beats_tracked_by_default = false,
+    are_beats_tracked_by_default = true,
     
-    is_arbitrary_music_speed_change_supported = true,
-    is_music_speed_scaled_with_time_scale = true,
-    is_music_speed_scaled_with_additional_debug_time_scale = true,
+    is_arbitrary_music_speed_change_supported = false,
+    is_music_speed_scaled_with_time_scale = false,
+    is_music_speed_scaled_with_additional_debug_time_scale = false,
     
-    is_music_paused_in_slow_motion = true,
-    is_tick_tock_played_in_slow_motion = true,
+    is_music_paused_in_slow_motion = false,
+    is_tick_tock_played_in_slow_motion = false,
     is_slow_motion_start_stop_sound_effect_played = true,
 }
 
