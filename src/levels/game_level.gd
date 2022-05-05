@@ -146,7 +146,6 @@ func _on_radial_menu_closed() -> void:
 
 
 func _on_active_player_character_changed() -> void:
-    # FIXME: LEFT OFF HERE: ---------------- Decouple bot-selection from active-character-for-player-control.
     selected_bot = _active_player_character
     
     if is_instance_valid(selected_bot) and \
@@ -156,6 +155,9 @@ func _on_active_player_character_changed() -> void:
     
     clear_station_power_line_selection()
     _update_camera()
+    
+    Sc.level.level_control_press_controller.are_touches_disabled = \
+            is_instance_valid(_active_player_character)
 
 
 func _on_bot_selection_changed(
