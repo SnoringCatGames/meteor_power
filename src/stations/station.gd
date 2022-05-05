@@ -53,6 +53,7 @@ func _ready() -> void:
     buttons.station = self
     
     _set_up_camera_detector()
+    _set_up_desaturatable()
     
     Sc.camera.connect("panned", self, "_on_panned")
     Sc.camera.connect("zoomed", self, "_on_zoomed")
@@ -89,6 +90,16 @@ func _update_camera_detector() -> void:
     camera_detector.shape_rectangle_extents = self.shape_rectangle_extents
     camera_detector.shape_offset = self.shape_offset
     camera_detector.viewport_ratio = _CAMERA_DETECTOR_VIEWPORT_RATIO
+
+
+func _set_up_desaturatable() -> void:
+    var sprites: Array = \
+        Sc.utils.get_children_by_type(self, OutlineableSprite, true)
+    var animated_sprites: Array = \
+        Sc.utils.get_children_by_type(self, OutlineableAnimatedSprite, true)
+    for collection in [sprites, animated_sprites]:
+        for node in collection:
+            node.is_desaturatable = true
 
 
 func _on_level_started() -> void:
