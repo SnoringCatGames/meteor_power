@@ -18,6 +18,20 @@ var _is_running := false
 var _last_scaled_time := INF
 
 
+func _ready() -> void:
+    _set_up_desaturatable()
+
+
+func _set_up_desaturatable() -> void:
+    var sprites: Array = \
+        Sc.utils.get_children_by_type(self, Sprite, true)
+    var animated_sprites: Array = \
+        Sc.utils.get_children_by_type(self, AnimatedSprite, true)
+    for collection in [sprites, animated_sprites]:
+        for node in collection:
+            node.add_to_group(Sc.slow_motion.GROUP_NAME_DESATURATABLES)
+
+
 func run() -> void:
     _is_running = true
     
