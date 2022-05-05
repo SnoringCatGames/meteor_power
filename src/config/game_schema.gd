@@ -457,7 +457,7 @@ var _additive_overrides := {
             default_time_scale = 0.5,
             gui_mode_time_scale = 0.07,
             tick_tock_tempo_multiplier = 1,
-            saturation = 0.4,
+            saturation = 0.3,
         }
     },
     SurfacerSchema: {
