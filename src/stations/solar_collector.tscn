@@ -77,7 +77,7 @@ shape_rectangle_extents = Vector2( 24, 28 )
 shape_offset = Vector2( 0, -28 )
 rope_attachment_offset = Vector2( 0, -2 )
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." groups=["slow_motionables"]]
 anims/RESET = SubResource( 1 )
 anims/dark = SubResource( 4 )
 anims/shine = SubResource( 2 )

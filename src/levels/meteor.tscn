@@ -204,19 +204,19 @@ texture = ExtResource( 2 )
 light_mask = 0
 texture = ExtResource( 3 )
 
-[node name="LargeTail" type="AnimatedSprite" parent="."]
+[node name="LargeTail" type="AnimatedSprite" parent="." groups=["slow_motionables"]]
 visible = false
 light_mask = 0
 position = Vector2( 1, -42 )
 frames = SubResource( 64 )
-frame = 13
+frame = 14
 playing = true
 
-[node name="SmallTail" type="AnimatedSprite" parent="."]
+[node name="SmallTail" type="AnimatedSprite" parent="." groups=["slow_motionables"]]
 light_mask = 0
 position = Vector2( 1, -27 )
 frames = SubResource( 43 )
-frame = 4
+frame = 5
 playing = true
 
 [node name="Light2D" type="Light2D" parent="."]
