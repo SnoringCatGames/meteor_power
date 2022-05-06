@@ -93,3 +93,6 @@ hframes = 34
 light_mask = 2
 position = Vector2( 0, -32 )
 texture = ExtResource( 3 )
+
+[node name="Center" type="Position2D" parent="."]
+position = Vector2( 0, -33 )

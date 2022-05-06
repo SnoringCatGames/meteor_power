@@ -249,7 +249,7 @@ func _on_touch_down(
     var radial_menu: GameRadialMenu = Sc.gui.hud.open_radial_menu(
             Sc.gui.hud.radial_menu_class,
             _get_radial_menu_items(),
-            self.get_position_in_screen_space(),
+            get_radial_position_in_screen_space(),
             self)
     radial_menu.connect(
             "touch_up_item", self, "_on_radial_menu_item_selected")
@@ -278,8 +278,8 @@ func get_is_selected() -> bool:
     return Sc.level.selected_station == self
 
 
-func get_position_in_screen_space() -> Vector2:
-    return get_global_transform_with_canvas().origin
+func get_radial_position_in_screen_space() -> Vector2:
+    return $Center.get_global_transform_with_canvas().origin
 
 
 func _update_highlight_for_camera_position() -> void:
