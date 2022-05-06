@@ -34,10 +34,6 @@ var _static_camera: StaticCamera
 
 
 func _ready() -> void:
-    self.connect(
-            "active_player_character_changed",
-            self,
-            "_on_active_player_character_changed")
     _static_camera = StaticCamera.new()
     add_child(_static_camera)
 
@@ -146,6 +142,8 @@ func _on_radial_menu_closed() -> void:
 
 
 func _on_active_player_character_changed() -> void:
+    ._on_active_player_character_changed()
+    
     selected_bot = _active_player_character
     
     if is_instance_valid(selected_bot) and \
