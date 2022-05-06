@@ -469,6 +469,7 @@ var _additive_overrides := {
         movement_manifest = {
             do_player_actions_interrupt_navigation = false,
         },
+        cancel_active_player_control_on_invalid_nav_selection = true,
     },
     SurfaceTilerSchema: {
         includes_intra_subtile_45_concave_cusps = false,
