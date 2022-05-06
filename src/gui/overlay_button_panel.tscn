@@ -14,7 +14,6 @@ extents = Vector2( 8, 8 )
 
 [node name="OverlayButtonPanel" type="Node2D"]
 visible = false
-modulate = Color( 1, 1, 1, 0.6 )
 position = Vector2( 0, 8 )
 z_index = 4
 script = ExtResource( 5 )

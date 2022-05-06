@@ -122,7 +122,7 @@ func set_buttons(
 
 
 func set_viewport_opacity_weight(weight: float) -> void:
-    self.modulate.a = lerp(
+    $Buttons.modulate.a = lerp(
             _MIN_OPACITY_FOR_VIEWPORT_POSITION,
             _MAX_OPACITY_FOR_VIEWPORT_POSITION,
             weight)

@@ -10,6 +10,8 @@ const _EMPTY_STATION_SCENE := preload("res://src/stations/empty_station.tscn")
 const _SOLAR_COLLECTOR_SCENE := preload(
         "res://src/stations/solar_collector.tscn")
 
+const _OVERLAY_BUTTONS_FADE_DURATION := 0.3
+
 var _nav_preselection_camera: NavigationPreselectionCamera
 
 var command_center: CommandCenter
@@ -34,10 +36,14 @@ var first_selected_station_for_running_power_line: Station = null
 
 var _static_camera: StaticCamera
 
+var _overlay_buttons_fade_tween: ScaffolderTween
+var _overlay_buttons_opacity := 1.0
+
 
 func _ready() -> void:
     _static_camera = StaticCamera.new()
     add_child(_static_camera)
+    _overlay_buttons_fade_tween = ScaffolderTween.new(self)
 
 
 func _load() -> void:
@@ -85,6 +91,32 @@ func _start() -> void:
     self.add_child(meteor_controller)
     
     _override_for_level()
+    
+#    Sc.gui.hud.connect("radial_menu_opened", self, "_on_radial_menu_opened")
+#    Sc.gui.hud.connect("radial_menu_closed", self, "_on_radial_menu_closed")
+    Sc.slow_motion.connect(
+        "slow_motion_toggled", self, "_on_slow_motion_toggled")
+
+
+func _on_slow_motion_toggled(is_enabled: bool) -> void:
+    var end_value := \
+            0.0 if \
+            is_enabled else \
+            1.0
+    _overlay_buttons_fade_tween.stop_all()
+    _overlay_buttons_fade_tween.interpolate_method(
+        self,
+        "_interpolate_overlay_buttons_fade",
+        _overlay_buttons_opacity,
+        end_value,
+        _OVERLAY_BUTTONS_FADE_DURATION)
+    _overlay_buttons_fade_tween.start()
+
+
+func _interpolate_overlay_buttons_fade(opacity: float) -> void:
+    _overlay_buttons_opacity = opacity
+    for station in stations:
+        station.buttons.modulate.a = opacity
 
 
 func _override_for_level() -> void:
