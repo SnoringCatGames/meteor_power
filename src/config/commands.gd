@@ -101,7 +101,7 @@ const VERBOSE_DESCRIPTIONS := {
 const TEXTURES := {
     UNKNOWN: null,
     
-    BOT_CONSTRUCTOR: preload("res://assets/images/gui/overlay_buttons/construction_bot_overlay_button.png"),
+    BOT_CONSTRUCTOR: preload("res://assets/images/gui/overlay_buttons/build_constructor_bot.png"),
     BOT_LINE_RUNNER: preload("res://assets/images/gui/overlay_buttons/line_runner_bot_overlay_button.png"),
     BOT_REPAIR: preload("res://assets/images/gui/overlay_buttons/repair_bot_overlay_button.png"),
     BOT_BARRIER: preload("res://assets/images/gui/overlay_buttons/barrier_bot_overlay_button.png"),

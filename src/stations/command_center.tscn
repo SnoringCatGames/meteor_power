@@ -148,6 +148,6 @@ rope_attachment_offset = Vector2( 0, -36 )
 light_mask = 2
 position = Vector2( 0, -32 )
 frames = SubResource( 32 )
-frame = 25
+frame = 6
 playing = true
 adds_margins = false

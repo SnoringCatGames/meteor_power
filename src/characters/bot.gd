@@ -61,6 +61,8 @@ func _ready() -> void:
     navigator.connect("navigation_ended", self, "_on_navigation_ended")
     Sc.info_panel.connect("closed", self, "_on_info_panel_closed")
     _update_status()
+    detects_pointer = true
+    pointer_screen_radius = 48.0
 
 
 func _physics_process(delta: float) -> void:
@@ -118,7 +120,7 @@ func _on_touch_down(
         
         var radial_menu: GameRadialMenu = Sc.gui.hud.open_radial_menu(
                 Sc.gui.hud.radial_menu_class,
-                _get_radial_menu_item(),
+                _get_radial_menu_items(),
                 self.get_position_in_screen_space(),
                 self)
         radial_menu.connect(
@@ -523,7 +525,7 @@ func _get_common_radial_menu_item_types() -> Array:
     ]
 
 
-func _get_radial_menu_item() -> Array:
+func _get_radial_menu_items() -> Array:
     var types := _get_radial_menu_item_types()
     var result := []
     for type in types:

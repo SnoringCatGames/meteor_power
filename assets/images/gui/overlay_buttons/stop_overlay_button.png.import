@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/line_runner_bot_overlay_button.png-7d2aac32d669e67d9216d3a1d943365b.stex"
+path="res://.import/stop_overlay_button.png-1c3180438153b2fd9837c3bac9b0e4bb.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/images/gui/overlay_buttons/line_runner_bot_overlay_button.png"
-dest_files=[ "res://.import/line_runner_bot_overlay_button.png-7d2aac32d669e67d9216d3a1d943365b.stex" ]
+source_file="res://assets/images/gui/overlay_buttons/stop_overlay_button.png"
+dest_files=[ "res://.import/stop_overlay_button.png-1c3180438153b2fd9837c3bac9b0e4bb.stex" ]
 
 [params]
 

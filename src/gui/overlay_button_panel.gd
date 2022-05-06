@@ -20,9 +20,9 @@ const _VALUE_DELTA_HOVER := 0.35
 const _SATURATION_DELTA_NORMAL := 0.0
 const _SATURATION_DELTA_HOVER := -0.3
 
-const _BUTTON_SIZE := Vector2(32, 32)
+const _BUTTON_SIZE := Vector2(30, 30)
 
-const _PANEL_OFFSET := Vector2(0, 4)
+const _PANEL_OFFSET := Vector2(0, 8)
 
 # Array<TextureButton>
 var buttons := []
@@ -83,8 +83,12 @@ func set_buttons(
         var button_type := _get_type_for_button(button)
         var is_button_visible := button_types.find(button_type) >= 0
         var is_button_disabled := disabled_buttons.find(button_type) >= 0
-        # FIXME: ------------ Disabled
+        # FIXME: ------------ Handle disabled case, when not enough energy.
         button.visible = is_button_visible
+        button.mouse_filter = \
+                Control.MOUSE_FILTER_STOP if \
+                is_button_visible else \
+                Control.MOUSE_FILTER_IGNORE
         if is_button_visible:
             visible_buttons.push_back(button)
     
@@ -110,6 +114,8 @@ func set_buttons(
                     _BUTTON_SIZE / 2.0 - \
                     Vector2(container_size.x / 2.0, 0.0)
             visible_buttons[button_i].position = button_position
+    
+    self.position = _PANEL_OFFSET
     
 #    _set_shape_rectangle_extents(container_size / 2.0)
 #    _set_shape_offset(Vector2(0.0, container_size.y / 2.0))

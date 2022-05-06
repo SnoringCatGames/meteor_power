@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/construction_bot_overlay_button.png-44a905ebf2d2634f73b3a5adb41f405b.stex"
+path="res://.import/info_overlay_button.png-28c45c13b82380b70099157e201a9a91.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/images/gui/overlay_buttons/construction_bot_overlay_button.png"
-dest_files=[ "res://.import/construction_bot_overlay_button.png-44a905ebf2d2634f73b3a5adb41f405b.stex" ]
+source_file="res://assets/images/gui/overlay_buttons/info_overlay_button.png"
+dest_files=[ "res://.import/info_overlay_button.png-28c45c13b82380b70099157e201a9a91.stex" ]
 
 [params]
 
@@ -20,7 +20,7 @@ compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
-flags/filter=true
+flags/filter=false
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2

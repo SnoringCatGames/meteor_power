@@ -13,7 +13,7 @@ func _init().(IS_CONNECTABLE) -> void:
 func get_buttons() -> Array:
     return [
         Commands.RUN_WIRE,
-        Commands.BOT_CONSTRUCTOR,
+#        Commands.BOT_CONSTRUCTOR,
 #        Commands.BOT_LINE_RUNNER,
 #        Commands.BOT_REPAIR,
 #        Commands.BOT_BARRIER,

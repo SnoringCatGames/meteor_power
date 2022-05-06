@@ -16,7 +16,7 @@ func _get_normal_highlight_color() -> Color:
 
 func get_buttons() -> Array:
     return [
-        Commands.STATION_SOLAR,
+#        Commands.STATION_SOLAR,
     ]
 
 

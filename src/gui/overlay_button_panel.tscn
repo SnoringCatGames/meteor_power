@@ -15,6 +15,7 @@ extents = Vector2( 8, 8 )
 [node name="OverlayButtonPanel" type="Node2D"]
 visible = false
 modulate = Color( 1, 1, 1, 0.6 )
+position = Vector2( 0, 8 )
 z_index = 4
 script = ExtResource( 5 )
 
@@ -24,9 +25,11 @@ shape = SubResource( 1 )
 [node name="Buttons" type="Node2D" parent="."]
 
 [node name="RunPowerLine" parent="Buttons" instance=ExtResource( 8 )]
-position = Vector2( -32, 16 )
+position = Vector2( -30, 15 )
 scale = Vector2( 2, 2 )
+screen_radius = 28.0
 is_desaturatable = true
+shape_rectangle_extents = Vector2( 7.5, 7.5 )
 texture = ExtResource( 6 )
 normal_modulate = Object(Reference,"script":Resource( "res://addons/scaffolder/src/config/color_config/palette_color_config.gd" ),"h":0.0,"s":0.0,"v":0.0,"a":0.0,"key":"modulation_button_normal","_h_override":-1.0,"_s_override":-1.0,"_v_override":-1.0,"_a_override":-1.0,"h_delta":0.0,"s_delta":0.0,"v_delta":0.0,"a_delta":0.0,"override_color":Color( -1, -2, -2, -1 ),"delta_color":Color( 0, 0, 0, 0 ),"key":"modulation_button_normal","_h_override":-1.0,"_s_override":-1.0,"_v_override":-1.0,"_a_override":-1.0,"h_delta":0.0,"s_delta":0.0,"v_delta":0.0,"a_delta":0.0)
 
@@ -39,9 +42,11 @@ disabled_modulate = Object(Reference,"script":Resource( "res://addons/scaffolder
 alpha_multiplier = 0.75
 
 [node name="Battery" parent="Buttons" instance=ExtResource( 8 )]
-position = Vector2( 0, 16 )
+position = Vector2( 0, 15 )
 scale = Vector2( 2, 2 )
+screen_radius = 28.0
 is_desaturatable = true
+shape_rectangle_extents = Vector2( 7.5, 7.5 )
 texture = ExtResource( 2 )
 normal_modulate = Object(Reference,"script":Resource( "res://addons/scaffolder/src/config/color_config/palette_color_config.gd" ),"h":0.0,"s":0.0,"v":0.0,"a":0.0,"key":"modulation_button_normal","_h_override":-1.0,"_s_override":-1.0,"_v_override":-1.0,"_a_override":-1.0,"h_delta":0.0,"s_delta":0.0,"v_delta":0.0,"a_delta":0.0,"override_color":Color( -1, -2, -2, -1 ),"delta_color":Color( 0, 0, 0, 0 ),"key":"modulation_button_normal","_h_override":-1.0,"_s_override":-1.0,"_v_override":-1.0,"_a_override":-1.0,"h_delta":0.0,"s_delta":0.0,"v_delta":0.0,"a_delta":0.0)
 
@@ -54,9 +59,11 @@ disabled_modulate = Object(Reference,"script":Resource( "res://addons/scaffolder
 alpha_multiplier = 0.75
 
 [node name="Scanner" parent="Buttons" instance=ExtResource( 8 )]
-position = Vector2( 32, 16 )
+position = Vector2( 30, 15 )
 scale = Vector2( 2, 2 )
+screen_radius = 28.0
 is_desaturatable = true
+shape_rectangle_extents = Vector2( 7.5, 7.5 )
 texture = ExtResource( 3 )
 normal_modulate = Object(Reference,"script":Resource( "res://addons/scaffolder/src/config/color_config/palette_color_config.gd" ),"h":0.0,"s":0.0,"v":0.0,"a":0.0,"key":"modulation_button_normal","_h_override":-1.0,"_s_override":-1.0,"_v_override":-1.0,"_a_override":-1.0,"h_delta":0.0,"s_delta":0.0,"v_delta":0.0,"a_delta":0.0,"override_color":Color( -1, -2, -2, -1 ),"delta_color":Color( 0, 0, 0, 0 ),"key":"modulation_button_normal","_h_override":-1.0,"_s_override":-1.0,"_v_override":-1.0,"_a_override":-1.0,"h_delta":0.0,"s_delta":0.0,"v_delta":0.0,"a_delta":0.0)
 
@@ -69,9 +76,11 @@ disabled_modulate = Object(Reference,"script":Resource( "res://addons/scaffolder
 alpha_multiplier = 0.75
 
 [node name="Solar" parent="Buttons" instance=ExtResource( 8 )]
-position = Vector2( -32, 48 )
+position = Vector2( -30, 45 )
 scale = Vector2( 2, 2 )
+screen_radius = 28.0
 is_desaturatable = true
+shape_rectangle_extents = Vector2( 7.5, 7.5 )
 texture = ExtResource( 1 )
 normal_modulate = Object(Reference,"script":Resource( "res://addons/scaffolder/src/config/color_config/palette_color_config.gd" ),"h":0.0,"s":0.0,"v":0.0,"a":0.0,"key":"modulation_button_normal","_h_override":-1.0,"_s_override":-1.0,"_v_override":-1.0,"_a_override":-1.0,"h_delta":0.0,"s_delta":0.0,"v_delta":0.0,"a_delta":0.0,"override_color":Color( -1, -2, -2, -1 ),"delta_color":Color( 0, 0, 0, 0 ),"key":"modulation_button_normal","_h_override":-1.0,"_s_override":-1.0,"_v_override":-1.0,"_a_override":-1.0,"h_delta":0.0,"s_delta":0.0,"v_delta":0.0,"a_delta":0.0)
 
@@ -84,9 +93,11 @@ disabled_modulate = Object(Reference,"script":Resource( "res://addons/scaffolder
 alpha_multiplier = 0.75
 
 [node name="ConstructorBot" parent="Buttons" instance=ExtResource( 8 )]
-position = Vector2( 0, 48 )
+position = Vector2( 0, 45 )
 scale = Vector2( 2, 2 )
+screen_radius = 28.0
 is_desaturatable = true
+shape_rectangle_extents = Vector2( 7.5, 7.5 )
 texture = ExtResource( 7 )
 normal_modulate = Object(Reference,"script":Resource( "res://addons/scaffolder/src/config/color_config/palette_color_config.gd" ),"h":0.0,"s":0.0,"v":0.0,"a":0.0,"key":"modulation_button_normal","_h_override":-1.0,"_s_override":-1.0,"_v_override":-1.0,"_a_override":-1.0,"h_delta":0.0,"s_delta":0.0,"v_delta":0.0,"a_delta":0.0,"override_color":Color( -1, -2, -2, -1 ),"delta_color":Color( 0, 0, 0, 0 ),"key":"modulation_button_normal","_h_override":-1.0,"_s_override":-1.0,"_v_override":-1.0,"_a_override":-1.0,"h_delta":0.0,"s_delta":0.0,"v_delta":0.0,"a_delta":0.0)
 
@@ -99,9 +110,11 @@ disabled_modulate = Object(Reference,"script":Resource( "res://addons/scaffolder
 alpha_multiplier = 0.75
 
 [node name="Destroy" parent="Buttons" instance=ExtResource( 8 )]
-position = Vector2( 32, 48 )
+position = Vector2( 30, 45 )
 scale = Vector2( 2, 2 )
+screen_radius = 28.0
 is_desaturatable = true
+shape_rectangle_extents = Vector2( 7.5, 7.5 )
 texture = ExtResource( 4 )
 normal_modulate = Object(Reference,"script":Resource( "res://addons/scaffolder/src/config/color_config/palette_color_config.gd" ),"h":0.0,"s":0.0,"v":0.0,"a":0.0,"key":"modulation_button_normal","_h_override":-1.0,"_s_override":-1.0,"_v_override":-1.0,"_a_override":-1.0,"h_delta":0.0,"s_delta":0.0,"v_delta":0.0,"a_delta":0.0,"override_color":Color( -1, -2, -2, -1 ),"delta_color":Color( 0, 0, 0, 0 ),"key":"modulation_button_normal","_h_override":-1.0,"_s_override":-1.0,"_v_override":-1.0,"_a_override":-1.0,"h_delta":0.0,"s_delta":0.0,"v_delta":0.0,"a_delta":0.0)
 
