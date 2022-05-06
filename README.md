@@ -1,8 +1,8 @@
 # Meteor Power
 
-> _**[Play the game!](https://levi.dev/meteor_power)**_
+> _**[Play the game!](https://levi.dev/meteor-power)**_
 > 
-> _**[Watch a gameplay video!](https://levi.dev/meteor_power)**_
+> _**[Watch a gameplay video!](https://www.youtube.com/watch?v=tQ6M2WWKj7k)**_
 > 
 > _**[Checkout the original Ludum Dare version!](https://ldjam.com/events/ludum-dare/50/meteor-power)**_
 
