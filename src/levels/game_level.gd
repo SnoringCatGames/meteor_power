@@ -261,11 +261,15 @@ func _on_station_button_pressed(
         Commands.RUN_WIRE:
             if is_instance_valid(
                     _first_selected_station_for_running_power_line):
-                print("Second wire end")
-                bot.move_to_attach_power_line(
-                        _first_selected_station_for_running_power_line,
-                        station)
-                clear_station_power_line_selection()
+                if _first_selected_station_for_running_power_line == station:
+                    print("Same wire end: Cancelling wire-run command")
+                    clear_station_power_line_selection()
+                else:
+                    print("Second wire end")
+                    bot.move_to_attach_power_line(
+                            _first_selected_station_for_running_power_line,
+                            station)
+                    clear_station_power_line_selection()
             else:
                 print("First wire end")
                 _first_selected_station_for_running_power_line = station
