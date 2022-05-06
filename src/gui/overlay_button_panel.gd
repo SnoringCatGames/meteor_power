@@ -41,7 +41,7 @@ func _ready() -> void:
                 "touch_entered", self, "_on_button_touch_entered", [button])
         button.connect(
                 "touch_exited", self, "_on_button_touch_exited", [button])
-        button.connect("full_pressed", self, "_on_button_pressed", [button])
+        button.connect("touch_down", self, "_on_button_touch_down", [button])
         button.connect(
                 "interaction_mode_changed",
                 self,
@@ -171,7 +171,7 @@ func _on_interaction_mode_changed(interaction_mode: int) -> void:
     emit_signal("interaction_mode_changed")
 
 
-func _on_button_pressed(
+func _on_button_touch_down(
         level_position: Vector2,
         is_already_handled: bool,
         button: SpriteModulationButton) -> void:
