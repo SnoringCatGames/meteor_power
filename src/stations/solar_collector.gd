@@ -42,6 +42,14 @@ func get_disabled_buttons() -> Array:
     return []
 
 
+func _get_radial_menu_item_types() -> Array:
+    return [
+        Commands.RUN_WIRE,
+        Commands.STATION_RECYCLE,
+        Commands.STATION_INFO,
+    ]
+
+
 func get_type() -> int:
     return Commands.STATION_SOLAR
 

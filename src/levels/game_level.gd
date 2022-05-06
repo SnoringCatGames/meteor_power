@@ -17,7 +17,9 @@ var command_center: CommandCenter
 var meteor_controller: MeteorController
 
 var selected_station: Station
+var previous_selected_station: Station
 var selected_bot: Bot
+var previous_selected_bot: Bot
 
 # Array<Station>
 var stations := []
@@ -28,7 +30,7 @@ var bots := []
 # Array<PowerLine>
 var power_lines := []
 
-var _first_selected_station_for_running_power_line: Station = null
+var first_selected_station_for_running_power_line: Station = null
 
 var _static_camera: StaticCamera
 
@@ -150,7 +152,7 @@ func _on_active_player_character_changed() -> void:
     if is_instance_valid(selected_bot) and \
             is_instance_valid(selected_station):
         selected_station.set_is_selected(false)
-        selected_station = null
+        _update_selected_station(null)
     
     clear_station_power_line_selection()
     _update_camera()
@@ -170,18 +172,18 @@ func _on_bot_selection_changed(
                 return
             else:
                 selected_bot.set_is_selected(false)
-        selected_bot = bot
+        _update_selected_bot(bot)
     else:
         if bot != selected_bot:
             # No change.
             return
-        selected_bot = null
+        _update_selected_bot(null)
     
     # Deselect any selected station.
     if is_selected and \
             is_instance_valid(selected_station):
         selected_station.set_is_selected(false)
-        selected_station = null
+        _update_selected_station(null)
 
 
 func _on_station_selection_changed(
@@ -195,27 +197,41 @@ func _on_station_selection_changed(
                 return
             else:
                 selected_station.set_is_selected(false)
-        selected_station = station
+        _update_selected_station(station)
     else:
         if station != selected_station:
             # No change.
             return
-        selected_station = null
+        _update_selected_station(null)
     
     # Deselect any selected bot.
-    if is_selected and \
-            is_instance_valid(selected_bot):
-        selected_bot.set_is_selected(false)
-        selected_bot = null
+#    if is_selected and \
+#            is_instance_valid(selected_bot):
+#        selected_bot.set_is_selected(false)
+#        _update_selected_bot(null)
 
 
 func _clear_selection() -> void:
     if is_instance_valid(selected_bot):
         selected_bot.set_is_selected(false)
-        selected_bot = null
+        _update_selected_bot(null)
     if is_instance_valid(selected_station):
         selected_station.set_is_selected(false)
-        selected_station = null
+        _update_selected_station(null)
+
+
+func _update_selected_bot(selected_bot: Bot) -> void:
+    if self.selected_bot == selected_bot:
+        return
+    previous_selected_bot = self.selected_bot
+    self.selected_bot = selected_bot
+
+
+func _update_selected_station(selected_station: Station) -> void:
+    if self.selected_station == selected_station:
+        return
+    previous_selected_station = self.selected_station
+    self.selected_station = selected_station
 
 
 func _update_camera() -> void:
@@ -249,60 +265,12 @@ func add_energy(enery: int) -> void:
     Sc.levels.session.total_energy += enery
 
 
-func _on_station_button_pressed(
-        station: Station,
-        button_type: int) -> void:
-    # FIXME: LEFT OFF HERE: ---------------------------------------------
-    # - Automatically select bot based on temporal distance.
-    var bot: Bot = bots[0]
-    match button_type:
-        Commands.STATION_RECYCLE:
-            bot.move_to_destroy_station(station)
-        Commands.RUN_WIRE:
-            if is_instance_valid(
-                    _first_selected_station_for_running_power_line):
-                if _first_selected_station_for_running_power_line == station:
-                    print("Same wire end: Cancelling wire-run command")
-                    clear_station_power_line_selection()
-                else:
-                    print("Second wire end")
-                    bot.move_to_attach_power_line(
-                            _first_selected_station_for_running_power_line,
-                            station)
-                    clear_station_power_line_selection()
-            else:
-                print("First wire end")
-                _first_selected_station_for_running_power_line = station
-        
-        Commands.STATION_COMMAND:
-            pass
-        Commands.STATION_SOLAR:
-            assert(station is EmptyStation)
-            bot.move_to_build_station(station, button_type)
-        Commands.STATION_SCANNER:
-            assert(station is EmptyStation)
-            bot.move_to_build_station(station, button_type)
-        Commands.STATION_BATTERY:
-            assert(station is EmptyStation)
-            bot.move_to_build_station(station, button_type)
-        
-        Commands.BOT_CONSTRUCTOR:
-            bot.move_to_build_bot(station, button_type)
-        Commands.BOT_LINE_RUNNER:
-            bot.move_to_build_bot(station, button_type)
-        Commands.BOT_REPAIR:
-            bot.move_to_build_bot(station, button_type)
-        Commands.BOT_BARRIER:
-            bot.move_to_build_bot(station, button_type)
-        _:
-            Sc.logger.error("GameLevel._on_station_button_pressed")
-    
-    if button_type != Commands.RUN_WIRE:
-        clear_station_power_line_selection()
+func get_is_first_station_selected_for_running_power_line() -> bool:
+    return is_instance_valid(first_selected_station_for_running_power_line)
 
 
 func clear_station_power_line_selection() -> void:
-    _first_selected_station_for_running_power_line = null
+    first_selected_station_for_running_power_line = null
 
 
 func add_power_line(power_line: PowerLine) -> void:

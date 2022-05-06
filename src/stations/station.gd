@@ -107,7 +107,98 @@ func _on_level_started() -> void:
 
 
 func _on_button_pressed(button_type: int) -> void:
-    Sc.level._on_station_button_pressed(self, button_type)
+    # FIXME: LEFT OFF HERE: ---------------------------------------------
+    # - Automatically select bot based on temporal distance.
+    # - If there was a selected-bot when pressing the first run-line button,
+    #   then use that bot.
+    var bot = \
+            Sc.level.selected_bot if \
+            is_instance_valid(Sc.level.selected_bot) else \
+            Sc.level.bots[0]
+    
+    match button_type:
+        Commands.STATION_RECYCLE:
+            # FIXME: LEFT OFF HERE: ----------------------------------------
+            pass
+            set_is_selected(false)
+            update_station_info_panel_visibility(false)
+            bot.move_to_destroy_station(self)
+        
+        Commands.STATION_INFO:
+            set_is_selected(true)
+            update_station_info_panel_visibility(true)
+        
+        Commands.RUN_WIRE:
+            # FIXME: LEFT OFF HERE: ----------------------------------------
+            pass
+            set_is_selected(true)
+            update_station_info_panel_visibility(false)
+            if Sc.level.get_is_first_station_selected_for_running_power_line():
+                if Sc.level.first_selected_station_for_running_power_line == self:
+                    Sc.logger.print("Same wire end: Cancelling wire-run command")
+                    Sc.level.clear_station_power_line_selection()
+                else:
+                    Sc.logger.print("Second wire end")
+                    bot.move_to_attach_power_line(
+                            Sc.level.first_selected_station_for_running_power_line,
+                            self)
+                    Sc.level.clear_station_power_line_selection()
+            else:
+                Sc.logger.print("First wire end")
+                Sc.level.first_selected_station_for_running_power_line = self
+        
+        Commands.STATION_COMMAND, \
+        Commands.STATION_SOLAR, \
+        Commands.STATION_SCANNER, \
+        Commands.STATION_BATTERY:
+            set_is_selected(false)
+            update_station_info_panel_visibility(false)
+            _build_station(button_type, bot)
+        
+        Commands.BOT_CONSTRUCTOR, \
+        Commands.BOT_LINE_RUNNER, \
+        Commands.BOT_REPAIR, \
+        Commands.BOT_BARRIER:
+            # FIXME: LEFT OFF HERE: ----------------------------------------
+            pass
+            bot.move_to_build_bot(self, button_type)
+        
+        _:
+            Sc.logger.error("Station._on_button_pressed")
+    
+    if button_type != Commands.RUN_WIRE:
+        Sc.level.clear_station_power_line_selection()
+
+
+func _on_radial_menu_item_selected(item: RadialMenuItem) -> void:
+    _on_button_pressed(item.id)
+
+
+func _on_radial_menu_touch_up_center() -> void:
+    set_is_selected(false)
+
+
+func _on_radial_menu_touch_up_outside() -> void:
+    set_is_selected(false)
+
+
+func update_station_info_panel_visibility(is_visible: bool) -> void:
+    var data: InfoPanelData = Sc.info_panel.get_current_data()
+    if is_visible:
+        if !is_instance_valid(data) or data.meta != self:
+            var contents := Control.new()
+            var info := InfoPanelData.new("Hello info panel!", contents)
+            info.meta = self
+            Sc.info_panel.show_panel(info)
+    else:
+        if is_instance_valid(data) and data.meta == self:
+            Sc.info_panel.close_panel()
+
+
+func _build_station(
+        button_type: int,
+        bot) -> void:
+    Sc.logger.error("Abstract Station._build_station is not implemented")
 
 
 func _on_info_panel_closed(data: InfoPanelData) -> void:
@@ -146,17 +237,26 @@ func _on_button_interaction_mode_changed() -> void:
 func _on_touch_down(
         level_position: Vector2,
         is_already_handled: bool) -> void:
+    set_is_selected(true)
+    
     if is_instance_valid(Sc.level.selected_bot):
         Sc.level.selected_bot.set_is_player_control_active(false)
         
-        # FIXME: LEFT OFF HERE: ------------------------------------
-        # - If first-run-wire-station is selected, then run wire.
-        # - Else, show radial-menu, and maintain this bot as selected.
-        # - Then, update radial-menu-selection handling to check if there is a
-        #   selected bot, and use that one if so.
-        pass
-    else:
-        set_is_selected(true)
+        if Sc.level.get_is_first_station_selected_for_running_power_line():
+            _on_button_pressed(Commands.RUN_WIRE)
+            return
+    
+    var radial_menu: GameRadialMenu = Sc.gui.hud.open_radial_menu(
+            Sc.gui.hud.radial_menu_class,
+            _get_radial_menu_items(),
+            self.get_position_in_screen_space(),
+            self)
+    radial_menu.connect(
+            "touch_up_item", self, "_on_radial_menu_item_selected")
+    radial_menu.connect(
+            "touch_up_center", self, "_on_radial_menu_touch_up_center")
+    radial_menu.connect(
+            "touch_up_outside", self, "_on_radial_menu_touch_up_outside")
 
 
 func _on_touch_up(
@@ -170,21 +270,16 @@ func set_is_selected(is_selected: bool) -> void:
     if is_selected == get_is_selected():
         # No change.
         return
-    if is_selected:
-        var contents := Control.new()
-        var info := InfoPanelData.new("Hello info panel!", contents)
-        info.meta = self
-        Sc.info_panel.show_panel(info)
-    else:
-        var data: InfoPanelData = Sc.info_panel.get_current_data()
-        if is_instance_valid(data) and data.meta == self:
-            Sc.info_panel.close_panel()
     Sc.level._on_station_selection_changed(self, is_selected)
     _update_highlight()
 
 
 func get_is_selected() -> bool:
     return Sc.level.selected_station == self
+
+
+func get_position_in_screen_space() -> Vector2:
+    return get_global_transform_with_canvas().origin
 
 
 func _update_highlight_for_camera_position() -> void:
@@ -374,3 +469,30 @@ func _on_disconnected_from_command_center() -> void:
 
 func _on_hit_by_meteor() -> void:
     meteor_hit_count += 1
+
+
+func _get_common_radial_menu_item_types() -> Array:
+    return [
+        Commands.RUN_WIRE,
+        Commands.STATION_RECYCLE,
+        Commands.STATION_INFO,
+    ]
+
+
+func _get_radial_menu_items() -> Array:
+    var types := _get_radial_menu_item_types()
+    var result := []
+    for type in types:
+        var command_item := GameRadialMenuItem.new()
+        command_item.cost = Commands.COSTS[type]
+        command_item.id = type
+        command_item.description = Commands.SHORT_DESCRIPTIONS[type]
+        command_item.texture = Commands.TEXTURES[type]
+        result.push_back(command_item)
+    return result
+
+
+func _get_radial_menu_item_types() -> Array:
+    Sc.logger.error(
+            "Abstract Station._get_radial_menu_item_types is not implemented")
+    return []
