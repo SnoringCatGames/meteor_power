@@ -105,11 +105,11 @@ const TEXTURES := {
     BOT_LINE_RUNNER: preload("res://assets/images/gui/overlay_buttons/line_runner_bot_overlay_button.png"),
     BOT_REPAIR: preload("res://assets/images/gui/overlay_buttons/repair_bot_overlay_button.png"),
     BOT_BARRIER: preload("res://assets/images/gui/overlay_buttons/barrier_bot_overlay_button.png"),
-    BOT_COMMAND: preload("res://assets/images/gui/overlay_buttons/destroy_overlay_button.png"),
-    BOT_STOP: preload("res://assets/images/gui/overlay_buttons/destroy_overlay_button.png"),
-    BOT_MOVE: preload("res://assets/images/gui/overlay_buttons/destroy_overlay_button.png"),
+    BOT_COMMAND: preload("res://assets/images/gui/overlay_buttons/command_overlay_button.png"),
+    BOT_STOP: preload("res://assets/images/gui/overlay_buttons/stop_overlay_button.png"),
+    BOT_MOVE: preload("res://assets/images/gui/overlay_buttons/command_overlay_button.png"),
     BOT_RECYCLE: preload("res://assets/images/gui/overlay_buttons/destroy_overlay_button.png"),
-    BOT_INFO: preload("res://assets/images/gui/overlay_buttons/destroy_overlay_button.png"),
+    BOT_INFO: preload("res://assets/images/gui/overlay_buttons/info_overlay_button.png"),
     
     STATION_EMPTY: null,
     STATION_COMMAND: preload("res://assets/images/gui/overlay_buttons/destroy_overlay_button.png"),
@@ -117,7 +117,7 @@ const TEXTURES := {
     STATION_SCANNER: preload("res://assets/images/gui/overlay_buttons/scanner_overlay_button.png"),
     STATION_BATTERY: preload("res://assets/images/gui/overlay_buttons/battery_overlay_button.png"),
     STATION_RECYCLE: preload("res://assets/images/gui/overlay_buttons/destroy_overlay_button.png"),
-    STATION_INFO: preload("res://assets/images/gui/overlay_buttons/destroy_overlay_button.png"),
+    STATION_INFO: preload("res://assets/images/gui/overlay_buttons/info_overlay_button.png"),
     
     RUN_WIRE: preload("res://assets/images/gui/overlay_buttons/run_power_line_button.png"),
 }
