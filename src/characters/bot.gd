@@ -361,7 +361,7 @@ func stop() -> void:
 
 
 func _stop_nav() -> void:
-    navigator.stop()
+    navigator.stop(false)
     _on_command_ended()
 
 
@@ -481,8 +481,7 @@ func _on_radial_menu_item_selected(item: RadialMenuItem) -> void:
         Commands.BOT_COMMAND:
             set_is_player_control_active(true)
         Commands.BOT_STOP:
-            # FIXME: LEFT OFF HERE: ----------------------------------------
-            pass
+            stop()
             set_is_selected(false)
             update_bot_info_panel_visibility(false)
         Commands.BOT_RECYCLE:
