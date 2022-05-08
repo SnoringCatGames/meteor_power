@@ -379,6 +379,8 @@ var _gui_manifest := {
         inspector_panel_starts_open = false,
         
         radial_menu_class = GameRadialMenu,
+        radial_menu_label_scene = preload(
+            "res://src/gui/game_radial_menu_label.tscn"),
         radial_menu_item_hovered_scale = 2.0,
         radial_menu_radius = 96.0,
         radial_menu_item_radius = 30.0,

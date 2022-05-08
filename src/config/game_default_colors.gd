@@ -92,6 +92,8 @@ var highlight_light_blue_selected := Color("adf5ff")
 var highlight_yellow_idle_selected := Color("e5ff4f")
 var highlight_yellow_new_selected := Color("f9ff85")
 
+var energy := Color("fdff70")
+
 var modulation_button_normal := highlight_teal
 var modulation_button_hover := highlight_light_teal
 var modulation_button_pressed := highlight_dark_teal
