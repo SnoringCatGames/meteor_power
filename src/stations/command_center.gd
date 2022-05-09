@@ -3,10 +3,11 @@ class_name CommandCenter
 extends Station
 
 
+const ENTITY_COMMAND_TYPE := Commands.STATION_COMMAND
 const IS_CONNECTABLE := false
 
 
-func _init().(IS_CONNECTABLE) -> void:
+func _init().(ENTITY_COMMAND_TYPE, IS_CONNECTABLE) -> void:
     pass
 
 
@@ -15,7 +16,6 @@ func get_buttons() -> Array:
         Commands.RUN_WIRE,
 #        Commands.BOT_CONSTRUCTOR,
 #        Commands.BOT_LINE_RUNNER,
-#        Commands.BOT_REPAIR,
 #        Commands.BOT_BARRIER,
     ]
 

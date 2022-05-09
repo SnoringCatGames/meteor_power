@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://src/gui/energy_consumption_label.gd" type="Script" id=1]
+[ext_resource path="res://addons/scaffolder/src/gui/widgets/scaffolder_label.tscn" type="PackedScene" id=2]
+
+[node name="EnergyConsumptionLabel" type="HBoxContainer"]
+margin_right = 40.0
+margin_bottom = 40.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+custom_constants/separation = 0
+script = ExtResource( 1 )
+
+[node name="ScaffolderLabel" parent="." instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 13.0
+margin_right = 185.0
+margin_bottom = 27.0
+text = "TODO: (Energy consumption)"
+align = 0
+font_size = "Xs"

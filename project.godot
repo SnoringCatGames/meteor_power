@@ -740,6 +740,11 @@ _global_script_classes=[ {
 "path": "res://src/stations/empty_station.gd"
 }, {
 "base": "HBoxContainer",
+"class": "EnergyConsumptionLabel",
+"language": "GDScript",
+"path": "res://src/gui/energy_consumption_label.gd"
+}, {
+"base": "HBoxContainer",
 "class": "EnergyLabel",
 "language": "GDScript",
 "path": "res://src/gui/energy_label.gd"
@@ -1054,6 +1059,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/scaffolder/src/gui/control_row_list/header_control_row.gd"
 }, {
+"base": "HBoxContainer",
+"class": "HealthLabel",
+"language": "GDScript",
+"path": "res://src/gui/health_label.gd"
+}, {
 "base": "TextControlRow",
 "class": "HighScoreControlRow",
 "language": "GDScript",
@@ -1098,6 +1108,16 @@ _global_script_classes=[ {
 "class": "InfoPanel",
 "language": "GDScript",
 "path": "res://addons/scaffolder/src/gui/info_panel/info_panel.gd"
+}, {
+"base": "VBoxContainer",
+"class": "InfoPanelCommandRow",
+"language": "GDScript",
+"path": "res://src/gui/info_panel_command_row.gd"
+}, {
+"base": "VBoxContainer",
+"class": "InfoPanelContents",
+"language": "GDScript",
+"path": "res://src/gui/info_panel_contents.gd"
 }, {
 "base": "Node",
 "class": "InfoPanelController",
@@ -3006,6 +3026,7 @@ _global_script_class_icons={
 "EdgesWithoutIncreasingJumpHeightGroupItemController": "",
 "ElementAnnotator": "",
 "EmptyStation": "",
+"EnergyConsumptionLabel": "",
 "EnergyLabel": "",
 "ExclamationMarkAnnotator": "",
 "FailedEdgeAttempt": "",
@@ -3069,6 +3090,7 @@ _global_script_class_icons={
 "GridIndicesAnnotator": "",
 "HapticFeedbackControlRow": "",
 "HeaderControlRow": "",
+"HealthLabel": "",
 "HighScoreControlRow": "",
 "HorizontalMovementUtils": "",
 "HsvRangeColorConfig": "",
@@ -3078,6 +3100,8 @@ _global_script_class_icons={
 "HudKeyValueList": "",
 "HypotheticalEdgeTrajectoryLegendItem": "",
 "InfoPanel": "",
+"InfoPanelCommandRow": "",
+"InfoPanelContents": "",
 "InfoPanelController": "",
 "InfoPanelData": "",
 "InspectorEnabledControlRow": "",

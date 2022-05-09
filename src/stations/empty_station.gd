@@ -3,10 +3,11 @@ class_name EmptyStation
 extends Station
 
 
+const ENTITY_COMMAND_TYPE := Commands.STATION_EMPTY
 const IS_CONNECTABLE := false
 
 
-func _init().(IS_CONNECTABLE) -> void:
+func _init().(ENTITY_COMMAND_TYPE, IS_CONNECTABLE) -> void:
     pass
 
 

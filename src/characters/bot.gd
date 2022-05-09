@@ -37,8 +37,12 @@ var total_time := INF
 var movement_distance_per_one_enery_value := 20.0
 var total_movement_distance_cost := 0.0
 
+var entity_command_type := Commands.UNKNOWN
 
-func _init() -> void:
+
+func _init(entity_command_type: int) -> void:
+    self.entity_command_type = entity_command_type
+    
     light = Light2D.new()
     light.texture = _LIGHT_TEXTURE
     light.texture_scale = 0.1
@@ -174,10 +178,10 @@ func update_bot_info_panel_visibility(is_visible: bool) -> void:
     var data: InfoPanelData = Sc.info_panel.get_current_data()
     if is_visible:
         if !is_instance_valid(data) or data.meta != self:
-            var contents := Control.new()
-            var info := InfoPanelData.new("Hello info panel!", contents)
-            info.meta = self
-            Sc.info_panel.show_panel(info)
+            var contents: InfoPanelContents = \
+                Game.INFO_PANEL_CONTENTS_SCENE.instance()
+            contents.set_up(self)
+            Sc.info_panel.show_panel(contents.get_data())
     else:
         if is_instance_valid(data) and data.meta == self:
             Sc.info_panel.close_panel()
@@ -531,7 +535,7 @@ func _get_radial_menu_items() -> Array:
         var command_item := GameRadialMenuItem.new()
         command_item.cost = Commands.COSTS[type]
         command_item.id = type
-        command_item.description = Commands.SHORT_DESCRIPTIONS[type]
+        command_item.description = Commands.COMMAND_LABELS[type]
         command_item.texture = Commands.TEXTURES[type]
         result.push_back(command_item)
     return result

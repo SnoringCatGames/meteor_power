@@ -3,6 +3,7 @@ class_name SolarCollector
 extends Station
 
 
+const ENTITY_COMMAND_TYPE := Commands.STATION_SOLAR
 const IS_CONNECTABLE := true
 
 var seconds_per_one_energy_value := 0.05
@@ -12,7 +13,7 @@ var start_time := INF
 var total_time := INF
 
 
-func _init().(IS_CONNECTABLE) -> void:
+func _init().(ENTITY_COMMAND_TYPE, IS_CONNECTABLE) -> void:
     pass
 
 

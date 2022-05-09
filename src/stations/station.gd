@@ -38,8 +38,13 @@ var meteor_hit_count := 0
 
 var is_connectable := true
 
+var entity_command_type := Commands.UNKNOWN
 
-func _init(is_connectable: bool) -> void:
+
+func _init(
+        entity_command_type: int,
+        is_connectable: bool) -> void:
+    self.entity_command_type = entity_command_type
     self.is_connectable = is_connectable
 
 
@@ -157,7 +162,6 @@ func _on_button_pressed(button_type: int) -> void:
         
         Commands.BOT_CONSTRUCTOR, \
         Commands.BOT_LINE_RUNNER, \
-        Commands.BOT_REPAIR, \
         Commands.BOT_BARRIER:
             # FIXME: LEFT OFF HERE: ----------------------------------------
             pass
@@ -186,10 +190,10 @@ func update_station_info_panel_visibility(is_visible: bool) -> void:
     var data: InfoPanelData = Sc.info_panel.get_current_data()
     if is_visible:
         if !is_instance_valid(data) or data.meta != self:
-            var contents := Control.new()
-            var info := InfoPanelData.new("Hello info panel!", contents)
-            info.meta = self
-            Sc.info_panel.show_panel(info)
+            var contents: InfoPanelContents = \
+                Game.INFO_PANEL_CONTENTS_SCENE.instance()
+            contents.set_up(self)
+            Sc.info_panel.show_panel(contents.get_data())
     else:
         if is_instance_valid(data) and data.meta == self:
             Sc.info_panel.close_panel()
@@ -486,7 +490,7 @@ func _get_radial_menu_items() -> Array:
         var command_item := GameRadialMenuItem.new()
         command_item.cost = Commands.COSTS[type]
         command_item.id = type
-        command_item.description = Commands.SHORT_DESCRIPTIONS[type]
+        command_item.description = Commands.COMMAND_LABELS[type]
         command_item.texture = Commands.TEXTURES[type]
         result.push_back(command_item)
     return result
