@@ -22,12 +22,27 @@ func set_up(entity) -> void:
     var description_lines: Array = \
         Commands.ENTITY_DESCRIPTIONS[entity_command_type]
     for line in description_lines:
-        var row: ScaffolderLabel = Sc.utils.add_scene(
-            $Description, Sc.gui.SCAFFOLDER_LABEL_SCENE)
-        row.text = "     -  " + line
-        row.font_size = "Xs"
-        row.align = Label.ALIGN_LEFT
-        row.autowrap = true
+        var row := HBoxContainer.new()
+        $Description.add_child(row)
+        
+        var row_bullet: ScaffolderLabel = Sc.utils.add_scene(
+            row, Sc.gui.SCAFFOLDER_LABEL_SCENE)
+        row_bullet.text = "-  "
+        row_bullet.font_size = "Xs"
+        row_bullet.align = Label.ALIGN_RIGHT
+        row_bullet.valign = Label.VALIGN_TOP
+        row_bullet.size_flags_vertical = SIZE_FILL
+        row_bullet.size_override = Vector2(61.0, 0.0)
+        
+        var row_label: ScaffolderLabel = Sc.utils.add_scene(
+            row, Sc.gui.SCAFFOLDER_LABEL_SCENE)
+        row_label.text = line
+        row_label.font_size = "Xs"
+        row_label.align = Label.ALIGN_LEFT
+        row_label.valign = Label.VALIGN_TOP
+        row_label.size_flags_horizontal = SIZE_EXPAND_FILL
+        row_bullet.size_flags_vertical = SIZE_FILL
+        row_label.autowrap = true
     
     var commands: Array = entity._get_radial_menu_item_types()
     for command in commands:
