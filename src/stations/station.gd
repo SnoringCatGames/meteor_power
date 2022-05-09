@@ -492,6 +492,7 @@ func _get_radial_menu_items() -> Array:
         command_item.id = type
         command_item.description = Commands.COMMAND_LABELS[type]
         command_item.texture = Commands.TEXTURES[type]
+        command_item.is_disabled = !Sc.level.command_enablement[type]
         result.push_back(command_item)
     return result
 
@@ -500,3 +501,7 @@ func _get_radial_menu_item_types() -> Array:
     Sc.logger.error(
             "Abstract Station._get_radial_menu_item_types is not implemented")
     return []
+
+
+func _on_command_enablement_changed() -> void:
+    buttons._on_command_enablement_changed()

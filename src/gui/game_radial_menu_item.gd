@@ -12,7 +12,6 @@ func _on_item_touch_entered() -> void:
         _menu._label.set_cost(cost)
     elif cost < 0:
         _menu._label.cost_label.text = "?"
-    
 
 
 func _on_item_touch_exited() -> void:

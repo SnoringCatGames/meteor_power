@@ -32,6 +32,11 @@ var bots := []
 # Array<PowerLine>
 var power_lines := []
 
+# Array<Commands>
+var command_enablement := []
+
+var tutorial_mode := TutorialModes.NONE
+
 var first_selected_station_for_running_power_line: Station = null
 
 var _static_camera: StaticCamera
@@ -39,11 +44,21 @@ var _static_camera: StaticCamera
 var _overlay_buttons_fade_tween: ScaffolderTween
 var _overlay_buttons_opacity := 1.0
 
+var _max_command_cost := -INF
+
 
 func _ready() -> void:
     _static_camera = StaticCamera.new()
     add_child(_static_camera)
+    
     _overlay_buttons_fade_tween = ScaffolderTween.new(self)
+    
+    for command in Commands.KEYS:
+        _max_command_cost = max(_max_command_cost, Commands.COSTS[command])
+    
+    command_enablement.resize(Commands.KEYS.size())
+    for command in Commands.KEYS:
+        command_enablement[command] = true
 
 
 func _load() -> void:
@@ -91,6 +106,8 @@ func _start() -> void:
     self.add_child(meteor_controller)
     
     _override_for_level()
+    
+    update_command_enablement()
     
 #    Sc.gui.hud.connect("radial_menu_opened", self, "_on_radial_menu_opened")
 #    Sc.gui.hud.connect("radial_menu_closed", self, "_on_radial_menu_closed")
@@ -284,8 +301,12 @@ func _update_camera() -> void:
 func deduct_energy(cost: int) -> void:
     if Sc.levels.session.current_energy == 0:
         return
+    var previous_energy: int = Sc.levels.session.current_energy
     Sc.levels.session.current_energy -= cost
     Sc.levels.session.current_energy = max(Sc.levels.session.current_energy, 0)
+    if (previous_energy > _max_command_cost) != \
+            (Sc.levels.session.current_energy > _max_command_cost):
+        update_command_enablement()
     if Sc.levels.session.current_energy == 0:
         Sc.level.quit(false, false)
 
@@ -293,8 +314,56 @@ func deduct_energy(cost: int) -> void:
 func add_energy(enery: int) -> void:
     if Sc.levels.session.current_energy == 0:
         return
+    var previous_energy: int = Sc.levels.session.current_energy
     Sc.levels.session.current_energy += enery
     Sc.levels.session.total_energy += enery
+    if (previous_energy > _max_command_cost) != \
+            (Sc.levels.session.current_energy > _max_command_cost):
+        update_command_enablement()
+
+
+func update_command_enablement() -> void:
+    var changed := false
+    
+    # Disable any command for which there isn't enough energy.
+    if Sc.levels.session.current_energy < _max_command_cost:
+        for command in Commands.KEYS:
+            var previous_enablement: bool = command_enablement[command]
+            var next_enablement: bool = \
+                Commands.COSTS[command] <= Sc.levels.session.current_energy
+            if previous_enablement != next_enablement:
+                command_enablement[command] = next_enablement
+                changed = true
+    
+    # FIXME: LEFT OFF HERE: --------------------------
+    if tutorial_mode != TutorialModes.NONE:
+        pass
+#    command_enablement[Commands.BOT_CONSTRUCTOR]
+#    command_enablement[Commands.BOT_LINE_RUNNER]
+#    command_enablement[Commands.BOT_BARRIER]
+#    command_enablement[Commands.BOT_COMMAND]
+#    command_enablement[Commands.BOT_STOP]
+#    command_enablement[Commands.BOT_MOVE]
+#    command_enablement[Commands.BOT_RECYCLE]
+#    command_enablement[Commands.BOT_INFO]
+#
+#    command_enablement[Commands.STATION_EMPTY]
+#    command_enablement[Commands.STATION_COMMAND]
+#    command_enablement[Commands.STATION_SOLAR]
+#    command_enablement[Commands.STATION_SCANNER]
+#    command_enablement[Commands.STATION_BATTERY]
+#    command_enablement[Commands.STATION_RECYCLE]
+#    command_enablement[Commands.STATION_INFO]
+#
+#    command_enablement[Commands.RUN_WIRE]
+    
+    if changed:
+        for entities in [bots, stations]:
+            for entity in entities:
+                entity._on_command_enablement_changed()
+        if Sc.gui.hud.get_is_radial_menu_open():
+            for item in Sc.gui.hud._radial_menu._items:
+                item.is_disabled = !command_enablement[item.id]
 
 
 func get_is_first_station_selected_for_running_power_line() -> bool:

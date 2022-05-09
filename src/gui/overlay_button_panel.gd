@@ -24,6 +24,15 @@ const _BUTTON_SIZE := Vector2(30, 30)
 
 const _PANEL_OFFSET := Vector2(0, 8)
 
+const _BUTTON_KEYS := [
+    Commands.STATION_RECYCLE,
+    Commands.STATION_BATTERY,
+    Commands.STATION_SCANNER,
+    Commands.STATION_SOLAR,
+    Commands.RUN_WIRE,
+    Commands.BOT_CONSTRUCTOR,
+]
+
 # Array<TextureButton>
 var buttons := []
 
@@ -49,15 +58,7 @@ func _ready() -> void:
         button.scale = _BUTTON_SIZE / button.texture.get_size()
     
     if Engine.editor_hint:
-        set_buttons([
-            Commands.STATION_RECYCLE,
-            Commands.STATION_BATTERY,
-            Commands.STATION_SCANNER,
-            Commands.STATION_SOLAR,
-            Commands.RUN_WIRE,
-            Commands.BOT_CONSTRUCTOR,
-        ],
-        [])
+        set_buttons(_BUTTON_KEYS, [])
 
 
 func _destroy() -> void:
@@ -119,6 +120,8 @@ func set_buttons(
     
 #    _set_shape_rectangle_extents(container_size / 2.0)
 #    _set_shape_offset(Vector2(0.0, container_size.y / 2.0))
+    
+    _on_command_enablement_changed()
 
 
 func set_viewport_opacity_weight(weight: float) -> void:
@@ -158,13 +161,15 @@ func get_is_hovered_or_pressed() -> bool:
 func _on_button_touch_entered(button: SpriteModulationButton) -> void:
 #    button.modulate.s = 1.0 + _SATURATION_DELTA_HOVER
 #    button.modulate.v = 1.0 + _VALUE_DELTA_HOVER
-    button.alpha_multiplier = _OPACITY_HOVER
+#    button.alpha_multiplier = _OPACITY_HOVER
+    pass
 
 
 func _on_button_touch_exited(button: SpriteModulationButton) -> void:
 #    button.modulate.s = 1.0 + _SATURATION_DELTA_NORMAL
 #    button.modulate.v = 1.0 + _VALUE_DELTA_NORMAL
-    button.alpha_multiplier = _OPACITY_NORMAL
+#    button.alpha_multiplier = _OPACITY_NORMAL
+    pass
 
 
 func _on_interaction_mode_changed(interaction_mode: int) -> void:
@@ -175,6 +180,8 @@ func _on_button_touch_down(
         level_position: Vector2,
         is_already_handled: bool,
         button: SpriteModulationButton) -> void:
+    if button.is_disabled:
+        return
     Sc.utils.give_button_press_feedback()
     var button_type := _get_type_for_button(button)
     Sc.logger.print("OverlayButton pressed: button=%s, station=%s, p=%s" % [
@@ -201,3 +208,27 @@ func _get_type_for_button(button: SpriteModulationButton) -> int:
     else:
         Sc.logger.error("OverlayButtonPanel._get_type_for_button")
         return Commands.UNKNOWN
+
+
+func _get_button_for_type(type: int) -> Node:
+    match type:
+        Commands.STATION_RECYCLE:
+            return $Buttons/Destroy
+        Commands.STATION_BATTERY:
+            return $Buttons/Battery
+        Commands.STATION_SCANNER:
+            return $Buttons/Scanner
+        Commands.STATION_SOLAR:
+            return $Buttons/Solar
+        Commands.RUN_WIRE:
+            return $Buttons/RunPowerLine
+        Commands.BOT_CONSTRUCTOR:
+            return $Buttons/ConstructorBot
+        _:
+            Sc.logger.error("OverlayButtonPanel._get_button_for_type")
+            return null
+
+
+func _on_command_enablement_changed() -> void:
+    $Buttons/RunPowerLine.is_disabled = \
+        !Sc.level.command_enablement[Commands.RUN_WIRE]

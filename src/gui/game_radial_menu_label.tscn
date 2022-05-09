@@ -1,13 +1,12 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://addons/scaffolder/src/gui/style_box_flat_scalable.gd" type="Script" id=1]
 [ext_resource path="res://addons/scaffolder/src/gui/widgets/scaffolder_label.tscn" type="PackedScene" id=2]
-[ext_resource path="res://addons/scaffolder/assets/fonts/pxlzr_font_s.tres" type="DynamicFont" id=3]
 [ext_resource path="res://addons/scaffolder/src/gui/widgets/scaffolder_panel_container.tscn" type="PackedScene" id=4]
 [ext_resource path="res://src/gui/game_radial_menu_label.gd" type="Script" id=5]
 [ext_resource path="res://src/gui/energy_label.tscn" type="PackedScene" id=6]
 
-[sub_resource type="StyleBoxFlat" id=1]
+[sub_resource type="StyleBoxFlat" id=4]
 content_margin_left = 4.0
 content_margin_right = 4.0
 content_margin_top = 4.0
@@ -22,7 +21,7 @@ script = ExtResource( 1 )
 script = ExtResource( 5 )
 
 [node name="ScaffolderPanelContainer" parent="." instance=ExtResource( 4 )]
-custom_styles/panel = SubResource( 1 )
+custom_styles/panel = SubResource( 4 )
 style = 5
 is_unique = true
 content_margin_left_override = 4
@@ -33,23 +32,30 @@ content_margin_bottom_override = 4
 [node name="VBoxContainer" type="VBoxContainer" parent="ScaffolderPanelContainer"]
 margin_left = 4.0
 margin_top = 4.0
-margin_right = 27.0
-margin_bottom = 50.0
+margin_right = 30.0
+margin_bottom = 54.0
 custom_constants/separation = 0
 
 [node name="Description" parent="ScaffolderPanelContainer/VBoxContainer" instance=ExtResource( 2 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 23.0
-margin_bottom = 23.0
-custom_fonts/font = ExtResource( 3 )
+margin_right = 26.0
+margin_bottom = 14.0
 font_size = "S"
 
 [node name="EnergyLabel" parent="ScaffolderPanelContainer/VBoxContainer" instance=ExtResource( 6 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 23.0
-margin_right = 23.0
-margin_bottom = 46.0
+margin_top = 14.0
+margin_right = 26.0
+margin_bottom = 36.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
+color = Color( 0.992157, 1, 0.439216, 1 )
+
+[node name="DisablementExplanation" parent="ScaffolderPanelContainer/VBoxContainer" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 36.0
+margin_right = 26.0
+margin_bottom = 50.0

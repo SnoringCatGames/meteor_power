@@ -2745,6 +2745,11 @@ _global_script_classes=[ {
 "path": "res://addons/scaffolder/src/annotators/transient_annotator_registry.gd"
 }, {
 "base": "Reference",
+"class": "TutorialModes",
+"language": "GDScript",
+"path": "res://src/config/tutorial_modes.gd"
+}, {
+"base": "Reference",
 "class": "UUID",
 "language": "GDScript",
 "path": "res://addons/scaffolder/addons/crypto_uuid_v4/uuid.gd"
@@ -3427,6 +3432,7 @@ _global_script_class_icons={
 "TotalPlaysControlRow": "",
 "TransientAnnotator": "",
 "TransientAnnotatorRegistry": "",
+"TutorialModes": "",
 "UUID": "",
 "Utils": "",
 "ValidEdgeItemController": "",

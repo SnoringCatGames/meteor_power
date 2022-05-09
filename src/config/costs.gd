@@ -19,7 +19,8 @@ const STATION_BATTERY := 500
 const STATION_RECYCLE := 10
 const STATION_INFO := 0
 
-const RUN_WIRE := 30
+# FIXME: ---------------------------------- Set back to 30
+const RUN_WIRE := 3000
 
 const DYNAMIC_POWER_LINE_HIT := 20
 const STATIC_POWER_LINE_HIT := 10

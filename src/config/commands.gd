@@ -25,6 +25,29 @@ enum {
     RUN_WIRE,
 }
 
+const KEYS := [
+    UNKNOWN,
+    
+    BOT_CONSTRUCTOR,
+    BOT_LINE_RUNNER,
+    BOT_BARRIER,
+    BOT_COMMAND,
+    BOT_STOP,
+    BOT_MOVE,
+    BOT_RECYCLE,
+    BOT_INFO,
+    
+    STATION_EMPTY,
+    STATION_COMMAND,
+    STATION_SOLAR,
+    STATION_SCANNER,
+    STATION_BATTERY,
+    STATION_RECYCLE,
+    STATION_INFO,
+    
+    RUN_WIRE,
+]
+
 const COSTS := {
     UNKNOWN: INF,
     

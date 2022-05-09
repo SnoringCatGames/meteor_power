@@ -13,6 +13,8 @@ func _initialize_node_references() -> void:
     panel_container = $ScaffolderPanelContainer
     label = $ScaffolderPanelContainer/VBoxContainer/Description
     cost_label = $ScaffolderPanelContainer/VBoxContainer/EnergyLabel
+    disablement_explanation_label = \
+        $ScaffolderPanelContainer/VBoxContainer/DisablementExplanation
 
 
 func set_cost(cost: int) -> void:
