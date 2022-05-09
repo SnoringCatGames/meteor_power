@@ -4,6 +4,7 @@ extends HBoxContainer
 
 
 export var cost := 0 setget _set_cost
+export var text := "" setget _set_text
 export var color: Color setget _set_color
 export(String, "Xs", "S", "M", "L", "Xl") var font_size := "S" \
         setget _set_font_size
@@ -18,6 +19,7 @@ func _init() -> void:
 
 func _ready() -> void:
     _is_ready = true
+    _set_text(text)
     _set_color(color)
     _set_font_size(font_size)
     _set_icon_scale(icon_scale)
@@ -27,7 +29,19 @@ func _set_cost(value: int) -> void:
     cost = value
     if !_is_ready:
         return
-    $ScaffolderLabel.text = str(value)
+    text = str(cost)
+    $ScaffolderLabel.text = text
+
+
+func _set_text(value: String) -> void:
+    text = value
+    if !_is_ready:
+        return
+    if str(int(text)) == text:
+        cost = int(text)
+    else:
+        cost = -1
+    $ScaffolderLabel.text = text
 
 
 func _set_color(value: Color) -> void:
