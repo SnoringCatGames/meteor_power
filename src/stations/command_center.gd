@@ -28,7 +28,6 @@ func _get_radial_menu_item_types() -> Array:
     return [
         Commands.RUN_WIRE,
         Commands.BOT_CONSTRUCTOR,
-        Commands.STATION_RECYCLE,
         Commands.STATION_INFO,
     ]
 

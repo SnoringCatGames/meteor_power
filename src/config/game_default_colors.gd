@@ -56,7 +56,7 @@ var overlay_panel_background := _COLOR_BACKGROUND_DARKER
 var overlay_panel_border := _COLOR_TEXT
 var notification_panel_background := _COLOR_BACKGROUND_DARKER
 var notification_panel_border := _COLOR_TEXT
-var header_panel_background := _COLOR_BACKGROUND
+var header_panel_background := ColorFactory.opacify("button_hover", 0.5)
 var screen_border := _COLOR_TEXT
 var shadow := _COLOR_SHADOW
 

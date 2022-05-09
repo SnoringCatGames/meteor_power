@@ -31,6 +31,9 @@ func set_up(entity) -> void:
     
     var commands: Array = entity._get_radial_menu_item_types()
     for command in commands:
+        if command == Commands.STATION_INFO or \
+                command == Commands.BOT_INFO:
+            continue
         var row: InfoPanelCommandRow = \
             Sc.utils.add_scene($Commands, _INFO_PANEL_COMMAND_ROW_SCENE)
         row.set_up(command)

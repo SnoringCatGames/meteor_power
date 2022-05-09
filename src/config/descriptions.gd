@@ -97,7 +97,7 @@ const COMMAND_DESCRIPTIONS := {
     BOT_MOVE = [
     ],
     BOT_RECYCLE = [
-        "Recycles this bot so that something better can be made.",
+        "Recycles this bot so something better can be made.",
     ],
     BOT_INFO = [
         "Shows more information about this bot.",
@@ -117,7 +117,7 @@ const COMMAND_DESCRIPTIONS := {
         "Build a solar station, which stores energy for use when disconnected from the command center.",
     ],
     STATION_RECYCLE = [
-        "Recycles this station so that something better can be made.",
+        "Recycles this station so something better can be made.",
     ],
     STATION_INFO = [
         "Shows more information about this station.",

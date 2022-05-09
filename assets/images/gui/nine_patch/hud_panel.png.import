@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/overlay_panel.png-45a40fb1147320737fba828ba5a9d73f.stex"
+path="res://.import/hud_panel.png-9971262f7a46ced86f9ac842cc514989.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/images/gui/nine_patch/overlay_panel.png"
-dest_files=[ "res://.import/overlay_panel.png-45a40fb1147320737fba828ba5a9d73f.stex" ]
+source_file="res://assets/images/gui/nine_patch/hud_panel.png"
+dest_files=[ "res://.import/hud_panel.png-9971262f7a46ced86f9ac842cc514989.stex" ]
 
 [params]
 
@@ -20,7 +20,7 @@ compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
-flags/filter=false
+flags/filter=true
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2

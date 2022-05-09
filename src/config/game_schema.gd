@@ -311,7 +311,7 @@ var _styles_manifest_pixelated := {
 #    notification_panel_nine_patch = \
 #            preload("res://assets/images/gui/nine_patch/notification_panel.png"),
     hud_panel_nine_patch = \
-            preload("res://assets/images/gui/nine_patch/overlay_panel.png"),
+            preload("res://assets/images/gui/nine_patch/hud_panel.png"),
 }
 
 var _gui_manifest := {
