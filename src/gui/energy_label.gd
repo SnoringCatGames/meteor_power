@@ -25,23 +25,25 @@ func _ready() -> void:
     _set_icon_scale(icon_scale)
 
 
+func _update_text() -> void:
+    if text != "":
+        $ScaffolderLabel.text = text
+    else:
+        $ScaffolderLabel.text = str(cost)
+
+
 func _set_cost(value: int) -> void:
     cost = value
     if !_is_ready:
         return
-    text = str(cost)
-    $ScaffolderLabel.text = text
+    _update_text()
 
 
 func _set_text(value: String) -> void:
     text = value
     if !_is_ready:
         return
-    if str(int(text)) == text:
-        cost = int(text)
-    else:
-        cost = -1
-    $ScaffolderLabel.text = text
+    _update_text()
 
 
 func _set_color(value: Color) -> void:
