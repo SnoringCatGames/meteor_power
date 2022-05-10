@@ -23,6 +23,8 @@ script = ExtResource( 1 )
 script = ExtResource( 5 )
 
 [node name="ScaffolderPanelContainer" parent="." instance=ExtResource( 4 )]
+mouse_filter = 2
+size_flags_vertical = 4
 custom_styles/panel = SubResource( 1 )
 style = 5
 is_unique = true
@@ -36,6 +38,9 @@ margin_left = 4.0
 margin_top = 4.0
 margin_right = 34.0
 margin_bottom = 70.0
+mouse_filter = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 custom_constants/separation = 0
 
 [node name="Description" parent="ScaffolderPanelContainer/VBoxContainer" instance=ExtResource( 2 )]
@@ -52,6 +57,7 @@ anchor_bottom = 0.0
 margin_top = 23.0
 margin_right = 30.0
 margin_bottom = 46.0
+mouse_filter = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 color = Color( 0.992157, 1, 0.439216, 1 )

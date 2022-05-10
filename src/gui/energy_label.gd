@@ -23,6 +23,7 @@ func _ready() -> void:
     _set_color(color)
     _set_font_size(font_size)
     _set_icon_scale(icon_scale)
+    _update_text()
 
 
 func _update_text() -> void:

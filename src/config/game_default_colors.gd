@@ -16,6 +16,7 @@ var _COLOR_BUTTON_LIGHTER := Color("636a94")
 var _COLOR_BUTTON_DARKER := Color("31325c")
 
 var _COLOR_SHADOW := Color("88000000")
+const _COLOR_SIMPLE_TRANSPARENT_BLACK := Color("cc000000")
 
 var _HUD_KEY_VALUE_BOX_MODULATE_COLOR := Color(0.1, 0.7, 1.2, 1.0)
 var _BUTTON_PULSE_MODULATE_COLOR := Color(1.5, 1.5, 3.0, 1.0)
@@ -59,6 +60,7 @@ var notification_panel_border := _COLOR_TEXT
 var header_panel_background := ColorFactory.opacify("button_hover", 0.5)
 var screen_border := _COLOR_TEXT
 var shadow := _COLOR_SHADOW
+var simple_transparent_black := _COLOR_SIMPLE_TRANSPARENT_BLACK
 
 # ---
 
