@@ -32,6 +32,7 @@ var is_stopping := false
 var is_hovered := false
 
 var start_time := INF
+var previous_total_time := INF
 var total_time := INF
 
 var movement_distance_per_one_enery_value := 20.0
@@ -73,7 +74,7 @@ func _physics_process(delta: float) -> void:
     if Engine.editor_hint:
         return
     
-    var previous_total_time := total_time
+    previous_total_time = total_time
     total_time = Sc.time.get_scaled_play_time() - start_time
     
     if surface_state.just_left_air and \
@@ -235,7 +236,7 @@ func _on_reached_first_station_for_power_line() -> void:
     Sc.logger.print(
         "Bot._on_reached_first_station_for_power_line: bot=%s, station=%s, p=%s" % [
             self.character_name,
-            Commands.get_string(target_station.get_type()),
+            Commands.get_string(target_station.entity_command_type),
             target_station.position,
         ])
     assert(is_instance_valid(target_station))
@@ -260,7 +261,7 @@ func _on_reached_second_station_for_power_line() -> void:
     Sc.logger.print(
         "Bot._on_reached_second_station_for_power_line: bot=%s, station=%s, p=%s" % [
             self.character_name,
-            Commands.get_string(target_station.get_type()),
+            Commands.get_string(target_station.entity_command_type),
             target_station.position,
         ])
     assert(is_instance_valid(held_power_line))
@@ -293,7 +294,7 @@ func _on_reached_station_to_build() -> void:
     Sc.logger.print(
         "Bot._on_reached_station_to_build: bot=%s, station=%s, p=%s" % [
             self.character_name,
-            Commands.get_string(target_station.get_type()),
+            Commands.get_string(target_station.entity_command_type),
             target_station.position,
         ])
     Sc.level.replace_station(target_station, station_type)
@@ -314,7 +315,7 @@ func _on_reached_station_to_destroy() -> void:
     Sc.logger.print(
         "Bot._on_reached_station_to_destroy: bot=%s, station=%s, p=%s" % [
             self.character_name,
-            Commands.get_string(target_station.get_type()),
+            Commands.get_string(target_station.entity_command_type),
             target_station.position,
         ])
     assert(is_instance_valid(target_station))

@@ -13,15 +13,18 @@ collision_layer = 8
 script = ExtResource( 1 )
 character_name = "construction_bot"
 collision_detection_layers = 56
+detects_pointer = true
 pointer_screen_radius = 48.0
+is_bouncy = false
+rotates_to_match_surface_normal = true
 rope_attachment_offset = Vector2( -1, -4 )
 primary_annotation_color = Object(Reference,"script":Resource( "res://addons/scaffolder/src/config/color_config/static_color_config.gd" ),"h":0.123932,"s":0.509804,"v":0.6,"a":1.0,"r":0.6,"g":0.521569,"b":0.294118,"color":Color( 0.6, 0.521569, 0.294118, 1 ),"_h":0.123932,"_s":0.509804,"_v":0.6,"_a":1.0,"_color":null)
 
 secondary_annotation_color = Object(Reference,"script":Resource( "res://addons/scaffolder/src/config/color_config/palette_color_config.gd" ),"h":0.0,"s":0.0,"v":0.0,"a":0.0,"key":"white","_h_override":-1.0,"_s_override":-1.0,"_v_override":-1.0,"_a_override":-1.0,"h_delta":0.0,"s_delta":0.0,"v_delta":0.0,"a_delta":0.0,"override_color":Color( -1, -2, -2, -1 ),"delta_color":Color( 0, 0, 0, 0 ),"key":"white","_h_override":-1.0,"_s_override":-1.0,"_v_override":-1.0,"_a_override":-1.0,"h_delta":0.0,"s_delta":0.0,"v_delta":0.0,"a_delta":0.0)
 
-navigation_annotation_color_override = Object(Reference,"script":Resource( "res://addons/scaffolder/src/config/color_config/static_color_config.gd" ),"h":0.758523,"s":0.690196,"v":1.0,"a":1.0,"r":0.690196,"g":0.309804,"b":1.0,"color":Color( 0.690196, 0.309804, 1, 1 ),"_h":0.758523,"_s":0.690196,"_v":1.0,"_a":1.0,"_color":null)
+navigation_annotation_color_override = Object(Reference,"script":Resource( "res://addons/scaffolder/src/config/color_config/static_color_config.gd" ),"h":0.758523,"s":0.690196,"v":1.0,"a":1.0,"r":0.690197,"g":0.309804,"b":1.0,"color":Color( 0.690197, 0.309804, 1, 1 ),"_h":0.758523,"_s":0.690196,"_v":1.0,"_a":1.0,"_color":null)
 
-position_annotation_color_override = Object(Reference,"script":Resource( "res://addons/scaffolder/src/config/color_config/static_color_config.gd" ),"h":0.758523,"s":0.690196,"v":1.0,"a":1.0,"r":0.690196,"g":0.309804,"b":1.0,"color":Color( 0.690196, 0.309804, 1, 1 ),"_h":0.758523,"_s":0.690196,"_v":1.0,"_a":1.0,"_color":null)
+position_annotation_color_override = Object(Reference,"script":Resource( "res://addons/scaffolder/src/config/color_config/static_color_config.gd" ),"h":0.758523,"s":0.690196,"v":1.0,"a":1.0,"r":0.690197,"g":0.309804,"b":1.0,"color":Color( 0.690197, 0.309804, 1, 1 ),"_h":0.758523,"_s":0.690196,"_v":1.0,"_a":1.0,"_color":null)
 
 exclamation_mark_width_start = 3.0
 exclamation_mark_length_start = 18.0
@@ -74,12 +77,3 @@ shape = SubResource( 3 )
 __meta__ = {
 "_edit_lock_": true
 }
-
-[node name="Light2D2" type="Light2D" parent="."]
-texture = ExtResource( 4 )
-texture_scale = 0.1
-color = Color( 0.976471, 1, 0.521569, 0.9 )
-range_layer_min = -100
-range_layer_max = 100
-range_item_cull_mask = 2
-shadow_item_cull_mask = 2

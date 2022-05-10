@@ -40,6 +40,10 @@ var is_connectable := true
 
 var entity_command_type := Commands.UNKNOWN
 
+var start_time := INF
+var previous_total_time := INF
+var total_time := INF
+
 
 func _init(
         entity_command_type: int,
@@ -49,6 +53,9 @@ func _init(
 
 
 func _ready() -> void:
+    start_time = Sc.time.get_scaled_play_time()
+    total_time = 0.0
+    
     buttons = Sc.utils.add_scene(self, _OVERLAY_BUTTON_PANEL_CLASS)
     buttons.connect("button_pressed", self, "_on_button_pressed")
     buttons.connect(
@@ -73,6 +80,11 @@ func _destroy() -> void:
     ._destroy()
     buttons._destroy()
     queue_free()
+
+
+func _physics_process(delta: float) -> void:
+    previous_total_time = total_time
+    total_time = Sc.time.get_scaled_play_time() - start_time
 
 
 func _set_up_camera_detector() -> void:
@@ -214,7 +226,7 @@ func _on_camera_enter() -> void:
     # FIXME: --------------------------
     # - Update button visibility and enablement in a different, more direct and
     #   on-demand, way.
-    buttons.set_buttons(get_buttons(), get_disabled_buttons())
+    buttons.set_buttons(get_buttons())
 
 
 func _on_camera_exit() -> void:
@@ -388,10 +400,6 @@ func get_buttons() -> Array:
     return []
 
 
-func get_disabled_buttons() -> Array:
-    return []
-
-
 func get_position_along_surface(
         character: SurfacerCharacter) -> PositionAlongSurface:
     var surface := SurfaceFinder.find_closest_surface_in_direction(
@@ -440,7 +448,7 @@ func _check_is_connected_to_command_center_recursive(
         visited_stations: Dictionary) -> bool:
     visited_stations[station] = true
     for other_station in station.connections:
-        if other_station.get_type() == Commands.STATION_COMMAND:
+        if other_station.entity_command_type == Commands.STATION_COMMAND:
             return true
         if visited_stations.has(other_station):
             continue

@@ -327,9 +327,9 @@ var _gui_manifest := {
     
     display_time_type = TimeType.PLAY_PHYSICS_SCALED,
     
-    main_menu_image_scene = preload("res://src/gui/loading_image.tscn"),
-    game_over_image_scene = preload("res://src/gui/loading_image.tscn"),
-    loading_image_scene = preload("res://src/gui/loading_image.tscn"),
+    main_menu_image_scene = preload("res://src/gui/screens/loading_image.tscn"),
+    game_over_image_scene = preload("res://src/gui/screens/loading_image.tscn"),
+    loading_image_scene = preload("res://src/gui/screens/loading_image.tscn"),
     
     settings_item_manifest = {
         groups = {
@@ -394,7 +394,7 @@ var _gui_manifest := {
         
         radial_menu_class = GameRadialMenu,
         radial_menu_label_scene = preload(
-            "res://src/gui/game_radial_menu_label.tscn"),
+            "res://src/gui/radial_menu/game_radial_menu_label.tscn"),
         radial_menu_item_hovered_scale = 2.0,
         radial_menu_radius = 96.0,
         radial_menu_item_radius = 30.0,
@@ -420,8 +420,8 @@ var _gui_manifest := {
     },
     screen_manifest = {
         screens = [
-            preload("res://src/gui/ld_loading_screen.tscn"),
-            preload("res://src/gui/ld_game_over_screen.tscn"),
+            preload("res://src/gui/screens/ld_loading_screen.tscn"),
+            preload("res://src/gui/screens/ld_game_over_screen.tscn"),
         ],
     },
 }

@@ -1,24 +1,14 @@
 tool
-class_name SolarCollector
+class_name BatteryStation
 extends Station
 
 
-const ENTITY_COMMAND_TYPE := Commands.STATION_SOLAR
+const ENTITY_COMMAND_TYPE := Commands.STATION_BATTERY
 const IS_CONNECTABLE := true
-
-var seconds_per_one_energy_value := 0.05
-var total_seconds := 0.0
 
 
 func _init().(ENTITY_COMMAND_TYPE, IS_CONNECTABLE) -> void:
     pass
-
-
-func _physics_process(delta: float) -> void:
-    if is_connected_to_command_center:
-        if int(previous_total_time / seconds_per_one_energy_value) != \
-                int(total_time / seconds_per_one_energy_value):
-            Sc.level.add_energy(1)
 
 
 func get_buttons() -> Array:
@@ -37,17 +27,17 @@ func _get_radial_menu_item_types() -> Array:
 
 
 func _on_connected_to_command_center() -> void:
-    Sc.logger.print("SolarCollector._on_connected_to_command_center")
-    $Dark.visible = false
-    $Shine.visible = true
-    $AnimationPlayer.play("shine")
+    Sc.logger.print("BatteryStation._on_connected_to_command_center")
+    $Disconnected.visible = false
+    $Connected.visible = true
+    $AnimationPlayer.play("connected")
 
 
 func _on_disconnected_from_command_center() -> void:
-    Sc.logger.print("SolarCollector._on_disconnected_from_command_center")
-    $Dark.visible = true
-    $Shine.visible = false
-    $AnimationPlayer.play("dark")
+    Sc.logger.print("BatteryStation._on_disconnected_from_command_center")
+    $Disconnected.visible = true
+    $Connected.visible = false
+    $AnimationPlayer.play("disconnected")
 
 
 func _on_hit_by_meteor() -> void:
@@ -57,7 +47,7 @@ func _on_hit_by_meteor() -> void:
 
 
 func _update_outline() -> void:
-    for sprite in [$Shine, $Dark]:
+    for sprite in [$Connected, $Disconnected]:
         sprite.is_outlined = active_outline_alpha_multiplier > 0.0
         sprite.outline_color = outline_color
         sprite.outline_color.a *= active_outline_alpha_multiplier

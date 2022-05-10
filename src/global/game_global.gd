@@ -6,7 +6,7 @@ extends SurfacerFrameworkGlobal
 const _SCHEMA_PATH := "res://src/config/game_schema.gd"
 
 const INFO_PANEL_CONTENTS_SCENE := preload(
-    "res://src/gui/info_panel_contents.tscn")
+    "res://src/gui/info_panel/info_panel_contents.tscn")
 
 
 func _init().(_SCHEMA_PATH) -> void:

@@ -1,13 +1,13 @@
 [gd_scene load_steps=9 format=2]
 
-[ext_resource path="res://src/gui/info_panel_contents.gd" type="Script" id=1]
-[ext_resource path="res://src/gui/health_label.tscn" type="PackedScene" id=2]
-[ext_resource path="res://addons/scaffolder/src/gui/widgets/scaffolder_label.tscn" type="PackedScene" id=3]
-[ext_resource path="res://src/gui/energy_consumption_label.tscn" type="PackedScene" id=4]
-[ext_resource path="res://addons/scaffolder/src/gui/widgets/scaffolder_h_separator.tscn" type="PackedScene" id=5]
-[ext_resource path="res://addons/scaffolder/src/gui/widgets/spacer.gd" type="Script" id=6]
-[ext_resource path="res://addons/scaffolder/assets/fonts/pxlzr_font_xs.tres" type="DynamicFont" id=7]
-[ext_resource path="res://addons/scaffolder/assets/fonts/pxlzr_font_m.tres" type="DynamicFont" id=8]
+[ext_resource path="res://src/gui/health_label.tscn" type="PackedScene" id=1]
+[ext_resource path="res://src/gui/energy_consumption_label.tscn" type="PackedScene" id=2]
+[ext_resource path="res://addons/scaffolder/src/gui/widgets/scaffolder_h_separator.tscn" type="PackedScene" id=3]
+[ext_resource path="res://addons/scaffolder/src/gui/widgets/scaffolder_label.tscn" type="PackedScene" id=4]
+[ext_resource path="res://addons/scaffolder/assets/fonts/pxlzr_font_m.tres" type="DynamicFont" id=5]
+[ext_resource path="res://addons/scaffolder/assets/fonts/pxlzr_font_xs.tres" type="DynamicFont" id=6]
+[ext_resource path="res://addons/scaffolder/src/gui/widgets/spacer.gd" type="Script" id=7]
+[ext_resource path="res://src/gui/info_panel/info_panel_contents.gd" type="Script" id=8]
 
 [node name="InfoPanelContents" type="VBoxContainer"]
 margin_left = 2560.0
@@ -15,7 +15,7 @@ margin_top = -12.0
 margin_right = 3852.0
 margin_bottom = 2031.0
 custom_constants/separation = 16
-script = ExtResource( 1 )
+script = ExtResource( 8 )
 
 [node name="Status" type="HBoxContainer" parent="."]
 margin_right = 1292.0
@@ -23,7 +23,7 @@ margin_bottom = 20.0
 size_flags_horizontal = 3
 custom_constants/separation = 0
 
-[node name="HealthLabel" parent="Status" instance=ExtResource( 2 )]
+[node name="HealthLabel" parent="Status" instance=ExtResource( 1 )]
 margin_right = 111.0
 margin_bottom = 20.0
 
@@ -33,9 +33,9 @@ margin_right = 1086.0
 margin_bottom = 20.0
 size_flags_horizontal = 3
 size_flags_vertical = 5
-script = ExtResource( 6 )
+script = ExtResource( 7 )
 
-[node name="EnergyConsumptionLabel" parent="Status" instance=ExtResource( 4 )]
+[node name="EnergyConsumptionLabel" parent="Status" instance=ExtResource( 2 )]
 margin_left = 1086.0
 margin_right = 1292.0
 margin_bottom = 20.0
@@ -47,7 +47,7 @@ margin_bottom = 36.0
 size_flags_horizontal = 3
 custom_constants/separation = 6
 
-[node name="CommandsSeparator" parent="." instance=ExtResource( 5 )]
+[node name="CommandsSeparator" parent="." instance=ExtResource( 3 )]
 modulate = Color( 0.231373, 0.231373, 0.321569, 1 )
 anchor_right = 0.0
 anchor_bottom = 0.0
@@ -56,14 +56,14 @@ margin_right = 1292.0
 margin_bottom = 56.0
 size_flags_horizontal = 3
 
-[node name="CommandsLabel" parent="." instance=ExtResource( 3 )]
+[node name="CommandsLabel" parent="." instance=ExtResource( 4 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 72.0
 margin_right = 1292.0
 margin_bottom = 111.0
 size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 8 )
+custom_fonts/font = ExtResource( 5 )
 text = "Commands"
 is_header = true
 
@@ -74,7 +74,7 @@ margin_bottom = 127.0
 size_flags_horizontal = 3
 custom_constants/separation = 12
 
-[node name="UpgradesSeparator" parent="." instance=ExtResource( 5 )]
+[node name="UpgradesSeparator" parent="." instance=ExtResource( 3 )]
 modulate = Color( 0.231373, 0.231373, 0.321569, 1 )
 anchor_right = 0.0
 anchor_bottom = 0.0
@@ -83,14 +83,14 @@ margin_right = 1292.0
 margin_bottom = 147.0
 size_flags_horizontal = 3
 
-[node name="UpgradesLabel" parent="." instance=ExtResource( 3 )]
+[node name="UpgradesLabel" parent="." instance=ExtResource( 4 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 163.0
 margin_right = 1292.0
 margin_bottom = 202.0
 size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 8 )
+custom_fonts/font = ExtResource( 5 )
 text = "Upgrades"
 is_header = true
 
@@ -101,11 +101,11 @@ margin_bottom = 238.0
 size_flags_horizontal = 3
 custom_constants/separation = 12
 
-[node name="ScaffolderLabel" parent="Upgrades" instance=ExtResource( 3 )]
+[node name="ScaffolderLabel" parent="Upgrades" instance=ExtResource( 4 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_right = 1292.0
 margin_bottom = 20.0
-custom_fonts/font = ExtResource( 7 )
+custom_fonts/font = ExtResource( 6 )
 text = "TODO"
 font_size = "Xs"

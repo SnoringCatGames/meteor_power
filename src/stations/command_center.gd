@@ -20,20 +20,12 @@ func get_buttons() -> Array:
     ]
 
 
-func get_disabled_buttons() -> Array:
-    return []
-
-
 func _get_radial_menu_item_types() -> Array:
     return [
         Commands.RUN_WIRE,
         Commands.BOT_CONSTRUCTOR,
         Commands.STATION_INFO,
     ]
-
-
-func get_type() -> int:
-    return Commands.STATION_COMMAND
 
 
 func _update_outline() -> void:

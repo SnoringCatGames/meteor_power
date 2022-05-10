@@ -58,7 +58,7 @@ func _ready() -> void:
         button.scale = _BUTTON_SIZE / button.texture.get_size()
     
     if Engine.editor_hint:
-        set_buttons(_BUTTON_KEYS, [])
+        set_buttons(_BUTTON_KEYS)
 
 
 func _destroy() -> void:
@@ -73,9 +73,7 @@ func set_up_controls(
     self.station = station
 
 
-func set_buttons(
-        button_types: Array,
-        disabled_buttons: Array) -> void:
+func set_buttons(button_types: Array) -> void:
     var visible_buttons := []
     
     # Set up hover behavior.
@@ -83,8 +81,6 @@ func set_buttons(
         button.alpha_multiplier = _OPACITY_NORMAL
         var button_type := _get_type_for_button(button)
         var is_button_visible := button_types.find(button_type) >= 0
-        var is_button_disabled := disabled_buttons.find(button_type) >= 0
-        # FIXME: ------------ Handle disabled case, when not enough energy.
         button.visible = is_button_visible
         button.mouse_filter = \
                 Control.MOUSE_FILTER_STOP if \
@@ -186,7 +182,7 @@ func _on_button_touch_down(
     var button_type := _get_type_for_button(button)
     Sc.logger.print("OverlayButton pressed: button=%s, station=%s, p=%s" % [
         Commands.get_string(button_type),
-        Commands.get_string(station.get_type()),
+        Commands.get_string(station.entity_command_type),
         station.position,
        ])
     emit_signal("button_pressed", button_type)

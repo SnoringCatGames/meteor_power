@@ -29,6 +29,15 @@ var stations := []
 # Array<Bot>
 var bots := []
 
+# Array<ConstructorBot>
+var constructor_bots := []
+
+# Array<LineRunnerBot>
+var line_runner_bots := []
+
+# Array<BarrierBot>
+var barrier_bots := []
+
 # Array<PowerLine>
 var power_lines := []
 
@@ -419,6 +428,12 @@ func remove_bot(bot: Bot) -> void:
 
 func _on_bot_created(bot: Bot) -> void:
     self.bots.push_back(bot)
+    if bot is ConstructionBot:
+        constructor_bots.push_back(bot)
+    if bot is ConstructionBot:
+        constructor_bots.push_back(bot)
+    if bot is ConstructionBot:
+        constructor_bots.push_back(bot)
 
 
 func _on_bot_destroyed(bot: Bot) -> void:

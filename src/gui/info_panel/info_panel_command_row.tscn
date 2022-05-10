@@ -1,16 +1,16 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://src/gui/info_panel_command_row.gd" type="Script" id=1]
+[ext_resource path="res://addons/scaffolder/src/gui/widgets/spacer.tscn" type="PackedScene" id=1]
 [ext_resource path="res://src/gui/energy_label.tscn" type="PackedScene" id=2]
 [ext_resource path="res://addons/scaffolder/src/gui/widgets/scaffolder_texture_rect.tscn" type="PackedScene" id=3]
-[ext_resource path="res://addons/scaffolder/src/gui/widgets/spacer.tscn" type="PackedScene" id=4]
+[ext_resource path="res://src/gui/info_panel/info_panel_command_row.gd" type="Script" id=4]
 
 [node name="InfoPanelCommandRow" type="VBoxContainer"]
 margin_right = 40.0
 margin_bottom = 40.0
 size_flags_horizontal = 3
 custom_constants/separation = 0
-script = ExtResource( 1 )
+script = ExtResource( 4 )
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 margin_right = 43.0
@@ -42,7 +42,7 @@ cost = -1
 color = Color( 0.992157, 1, 0.439216, 1 )
 font_size = "Xs"
 
-[node name="Spacer" parent="HBoxContainer" instance=ExtResource( 4 )]
+[node name="Spacer" parent="HBoxContainer" instance=ExtResource( 1 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 27.0

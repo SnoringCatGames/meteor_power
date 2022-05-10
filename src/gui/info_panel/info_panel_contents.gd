@@ -4,7 +4,7 @@ extends VBoxContainer
 
 
 const _INFO_PANEL_COMMAND_ROW_SCENE := preload(
-    "res://src/gui/info_panel_command_row.tscn")
+    "res://src/gui/info_panel/info_panel_command_row.tscn")
 
 var entity
 var entity_command_type := Commands.UNKNOWN

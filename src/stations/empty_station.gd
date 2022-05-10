@@ -36,10 +36,6 @@ func get_buttons() -> Array:
     ]
 
 
-func get_disabled_buttons() -> Array:
-    return []
-
-
 func _get_radial_menu_item_types() -> Array:
     return [
         Commands.STATION_SOLAR,
@@ -47,10 +43,6 @@ func _get_radial_menu_item_types() -> Array:
         Commands.STATION_BATTERY,
         Commands.STATION_INFO,
     ]
-
-
-func get_type() -> int:
-    return Commands.STATION_EMPTY
 
 
 func _update_outline() -> void:

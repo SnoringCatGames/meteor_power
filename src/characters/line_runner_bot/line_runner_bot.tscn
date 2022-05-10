@@ -1,0 +1,49 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://src/characters/line_runner_bot/line_runner_bot.gd" type="Script" id=1]
+[ext_resource path="res://src/characters/construction_bot/construction_bot_animator.tscn" type="PackedScene" id=2]
+[ext_resource path="res://addons/surfacer/src/platform_graph/edge/models/movement_parameters.tscn" type="PackedScene" id=3]
+[ext_resource path="res://addons/scaffolder/assets/images/misc/circle_gradient_modified_1024.png" type="Texture" id=4]
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 10, 15 )
+
+[node name="LineRunnerBot" type="KinematicBody2D"]
+collision_layer = 8
+script = ExtResource( 1 )
+
+[node name="Light2D" type="Light2D" parent="."]
+texture = ExtResource( 4 )
+texture_scale = 0.1
+color = Color( 0.976471, 1, 0.521569, 0.9 )
+range_layer_min = -100
+range_layer_max = 100
+range_item_cull_mask = 2
+shadow_item_cull_mask = 2
+
+[node name="MovementParameters" parent="." instance=ExtResource( 3 )]
+collider_shape = SubResource( 3 )
+character_category_name = "construction_bot"
+__movement_params_identifier__ = "_"
+can_target_in_air_destinations = false
+surface_speed_multiplier = 0.5
+air_horizontal_speed_multiplier = 0.6
+gravity_multiplier = 0.2
+walk_acceleration_multiplier = 0.6
+in_air_horizontal_acceleration_multiplier = 1.2
+friction_coefficient_multiplier = 1.8
+jump_boost_multiplier = 0.5
+move_to_collinear_surface_edge_weight_multiplier_override = -1.0
+collision_margin_for_edge_calculations = 1.0
+collision_margin_for_waypoint_positions = 4.0
+oblique_collison_normal_aspect_ratio_threshold = 10.0
+
+[node name="ConstructionBotAnimator" parent="." instance=ExtResource( 2 )]
+is_outlined = true
+outline_color = Color( 0.878431, 0.705882, 0, 0.2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 3 )
+__meta__ = {
+"_edit_lock_": true
+}
