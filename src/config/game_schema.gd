@@ -349,6 +349,8 @@ var _gui_manifest := {
     },
     pause_item_manifest = [
         LevelEnergyControlRow,
+        StationsControlRow,
+        BotsControlRow,
         TimeControlRow,
         LevelControlRow,
 #        FastestTimeControlRow,
@@ -379,6 +381,18 @@ var _gui_manifest := {
                 item_class = TimeControlRow,
                 settings_enablement_label = "Time",
                 enabled_by_default = false,
+                settings_group_key = "hud",
+            },
+            {
+                item_class = BotsControlRow,
+                settings_enablement_label = "Bots",
+                enabled_by_default = true,
+                settings_group_key = "hud",
+            },
+            {
+                item_class = StationsControlRow,
+                settings_enablement_label = "Stations",
+                enabled_by_default = true,
                 settings_group_key = "hud",
             },
             {

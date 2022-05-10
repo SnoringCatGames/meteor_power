@@ -57,7 +57,7 @@ var overlay_panel_background := _COLOR_BACKGROUND_DARKER
 var overlay_panel_border := _COLOR_TEXT
 var notification_panel_background := _COLOR_BACKGROUND_DARKER
 var notification_panel_border := _COLOR_TEXT
-var header_panel_background := ColorFactory.opacify("button_hover", 0.5)
+var header_panel_background := ColorFactory.opacify("button_normal", 0.4)
 var screen_border := _COLOR_TEXT
 var shadow := _COLOR_SHADOW
 var simple_transparent_black := _COLOR_SIMPLE_TRANSPARENT_BLACK
@@ -94,6 +94,8 @@ var highlight_light_blue_selected := Color("adf5ff")
 var highlight_yellow_idle_selected := Color("e5ff4f")
 var highlight_yellow_new_selected := Color("f9ff85")
 
+var highlight_purply_blue := Color("9f96ff")
+
 var energy := Color("fdff70")
 
 var modulation_button_normal := highlight_teal
@@ -113,6 +115,10 @@ var station_normal := ColorFactory.opacify("highlight_teal", 0.65)
 var station_disconnected := ColorFactory.opacify("highlight_red", 0.9)
 var station_selected := ColorFactory.opacify("highlight_blue_selected", 0.9)
 var station_hovered := ColorFactory.opacify("highlight_light_blue_selected", 0.9)
+
+var hud_icon := highlight_purply_blue
+var info_panel_header := highlight_purply_blue
+#var info_panel_header := header
 
 #var modulation_button_normal := highlight_purple
 #var modulation_button_hover := highlight_light_purple
