@@ -26,15 +26,24 @@ var previous_selected_bot: Bot
 # Array<Station>
 var stations := []
 
+# Array<CommandCenter>
+var command_centers := []
+# Array<SolarCollector>
+var solar_collectors := []
+# Array<ScannerStation>
+var scanner_stations := []
+# Array<BatteryStation>
+var battery_stations := []
+# Array<EmptyStation>
+var empty_stations := []
+
 # Array<Bot>
 var bots := []
 
 # Array<ConstructorBot>
 var constructor_bots := []
-
 # Array<LineRunnerBot>
 var line_runner_bots := []
-
 # Array<BarrierBot>
 var barrier_bots := []
 
@@ -90,16 +99,13 @@ func _start() -> void:
     _nav_preselection_camera = NavigationPreselectionCamera.new()
     add_child(_nav_preselection_camera)
     
-    Sc.levels.session.current_energy = LevelSession.START_ENERGY
-    Sc.levels.session.total_energy = LevelSession.START_ENERGY
-    
     command_center = Sc.utils.get_child_by_type($Stations, CommandCenter)
-    Sc.level._on_station_created(command_center)
+    _on_station_created(command_center)
     
     var empty_stations := \
             Sc.utils.get_children_by_type($Stations, EmptyStation)
     for empty_station in empty_stations:
-        Sc.level._on_station_created(empty_station)
+        _on_station_created(empty_station)
     
     # Always start with a constructor bot.
     var starting_bot := add_bot(Commands.BOT_CONSTRUCTOR)
@@ -427,18 +433,30 @@ func remove_bot(bot: Bot) -> void:
 
 
 func _on_bot_created(bot: Bot) -> void:
-    self.bots.push_back(bot)
+    bots.push_back(bot)
     if bot is ConstructionBot:
         constructor_bots.push_back(bot)
-    if bot is ConstructionBot:
-        constructor_bots.push_back(bot)
-    if bot is ConstructionBot:
-        constructor_bots.push_back(bot)
+    elif bot is LineRunnerBot:
+        line_runner_bots.push_back(bot)
+    elif bot is BarrierBot:
+        barrier_bots.push_back(bot)
+    else:
+        Sc.logger.error("GameLevel._on_bot_created")
+    _update_session_counts()
 
 
 func _on_bot_destroyed(bot: Bot) -> void:
-    self.bots.erase(bot)
+    bots.erase(bot)
+    if bot is ConstructionBot:
+        constructor_bots.erase(bot)
+    elif bot is LineRunnerBot:
+        line_runner_bots.erase(bot)
+    elif bot is BarrierBot:
+        barrier_bots.erase(bot)
+    else:
+        Sc.logger.error("GameLevel._on_bot_destroyed")
     bot.queue_free()
+    _update_session_counts()
 
 
 func replace_station(
@@ -481,12 +499,52 @@ func remove_station(station: Station) -> void:
 
 
 func _on_station_created(station: Station) -> void:
-    self.stations.push_back(station)
+    stations.push_back(station)
+    if station is CommandCenter:
+        command_centers.push_back(station)
+    elif station is SolarCollector:
+        solar_collectors.push_back(station)
+    elif station is ScannerStation:
+        scanner_stations.push_back(station)
+    elif station is BatteryStation:
+        battery_stations.push_back(station)
+    elif station is EmptyStation:
+        empty_stations.push_back(station)
+    else:
+        Sc.logger.error("GameLevel._on_station_created")
+    _update_session_counts()
 
 
 func _on_station_destroyed(station: Station) -> void:
-    self.stations.erase(station)
+    stations.erase(station)
+    if station is CommandCenter:
+        command_centers.erase(station)
+    elif station is SolarCollector:
+        solar_collectors.erase(station)
+    elif station is ScannerStation:
+        scanner_stations.erase(station)
+    elif station is BatteryStation:
+        battery_stations.erase(station)
+    elif station is EmptyStation:
+        empty_stations.erase(station)
+    else:
+        Sc.logger.error("GameLevel._on_station_destroyed")
     station._destroy()
+    _update_session_counts()
+
+
+func _update_session_counts() -> void:
+    session.command_center_count = command_centers.size()
+    session.solar_collector_count = solar_collectors.size()
+    session.scanner_station_count = scanner_stations.size()
+    session.battery_station_count = battery_stations.size()
+    session.empty_station_count = empty_stations.size()
+    
+    session.constructor_bot_count = constructor_bots.size()
+    session.line_runner_bot_count = line_runner_bots.size()
+    session.barrier_bot_count = barrier_bots.size()
+    
+    session.power_line_count = power_lines.size()
 
 
 func get_music_name() -> String:
