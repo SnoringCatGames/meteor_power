@@ -120,6 +120,9 @@ var hud_icon := highlight_purply_blue
 var info_panel_header := highlight_purply_blue
 #var info_panel_header := header
 
+var separator := ColorFactory.opacify("button_hover", 0.6)
+
+
 #var modulation_button_normal := highlight_purple
 #var modulation_button_hover := highlight_light_purple
 #var modulation_button_pressed := highlight_dark_purple

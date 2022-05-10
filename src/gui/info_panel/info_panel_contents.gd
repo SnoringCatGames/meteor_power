@@ -19,6 +19,9 @@ func set_up(entity) -> void:
     $UpgradesLabel \
         .add_color_override("font_color", Sc.palette.get_color("info_panel_header"))
     
+    $CommandsSeparator.modulate = Sc.palette.get_color("separator")
+    $UpgradesSeparator.modulate = Sc.palette.get_color("separator")
+    
     var description_lines: Array = \
         Commands.ENTITY_DESCRIPTIONS[entity_command_type]
     for line in description_lines:
