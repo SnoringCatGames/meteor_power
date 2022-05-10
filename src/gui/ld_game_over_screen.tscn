@@ -6,15 +6,15 @@
 [ext_resource path="res://addons/scaffolder/src/gui/screens/game_over_screen.gd" type="Script" id=4]
 [ext_resource path="res://addons/scaffolder/src/gui/widgets/spacer.tscn" type="PackedScene" id=5]
 [ext_resource path="res://addons/scaffolder/src/gui/control_row_list/control_row_list.tscn" type="PackedScene" id=6]
-[ext_resource path="res://addons/scaffolder/assets/images/gui/nine_patch/dropdown_hover.png" type="Texture" id=7]
-[ext_resource path="res://addons/scaffolder/assets/images/gui/nine_patch/dropdown_pressed.png" type="Texture" id=8]
-[ext_resource path="res://addons/scaffolder/assets/images/gui/nine_patch/dropdown_normal.png" type="Texture" id=9]
+[ext_resource path="res://assets/images/gui/nine_patch/dropdown_hover.png" type="Texture" id=7]
+[ext_resource path="res://assets/images/gui/nine_patch/dropdown_normal.png" type="Texture" id=8]
+[ext_resource path="res://assets/images/gui/nine_patch/dropdown_pressed.png" type="Texture" id=9]
 [ext_resource path="res://addons/scaffolder/src/gui/widgets/scaffolder_button.tscn" type="PackedScene" id=10]
 [ext_resource path="res://addons/scaffolder/src/gui/widgets/accordion_panel.tscn" type="PackedScene" id=11]
 [ext_resource path="res://addons/scaffolder/src/gui/widgets/accordion_body.tscn" type="PackedScene" id=12]
 [ext_resource path="res://addons/scaffolder/src/gui/widgets/accordion_header.tscn" type="PackedScene" id=13]
 [ext_resource path="res://addons/scaffolder/src/gui/widgets/scaffolder_label.gd" type="Script" id=14]
-[ext_resource path="res://addons/scaffolder/assets/images/gui/nine_patch/focus_border.png" type="Texture" id=15]
+[ext_resource path="res://assets/images/gui/nine_patch/focus_border.png" type="Texture" id=15]
 
 [sub_resource type="StyleBoxTexture" id=1]
 content_margin_left = 16.0
@@ -34,7 +34,7 @@ content_margin_left = 16.0
 content_margin_right = 16.0
 content_margin_top = 8.0
 content_margin_bottom = 8.0
-texture = ExtResource( 8 )
+texture = ExtResource( 9 )
 region_rect = Rect2( 0, 0, 9, 9 )
 margin_left = 3.5
 margin_right = 3.5
@@ -77,7 +77,7 @@ content_margin_left = 16.0
 content_margin_right = 16.0
 content_margin_top = 8.0
 content_margin_bottom = 8.0
-texture = ExtResource( 9 )
+texture = ExtResource( 8 )
 region_rect = Rect2( 0, 0, 9, 9 )
 margin_left = 3.5
 margin_right = 3.5
@@ -90,19 +90,9 @@ margin_right = 1024.0
 margin_bottom = 768.0
 rect_min_size = Vector2( 1024, 768 )
 script = ExtResource( 4 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 screen_name = "game_over"
 nav_bar_text = "Game over"
-nav_bar_font_size = "Xl"
 is_back_button_shown = false
-is_about_button_shown = false
-is_settings_button_shown = false
-is_nav_bar_logo_shown = false
-layer = "menu"
-is_always_alive = false
-width_override = 0.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 margin_right = 1024.0
@@ -143,9 +133,9 @@ rect_min_size = Vector2( 0, 10 )
 size = Vector2( 0, 10 )
 
 [node name="ScaffolderLabel" type="Label" parent="VBoxContainer/GameOverImageContainer"]
-margin_top = 146.0
+margin_top = 14.0
 margin_right = 324.0
-margin_bottom = 185.0
+margin_bottom = 53.0
 custom_fonts/font = ExtResource( 2 )
 text = "You ran out of energy!"
 script = ExtResource( 14 )
@@ -191,6 +181,18 @@ margin_bottom = 75.0
 custom_colors/font_color = Color( 1, 0.945098, 0.458824, 1 )
 custom_fonts/font = ExtResource( 2 )
 text = "That's your fastest time!"
+valign = 0
+
+[node name="WasLongestPlaythroughLabel" parent="VBoxContainer/VBoxContainer2" instance=ExtResource( 1 )]
+visible = false
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 36.0
+margin_right = 372.0
+margin_bottom = 75.0
+custom_colors/font_color = Color( 1, 0.945098, 0.458824, 1 )
+custom_fonts/font = ExtResource( 2 )
+text = "That's your longest time!"
 valign = 0
 
 [node name="Spacer6" parent="VBoxContainer" instance=ExtResource( 5 )]
