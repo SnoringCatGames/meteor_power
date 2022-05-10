@@ -15,9 +15,9 @@ func set_up(entity) -> void:
     self.entity_command_type = entity.entity_command_type
     
     $CommandsLabel \
-        .add_color_override("font_color", Sc.palette.get_color("header"))
+        .add_color_override("font_color", Sc.palette.get_color("info_panel_header"))
     $UpgradesLabel \
-        .add_color_override("font_color", Sc.palette.get_color("header"))
+        .add_color_override("font_color", Sc.palette.get_color("info_panel_header"))
     
     var description_lines: Array = \
         Commands.ENTITY_DESCRIPTIONS[entity_command_type]

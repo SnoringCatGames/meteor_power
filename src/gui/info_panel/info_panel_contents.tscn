@@ -4,7 +4,7 @@
 [ext_resource path="res://src/gui/energy_consumption_label.tscn" type="PackedScene" id=2]
 [ext_resource path="res://addons/scaffolder/src/gui/widgets/scaffolder_h_separator.tscn" type="PackedScene" id=3]
 [ext_resource path="res://addons/scaffolder/src/gui/widgets/scaffolder_label.tscn" type="PackedScene" id=4]
-[ext_resource path="res://addons/scaffolder/assets/fonts/pxlzr_font_m.tres" type="DynamicFont" id=5]
+[ext_resource path="res://addons/scaffolder/assets/fonts/pxlzr_font_s.tres" type="DynamicFont" id=5]
 [ext_resource path="res://addons/scaffolder/assets/fonts/pxlzr_font_xs.tres" type="DynamicFont" id=6]
 [ext_resource path="res://addons/scaffolder/src/gui/widgets/spacer.gd" type="Script" id=7]
 [ext_resource path="res://src/gui/info_panel/info_panel_contents.gd" type="Script" id=8]
@@ -61,16 +61,16 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 72.0
 margin_right = 1292.0
-margin_bottom = 111.0
+margin_bottom = 95.0
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 5 )
 text = "Commands"
-is_header = true
+font_size = "S"
 
 [node name="Commands" type="VBoxContainer" parent="."]
-margin_top = 127.0
+margin_top = 111.0
 margin_right = 1292.0
-margin_bottom = 127.0
+margin_bottom = 111.0
 size_flags_horizontal = 3
 custom_constants/separation = 12
 
@@ -78,26 +78,26 @@ custom_constants/separation = 12
 modulate = Color( 0.231373, 0.231373, 0.321569, 1 )
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 143.0
+margin_top = 127.0
 margin_right = 1292.0
-margin_bottom = 147.0
+margin_bottom = 131.0
 size_flags_horizontal = 3
 
 [node name="UpgradesLabel" parent="." instance=ExtResource( 4 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 163.0
+margin_top = 147.0
 margin_right = 1292.0
-margin_bottom = 202.0
+margin_bottom = 170.0
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 5 )
 text = "Upgrades"
-is_header = true
+font_size = "S"
 
 [node name="Upgrades" type="VBoxContainer" parent="."]
-margin_top = 218.0
+margin_top = 186.0
 margin_right = 1292.0
-margin_bottom = 238.0
+margin_bottom = 206.0
 size_flags_horizontal = 3
 custom_constants/separation = 12
 
