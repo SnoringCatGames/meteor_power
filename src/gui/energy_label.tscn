@@ -9,25 +9,29 @@
 [node name="EnergyLabel" type="HBoxContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+alignment = 1
 script = ExtResource( 5 )
-color = null
+color = Color( 0.992157, 1, 0.439216, 1 )
 
 [node name="ScaffolderTextureRect" parent="." instance=ExtResource( 3 )]
-margin_top = 378.0
-margin_right = 7.0
-margin_bottom = 389.0
-rect_min_size = Vector2( 7, 11 )
+modulate = Color( 0.992157, 1, 0.439216, 1 )
+margin_left = 497.0
+margin_top = 373.0
+margin_right = 511.0
+margin_bottom = 395.0
+rect_min_size = Vector2( 14, 22 )
 texture = ExtResource( 4 )
+texture_scale = Vector2( 2, 2 )
 
 [node name="ScaffolderLabel" parent="." instance=ExtResource( 1 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 11.0
+margin_left = 515.0
 margin_top = 372.0
-margin_right = 23.0
+margin_right = 527.0
 margin_bottom = 395.0
 size_flags_horizontal = 4
-custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_colors/font_color = Color( 0.992157, 1, 0.439216, 1 )
 custom_fonts/font = ExtResource( 2 )
 text = "0"
 font_size = "S"

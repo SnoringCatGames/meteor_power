@@ -474,6 +474,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/gui/current_energy_control_row.gd"
 }, {
+"base": "ControlRow",
+"class": "CustomControlRow",
+"language": "GDScript",
+"path": "res://addons/scaffolder/src/gui/control_row_list/custom_control_row.gd"
+}, {
 "base": "Screen",
 "class": "DataAgreementScreen",
 "language": "GDScript",
@@ -1084,6 +1089,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/gui/hud.gd"
 }, {
+"base": "HudKeyValueBox",
+"class": "HudCustomValueBox",
+"language": "GDScript",
+"path": "res://addons/scaffolder/src/gui/hud/hud_custom_value_box.gd"
+}, {
 "base": "ScaffolderPanelContainer",
 "class": "HudKeyValueBox",
 "language": "GDScript",
@@ -1319,6 +1329,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/scaffolder/src/gui/control_rows/displays/level_control_row.gd"
 }, {
+"base": "CustomControlRow",
+"class": "LevelEnergyControlRow",
+"language": "GDScript",
+"path": "res://src/gui/level_energy_control_row.gd"
+}, {
 "base": "Control",
 "class": "LevelSelectItem",
 "language": "GDScript",
@@ -1363,6 +1378,11 @@ _global_script_classes=[ {
 "class": "LockAnimation",
 "language": "GDScript",
 "path": "res://addons/scaffolder/src/gui/level_select/lock_animation.gd"
+}, {
+"base": "TextControlRow",
+"class": "LongestTimeControlRow",
+"language": "GDScript",
+"path": "res://addons/scaffolder/src/gui/control_rows/displays/longest_time_control_row.gd"
 }, {
 "base": "Node",
 "class": "Main",
@@ -2754,6 +2774,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/scaffolder/addons/crypto_uuid_v4/uuid.gd"
 }, {
+"base": "Reference",
+"class": "Upgrades",
+"language": "GDScript",
+"path": "res://src/config/upgrades.gd"
+}, {
 "base": "Node",
 "class": "Utils",
 "language": "GDScript",
@@ -2978,6 +3003,7 @@ _global_script_class_icons={
 "CrashReporter": "",
 "CrashTestDummy": "",
 "CurrentEnergyControlRow": "",
+"CustomControlRow": "",
 "DataAgreementScreen": "",
 "DebugLevel": "",
 "DebugPanel": "res://addons/scaffolder/assets/images/editor_icons/debug_panel.png",
@@ -3100,6 +3126,7 @@ _global_script_class_icons={
 "HorizontalMovementUtils": "",
 "HsvRangeColorConfig": "",
 "Hud": "",
+"HudCustomValueBox": "",
 "HudKeyValueBox": "",
 "HudKeyValueItemControlRow": "",
 "HudKeyValueList": "",
@@ -3147,6 +3174,7 @@ _global_script_class_icons={
 "LevelControl": "res://addons/scaffolder/assets/images/editor_icons/scaffolder_node.png",
 "LevelControlPressController": "",
 "LevelControlRow": "",
+"LevelEnergyControlRow": "",
 "LevelSelectItem": "res://addons/scaffolder/assets/images/editor_icons/scaffolder_placeholder.png",
 "LevelSelectItemBody": "",
 "LevelSelectItemLockedHeader": "res://addons/scaffolder/assets/images/editor_icons/scaffolder_placeholder.png",
@@ -3156,6 +3184,7 @@ _global_script_class_icons={
 "LevelTouchListener": "",
 "LoadingImage": "",
 "LockAnimation": "res://addons/scaffolder/assets/images/editor_icons/scaffolder_placeholder.png",
+"LongestTimeControlRow": "",
 "Main": "res://addons/scaffolder/assets/images/editor_icons/home.png",
 "MainMenuScreen": "",
 "Meteor": "",
@@ -3434,6 +3463,7 @@ _global_script_class_icons={
 "TransientAnnotatorRegistry": "",
 "TutorialModes": "",
 "UUID": "",
+"Upgrades": "",
 "Utils": "",
 "ValidEdgeItemController": "",
 "ValidEdgeTrajectoryLegendItem": "",
