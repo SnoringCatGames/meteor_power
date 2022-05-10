@@ -32,7 +32,7 @@ var bots := []
 # Array<PowerLine>
 var power_lines := []
 
-# Array<Commands>
+# Array<String>
 var command_enablement := []
 
 var tutorial_mode := TutorialModes.NONE
@@ -58,7 +58,7 @@ func _ready() -> void:
     
     command_enablement.resize(Commands.KEYS.size())
     for command in Commands.KEYS:
-        command_enablement[command] = true
+        command_enablement[command] = ""
 
 
 func _load() -> void:
@@ -328,11 +328,14 @@ func update_command_enablement() -> void:
     # Disable any command for which there isn't enough energy.
     if Sc.levels.session.current_energy < _max_command_cost:
         for command in Commands.KEYS:
-            var previous_enablement: bool = command_enablement[command]
+            var previous_enablement: bool = command_enablement[command] == ""
             var next_enablement: bool = \
                 Commands.COSTS[command] <= Sc.levels.session.current_energy
             if previous_enablement != next_enablement:
-                command_enablement[command] = next_enablement
+                command_enablement[command] = \
+                    "" if \
+                    next_enablement else \
+                    Descriptions.NOT_ENOUGH_ENERGY
                 changed = true
     
     # FIXME: LEFT OFF HERE: --------------------------
@@ -363,7 +366,7 @@ func update_command_enablement() -> void:
                 entity._on_command_enablement_changed()
         if Sc.gui.hud.get_is_radial_menu_open():
             for item in Sc.gui.hud._radial_menu._items:
-                item.is_disabled = !command_enablement[item.id]
+                item.disabled_message = command_enablement[item.id]
 
 
 func get_is_first_station_selected_for_running_power_line() -> bool:

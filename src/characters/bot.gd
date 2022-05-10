@@ -537,7 +537,7 @@ func _get_radial_menu_items() -> Array:
         command_item.id = type
         command_item.description = Commands.COMMAND_LABELS[type]
         command_item.texture = Commands.TEXTURES[type]
-        command_item.is_disabled = !Sc.level.command_enablement[type]
+        command_item.disabled_message = Sc.level.command_enablement[type]
         result.push_back(command_item)
     return result
 

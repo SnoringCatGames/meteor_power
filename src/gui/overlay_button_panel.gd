@@ -231,4 +231,4 @@ func _get_button_for_type(type: int) -> Node:
 
 func _on_command_enablement_changed() -> void:
     $Buttons/RunPowerLine.is_disabled = \
-        !Sc.level.command_enablement[Commands.RUN_WIRE]
+        Sc.level.command_enablement[Commands.RUN_WIRE] != ""

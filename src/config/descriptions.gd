@@ -4,6 +4,8 @@ extends Reference
 
 # FIXME: ----------- Update descriptions after finishing and polishing gameplay.
 
+const NOT_ENOUGH_ENERGY := "Not enough energy."
+
 const ENTITY_NAMES := {
     BOT_CONSTRUCTOR = "Constructor bot",
     BOT_LINE_RUNNER = "Line-runner bot",
