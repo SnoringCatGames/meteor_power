@@ -390,6 +390,11 @@ func update_command_enablement() -> void:
         command_enablement[Commands.BOT_RECYCLE] = \
             Descriptions.CANNOT_TRASH_LAST_BOT
     
+    if did_level_succeed:
+        # FIXME: --------------- Add support for second and third links.
+        command_enablement[Commands.STATION_LINK_TO_MOTHERSHIP] = \
+                Descriptions.ALREADY_LINKED_TO_MOTHERSHIP
+        
     # FIXME: LEFT OFF HERE: --------------------------
     if tutorial_mode != TutorialModes.NONE:
         pass
