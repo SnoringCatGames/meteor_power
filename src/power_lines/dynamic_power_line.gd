@@ -69,6 +69,7 @@ func _draw() -> void:
 
 func _on_hit_by_meteor() -> void:
     Sc.logger.print("DynamicPowerLine._on_hit_by_meteor")
+    ._on_hit_by_meteor()
     if end_attachment.has_method("stop"):
         # Is Bot.
         end_attachment.stop()

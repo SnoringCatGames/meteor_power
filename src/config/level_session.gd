@@ -44,8 +44,6 @@ var total_bot_count: int setget ,_get_total_bot_count
 
 var power_line_count := 0
 
-# FIXME: ------------------------- Update each of these
-
 var meteors_collided_count := 0
 var bot_pixels_travelled := 0.0
 var bots_built_count := 0

@@ -71,7 +71,7 @@ func _draw_polyline() -> void:
 
 
 func _on_hit_by_meteor() -> void:
-    pass
+    Sc.level.session.meteors_collided_count += 1
 
 
 func on_attachment_removed() -> void:

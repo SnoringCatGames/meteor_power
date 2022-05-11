@@ -31,10 +31,6 @@ var is_powered_on := true
 var is_stopping := false
 var is_hovered := false
 
-var start_time := INF
-var previous_total_time := INF
-var total_time := INF
-
 var movement_distance_per_one_enery_value := 20.0
 var total_movement_distance_cost := 0.0
 
@@ -54,8 +50,6 @@ func _init(entity_command_type: int) -> void:
     add_child(light)
     light.owner = self
     _update_status()
-    start_time = Sc.time.get_scaled_play_time()
-    total_time = 0.0
 
 
 func _ready() -> void:
@@ -73,9 +67,6 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
     if Engine.editor_hint:
         return
-    
-    previous_total_time = total_time
-    total_time = Sc.time.get_scaled_play_time() - start_time
     
     if surface_state.just_left_air and \
             is_stopping:
@@ -455,9 +446,14 @@ func _on_started_colliding_deferred(
                 _on_reached_target_station()
         "meteors":
             target._on_collided_with_bot(self)
+            _on_hit_by_meteor()
         _:
             Sc.logger.error("Bot._on_started_colliding: layer_names=%s" % \
                     str(layer_names))
+
+
+func _on_hit_by_meteor() -> void:
+    Sc.level.session.meteors_collided_count += 1
 
 
 func _on_reached_target_station() -> void:

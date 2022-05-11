@@ -492,6 +492,7 @@ func _on_disconnected_from_command_center() -> void:
 
 
 func _on_hit_by_meteor() -> void:
+    Sc.level.session.meteors_collided_count += 1
     meteor_hit_count += 1
 
 

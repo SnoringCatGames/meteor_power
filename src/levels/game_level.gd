@@ -113,15 +113,15 @@ func _start() -> void:
     add_child(_nav_preselection_camera)
     
     command_center = Sc.utils.get_child_by_type($Stations, CommandCenter)
-    _on_station_created(command_center)
+    _on_station_created(command_center, true)
     
     var empty_stations := \
             Sc.utils.get_children_by_type($Stations, EmptyStation)
     for empty_station in empty_stations:
-        _on_station_created(empty_station)
+        _on_station_created(empty_station, true)
     
     # Always start with a constructor bot.
-    var starting_bot := add_bot(Commands.BOT_CONSTRUCTOR)
+    var starting_bot := add_bot(Commands.BOT_CONSTRUCTOR, true)
     # FIXME: ------------------- REMOVE.
     starting_bot.position.x += 96.0
     
@@ -198,6 +198,8 @@ func quit(
         session._game_over_explanation = Descriptions.LEVEL_SUCCESS_EXPLANATION
     else:
         session._game_over_explanation = Descriptions.LEVEL_FAILURE_EXPLANATION
+    for bot in bots:
+        session.bot_pixels_travelled += bot.distance_travelled
     .quit(has_finished, immediately)
 
 
@@ -453,6 +455,7 @@ func remove_power_line(power_line: PowerLine) -> void:
 
 
 func _on_power_line_created(power_line: PowerLine) -> void:
+    session.power_lines_built_count += 1
     power_lines.push_back(power_line)
 
 
@@ -461,7 +464,9 @@ func _on_power_line_destroyed(power_line: PowerLine) -> void:
     power_line.queue_free()
 
 
-func add_bot(bot_type: int) -> Bot:
+func add_bot(
+        bot_type: int,
+        is_default_bot := false) -> Bot:
     var bot_scene: PackedScene
     match bot_type:
         Commands.BOT_CONSTRUCTOR:
@@ -475,7 +480,7 @@ func add_bot(bot_type: int) -> Bot:
             true,
             false,
             true)
-    _on_bot_created(bot)
+    _on_bot_created(bot, is_default_bot)
     return bot
 
 
@@ -483,13 +488,23 @@ func remove_bot(bot: Bot) -> void:
     _on_bot_destroyed(bot)
 
 
-func _on_bot_created(bot: Bot) -> void:
+func _on_bot_created(
+        bot: Bot,
+        is_default_bot := false) -> void:
+    if !is_default_bot:
+        session.bots_built_count += 1
     bots.push_back(bot)
     if bot is ConstructionBot:
+        if !is_default_bot:
+            session.contructor_bots_built_count += 1
         constructor_bots.push_back(bot)
     elif bot is LineRunnerBot:
+        if !is_default_bot:
+            session.line_runner_bots_built_count += 1
         line_runner_bots.push_back(bot)
     elif bot is BarrierBot:
+        if !is_default_bot:
+            session.barrier_bots_built_count += 1
         barrier_bots.push_back(bot)
     else:
         Sc.logger.error("GameLevel._on_bot_created")
@@ -497,6 +512,8 @@ func _on_bot_created(bot: Bot) -> void:
 
 
 func _on_bot_destroyed(bot: Bot) -> void:
+    if !session.is_ended:
+        session.bot_pixels_travelled += bot.distance_travelled
     bots.erase(bot)
     if bot is ConstructionBot:
         constructor_bots.erase(bot)
@@ -549,15 +566,27 @@ func remove_station(station: Station) -> void:
     _on_station_destroyed(station)
 
 
-func _on_station_created(station: Station) -> void:
+func _on_station_created(
+        station: Station,
+        is_default_station := false) -> void:
+    if !is_default_station and !(station is EmptyStation):
+        session.stations_built_count += 1
     stations.push_back(station)
     if station is CommandCenter:
+        if !is_default_station:
+            session.command_centers_built_count += 1
         command_centers.push_back(station)
     elif station is SolarCollector:
+        if !is_default_station:
+            session.solar_collectors_built_count += 1
         solar_collectors.push_back(station)
     elif station is ScannerStation:
+        if !is_default_station:
+            session.scanner_stations_built_count += 1
         scanner_stations.push_back(station)
     elif station is BatteryStation:
+        if !is_default_station:
+            session.battery_stations_built_count += 1
         battery_stations.push_back(station)
     elif station is EmptyStation:
         empty_stations.push_back(station)
