@@ -353,9 +353,21 @@ func update_command_enablement() -> void:
                     Descriptions.NOT_ENOUGH_ENERGY
                 changed = true
     
+    # Disable bot-creation commands when at max bot capacity.
+    if session.constructor_bot_count + \
+            session.line_runner_bot_count + \
+            session.barrier_bot_count >= session.bot_capacity:
+        command_enablement[Commands.BOT_CONSTRUCTOR] = \
+            Descriptions.MAX_BOT_CAPACITY
+        command_enablement[Commands.BOT_LINE_RUNNER] = \
+            Descriptions.MAX_BOT_CAPACITY
+        command_enablement[Commands.BOT_BARRIER] = \
+            Descriptions.MAX_BOT_CAPACITY
+    
     # FIXME: LEFT OFF HERE: --------------------------
     if tutorial_mode != TutorialModes.NONE:
         pass
+    
 #    command_enablement[Commands.BOT_CONSTRUCTOR]
 #    command_enablement[Commands.BOT_LINE_RUNNER]
 #    command_enablement[Commands.BOT_BARRIER]
@@ -545,6 +557,8 @@ func _update_session_counts() -> void:
     session.barrier_bot_count = barrier_bots.size()
     
     session.power_line_count = power_lines.size()
+    
+    update_command_enablement()
 
 
 func get_music_name() -> String:

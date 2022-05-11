@@ -5,6 +5,7 @@ extends Reference
 # FIXME: ----------- Update descriptions after finishing and polishing gameplay.
 
 const NOT_ENOUGH_ENERGY := "Not enough energy."
+const MAX_BOT_CAPACITY := "The max number of bots already exist."
 
 const ENTITY_NAMES := {
     BOT_CONSTRUCTOR = "Constructor bot",
