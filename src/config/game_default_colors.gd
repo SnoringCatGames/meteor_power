@@ -95,6 +95,7 @@ var highlight_yellow_idle_selected := Color("e5ff4f")
 var highlight_yellow_new_selected := Color("f9ff85")
 
 var highlight_purply_blue := Color("9f96ff")
+var faint_orange := Color("ffdea6")
 
 var energy := Color("fdff70")
 
@@ -117,11 +118,16 @@ var station_selected := ColorFactory.opacify("highlight_blue_selected", 0.9)
 var station_hovered := ColorFactory.opacify("highlight_light_blue_selected", 0.9)
 
 var hud_icon := highlight_purply_blue
+#var hud_totals := faint_orange
+var hud_totals := Color("b8a98f")
 var info_panel_header := highlight_purply_blue
 #var info_panel_header := header
 
 var separator := ColorFactory.opacify("button_hover", 0.6)
 
+var hud_count_min := Color.from_hsv(0.3, 0.05, 0.5)
+var hud_count_max := Color.from_hsv(0.1, 0.7, 1.0)
+var hud_count_non_zero_min: Color = lerp(hud_count_min, hud_count_max, 0.4)
 
 #var modulation_button_normal := highlight_purple
 #var modulation_button_hover := highlight_light_purple

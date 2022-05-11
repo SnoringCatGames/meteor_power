@@ -66,9 +66,35 @@ func _update_control() -> void:
         scanner_station_label.text = "x%s  " % scanner_station_count
         battery_station_label.text = "x%s  " % battery_station_count
         totals_label.text = "  (%s/%s)" % [total_count, capacity]
+        
+        var totals_color := _get_color(total_count, capacity)
+        
+        var max_color_station_count := int(ceil(capacity / 3.0))
+        var command_center_color := \
+            _get_color(command_center_count, max_color_station_count)
+        var solar_collector_color := \
+            _get_color(solar_collector_count, max_color_station_count)
+        var scanner_station_color := \
+            _get_color(scanner_station_count, max_color_station_count)
+        var battery_station_color := \
+            _get_color(battery_station_count, max_color_station_count)
+        
+        totals_label \
+            .add_color_override("font_color", totals_color)
+        command_center_label \
+            .add_color_override("font_color", command_center_color)
+        solar_collector_label \
+            .add_color_override("font_color", solar_collector_color)
+        scanner_station_label \
+            .add_color_override("font_color", scanner_station_color)
+        battery_station_label \
+            .add_color_override("font_color", battery_station_color)
 
 
 func create_control() -> Control:
+    var icon_color: Color = Sc.palette.get_color("hud_icon")
+    var counts_color := Sc.palette.get_color("hud_count_min")
+    
     var vbox := VBoxContainer.new()
     vbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
     
@@ -86,10 +112,14 @@ func create_control() -> Control:
     
     totals_label = Sc.utils.add_scene(header_hbox, Sc.gui.SCAFFOLDER_LABEL_SCENE)
     totals_label.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+    totals_label.add_color_override("font_color", counts_color)
     
     var header_spacer2 := Control.new()
     header_spacer2.size_flags_horizontal = Control.SIZE_EXPAND_FILL
     header_hbox.add_child(header_spacer2)
+    
+    var vspacer: Spacer = Sc.utils.add_scene(vbox, Sc.gui.SPACER_SCENE)
+    vspacer.size = Vector2(0.0, BotsControlRow.MARGIN_Y)
     
     var hbox := HBoxContainer.new()
     hbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -99,8 +129,6 @@ func create_control() -> Control:
     spacer1.size_flags_horizontal = Control.SIZE_EXPAND_FILL
     hbox.add_child(spacer1)
     
-    var icon_color: Color = Sc.palette.get_color("hud_icon")
-    
     command_center_texture = \
         Sc.utils.add_scene(hbox, Sc.gui.SCAFFOLDER_TEXTURE_RECT_SCENE)
     command_center_texture.texture = _COMMAND_CENTER_ICON
@@ -109,6 +137,7 @@ func create_control() -> Control:
     command_center_label = \
         Sc.utils.add_scene(hbox, Sc.gui.SCAFFOLDER_LABEL_SCENE)
     command_center_label.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+    command_center_label.add_color_override("font_color", counts_color)
     
     solar_collector_texture = \
         Sc.utils.add_scene(hbox, Sc.gui.SCAFFOLDER_TEXTURE_RECT_SCENE)
@@ -118,6 +147,7 @@ func create_control() -> Control:
     solar_collector_label = \
         Sc.utils.add_scene(hbox, Sc.gui.SCAFFOLDER_LABEL_SCENE)
     solar_collector_label.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+    solar_collector_label.add_color_override("font_color", counts_color)
     
     scanner_station_texture = \
         Sc.utils.add_scene(hbox, Sc.gui.SCAFFOLDER_TEXTURE_RECT_SCENE)
@@ -126,6 +156,7 @@ func create_control() -> Control:
     
     scanner_station_label = Sc.utils.add_scene(hbox, Sc.gui.SCAFFOLDER_LABEL_SCENE)
     scanner_station_label.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+    scanner_station_label.add_color_override("font_color", counts_color)
     
     battery_station_texture = \
         Sc.utils.add_scene(hbox, Sc.gui.SCAFFOLDER_TEXTURE_RECT_SCENE)
@@ -134,6 +165,7 @@ func create_control() -> Control:
     
     battery_station_label = Sc.utils.add_scene(hbox, Sc.gui.SCAFFOLDER_LABEL_SCENE)
     battery_station_label.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+    battery_station_label.add_color_override("font_color", counts_color)
     
     var spacer2 := Control.new()
     spacer2.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -164,3 +196,16 @@ func _set_font_size(value: String) -> void:
     solar_collector_texture.texture_scale = texture_scale
     scanner_station_texture.texture_scale = texture_scale
     battery_station_texture.texture_scale = texture_scale
+
+
+func _get_color(
+        count: int,
+        capacity: int) -> Color:
+    if count == 0:
+        return Sc.palette.get_color("hud_count_min")
+    else:
+        var weight := count / capacity
+        return lerp(
+            Sc.palette.get_color("hud_count_non_zero_min"),
+            Sc.palette.get_color("hud_count_max"),
+            weight)

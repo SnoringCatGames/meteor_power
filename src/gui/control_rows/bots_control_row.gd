@@ -5,6 +5,8 @@ extends CustomControlRow
 const LABEL := "Bots:"
 const DESCRIPTION := ""
 
+const MARGIN_Y := 4.0
+
 const _CONSTRUCTOR_BOT_ICON := preload(
     "res://assets/images/gui/hud_icons/constructor_bot_hud_icon.png")
 const _LINE_RUNNER_BOT_ICON := preload(
@@ -55,9 +57,31 @@ func _update_control() -> void:
         line_runner_bot_label.text = "x%s  " % line_runner_bot_count
         barrier_bot_label.text = "x%s  " % barrier_bot_count
         totals_label.text = "  (%s/%s)" % [total_count, bot_capacity]
+        
+        var totals_color := _get_color(total_count, bot_capacity)
+        
+        var max_color_bot_count := int(ceil(bot_capacity / 3.0))
+        var constructor_bot_color := \
+            _get_color(constructor_bot_count, max_color_bot_count)
+        var line_runner_bot_color := \
+            _get_color(line_runner_bot_count, max_color_bot_count)
+        var barrier_bot_color := \
+            _get_color(barrier_bot_count, max_color_bot_count)
+        
+        totals_label \
+            .add_color_override("font_color", totals_color)
+        constructor_bot_label \
+            .add_color_override("font_color", constructor_bot_color)
+        line_runner_bot_label \
+            .add_color_override("font_color", line_runner_bot_color)
+        barrier_bot_label \
+            .add_color_override("font_color", barrier_bot_color)
 
 
 func create_control() -> Control:
+    var icon_color: Color = Sc.palette.get_color("hud_icon")
+    var counts_color := Sc.palette.get_color("hud_count_min")
+    
     var vbox := VBoxContainer.new()
     vbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
     
@@ -75,10 +99,14 @@ func create_control() -> Control:
     
     totals_label = Sc.utils.add_scene(header_hbox, Sc.gui.SCAFFOLDER_LABEL_SCENE)
     totals_label.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+    totals_label.add_color_override("font_color", counts_color)
     
     var header_spacer2 := Control.new()
     header_spacer2.size_flags_horizontal = Control.SIZE_EXPAND_FILL
     header_hbox.add_child(header_spacer2)
+    
+    var vspacer: Spacer = Sc.utils.add_scene(vbox, Sc.gui.SPACER_SCENE)
+    vspacer.size = Vector2(0.0, MARGIN_Y)
     
     var hbox := HBoxContainer.new()
     hbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -88,8 +116,6 @@ func create_control() -> Control:
     spacer1.size_flags_horizontal = Control.SIZE_EXPAND_FILL
     hbox.add_child(spacer1)
     
-    var icon_color: Color = Sc.palette.get_color("hud_icon")
-    
     constructor_bot_texture = \
         Sc.utils.add_scene(hbox, Sc.gui.SCAFFOLDER_TEXTURE_RECT_SCENE)
     constructor_bot_texture.texture = _CONSTRUCTOR_BOT_ICON
@@ -98,6 +124,7 @@ func create_control() -> Control:
     constructor_bot_label = \
         Sc.utils.add_scene(hbox, Sc.gui.SCAFFOLDER_LABEL_SCENE)
     constructor_bot_label.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+    constructor_bot_label.add_color_override("font_color", counts_color)
     
     line_runner_bot_texture = \
         Sc.utils.add_scene(hbox, Sc.gui.SCAFFOLDER_TEXTURE_RECT_SCENE)
@@ -107,6 +134,7 @@ func create_control() -> Control:
     line_runner_bot_label = \
         Sc.utils.add_scene(hbox, Sc.gui.SCAFFOLDER_LABEL_SCENE)
     line_runner_bot_label.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+    line_runner_bot_label.add_color_override("font_color", counts_color)
     
     barrier_bot_texture = \
         Sc.utils.add_scene(hbox, Sc.gui.SCAFFOLDER_TEXTURE_RECT_SCENE)
@@ -115,6 +143,7 @@ func create_control() -> Control:
     
     barrier_bot_label = Sc.utils.add_scene(hbox, Sc.gui.SCAFFOLDER_LABEL_SCENE)
     barrier_bot_label.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+    barrier_bot_label.add_color_override("font_color", counts_color)
     
     var spacer2 := Control.new()
     spacer2.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -143,6 +172,19 @@ func _set_font_size(value: String) -> void:
     constructor_bot_texture.texture_scale = texture_scale
     barrier_bot_texture.texture_scale = texture_scale
     line_runner_bot_texture.texture_scale = texture_scale
+
+
+func _get_color(
+        count: int,
+        capacity: int) -> Color:
+    if count == 0:
+        return Sc.palette.get_color("hud_count_min")
+    else:
+        var weight := count / capacity
+        return lerp(
+            Sc.palette.get_color("hud_count_non_zero_min"),
+            Sc.palette.get_color("hud_count_max"),
+            weight)
 
 
 static func _get_texture_scale_for_font_size(font_size: String) -> float:
