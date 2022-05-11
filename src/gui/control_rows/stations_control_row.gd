@@ -58,14 +58,8 @@ func _update_control() -> void:
         scanner_station_count = Sc.levels.session.scanner_station_count
         battery_station_count = Sc.levels.session.battery_station_count
         empty_station_count = Sc.levels.session.empty_station_count
-        var total_count: int = \
-            command_center_count + \
-            solar_collector_count + \
-            scanner_station_count + \
-            battery_station_count
-        var capacity: int = \
-            total_count + \
-            empty_station_count
+        var total_count: int = Sc.levels.session.total_station_count
+        var capacity: int = Sc.levels.session.total_station_site_count
         
         command_center_label.text = "x%s  " % command_center_count
         solar_collector_label.text = "x%s  " % solar_collector_count

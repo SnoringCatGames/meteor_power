@@ -48,16 +48,13 @@ func _update_control() -> void:
         constructor_bot_count = Sc.levels.session.constructor_bot_count
         line_runner_bot_count = Sc.levels.session.line_runner_bot_count
         barrier_bot_count = Sc.levels.session.barrier_bot_count
-        var total_count: int = \
-            constructor_bot_count + \
-            line_runner_bot_count + \
-            barrier_bot_count
+        var total_count: int = Sc.levels.session.total_bot_count
+        var bot_capacity: int = Sc.levels.session.bot_capacity
         
         constructor_bot_label.text = "x%s  " % constructor_bot_count
         line_runner_bot_label.text = "x%s  " % line_runner_bot_count
         barrier_bot_label.text = "x%s  " % barrier_bot_count
-        totals_label.text = \
-            "  (%s/%s)" % [total_count, Sc.levels.session.bot_capacity]
+        totals_label.text = "  (%s/%s)" % [total_count, bot_capacity]
 
 
 func create_control() -> Control:

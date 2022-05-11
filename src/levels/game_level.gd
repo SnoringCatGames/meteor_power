@@ -53,6 +53,9 @@ var power_lines := []
 # Array<String>
 var command_enablement := []
 
+# Array<String>
+var previous_command_enablement := []
+
 var tutorial_mode := TutorialModes.NONE
 
 var first_selected_station_for_running_power_line: Station = null
@@ -77,6 +80,7 @@ func _ready() -> void:
     command_enablement.resize(Commands.KEYS.size())
     for command in Commands.KEYS:
         command_enablement[command] = ""
+    previous_command_enablement = command_enablement.duplicate()
 
 
 func _load() -> void:
@@ -338,8 +342,6 @@ func add_energy(enery: int) -> void:
 
 
 func update_command_enablement() -> void:
-    var changed := false
-    
     # Disable any command for which there isn't enough energy.
     if Sc.levels.session.current_energy < _max_command_cost:
         for command in Commands.KEYS:
@@ -351,18 +353,20 @@ func update_command_enablement() -> void:
                     "" if \
                     next_enablement else \
                     Descriptions.NOT_ENOUGH_ENERGY
-                changed = true
     
-    # Disable bot-creation commands when at max bot capacity.
-    if session.constructor_bot_count + \
-            session.line_runner_bot_count + \
-            session.barrier_bot_count >= session.bot_capacity:
+    # Disable bot-creation when at max bot capacity.
+    if session.total_bot_count >= session.bot_capacity:
         command_enablement[Commands.BOT_CONSTRUCTOR] = \
             Descriptions.MAX_BOT_CAPACITY
         command_enablement[Commands.BOT_LINE_RUNNER] = \
             Descriptions.MAX_BOT_CAPACITY
         command_enablement[Commands.BOT_BARRIER] = \
             Descriptions.MAX_BOT_CAPACITY
+    
+    # Disable bot-recycling when there's only one bot left.
+    if session.total_bot_count <= 1:
+        command_enablement[Commands.BOT_RECYCLE] = \
+            Descriptions.CANNOT_TRASH_LAST_BOT
     
     # FIXME: LEFT OFF HERE: --------------------------
     if tutorial_mode != TutorialModes.NONE:
@@ -387,7 +391,14 @@ func update_command_enablement() -> void:
 #
 #    command_enablement[Commands.RUN_WIRE]
     
+    var changed := false
+    for i in command_enablement.size():
+        if command_enablement[i] != previous_command_enablement[i]:
+            changed = true
+            break
+    
     if changed:
+        previous_command_enablement = command_enablement.duplicate()
         for entities in [bots, stations]:
             for entity in entities:
                 entity._on_command_enablement_changed()

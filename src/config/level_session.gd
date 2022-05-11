@@ -15,10 +15,14 @@ var solar_collector_count := 0
 var scanner_station_count := 0
 var battery_station_count := 0
 var empty_station_count := 0
+var total_station_site_count: int setget ,_get_total_station_site_count
+var total_station_count: int setget ,_get_total_station_count
 
 var constructor_bot_count := 0
 var line_runner_bot_count := 0
 var barrier_bot_count := 0
+var total_bot_count: int setget ,_get_total_bot_count
+
 var power_line_count := 0
 
 
@@ -39,3 +43,24 @@ func reset(id: String) -> void:
     line_runner_bot_count = 0
     barrier_bot_count = 0
     power_line_count = 0
+
+
+func _get_total_station_site_count() -> int:
+    return command_center_count + \
+        solar_collector_count + \
+        scanner_station_count + \
+        battery_station_count + \
+        empty_station_count
+
+
+func _get_total_station_count() -> int:
+    return command_center_count + \
+        solar_collector_count + \
+        scanner_station_count + \
+        battery_station_count
+
+
+func _get_total_bot_count() -> int:
+    return constructor_bot_count + \
+        line_runner_bot_count + \
+        barrier_bot_count

@@ -6,6 +6,7 @@ extends Reference
 
 const NOT_ENOUGH_ENERGY := "Not enough energy."
 const MAX_BOT_CAPACITY := "The max number of bots already exist."
+const CANNOT_TRASH_LAST_BOT := "The last bot cannot be recycled."
 
 const ENTITY_NAMES := {
     BOT_CONSTRUCTOR = "Constructor bot",
