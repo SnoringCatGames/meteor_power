@@ -7,6 +7,7 @@ extends Reference
 const NOT_ENOUGH_ENERGY := "Not enough energy."
 const MAX_BOT_CAPACITY := "The max number of bots already exist."
 const CANNOT_TRASH_LAST_BOT := "The last bot cannot be recycled."
+const ALREADY_LINKED_TO_MOTHERSHIP := "Already linked to mothership."
 
 const LEVEL_SUCCESS_EXPLANATION := \
     "You succeeded in linking back to the mother ship!"
