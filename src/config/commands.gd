@@ -26,7 +26,7 @@ enum {
     RUN_WIRE,
 }
 
-const KEYS := [
+const VALUES := [
     UNKNOWN,
     
     BOT_CONSTRUCTOR,

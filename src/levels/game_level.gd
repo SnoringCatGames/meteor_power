@@ -83,11 +83,11 @@ func _ready() -> void:
     
     _overlay_buttons_fade_tween = ScaffolderTween.new(self)
     
-    for command in Commands.KEYS:
+    for command in Commands.VALUES:
         _max_command_cost = max(_max_command_cost, Commands.COSTS[command])
     
-    command_enablement.resize(Commands.KEYS.size())
-    for command in Commands.KEYS:
+    command_enablement.resize(Commands.VALUES.size())
+    for command in Commands.VALUES:
         command_enablement[command] = ""
     previous_command_enablement = command_enablement.duplicate()
 
@@ -368,7 +368,7 @@ func add_energy(energy: int) -> void:
 func update_command_enablement() -> void:
     # Disable any command for which there isn't enough energy.
     if session.current_energy < _max_command_cost:
-        for command in Commands.KEYS:
+        for command in Commands.VALUES:
             var previous_enablement: bool = command_enablement[command] == ""
             var next_enablement: bool = \
                 Commands.COSTS[command] <= session.current_energy

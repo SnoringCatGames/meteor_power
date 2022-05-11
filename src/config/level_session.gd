@@ -5,24 +5,24 @@ extends SurfacerLevelSession
 #       destroyed.
 
 
-var _CUMULATIVE_COLLECTED_ENERGY_SETTINGS_KEY := "collected_energy"
-var _CUMULATIVE_COLLIDED_METEORS_SETTINGS_KEY := "collided_meteors"
-var _CUMULATIVE_STATIONS_BUILT_SETTINGS_KEY := "stations_built"
-var _CUMULATIVE_BOTS_BUILT_SETTINGS_KEY := "bots_built"
-var _CUMULATIVE_WIRES_BUILT_SETTINGS_KEY := "wires_built"
-var _CUMULATIVE_BOT_PIXELS_TRAVELLED_SETTINGS_KEY := "bot_pixels_travelled"
+const _CUMULATIVE_COLLECTED_ENERGY_SETTINGS_KEY := "collected_energy"
+const _CUMULATIVE_COLLIDED_METEORS_SETTINGS_KEY := "collided_meteors"
+const _CUMULATIVE_STATIONS_BUILT_SETTINGS_KEY := "stations_built"
+const _CUMULATIVE_BOTS_BUILT_SETTINGS_KEY := "bots_built"
+const _CUMULATIVE_WIRES_BUILT_SETTINGS_KEY := "wires_built"
+const _CUMULATIVE_BOT_PIXELS_TRAVELLED_SETTINGS_KEY := "bot_pixels_travelled"
 
-var _CUMULATIVE_CONSTRUCTOR_BOTS_BUILT_SETTINGS_KEY := "constructor_bots_built"
-var _CUMULATIVE_LINE_RUNNER_BOTS_BUILT_SETTINGS_KEY := "line_runner_bots_built"
-var _CUMULATIVE_BARRIER_BOTS_BUILT_SETTINGS_KEY := "barrier_bots_built"
+const _CUMULATIVE_CONSTRUCTOR_BOTS_BUILT_SETTINGS_KEY := "constructor_bots_built"
+const _CUMULATIVE_LINE_RUNNER_BOTS_BUILT_SETTINGS_KEY := "line_runner_bots_built"
+const _CUMULATIVE_BARRIER_BOTS_BUILT_SETTINGS_KEY := "barrier_bots_built"
 
-var _CUMULATIVE_COMMAND_CENTERS_BUILT_SETTINGS_KEY := "command_centers_built"
-var _CUMULATIVE_SOLAR_COLLECTORS_BUILT_SETTINGS_KEY := "solar_collectors_built"
-var _CUMULATIVE_SCANNER_STATIONS_BUILT_SETTINGS_KEY := "scanner_stations_built"
-var _CUMULATIVE_BATTERY_STATIONS_BUILT_SETTINGS_KEY := "battery_stations_built"
+const _CUMULATIVE_COMMAND_CENTERS_BUILT_SETTINGS_KEY := "command_centers_built"
+const _CUMULATIVE_SOLAR_COLLECTORS_BUILT_SETTINGS_KEY := "solar_collectors_built"
+const _CUMULATIVE_SCANNER_STATIONS_BUILT_SETTINGS_KEY := "scanner_stations_built"
+const _CUMULATIVE_BATTERY_STATIONS_BUILT_SETTINGS_KEY := "battery_stations_built"
 
-var PIXELS_PER_MILE := 6400
-var KM_PER_MILE := 1.60934
+const PIXELS_PER_MILE := 6400
+const KM_PER_MILE := 1.60934
 
 var total_energy := 0
 var current_energy := 0
@@ -144,6 +144,9 @@ func _update_for_level_end(has_finished: bool) -> void:
         var previous_level_value = Sc.save_state.get_level_setting(_id, key)
         Sc.save_state.set_setting(key, previous_global_value + value)
         Sc.save_state.set_level_setting(_id, key, previous_level_value + value)
+    
+    Game.cumulative_energy = \
+        Sc.save_state.get_setting(_CUMULATIVE_COLLECTED_ENERGY_SETTINGS_KEY)
 
 
 func _get_total_station_site_count() -> int:

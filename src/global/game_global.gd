@@ -8,6 +8,10 @@ const _SCHEMA_PATH := "res://src/config/game_schema.gd"
 const INFO_PANEL_CONTENTS_SCENE := preload(
     "res://src/gui/info_panel/info_panel_contents.tscn")
 
+var upgrades: UpgradesManager
+
+var cumulative_energy := 0
+
 
 func _init().(_SCHEMA_PATH) -> void:
     pass
@@ -52,12 +56,19 @@ func _amend_manifest() -> void:
                 entry.events.erase(event)
 
 
+func _instantiate_sub_modules() -> void:
+    upgrades = UpgradesManager.new()
+    add_child(upgrades)
+
+
 func _configure_sub_modules() -> void:
     ._configure_sub_modules()
 
 
 func _load_state() -> void:
     ._load_state()
+    cumulative_energy = Sc.save_state.get_setting(
+        LevelSession._CUMULATIVE_COLLECTED_ENERGY_SETTINGS_KEY, 0)
 
 
 func _disable_music() -> void:

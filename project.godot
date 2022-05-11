@@ -764,6 +764,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/gui/energy_label.gd"
 }, {
+"base": "CustomControlRow",
+"class": "EnergyToNextUpgradeControlRow",
+"language": "GDScript",
+"path": "res://src/gui/control_rows/energy_to_next_upgrade_control_row.gd"
+}, {
 "base": "TransientAnnotator",
 "class": "ExclamationMarkAnnotator",
 "language": "GDScript",
@@ -2805,6 +2810,11 @@ _global_script_classes=[ {
 "path": "res://src/config/upgrades.gd"
 }, {
 "base": "Node",
+"class": "UpgradesManager",
+"language": "GDScript",
+"path": "res://src/config/upgrades_manager.gd"
+}, {
+"base": "Node",
 "class": "Utils",
 "language": "GDScript",
 "path": "res://addons/scaffolder/src/utils/utils.gd"
@@ -3086,6 +3096,7 @@ _global_script_class_icons={
 "EmptyStation": "",
 "EnergyConsumptionLabel": "",
 "EnergyLabel": "",
+"EnergyToNextUpgradeControlRow": "",
 "ExclamationMarkAnnotator": "",
 "FailedEdgeAttempt": "",
 "FailedEdgeAttemptAnnotationElement": "",
@@ -3494,6 +3505,7 @@ _global_script_class_icons={
 "TutorialModes": "",
 "UUID": "",
 "Upgrades": "",
+"UpgradesManager": "",
 "Utils": "",
 "ValidEdgeItemController": "",
 "ValidEdgeTrajectoryLegendItem": "",

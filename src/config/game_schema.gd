@@ -353,6 +353,7 @@ var _gui_manifest := {
         BotsControlRow,
         TimeControlRow,
         HighScoreEnergyControlRow,
+        EnergyToNextUpgradeControlRow,
         LevelControlRow,
 #        FastestTimeControlRow,
 #        LongestTimeControlRow,
@@ -364,6 +365,7 @@ var _gui_manifest := {
 #        LongestTimeControlRow,
         ScoreEnergyControlRow,
         HighScoreEnergyControlRow,
+        EnergyToNextUpgradeControlRow,
         TimeControlRow,
         LevelControlRow,
     ],
@@ -393,6 +395,12 @@ var _gui_manifest := {
                 item_class = StationsControlRow,
                 settings_enablement_label = "Stations",
                 enabled_by_default = true,
+                settings_group_key = "hud",
+            },
+            {
+                item_class = EnergyToNextUpgradeControlRow,
+                settings_enablement_label = "Energy for upgrade",
+                enabled_by_default = false,
                 settings_group_key = "hud",
             },
             {
