@@ -1275,11 +1275,6 @@ _global_script_classes=[ {
 "path": "res://addons/scaffolder/src/gui/control_row_list/control_row_list.gd"
 }, {
 "base": "Screen",
-"class": "LdGameOverScreen",
-"language": "GDScript",
-"path": "res://src/gui/screens/ld_game_over_screen.gd"
-}, {
-"base": "Screen",
 "class": "LdLoadingScreen",
 "language": "GDScript",
 "path": "res://src/gui/screens/ld_loading_screen.gd"
@@ -3193,7 +3188,6 @@ _global_script_class_icons={
 "JumpLandPositionsUtils": "",
 "KinematicCollision2DCopy": "",
 "LabeledControlList": "res://addons/scaffolder/assets/images/editor_icons/control_row_list.png",
-"LdGameOverScreen": "",
 "LdLoadingScreen": "",
 "LeftWallsItemController": "",
 "Legend": "",

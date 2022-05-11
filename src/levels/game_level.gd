@@ -193,7 +193,11 @@ func quit(
     # -   Even if we quit through the pause menu, consider the session
     #     "finished" if we met the level-success condition.
     # -   Unless we are restarting.
-    has_finished = !Sc.levels.session._is_restarting and did_level_succeed
+    has_finished = !session._is_restarting and did_level_succeed
+    if did_level_succeed:
+        session._game_over_explanation = Descriptions.LEVEL_SUCCESS_EXPLANATION
+    else:
+        session._game_over_explanation = Descriptions.LEVEL_FAILURE_EXPLANATION
     .quit(has_finished, immediately)
 
 

@@ -8,6 +8,11 @@ const NOT_ENOUGH_ENERGY := "Not enough energy."
 const MAX_BOT_CAPACITY := "The max number of bots already exist."
 const CANNOT_TRASH_LAST_BOT := "The last bot cannot be recycled."
 
+const LEVEL_SUCCESS_EXPLANATION := \
+    "You succeeded in linking back to the mother ship!"
+const LEVEL_FAILURE_EXPLANATION := \
+    "Your command center was destroyed\nbefore linking back to the mother ship!"
+
 const ENTITY_NAMES := {
     BOT_CONSTRUCTOR = "Constructor bot",
     BOT_LINE_RUNNER = "Line-runner bot",

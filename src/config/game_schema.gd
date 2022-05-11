@@ -436,7 +436,6 @@ var _gui_manifest := {
     screen_manifest = {
         screens = [
             preload("res://src/gui/screens/ld_loading_screen.tscn"),
-            preload("res://src/gui/screens/ld_game_over_screen.tscn"),
         ],
     },
 }
