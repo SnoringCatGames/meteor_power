@@ -60,6 +60,15 @@ var tutorial_mode := TutorialModes.NONE
 
 var first_selected_station_for_running_power_line: Station = null
 
+# FIXME: ------------------------------
+# -   Decide when to trigger this.
+#     -   When hitting a target energy level?
+#     -   When buying a special, very-expensive command from the command center?
+#          -   "Link to mother ship"
+#          -   Which both stores acquired energy, and boosts station/bot
+#              efficiency and/or durability?
+var did_level_succeed := false
+
 var _static_camera: StaticCamera
 
 var _overlay_buttons_fade_tween: ScaffolderTween
@@ -178,8 +187,14 @@ func _destroy() -> void:
 #    ._on_initial_input()
 
 
-#func quit(immediately := true) -> void:
-#    .quit(immediately)
+func quit(
+        has_finished: bool,
+        immediately: bool) -> void:
+    # -   Even if we quit through the pause menu, consider the session
+    #     "finished" if we met the level-success condition.
+    # -   Unless we are restarting.
+    has_finished = !Sc.levels.session._is_restarting and did_level_succeed
+    .quit(has_finished, immediately)
 
 
 #func _on_intro_choreography_finished() -> void:
@@ -227,7 +242,7 @@ func _on_active_player_character_changed() -> void:
     clear_station_power_line_selection()
     _update_camera()
     
-    Sc.level.level_control_press_controller.are_touches_disabled = \
+    level_control_press_controller.are_touches_disabled = \
             is_instance_valid(_active_player_character)
 
 
@@ -316,7 +331,7 @@ func _update_camera() -> void:
     else:
         swap_camera(_default_camera, true)
         extra_zoom = 1.0
-    Sc.level.camera.transition_extra_zoom(extra_zoom)
+    camera.transition_extra_zoom(extra_zoom)
 
 
 func deduct_energy(cost: int) -> void:
@@ -329,7 +344,7 @@ func deduct_energy(cost: int) -> void:
             (session.current_energy > _max_command_cost):
         update_command_enablement()
     if session.current_energy == 0:
-        Sc.level.quit(false, false)
+        quit(false, false)
 
 
 func add_energy(energy: int) -> void:
@@ -520,7 +535,7 @@ func remove_station(station: Station) -> void:
         if power_line.start_attachment == station or \
                 power_line.end_attachment == station:
             power_line.on_attachment_removed()
-            Sc.level.remove_power_line(power_line)
+            remove_power_line(power_line)
     _on_station_destroyed(station)
 
 
