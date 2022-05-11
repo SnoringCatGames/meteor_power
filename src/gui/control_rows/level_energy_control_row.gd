@@ -60,6 +60,9 @@ func create_control() -> Control:
     header_spacer2.size_flags_horizontal = Control.SIZE_EXPAND_FILL
     header_hbox.add_child(header_spacer2)
     
+    var vspacer: Spacer = Sc.utils.add_scene(vbox, Sc.gui.SPACER_SCENE)
+    vspacer.size = Vector2(0.0, BotsControlRow.MARGIN_Y)
+    
     var hbox := HBoxContainer.new()
     hbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
     vbox.add_child(hbox)
