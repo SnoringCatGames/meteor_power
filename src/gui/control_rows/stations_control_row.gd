@@ -95,86 +95,121 @@ func create_control() -> Control:
     var icon_color: Color = Sc.palette.get_color("hud_icon")
     var counts_color := Sc.palette.get_color("hud_count_min")
     
-    var vbox := VBoxContainer.new()
-    vbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+    var container: Control
     
-    var header_hbox := HBoxContainer.new()
-    header_hbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-    vbox.add_child(header_hbox)
-    
-    var header_spacer1 := Control.new()
-    header_spacer1.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-    header_hbox.add_child(header_spacer1)
-    
-    header = Sc.utils.add_scene(header_hbox, Sc.gui.SCAFFOLDER_LABEL_SCENE)
-    header.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+    header = Sc.gui.SCAFFOLDER_LABEL_SCENE.instance()
     header.text = "Stations:"
     
-    totals_label = Sc.utils.add_scene(header_hbox, Sc.gui.SCAFFOLDER_LABEL_SCENE)
-    totals_label.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+    totals_label = Sc.gui.SCAFFOLDER_LABEL_SCENE.instance()
     totals_label.add_color_override("font_color", counts_color)
+    totals_label.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
     
-    var header_spacer2 := Control.new()
-    header_spacer2.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-    header_hbox.add_child(header_spacer2)
-    
-    var vspacer: Spacer = Sc.utils.add_scene(vbox, Sc.gui.SPACER_SCENE)
-    vspacer.size = Vector2(0.0, BotsControlRow.MARGIN_Y)
-    
-    var hbox := HBoxContainer.new()
-    hbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-    vbox.add_child(hbox)
-    
-    var spacer1 := Control.new()
-    spacer1.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-    hbox.add_child(spacer1)
-    
-    command_center_texture = \
-        Sc.utils.add_scene(hbox, Sc.gui.SCAFFOLDER_TEXTURE_RECT_SCENE)
+    command_center_texture = Sc.gui.SCAFFOLDER_TEXTURE_RECT_SCENE.instance()
     command_center_texture.texture = _COMMAND_CENTER_ICON
     command_center_texture.modulate = icon_color
     
-    command_center_label = \
-        Sc.utils.add_scene(hbox, Sc.gui.SCAFFOLDER_LABEL_SCENE)
-    command_center_label.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+    command_center_label = Sc.gui.SCAFFOLDER_LABEL_SCENE.instance()
     command_center_label.add_color_override("font_color", counts_color)
+    command_center_label.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
     
-    solar_collector_texture = \
-        Sc.utils.add_scene(hbox, Sc.gui.SCAFFOLDER_TEXTURE_RECT_SCENE)
+    solar_collector_texture = Sc.gui.SCAFFOLDER_TEXTURE_RECT_SCENE.instance()
     solar_collector_texture.texture = _SOLAR_COLLECTOR_ICON
     solar_collector_texture.modulate = icon_color
     
-    solar_collector_label = \
-        Sc.utils.add_scene(hbox, Sc.gui.SCAFFOLDER_LABEL_SCENE)
-    solar_collector_label.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+    solar_collector_label = Sc.gui.SCAFFOLDER_LABEL_SCENE.instance()
     solar_collector_label.add_color_override("font_color", counts_color)
+    solar_collector_label.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
     
-    scanner_station_texture = \
-        Sc.utils.add_scene(hbox, Sc.gui.SCAFFOLDER_TEXTURE_RECT_SCENE)
+    scanner_station_texture = Sc.gui.SCAFFOLDER_TEXTURE_RECT_SCENE.instance()
     scanner_station_texture.texture = _SCANNER_STATION_ICON
     scanner_station_texture.modulate = icon_color
     
-    scanner_station_label = Sc.utils.add_scene(hbox, Sc.gui.SCAFFOLDER_LABEL_SCENE)
-    scanner_station_label.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+    scanner_station_label = Sc.gui.SCAFFOLDER_LABEL_SCENE.instance()
     scanner_station_label.add_color_override("font_color", counts_color)
+    scanner_station_label.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
     
-    battery_station_texture = \
-        Sc.utils.add_scene(hbox, Sc.gui.SCAFFOLDER_TEXTURE_RECT_SCENE)
+    battery_station_texture = Sc.gui.SCAFFOLDER_TEXTURE_RECT_SCENE.instance()
     battery_station_texture.texture = _BATTERY_STATION_ICON
     battery_station_texture.modulate = icon_color
     
-    battery_station_label = Sc.utils.add_scene(hbox, Sc.gui.SCAFFOLDER_LABEL_SCENE)
-    battery_station_label.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+    battery_station_label = Sc.gui.SCAFFOLDER_LABEL_SCENE.instance()
     battery_station_label.add_color_override("font_color", counts_color)
+    battery_station_label.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
     
-    var spacer2 := Control.new()
-    spacer2.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-    hbox.add_child(spacer2)
+    if is_in_hud:
+        # Display in two centered rows.
+        
+        container = VBoxContainer.new()
+        
+        var header_hbox := HBoxContainer.new()
+        header_hbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+        container.add_child(header_hbox)
+        
+        var header_spacer1 := Control.new()
+        header_spacer1.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+        header_hbox.add_child(header_spacer1)
+        
+        header.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+        header_hbox.add_child(header)
+        
+        header_hbox.add_child(totals_label)
+        
+        var header_spacer2 := Control.new()
+        header_spacer2.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+        header_hbox.add_child(header_spacer2)
+        
+        var vspacer: Spacer = Sc.utils.add_scene(container, Sc.gui.SPACER_SCENE)
+        vspacer.size = Vector2(0.0, BotsControlRow.MARGIN_Y)
+        
+        var hbox := HBoxContainer.new()
+        hbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+        container.add_child(hbox)
+        
+        var spacer1 := Control.new()
+        spacer1.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+        hbox.add_child(spacer1)
+        
+        hbox.add_child(command_center_texture)
+        hbox.add_child(command_center_label)
+        hbox.add_child(solar_collector_texture)
+        hbox.add_child(solar_collector_label)
+        hbox.add_child(scanner_station_texture)
+        hbox.add_child(scanner_station_label)
+        hbox.add_child(battery_station_texture)
+        hbox.add_child(battery_station_label)
+        
+        var spacer2 := Control.new()
+        spacer2.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+        hbox.add_child(spacer2)
+        
+    else:
+        # Display in one justified row.
+        container = HBoxContainer.new()
+        
+        header.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+        header.align = Label.ALIGN_LEFT
+        container.add_child(header)
+        
+        var hbox := HBoxContainer.new()
+        hbox.size_flags_horizontal = Control.SIZE_SHRINK_END
+        container.add_child(hbox)
+        
+        hbox.add_child(command_center_texture)
+        hbox.add_child(command_center_label)
+        hbox.add_child(solar_collector_texture)
+        hbox.add_child(solar_collector_label)
+        hbox.add_child(scanner_station_texture)
+        hbox.add_child(scanner_station_label)
+        hbox.add_child(battery_station_texture)
+        hbox.add_child(battery_station_label)
+        hbox.add_child(totals_label)
+    
+    container.size_flags_horizontal = Control.SIZE_EXPAND_FILL
     
     _update_control()
     _set_font_size(font_size)
     
-    return vbox
+    return container
 
 
 func _set_font_size(value: String) -> void:

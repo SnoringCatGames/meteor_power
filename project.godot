@@ -484,11 +484,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/surfacer/src/character/crash_test_dummy.gd"
 }, {
-"base": "TextControlRow",
-"class": "CurrentEnergyControlRow",
-"language": "GDScript",
-"path": "res://src/gui/control_rows/current_energy_control_row.gd"
-}, {
 "base": "ControlRow",
 "class": "CustomControlRow",
 "language": "GDScript",
@@ -1088,6 +1083,11 @@ _global_script_classes=[ {
 "class": "HighScoreControlRow",
 "language": "GDScript",
 "path": "res://addons/scaffolder/src/gui/control_rows/displays/high_score_control_row.gd"
+}, {
+"base": "CustomControlRow",
+"class": "HighScoreEnergyControlRow",
+"language": "GDScript",
+"path": "res://src/gui/control_rows/high_score_energy_control_row.gd"
 }, {
 "base": "Reference",
 "class": "HorizontalMovementUtils",
@@ -2119,6 +2119,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/scaffolder/src/gui/control_rows/displays/score_control_row.gd"
 }, {
+"base": "CustomControlRow",
+"class": "ScoreEnergyControlRow",
+"language": "GDScript",
+"path": "res://src/gui/control_rows/score_energy_control_row.gd"
+}, {
 "base": "VBoxContainer",
 "class": "Screen",
 "language": "GDScript",
@@ -2775,11 +2780,6 @@ _global_script_classes=[ {
 "path": "res://addons/scaffolder/src/utils/time/time_type.gd"
 }, {
 "base": "TextControlRow",
-"class": "TotalEnergyControlRow",
-"language": "GDScript",
-"path": "res://src/gui/control_rows/total_energy_control_row.gd"
-}, {
-"base": "TextControlRow",
 "class": "TotalPlaysControlRow",
 "language": "GDScript",
 "path": "res://addons/scaffolder/src/gui/control_rows/displays/total_plays_control_row.gd"
@@ -3035,7 +3035,6 @@ _global_script_class_icons={
 "Costs": "",
 "CrashReporter": "",
 "CrashTestDummy": "",
-"CurrentEnergyControlRow": "",
 "CustomControlRow": "",
 "DataAgreementScreen": "",
 "DebugLevel": "",
@@ -3156,6 +3155,7 @@ _global_script_class_icons={
 "HeaderControlRow": "",
 "HealthLabel": "",
 "HighScoreControlRow": "",
+"HighScoreEnergyControlRow": "",
 "HorizontalMovementUtils": "",
 "HsvRangeColorConfig": "",
 "Hud": "",
@@ -3362,6 +3362,7 @@ _global_script_class_icons={
 "ScaffolderVSeparator": "res://addons/scaffolder/assets/images/editor_icons/scaffolder_v_separator.png",
 "ScannerStation": "",
 "ScoreControlRow": "",
+"ScoreEnergyControlRow": "",
 "Screen": "res://addons/scaffolder/assets/images/editor_icons/scaffolder_panel_container.png",
 "ScreenContainer": "res://addons/scaffolder/assets/images/editor_icons/scaffolder_placeholder.png",
 "ScreenMaskTransition": "",
@@ -3493,7 +3494,6 @@ _global_script_class_icons={
 "TimeControlRow": "",
 "TimeScaleControlRow": "",
 "TimeType": "",
-"TotalEnergyControlRow": "",
 "TotalPlaysControlRow": "",
 "TransientAnnotator": "",
 "TransientAnnotatorRegistry": "",

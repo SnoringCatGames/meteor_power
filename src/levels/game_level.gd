@@ -132,6 +132,8 @@ func _start() -> void:
 #    Sc.gui.hud.connect("radial_menu_closed", self, "_on_radial_menu_closed")
     Sc.slow_motion.connect(
         "slow_motion_toggled", self, "_on_slow_motion_toggled")
+    
+    session._score = session.total_energy
 
 
 func _on_slow_motion_toggled(is_enabled: bool) -> void:
@@ -318,36 +320,37 @@ func _update_camera() -> void:
 
 
 func deduct_energy(cost: int) -> void:
-    if Sc.levels.session.current_energy == 0:
+    if session.current_energy == 0:
         return
-    var previous_energy: int = Sc.levels.session.current_energy
-    Sc.levels.session.current_energy -= cost
-    Sc.levels.session.current_energy = max(Sc.levels.session.current_energy, 0)
+    var previous_energy: int = session.current_energy
+    session.current_energy -= cost
+    session.current_energy = max(session.current_energy, 0)
     if (previous_energy > _max_command_cost) != \
-            (Sc.levels.session.current_energy > _max_command_cost):
+            (session.current_energy > _max_command_cost):
         update_command_enablement()
-    if Sc.levels.session.current_energy == 0:
+    if session.current_energy == 0:
         Sc.level.quit(false, false)
 
 
-func add_energy(enery: int) -> void:
-    if Sc.levels.session.current_energy == 0:
+func add_energy(energy: int) -> void:
+    if session.current_energy == 0:
         return
-    var previous_energy: int = Sc.levels.session.current_energy
-    Sc.levels.session.current_energy += enery
-    Sc.levels.session.total_energy += enery
+    var previous_energy: int = session.current_energy
+    session.current_energy += energy
+    session.total_energy += energy
+    session._score = session.total_energy
     if (previous_energy > _max_command_cost) != \
-            (Sc.levels.session.current_energy > _max_command_cost):
+            (session.current_energy > _max_command_cost):
         update_command_enablement()
 
 
 func update_command_enablement() -> void:
     # Disable any command for which there isn't enough energy.
-    if Sc.levels.session.current_energy < _max_command_cost:
+    if session.current_energy < _max_command_cost:
         for command in Commands.KEYS:
             var previous_enablement: bool = command_enablement[command] == ""
             var next_enablement: bool = \
-                Commands.COSTS[command] <= Sc.levels.session.current_energy
+                Commands.COSTS[command] <= session.current_energy
             if previous_enablement != next_enablement:
                 command_enablement[command] = \
                     "" if \
