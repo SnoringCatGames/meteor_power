@@ -134,6 +134,18 @@ func _on_button_pressed(button_type: int) -> void:
             Sc.level.bots[0]
     
     match button_type:
+        Commands.STATION_LINK_TO_MOTHERSHIP:
+            # FIXME: LEFT OFF HERE: ----------------------------------------
+            # - Show a fancy energy-field shimmer effect over all bots and
+            #   stations to indicate the boost.
+            # - Play a success sound.
+            # - Animate a fancy beaming-up effect from the command center.
+            # - Show a persistent beaming-up ray from the command center?
+            Sc.level.did_level_succeed = true
+            Sc.level.deduct_energy(Costs.STATION_LINK_TO_MOTHERSHIP)
+            set_is_selected(false)
+            update_station_info_panel_visibility(false)
+        
         Commands.STATION_RECYCLE:
             # FIXME: LEFT OFF HERE: ----------------------------------------
             pass

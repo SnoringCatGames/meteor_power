@@ -81,6 +81,7 @@ const COMMAND_LABELS := {
     STATION_SOLAR = "Build solar station",
     STATION_SCANNER = "Build scanner station",
     STATION_BATTERY = "Build battery station",
+    STATION_LINK_TO_MOTHERSHIP = "Link to mothership",
     STATION_RECYCLE = "Recycle",
     STATION_INFO = "Info",
     
@@ -117,13 +118,16 @@ const COMMAND_DESCRIPTIONS := {
     STATION_COMMAND = [
     ],
     STATION_SOLAR = [
-        "Build a solar station, which collects solar energy.",
+        "Builds a solar station, which collects solar energy.",
     ],
     STATION_SCANNER = [
-        "Build a solar station, which detects incoming meteors.",
+        "Builds a solar station, which detects incoming meteors.",
     ],
     STATION_BATTERY = [
-        "Build a solar station, which stores energy for use when disconnected from the command center.",
+        "Builds a solar station, which stores energy for use when disconnected from the command center.",
+    ],
+    STATION_LINK_TO_MOTHERSHIP = [
+        "Establishes a link to the mothership, which boosts bot and station efficiency and preserves acquired energy.",
     ],
     STATION_RECYCLE = [
         "Recycles this station so something better can be made.",

@@ -19,6 +19,7 @@ enum {
     STATION_SOLAR,
     STATION_SCANNER,
     STATION_BATTERY,
+    STATION_LINK_TO_MOTHERSHIP,
     STATION_RECYCLE,
     STATION_INFO,
     
@@ -42,6 +43,7 @@ const KEYS := [
     STATION_SOLAR,
     STATION_SCANNER,
     STATION_BATTERY,
+    STATION_LINK_TO_MOTHERSHIP,
     STATION_RECYCLE,
     STATION_INFO,
     
@@ -65,6 +67,7 @@ const COSTS := {
     STATION_SOLAR: Costs.STATION_SOLAR,
     STATION_SCANNER: Costs.STATION_SCANNER,
     STATION_BATTERY: Costs.STATION_BATTERY,
+    STATION_LINK_TO_MOTHERSHIP: Costs.STATION_LINK_TO_MOTHERSHIP,
     STATION_RECYCLE: Costs.STATION_RECYCLE,
     STATION_INFO: Costs.STATION_INFO,
     
@@ -112,6 +115,7 @@ const COMMAND_LABELS := {
     STATION_SOLAR: Descriptions.COMMAND_LABELS.STATION_SOLAR,
     STATION_SCANNER: Descriptions.COMMAND_LABELS.STATION_SCANNER,
     STATION_BATTERY: Descriptions.COMMAND_LABELS.STATION_BATTERY,
+    STATION_LINK_TO_MOTHERSHIP: Descriptions.COMMAND_LABELS.STATION_LINK_TO_MOTHERSHIP,
     STATION_RECYCLE: Descriptions.COMMAND_LABELS.STATION_RECYCLE,
     STATION_INFO: Descriptions.COMMAND_LABELS.STATION_INFO,
     
@@ -135,6 +139,7 @@ const COMMAND_DESCRIPTIONS := {
     STATION_SOLAR: Descriptions.COMMAND_DESCRIPTIONS.STATION_SOLAR,
     STATION_SCANNER: Descriptions.COMMAND_DESCRIPTIONS.STATION_SCANNER,
     STATION_BATTERY: Descriptions.COMMAND_DESCRIPTIONS.STATION_BATTERY,
+    STATION_LINK_TO_MOTHERSHIP: Descriptions.COMMAND_DESCRIPTIONS.STATION_LINK_TO_MOTHERSHIP,
     STATION_RECYCLE: Descriptions.COMMAND_DESCRIPTIONS.STATION_RECYCLE,
     STATION_INFO: Descriptions.COMMAND_DESCRIPTIONS.STATION_INFO,
     
@@ -158,6 +163,7 @@ const TEXTURES := {
     STATION_SOLAR: preload("res://assets/images/gui/overlay_buttons/solar_overlay_button.png"),
     STATION_SCANNER: preload("res://assets/images/gui/overlay_buttons/scanner_overlay_button.png"),
     STATION_BATTERY: preload("res://assets/images/gui/overlay_buttons/battery_overlay_button.png"),
+    STATION_LINK_TO_MOTHERSHIP: preload("res://assets/images/gui/overlay_buttons/link_to_mother_ship_overlay_button.png"),
     STATION_RECYCLE: preload("res://assets/images/gui/overlay_buttons/destroy_overlay_button.png"),
     STATION_INFO: preload("res://assets/images/gui/overlay_buttons/info_overlay_button.png"),
     
@@ -195,6 +201,8 @@ static func get_string(type: int) -> String:
             return "STATION_SCANNER"
         STATION_BATTERY:
             return "STATION_BATTERY"
+        STATION_LINK_TO_MOTHERSHIP:
+            return "STATION_LINK_TO_MOTHERSHIP"
         STATION_RECYCLE:
             return "STATION_RECYCLE"
         STATION_INFO:

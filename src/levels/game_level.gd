@@ -408,6 +408,7 @@ func update_command_enablement() -> void:
 #    command_enablement[Commands.STATION_SOLAR]
 #    command_enablement[Commands.STATION_SCANNER]
 #    command_enablement[Commands.STATION_BATTERY]
+#    command_enablement[Commands.STATION_LINK_TO_MOTHERSHIP]
 #    command_enablement[Commands.STATION_RECYCLE]
 #    command_enablement[Commands.STATION_INFO]
 #
