@@ -41,6 +41,8 @@ var buttons_container: Node2D
 
 var station
 
+var has_run_power_line_button := false
+
 
 func _ready() -> void:
     visible = false
@@ -75,6 +77,8 @@ func set_up_controls(
 
 
 func set_buttons(button_types: Array) -> void:
+    has_run_power_line_button = button_types.has(Commands.RUN_WIRE)
+    
     var visible_buttons := []
     
     # Set up hover behavior.
@@ -134,6 +138,10 @@ func get_is_hovered_or_pressed() -> bool:
     return ($Buttons/RunPowerLine.interaction_mode == \
                 LevelControl.InteractionMode.HOVER or \
             $Buttons/RunPowerLine.interaction_mode == \
+                LevelControl.InteractionMode.PRESSED) or \
+        ($Buttons/Stop.interaction_mode == \
+                LevelControl.InteractionMode.HOVER or \
+            $Buttons/Stop.interaction_mode == \
                 LevelControl.InteractionMode.PRESSED) or \
         ($Buttons/Battery.interaction_mode == \
                 LevelControl.InteractionMode.HOVER or \
@@ -233,6 +241,9 @@ func _get_button_for_type(type: int) -> Node:
 
 
 func _on_command_enablement_changed() -> void:
+    if !has_run_power_line_button:
+        return
+    
     var disabled: bool = Sc.level.command_enablement[Commands.RUN_WIRE] != ""
     
     var visible_button: SpriteModulationButton

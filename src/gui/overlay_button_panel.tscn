@@ -25,7 +25,7 @@ shape = SubResource( 1 )
 [node name="Buttons" type="Node2D" parent="."]
 
 [node name="RunPowerLine" parent="Buttons" instance=ExtResource( 8 )]
-position = Vector2( -30, 15 )
+position = Vector2( -15, 15 )
 scale = Vector2( 2, 2 )
 screen_radius = 28.0
 is_desaturatable = true
@@ -42,7 +42,7 @@ disabled_modulate = Object(Reference,"script":Resource( "res://addons/scaffolder
 alpha_multiplier = 0.75
 
 [node name="Battery" parent="Buttons" instance=ExtResource( 8 )]
-position = Vector2( 0, 15 )
+position = Vector2( 15, 15 )
 scale = Vector2( 2, 2 )
 screen_radius = 28.0
 is_desaturatable = true
@@ -59,7 +59,7 @@ disabled_modulate = Object(Reference,"script":Resource( "res://addons/scaffolder
 alpha_multiplier = 0.75
 
 [node name="Scanner" parent="Buttons" instance=ExtResource( 8 )]
-position = Vector2( 30, 15 )
+position = Vector2( -15, 45 )
 scale = Vector2( 2, 2 )
 screen_radius = 28.0
 is_desaturatable = true
@@ -76,7 +76,7 @@ disabled_modulate = Object(Reference,"script":Resource( "res://addons/scaffolder
 alpha_multiplier = 0.75
 
 [node name="Solar" parent="Buttons" instance=ExtResource( 8 )]
-position = Vector2( -30, 45 )
+position = Vector2( 15, 45 )
 scale = Vector2( 2, 2 )
 screen_radius = 28.0
 is_desaturatable = true
@@ -93,7 +93,7 @@ disabled_modulate = Object(Reference,"script":Resource( "res://addons/scaffolder
 alpha_multiplier = 0.75
 
 [node name="ConstructorBot" parent="Buttons" instance=ExtResource( 8 )]
-position = Vector2( 0, 45 )
+position = Vector2( -15, 75 )
 scale = Vector2( 2, 2 )
 screen_radius = 28.0
 is_desaturatable = true
@@ -110,7 +110,7 @@ disabled_modulate = Object(Reference,"script":Resource( "res://addons/scaffolder
 alpha_multiplier = 0.75
 
 [node name="Destroy" parent="Buttons" instance=ExtResource( 8 )]
-position = Vector2( 30, 45 )
+position = Vector2( 15, 75 )
 scale = Vector2( 2, 2 )
 screen_radius = 28.0
 is_desaturatable = true
@@ -127,7 +127,7 @@ disabled_modulate = Object(Reference,"script":Resource( "res://addons/scaffolder
 alpha_multiplier = 0.75
 
 [node name="Stop" parent="Buttons" instance=ExtResource( 8 )]
-position = Vector2( 30, 45 )
+position = Vector2( -15, 15 )
 scale = Vector2( 2, 2 )
 screen_radius = 28.0
 is_desaturatable = true
