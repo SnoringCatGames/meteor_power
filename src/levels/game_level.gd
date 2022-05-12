@@ -522,17 +522,7 @@ func add_bot(
             true,
             false,
             true)
-    _on_bot_created(bot, is_default_bot)
-    return bot
-
-
-func remove_bot(bot: Bot) -> void:
-    _on_bot_destroyed(bot)
-
-
-func _on_bot_created(
-        bot: Bot,
-        is_default_bot := false) -> void:
+    
     if !is_default_bot:
         session.bots_built_count += 1
     bots.push_back(bot)
@@ -551,9 +541,11 @@ func _on_bot_created(
     else:
         Sc.logger.error("GameLevel._on_bot_created")
     _update_session_counts()
+    
+    return bot
 
 
-func _on_bot_destroyed(bot: Bot) -> void:
+func remove_bot(bot: Bot) -> void:
     if !session.is_ended:
         session.bot_pixels_travelled += bot.distance_travelled
     bots.erase(bot)
@@ -564,9 +556,9 @@ func _on_bot_destroyed(bot: Bot) -> void:
     elif bot is BarrierBot:
         barrier_bots.erase(bot)
     else:
-        Sc.logger.error("GameLevel._on_bot_destroyed")
-    bot.queue_free()
+        Sc.logger.error("GameLevel.remove_bot")
     _update_session_counts()
+    remove_character(bot)
 
 
 func replace_station(
@@ -605,7 +597,22 @@ func remove_station(station: Station) -> void:
                 power_line.end_attachment == station:
             power_line.on_attachment_removed()
             remove_power_line(power_line)
-    _on_station_destroyed(station)
+    
+    stations.erase(station)
+    if station is CommandCenter:
+        command_centers.erase(station)
+    elif station is SolarCollector:
+        solar_collectors.erase(station)
+    elif station is ScannerStation:
+        scanner_stations.erase(station)
+    elif station is BatteryStation:
+        battery_stations.erase(station)
+    elif station is EmptyStation:
+        empty_stations.erase(station)
+    else:
+        Sc.logger.error("GameLevel.remove_station")
+    station._destroy()
+    _update_session_counts()
 
 
 func _on_station_created(
@@ -634,24 +641,6 @@ func _on_station_created(
         empty_stations.push_back(station)
     else:
         Sc.logger.error("GameLevel._on_station_created")
-    _update_session_counts()
-
-
-func _on_station_destroyed(station: Station) -> void:
-    stations.erase(station)
-    if station is CommandCenter:
-        command_centers.erase(station)
-    elif station is SolarCollector:
-        solar_collectors.erase(station)
-    elif station is ScannerStation:
-        scanner_stations.erase(station)
-    elif station is BatteryStation:
-        battery_stations.erase(station)
-    elif station is EmptyStation:
-        empty_stations.erase(station)
-    else:
-        Sc.logger.error("GameLevel._on_station_destroyed")
-    station._destroy()
     _update_session_counts()
 
 
