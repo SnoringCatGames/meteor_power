@@ -36,9 +36,15 @@ var total_movement_distance_cost := 0.0
 
 var entity_command_type := Commands.UNKNOWN
 
+var _health := 0
+var _health_capacity := 0
+
 
 func _init(entity_command_type: int) -> void:
     self.entity_command_type = entity_command_type
+    
+    _health_capacity = _get_health_capacity()
+    _health = _health_capacity
     
     light = Light2D.new()
     light.texture = _LIGHT_TEXTURE
@@ -454,6 +460,10 @@ func _on_started_colliding_deferred(
 
 func _on_hit_by_meteor() -> void:
     Sc.level.session.meteors_collided_count += 1
+    Sc.level.deduct_energy(Costs.BOT_HIT)
+    var damage := Healths.METEOR_DAMAGE
+    # FIXME: --------------- Consider modifying damage depending on Upgrades.
+    modify_health(-damage)
 
 
 func _on_reached_target_station() -> void:
@@ -547,3 +557,20 @@ func _get_radial_menu_item_types() -> Array:
 
 func _on_command_enablement_changed() -> void:
     pass
+
+
+func _get_health_capacity() -> int:
+    var base_capacity: int = Healths.get_default_capacity(entity_command_type)
+    
+    # FIXME: -------------------------
+    # - Modify health-capacity for Upgrades.
+    # - Update health-capacity when linking to mothership.
+    
+    return base_capacity
+
+
+func modify_health(diff: int) -> void:
+    var previous_health := _health
+    _health = clamp(_health + diff, 0, _health_capacity)
+    if _health == 0:
+        Sc.level.on_bot_health_depleted(self)

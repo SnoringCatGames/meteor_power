@@ -34,8 +34,6 @@ var connections := {}
 
 var is_connected_to_command_center := false
 
-var meteor_hit_count := 0
-
 var is_connectable := true
 
 var entity_command_type := Commands.UNKNOWN
@@ -44,12 +42,17 @@ var start_time := INF
 var previous_total_time := INF
 var total_time := INF
 
+var _health := 0
+var _health_capacity := 0
+
 
 func _init(
         entity_command_type: int,
         is_connectable: bool) -> void:
     self.entity_command_type = entity_command_type
     self.is_connectable = is_connectable
+    _health_capacity = _get_health_capacity()
+    _health = _health_capacity
 
 
 func _ready() -> void:
@@ -480,7 +483,10 @@ func _on_disconnected_from_command_center() -> void:
 
 func _on_hit_by_meteor() -> void:
     Sc.level.session.meteors_collided_count += 1
-    meteor_hit_count += 1
+    Sc.level.deduct_energy(Costs.STATION_HIT)
+    var damage := Healths.METEOR_DAMAGE
+    # FIXME: --------------- Consider modifying damage depending on Upgrades.
+    modify_health(-damage)
 
 
 func _get_common_radial_menu_item_types() -> Array:
@@ -513,3 +519,20 @@ func _get_radial_menu_item_types() -> Array:
 
 func _on_command_enablement_changed() -> void:
     buttons._on_command_enablement_changed()
+
+
+func _get_health_capacity() -> int:
+    var base_capacity: int = Healths.get_default_capacity(entity_command_type)
+    
+    # FIXME: -------------------------
+    # - Modify health-capacity for Upgrades.
+    # - Update health-capacity when linking to mothership.
+    
+    return base_capacity
+
+
+func modify_health(diff: int) -> void:
+    var previous_health := _health
+    _health = clamp(_health + diff, 0, _health_capacity)
+    if _health == 0:
+        Sc.level.on_station_health_depleted(self)

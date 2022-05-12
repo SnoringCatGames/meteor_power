@@ -78,7 +78,6 @@ func _on_Meteor_body_entered(body) -> void:
 func _on_Meteor_area_entered(area) -> void:
     if area is Station and !area is EmptyStation:
 #        Sc.logger.print("Meteor hit station")
-        Sc.level.deduct_energy(Costs.STATION_HIT)
         area._on_hit_by_meteor()
         Sc.audio.play_sound("meteor_land")
         _destroy()
@@ -92,7 +91,6 @@ func _on_Meteor_area_entered(area) -> void:
 
 func _on_collided_with_bot(bot) -> void:
     Sc.logger.print("Meteor hit bot")
-    Sc.level.deduct_energy(Costs.BOT_HIT)
     Sc.audio.play_sound("meteor_land")
     _destroy()
 

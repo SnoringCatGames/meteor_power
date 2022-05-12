@@ -50,12 +50,6 @@ func _on_disconnected_from_command_center() -> void:
     $AnimationPlayer.play("dark")
 
 
-func _on_hit_by_meteor() -> void:
-    ._on_hit_by_meteor()
-    if meteor_hit_count >= 3:
-        Sc.level.replace_station(self, Commands.STATION_EMPTY)
-
-
 func _update_outline() -> void:
     for sprite in [$Shine, $Dark]:
         sprite.is_outlined = active_outline_alpha_multiplier > 0.0

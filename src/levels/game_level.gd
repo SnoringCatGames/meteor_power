@@ -655,6 +655,21 @@ func _on_station_destroyed(station: Station) -> void:
     _update_session_counts()
 
 
+func on_station_health_depleted(station: Station) -> void:
+    # FIXME: ------------------------ Play sound
+    Sc.level.replace_station(station, Commands.STATION_EMPTY)
+
+
+func on_bot_health_depleted(bot: Bot) -> void:
+    # FIXME: ------------------------ Play sound
+    remove_bot(bot)
+
+
+func on_power_line_health_depleted(power_line: PowerLine) -> void:
+    Sc.audio.play_sound("wire_break")
+    Sc.level.remove_power_line(self)
+
+
 func _update_session_counts() -> void:
     session.command_center_count = command_centers.size()
     session.solar_collector_count = solar_collectors.size()

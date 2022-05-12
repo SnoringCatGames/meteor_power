@@ -18,7 +18,8 @@ var end_attachment
 
 var mode := UNKNOWN
 
-var health := 1.0
+var _health := 0
+var _health_capacity := 0
 
 var _vertices := []
 
@@ -33,6 +34,8 @@ func _init(
     self.start_attachment = start_attachment
     self.end_attachment = end_attachment
     self.mode = mode
+    _health_capacity = _get_health_capacity()
+    _health = _health_capacity
     _create_collision_area()
 
 
@@ -72,6 +75,9 @@ func _draw_polyline() -> void:
 
 func _on_hit_by_meteor() -> void:
     Sc.level.session.meteors_collided_count += 1
+    var damage := Healths.METEOR_DAMAGE
+    # FIXME: --------------- Consider modifying damage depending on Upgrades.
+    modify_health(-damage)
 
 
 func on_attachment_removed() -> void:
@@ -83,3 +89,20 @@ func on_attachment_removed() -> void:
     if end_attachment.has_method("stop"):
         # Is held by Bot.
         end_attachment.stop()
+
+
+func _get_health_capacity() -> int:
+    var base_capacity: int = Healths.POWER_LINE
+    
+    # FIXME: -------------------------
+    # - Modify health-capacity for Upgrades.
+    # - Update health-capacity when linking to mothership.
+    
+    return base_capacity
+
+
+func modify_health(diff: int) -> void:
+    var previous_health := _health
+    _health = clamp(_health + diff, 0, _health_capacity)
+    if _health == 0:
+        Sc.level.on_power_line_health_depleted(self)

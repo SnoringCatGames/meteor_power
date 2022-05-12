@@ -45,6 +45,11 @@ func _get_radial_menu_item_types() -> Array:
     ]
 
 
+func _on_hit_by_meteor() -> void:
+    ._on_hit_by_meteor()
+    assert(false, "EmptyStation should not trigger meteor collisions.")
+
+
 func _update_outline() -> void:
     $ShaderOutlineableSprite.is_outlined = active_outline_alpha_multiplier > 0.0
     $ShaderOutlineableSprite.outline_color = outline_color
