@@ -19,10 +19,12 @@ func _on_gui_scale_changed() -> bool:
     $Health.width = bar_width * Sc.gui.scale
     $Health.height = bar_height * Sc.gui.scale
     
-    self.rect_min_size.x = bar_width * Sc.gui.scale
-    self.rect_min_size.y = bar_height * Sc.gui.scale
-    
     update()
+    
+    self.rect_min_size.x = bar_width * Sc.gui.scale
+    self.rect_min_size.y = $Health.get_height()
+    
+    $Health.position.y = (self.rect_min_size.y - $Health.height) / 2.0
     
     return true
 

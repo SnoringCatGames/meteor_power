@@ -21,12 +21,15 @@ script = ExtResource( 8 )
 margin_right = 1292.0
 size_flags_horizontal = 3
 custom_constants/separation = 0
+alignment = 1
 
 [node name="HealthLabel" parent="Status" instance=ExtResource( 1 )]
-margin_right = 0.0
+margin_left = 646.0
+margin_right = 646.0
 margin_bottom = 0.0
 
-[node name="Spacer" type="Control" parent="Status"]
+[node name="Spacer2" type="Control" parent="Status"]
+visible = false
 margin_right = 1292.0
 size_flags_horizontal = 3
 size_flags_vertical = 5

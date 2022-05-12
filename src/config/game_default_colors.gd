@@ -133,6 +133,7 @@ var health_bar_background := Color("363552")
 var health_bar_full := Color("27cc37")
 var health_bar_medium := Color("dedb23")
 var health_bar_empty := Color("ff0000")
+var health_bar_heart := Color("ff5768")
 
 #var modulation_button_normal := highlight_purple
 #var modulation_button_hover := highlight_light_purple

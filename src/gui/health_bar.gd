@@ -13,5 +13,6 @@ func update() -> void:
     full_color = Sc.palette.get_color("health_bar_full")
     medium_color = Sc.palette.get_color("health_bar_medium")
     empty_color = Sc.palette.get_color("health_bar_empty")
+    icon_modulate = Sc.palette.get_color("health_bar_heart")
     
     .update()
