@@ -143,6 +143,9 @@ func _start() -> void:
         "slow_motion_toggled", self, "_on_slow_motion_toggled")
     
     session._score = session.total_energy
+    
+    Sc.camera.connect("panned", self, "_on_panned")
+    Sc.camera.connect("zoomed", self, "_on_zoomed")
 
 
 func _on_slow_motion_toggled(is_enabled: bool) -> void:
@@ -224,6 +227,24 @@ func _unhandled_input(event: InputEvent) -> void:
                 !Sc.info_panel.get_is_transitioning():
             Sc.info_panel.close_panel()
             _clear_selection()
+
+
+func _on_panned() -> void:
+    for bot in bots:
+        bot._on_panned()
+    for station in stations:
+        station._on_panned()
+    for power_line in power_lines:
+        power_line._on_panned()
+
+
+func _on_zoomed() -> void:
+    for bot in bots:
+        bot._on_zoomed()
+    for station in stations:
+        station._on_zoomed()
+    for power_line in power_lines:
+        power_line._on_zoomed()
 
 
 func _on_radial_menu_opened() -> void:

@@ -35,5 +35,4 @@ func update() -> void:
     
     $Health.update()
     
-    if entity.get_health() == entity.get_health_capacity():
-        $Health.visible = false
+    $Health.visible = entity.get_health() != entity.get_health_capacity()

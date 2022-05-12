@@ -23,6 +23,8 @@ var _health_capacity := 0
 
 var _vertices := []
 
+var viewport_position_outline_alpha_multiplier := 1.0
+
 var collision_area: Area2D
 var shape: SegmentShape2D
 
@@ -37,6 +39,16 @@ func _init(
     _health_capacity = _get_health_capacity()
     _health = _health_capacity
     _create_collision_area()
+
+
+#func _ready() -> void:
+#    center_position = Position2D.new()
+#    add_child(center_position)
+#
+#    status_overlay = Sc.utils.add_scene(self, Station._STATUS_OVERLAY_SCENE)
+#    status_overlay.entity = self
+#    status_overlay.anchor_y = center_position.position
+#    status_overlay.set_up()
 
 
 func _create_collision_area() -> void:
@@ -91,6 +103,22 @@ func on_attachment_removed() -> void:
         end_attachment.stop()
 
 
+func _on_panned() -> void:
+    _update_highlight_for_camera_position()
+
+
+func _on_zoomed() -> void:
+    _update_highlight_for_camera_position()
+
+
+func _update_highlight_for_camera_position() -> void:
+    pass
+#    var opacity := Station.get_opacity_for_camera_position(
+#        center_position.global_position)
+#    viewport_position_outline_alpha_multiplier = opacity
+#    status_overlay.modulate.a = viewport_position_outline_alpha_multiplier
+
+
 func _get_health_capacity() -> int:
     var base_capacity: int = Healths.POWER_LINE
     
@@ -104,5 +132,8 @@ func _get_health_capacity() -> int:
 func modify_health(diff: int) -> void:
     var previous_health := _health
     _health = clamp(_health + diff, 0, _health_capacity)
+    if _health == previous_health:
+        return
+#    status_overlay.update()
     if _health == 0:
         Sc.level.on_power_line_health_depleted(self)

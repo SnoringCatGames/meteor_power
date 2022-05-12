@@ -71,9 +71,6 @@ func _ready() -> void:
     _set_up_camera_detector()
     _set_up_desaturatable()
     
-    Sc.camera.connect("panned", self, "_on_panned")
-    Sc.camera.connect("zoomed", self, "_on_zoomed")
-    
     Sc.info_panel.connect("closed", self, "_on_info_panel_closed")
     
     screen_radius = 48.0
@@ -330,9 +327,8 @@ func get_radial_position_in_screen_space() -> Vector2:
     return $Center.get_global_transform_with_canvas().origin
 
 
-func _update_highlight_for_camera_position() -> void:
-    var global_position := self.global_position
-    
+static func get_opacity_for_camera_position(
+        global_position: Vector2) -> float:
     var camera_bounds: Rect2 = Sc.level.camera.get_visible_region()
     var min_opacity_bounds_size := \
             camera_bounds.size * _MIN_HIGHLIGHT_VIEWPORT_BOUNDS_RATIO
@@ -385,13 +381,17 @@ func _update_highlight_for_camera_position() -> void:
                     (min_opacity_bounds.end.y - max_opacity_bounds.end.y)
         opacity_weight = min(x_weight, y_weight)
     
-    var weight := opacity_weight * opacity_weight
-    
-    set_highlight_weight(weight)
+    return opacity_weight * opacity_weight
+
+
+func _update_highlight_for_camera_position() -> void:
+    var opacity := get_opacity_for_camera_position(self.global_position)
+    set_highlight_weight(opacity)
 
 
 func set_highlight_weight(weight: float) -> void:
     viewport_position_outline_alpha_multiplier = weight
+    status_overlay.modulate.a = viewport_position_outline_alpha_multiplier
     _update_highlight()
 
 

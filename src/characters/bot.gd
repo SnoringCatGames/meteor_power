@@ -8,6 +8,9 @@ const _LIGHT_TEXTURE := preload(
 
 const CONSTANT_ENERGY_DRAIN_PERIOD := 0.4
 
+const MIN_OPACITY_MULTIPLIER := 0.3
+const MAX_OPACITY_MULTIPLIER := 1.0
+
 export var rope_attachment_offset := Vector2.ZERO
 
 var status_overlay: StatusOverlay
@@ -33,6 +36,8 @@ var is_hovered := false
 
 var movement_distance_per_one_enery_value := 20.0
 var total_movement_distance_cost := 0.0
+
+var viewport_position_outline_alpha_multiplier := 0.0
 
 var entity_command_type := Commands.UNKNOWN
 
@@ -104,6 +109,9 @@ func _physics_process(delta: float) -> void:
     if int(previous_total_time / CONSTANT_ENERGY_DRAIN_PERIOD) != \
             int(total_time / CONSTANT_ENERGY_DRAIN_PERIOD):
         Sc.level.deduct_energy(Costs.BOT_ALIVE)
+    
+    if did_move_last_frame:
+        _update_highlight_for_camera_position()
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -234,19 +242,45 @@ func _update_status() -> void:
     else:
         self.status = BotStatus.IDLE
 #    Sc.logger.print("Bot._update_status: %s" % BotStatus.get_string(status))
-    set_highlight(status)
+    update_highlight()
 
 
-func set_highlight(status: int) -> void:
+func update_highlight() -> void:
+    var outline_alpha_multiplier := \
+        viewport_position_outline_alpha_multiplier if \
+        (status == BotStatus.ACTIVE || \
+            status == BotStatus.POWERED_DOWN || \
+            status == BotStatus.IDLE) else \
+        1.0
+    
     var config: Dictionary = BotStatus.HIGHLIGHT_CONFIGS[status]
+    
     light.color = Sc.palette.get_color(config.color)
     light.texture_scale = config.scale
-    light.energy = config.energy
+    light.energy = config.energy * outline_alpha_multiplier
+    
     if is_instance_valid(animator):
         var outline_color: Color = Sc.palette.get_color(config.color)
-        outline_color.a *= config.outline_alpha_multiplier
+        outline_color.a *= \
+            config.outline_alpha_multiplier * outline_alpha_multiplier
         animator.outline_color = outline_color
         animator.is_outlined = outline_color.a > 0.0
+
+
+func _on_panned() -> void:
+    _update_highlight_for_camera_position()
+
+
+func _on_zoomed() -> void:
+    _update_highlight_for_camera_position()
+
+
+func _update_highlight_for_camera_position() -> void:
+    var opacity := Station.get_opacity_for_camera_position(self.global_position)
+    opacity = lerp(MIN_OPACITY_MULTIPLIER, MAX_OPACITY_MULTIPLIER, opacity)
+    viewport_position_outline_alpha_multiplier = opacity
+    status_overlay.modulate.a = viewport_position_outline_alpha_multiplier
+    update_highlight()
 
 
 func move_to_attach_power_line(
