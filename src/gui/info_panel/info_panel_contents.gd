@@ -8,6 +8,8 @@ const _INFO_PANEL_COMMAND_ROW_SCENE := preload(
 
 var entity
 var entity_command_type := Commands.UNKNOWN
+# Array<InfoPanelCommandRow>
+var command_rows := []
 
 
 func set_up(entity) -> void:
@@ -22,6 +24,7 @@ func set_up(entity) -> void:
     $CommandsSeparator.modulate = Sc.palette.get_color("separator")
     $UpgradesSeparator.modulate = Sc.palette.get_color("separator")
     
+    # Render bulleted description rows.
     var description_lines: Array = \
         Commands.ENTITY_DESCRIPTIONS[entity_command_type]
     for line in description_lines:
@@ -47,6 +50,7 @@ func set_up(entity) -> void:
         row_bullet.size_flags_vertical = SIZE_FILL
         row_label.autowrap = true
     
+    # Render command rows.
     var commands: Array = entity._get_radial_menu_item_types()
     for command in commands:
         if command == Commands.STATION_INFO or \
@@ -55,12 +59,23 @@ func set_up(entity) -> void:
         var row: InfoPanelCommandRow = \
             Sc.utils.add_scene($Commands, _INFO_PANEL_COMMAND_ROW_SCENE)
         row.set_up(command)
+        command_rows.push_back(row)
     
     var is_empty_station := entity_command_type == Commands.STATION_EMPTY
     $Status.visible = !is_empty_station
     $UpgradesSeparator.visible = !is_empty_station
     $UpgradesLabel.visible = !is_empty_station
     $Upgrades.visible = !is_empty_station
+    
+    update()
+
+
+func update() -> void:
+    # FIXME: -------------------------------
+    $Status/HealthLabel
+    $Status/EnergyConsumptionLabel
+    for row in command_rows:
+        row.update()
 
 
 func get_data() -> InfoPanelData:

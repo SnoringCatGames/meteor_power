@@ -27,8 +27,6 @@ var active_outline_alpha_multiplier := 0.0
 var viewport_position_outline_alpha_multiplier := 0.0
 var outline_color := ColorConfig.TRANSPARENT
 
-var health := 1.0
-
 # Dictionary<Station, bool>
 var connections := {}
 
@@ -80,9 +78,10 @@ func _ready() -> void:
 
 
 func _destroy() -> void:
-    ._destroy()
     buttons._destroy()
-    queue_free()
+    update_info_panel_visibility(false)
+    close_radial_menu()
+    ._destroy()
 
 
 func _physics_process(delta: float) -> void:
@@ -138,30 +137,30 @@ func _on_button_pressed(button_type: int) -> void:
             Sc.level.did_level_succeed = true
             Sc.level.deduct_energy(Costs.STATION_LINK_TO_MOTHERSHIP)
             set_is_selected(false)
-            update_station_info_panel_visibility(false)
+            update_info_panel_visibility(false)
         
         Commands.STATION_STOP:
             set_is_selected(false)
-            update_station_info_panel_visibility(false)
+            update_info_panel_visibility(false)
             Sc.level.clear_station_power_line_selection()
         
         Commands.STATION_RECYCLE:
             # FIXME: LEFT OFF HERE: ----------------------------------------
             pass
             set_is_selected(false)
-            update_station_info_panel_visibility(false)
+            update_info_panel_visibility(false)
             var bot = Sc.level.get_bot_for_station_command(self, button_type)
             bot.move_to_destroy_station(self)
         
         Commands.STATION_INFO:
             set_is_selected(true)
-            update_station_info_panel_visibility(true)
+            update_info_panel_visibility(true)
         
         Commands.RUN_WIRE:
             # FIXME: LEFT OFF HERE: ----------------------------------------
             pass
             set_is_selected(true)
-            update_station_info_panel_visibility(false)
+            update_info_panel_visibility(false)
             Sc.level.set_selected_station_for_running_power_line(self)
         
         Commands.STATION_COMMAND, \
@@ -169,7 +168,7 @@ func _on_button_pressed(button_type: int) -> void:
         Commands.STATION_SCANNER, \
         Commands.STATION_BATTERY:
             set_is_selected(false)
-            update_station_info_panel_visibility(false)
+            update_info_panel_visibility(false)
             var bot = Sc.level.get_bot_for_station_command(self, button_type)
             _build_station(button_type, bot)
         
@@ -200,16 +199,46 @@ func _on_radial_menu_touch_up_outside() -> void:
     set_is_selected(false)
 
 
-func update_station_info_panel_visibility(is_visible: bool) -> void:
+func open_radial_menu() -> void:
+    var radial_menu: GameRadialMenu = Sc.gui.hud.open_radial_menu(
+            Sc.gui.hud.radial_menu_class,
+            _get_radial_menu_items(),
+            get_radial_position_in_screen_space(),
+            self)
+    radial_menu.connect(
+            "touch_up_item", self, "_on_radial_menu_item_selected")
+    radial_menu.connect(
+            "touch_up_center", self, "_on_radial_menu_touch_up_center")
+    radial_menu.connect(
+            "touch_up_outside", self, "_on_radial_menu_touch_up_outside")
+
+
+func close_radial_menu() -> void:
+    if Sc.gui.hud._radial_menu.metadata == self:
+        close_radial_menu()
+
+
+func get_is_own_info_panel_shown() -> bool:
     var data: InfoPanelData = Sc.info_panel.get_current_data()
+    return is_instance_valid(data) and data.meta == self
+
+
+func update_info_panel_contents() -> void:
+    if !get_is_own_info_panel_shown():
+        return
+    var data: InfoPanelData = Sc.info_panel.get_current_data()
+    data.contents.update()
+
+
+func update_info_panel_visibility(is_visible: bool) -> void:
     if is_visible:
-        if !is_instance_valid(data) or data.meta != self:
+        if !get_is_own_info_panel_shown():
             var contents: InfoPanelContents = \
                 Game.INFO_PANEL_CONTENTS_SCENE.instance()
             contents.set_up(self)
             Sc.info_panel.show_panel(contents.get_data())
     else:
-        if is_instance_valid(data) and data.meta == self:
+        if get_is_own_info_panel_shown():
             Sc.info_panel.close_panel()
 
 
@@ -264,17 +293,7 @@ func _on_touch_down(
             _on_button_pressed(Commands.RUN_WIRE)
             return
     
-    var radial_menu: GameRadialMenu = Sc.gui.hud.open_radial_menu(
-            Sc.gui.hud.radial_menu_class,
-            _get_radial_menu_items(),
-            get_radial_position_in_screen_space(),
-            self)
-    radial_menu.connect(
-            "touch_up_item", self, "_on_radial_menu_item_selected")
-    radial_menu.connect(
-            "touch_up_center", self, "_on_radial_menu_touch_up_center")
-    radial_menu.connect(
-            "touch_up_outside", self, "_on_radial_menu_touch_up_outside")
+    open_radial_menu()
 
 
 func _on_touch_up(
@@ -519,6 +538,7 @@ func _get_radial_menu_item_types() -> Array:
 
 func _on_command_enablement_changed() -> void:
     buttons._on_command_enablement_changed()
+    update_info_panel_contents()
 
 
 func _get_health_capacity() -> int:
@@ -534,5 +554,8 @@ func _get_health_capacity() -> int:
 func modify_health(diff: int) -> void:
     var previous_health := _health
     _health = clamp(_health + diff, 0, _health_capacity)
+    if _health == previous_health:
+        return
+    update_info_panel_contents()
     if _health == 0:
         Sc.level.on_station_health_depleted(self)

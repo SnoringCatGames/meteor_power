@@ -12,8 +12,6 @@ export var rope_attachment_offset := Vector2.ZERO
 
 var held_power_line: DynamicPowerLine
 
-var health := 1.0
-
 var status := BotStatus.NEW
 var command := BotCommand.UNKNOWN
 
@@ -70,6 +68,12 @@ func _ready() -> void:
     pointer_screen_radius = 48.0
 
 
+func _destroy() -> void:
+    update_info_panel_visibility(false)
+    close_radial_menu()
+    ._destroy()
+
+
 func _physics_process(delta: float) -> void:
     if Engine.editor_hint:
         return
@@ -120,17 +124,7 @@ func _on_touch_down(
     else:
         set_is_selected(true)
         
-        var radial_menu: GameRadialMenu = Sc.gui.hud.open_radial_menu(
-                Sc.gui.hud.radial_menu_class,
-                _get_radial_menu_items(),
-                self.get_position_in_screen_space(),
-                self)
-        radial_menu.connect(
-                "touch_up_item", self, "_on_radial_menu_item_selected")
-        radial_menu.connect(
-                "touch_up_center", self, "_on_radial_menu_touch_up_center")
-        radial_menu.connect(
-                "touch_up_outside", self, "_on_radial_menu_touch_up_outside")
+        open_radial_menu()
 
 
 func _on_touch_up(
@@ -157,7 +151,7 @@ func set_is_player_control_active(
     .set_is_player_control_active(value, should_also_update_level)
     if value:
         set_is_selected(true)
-        update_bot_info_panel_visibility(false)
+        update_info_panel_visibility(false)
     _update_status()
 
 
@@ -172,16 +166,46 @@ func set_is_selected(is_selected: bool) -> void:
     _update_status()
 
 
-func update_bot_info_panel_visibility(is_visible: bool) -> void:
+func open_radial_menu() -> void:
+    var radial_menu: GameRadialMenu = Sc.gui.hud.open_radial_menu(
+            Sc.gui.hud.radial_menu_class,
+            _get_radial_menu_items(),
+            self.get_position_in_screen_space(),
+            self)
+    radial_menu.connect(
+            "touch_up_item", self, "_on_radial_menu_item_selected")
+    radial_menu.connect(
+            "touch_up_center", self, "_on_radial_menu_touch_up_center")
+    radial_menu.connect(
+            "touch_up_outside", self, "_on_radial_menu_touch_up_outside")
+
+
+func close_radial_menu() -> void:
+    if Sc.gui.hud._radial_menu.metadata == self:
+        close_radial_menu()
+
+
+func get_is_own_info_panel_shown() -> bool:
     var data: InfoPanelData = Sc.info_panel.get_current_data()
+    return is_instance_valid(data) and data.meta == self
+
+
+func update_info_panel_contents() -> void:
+    if !get_is_own_info_panel_shown():
+        return
+    var data: InfoPanelData = Sc.info_panel.get_current_data()
+    data.contents.update()
+
+
+func update_info_panel_visibility(is_visible: bool) -> void:
     if is_visible:
-        if !is_instance_valid(data) or data.meta != self:
+        if !get_is_own_info_panel_shown():
             var contents: InfoPanelContents = \
                 Game.INFO_PANEL_CONTENTS_SCENE.instance()
             contents.set_up(self)
             Sc.info_panel.show_panel(contents.get_data())
     else:
-        if is_instance_valid(data) and data.meta == self:
+        if get_is_own_info_panel_shown():
             Sc.info_panel.close_panel()
 
 
@@ -494,16 +518,16 @@ func _on_radial_menu_item_selected(item: RadialMenuItem) -> void:
         Commands.BOT_STOP:
             stop()
             set_is_selected(false)
-            update_bot_info_panel_visibility(false)
+            update_info_panel_visibility(false)
         Commands.BOT_RECYCLE:
             # FIXME: LEFT OFF HERE: ----------------------------------------
             pass
             set_is_selected(false)
-            update_bot_info_panel_visibility(false)
+            update_info_panel_visibility(false)
         Commands.BOT_INFO:
             set_is_selected(true)
             set_is_player_control_active(false)
-            update_bot_info_panel_visibility(true)
+            update_info_panel_visibility(true)
         _:
             Sc.logger.error("Bot._on_radial_menu_item_selected")
 
@@ -556,7 +580,7 @@ func _get_radial_menu_item_types() -> Array:
 
 
 func _on_command_enablement_changed() -> void:
-    pass
+    update_info_panel_contents()
 
 
 func _get_health_capacity() -> int:
@@ -572,5 +596,8 @@ func _get_health_capacity() -> int:
 func modify_health(diff: int) -> void:
     var previous_health := _health
     _health = clamp(_health + diff, 0, _health_capacity)
+    if _health == previous_health:
+        return
+    update_info_panel_contents()
     if _health == 0:
         Sc.level.on_bot_health_depleted(self)
