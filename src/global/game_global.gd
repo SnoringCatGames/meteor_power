@@ -8,7 +8,7 @@ const _SCHEMA_PATH := "res://src/config/game_schema.gd"
 const INFO_PANEL_CONTENTS_SCENE := preload(
     "res://src/gui/info_panel/info_panel_contents.tscn")
 
-var upgrades: UpgradesManager
+var upgrades: UpgradesController
 
 var cumulative_energy := 0
 
@@ -57,7 +57,7 @@ func _amend_manifest() -> void:
 
 
 func _instantiate_sub_modules() -> void:
-    upgrades = UpgradesManager.new()
+    upgrades = UpgradesController.new()
     add_child(upgrades)
 
 

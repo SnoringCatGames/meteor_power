@@ -2809,10 +2809,10 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/config/upgrades.gd"
 }, {
-"base": "Node",
+"base": "Reference",
 "class": "UpgradesManager",
 "language": "GDScript",
-"path": "res://src/config/upgrades_manager.gd"
+"path": "res://src/config/upgrades_controller.gd"
 }, {
 "base": "Node",
 "class": "Utils",

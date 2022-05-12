@@ -1,5 +1,5 @@
 tool
-class_name UpgradesManager
+class_name UpgradesController
 extends Node
 
 
