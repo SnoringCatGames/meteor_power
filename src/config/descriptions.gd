@@ -7,6 +7,8 @@ extends Reference
 const NOT_ENOUGH_ENERGY := "Not enough energy."
 const MAX_BOT_CAPACITY := "The max number of bots already exist."
 const CANNOT_TRASH_LAST_BOT := "The last bot cannot be recycled."
+const CANNOT_RUN_WIRE_WITH_ONE_STATION := \
+    "There must be at least two stations to run a power line."
 const ALREADY_LINKED_TO_MOTHERSHIP := "Already linked to mothership."
 
 const LEVEL_SUCCESS_EXPLANATION := \
@@ -83,6 +85,7 @@ const COMMAND_LABELS := {
     STATION_SCANNER = "Build scanner station",
     STATION_BATTERY = "Build battery station",
     STATION_LINK_TO_MOTHERSHIP = "Link to mothership",
+    STATION_STOP = "Cancel power line",
     STATION_RECYCLE = "Recycle",
     STATION_INFO = "Info",
     
@@ -129,6 +132,9 @@ const COMMAND_DESCRIPTIONS := {
     ],
     STATION_LINK_TO_MOTHERSHIP = [
         "Establishes a link to the mothership, which boosts bot and station efficiency and preserves acquired energy.",
+    ],
+    STATION_STOP = [
+        "Deselects this station for running a power line.",
     ],
     STATION_RECYCLE = [
         "Recycles this station so something better can be made.",

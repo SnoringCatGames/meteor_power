@@ -25,6 +25,7 @@ const _BUTTON_SIZE := Vector2(30, 30)
 const _PANEL_OFFSET := Vector2(0, 8)
 
 const _BUTTON_KEYS := [
+    Commands.STATION_STOP,
     Commands.STATION_RECYCLE,
     Commands.STATION_BATTERY,
     Commands.STATION_SCANNER,
@@ -117,6 +118,8 @@ func set_buttons(button_types: Array) -> void:
 #    _set_shape_rectangle_extents(container_size / 2.0)
 #    _set_shape_offset(Vector2(0.0, container_size.y / 2.0))
     
+    $Buttons/Stop.position = $Buttons/RunPowerLine.position
+    
     _on_command_enablement_changed()
 
 
@@ -189,7 +192,9 @@ func _on_button_touch_down(
 
 
 func _get_type_for_button(button: SpriteModulationButton) -> int:
-    if button == buttons_container.get_node("Destroy"):
+    if button == buttons_container.get_node("Stop"):
+        return Commands.STATION_STOP
+    elif button == buttons_container.get_node("Destroy"):
         return Commands.STATION_RECYCLE
     elif button == buttons_container.get_node("Battery"):
         return Commands.STATION_BATTERY
@@ -208,6 +213,8 @@ func _get_type_for_button(button: SpriteModulationButton) -> int:
 
 func _get_button_for_type(type: int) -> Node:
     match type:
+        Commands.STATION_STOP:
+            return $Buttons/Stop
         Commands.STATION_RECYCLE:
             return $Buttons/Destroy
         Commands.STATION_BATTERY:
@@ -226,5 +233,21 @@ func _get_button_for_type(type: int) -> Node:
 
 
 func _on_command_enablement_changed() -> void:
-    $Buttons/RunPowerLine.is_disabled = \
-        Sc.level.command_enablement[Commands.RUN_WIRE] != ""
+    var disabled: bool = Sc.level.command_enablement[Commands.RUN_WIRE] != ""
+    
+    var visible_button: SpriteModulationButton
+    var hidden_button: SpriteModulationButton
+    if disabled or \
+            Sc.level.first_selected_station_for_running_power_line != station:
+        visible_button = $Buttons/RunPowerLine
+        hidden_button = $Buttons/Stop
+    else:
+        visible_button = $Buttons/Stop
+        hidden_button = $Buttons/RunPowerLine
+    
+    visible_button.visible = true
+    visible_button.mouse_filter = Control.MOUSE_FILTER_STOP
+    hidden_button.visible = false
+    hidden_button.mouse_filter = Control.MOUSE_FILTER_IGNORE
+    
+    $Buttons/RunPowerLine.is_disabled = disabled

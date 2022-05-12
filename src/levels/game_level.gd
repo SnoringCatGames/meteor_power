@@ -392,6 +392,11 @@ func update_command_enablement() -> void:
         command_enablement[Commands.BOT_RECYCLE] = \
             Descriptions.CANNOT_TRASH_LAST_BOT
     
+    # Disable wire-running when there's only one station left.
+    if session.total_station_count <= 1:
+        command_enablement[Commands.RUN_WIRE] = \
+            Descriptions.CANNOT_RUN_WIRE_WITH_ONE_STATION
+    
     if did_level_succeed:
         # FIXME: --------------- Add support for second and third links.
         command_enablement[Commands.STATION_LINK_TO_MOTHERSHIP] = \
@@ -437,12 +442,35 @@ func update_command_enablement() -> void:
                 item.disabled_message = command_enablement[item.id]
 
 
+func set_selected_station_for_running_power_line(station: Station) -> void:
+    if is_instance_valid(first_selected_station_for_running_power_line):
+        if first_selected_station_for_running_power_line == station:
+            Sc.logger.print("Same wire end: Cancelling wire-run command")
+            clear_station_power_line_selection()
+        else:
+            Sc.logger.print("Second wire end")
+            var bot := get_bot_for_station_command(station, Commands.RUN_WIRE)
+            bot.move_to_attach_power_line(
+                    first_selected_station_for_running_power_line,
+                    station)
+            clear_station_power_line_selection()
+    else:
+        Sc.logger.print("First wire end")
+        first_selected_station_for_running_power_line = station
+        station.buttons._on_command_enablement_changed()
+
+
 func get_is_first_station_selected_for_running_power_line() -> bool:
     return is_instance_valid(first_selected_station_for_running_power_line)
 
 
 func clear_station_power_line_selection() -> void:
+    var previous_first_selected_station_for_running_power_line := \
+            first_selected_station_for_running_power_line
     first_selected_station_for_running_power_line = null
+    if is_instance_valid(first_selected_station_for_running_power_line):
+        first_selected_station_for_running_power_line.buttons \
+            ._on_command_enablement_changed()
 
 
 func add_power_line(power_line: PowerLine) -> void:
@@ -462,6 +490,20 @@ func _on_power_line_created(power_line: PowerLine) -> void:
 func _on_power_line_destroyed(power_line: PowerLine) -> void:
     self.power_lines.erase(power_line)
     power_line.queue_free()
+
+
+func get_bot_for_station_command(
+        station: Station,
+        command: int) -> Bot:
+    # FIXME: LEFT OFF HERE: ---------------------------------------------
+    # - Automatically select bot based on temporal distance.
+    # - If there was a selected-bot when pressing the first run-line button,
+    #   then use that bot.
+    var bot = \
+            selected_bot if \
+            is_instance_valid(selected_bot) else \
+            bots[0]
+    return bot
 
 
 func add_bot(

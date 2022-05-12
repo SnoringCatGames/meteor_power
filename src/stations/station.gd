@@ -1,6 +1,6 @@
 tool
 class_name Station, \
-"res://addons/scaffolder/assets/images/editor_icons/scaffolder_node.png"
+"res://addons/scaffolder/assets/images/editor_icons/scaffolder_node_cyan.png"
 extends ShapedLevelControl
 
 
@@ -124,15 +124,6 @@ func _on_level_started() -> void:
 
 
 func _on_button_pressed(button_type: int) -> void:
-    # FIXME: LEFT OFF HERE: ---------------------------------------------
-    # - Automatically select bot based on temporal distance.
-    # - If there was a selected-bot when pressing the first run-line button,
-    #   then use that bot.
-    var bot = \
-            Sc.level.selected_bot if \
-            is_instance_valid(Sc.level.selected_bot) else \
-            Sc.level.bots[0]
-    
     match button_type:
         Commands.STATION_LINK_TO_MOTHERSHIP:
             # FIXME: LEFT OFF HERE: ----------------------------------------
@@ -146,11 +137,17 @@ func _on_button_pressed(button_type: int) -> void:
             set_is_selected(false)
             update_station_info_panel_visibility(false)
         
+        Commands.STATION_STOP:
+            set_is_selected(false)
+            update_station_info_panel_visibility(false)
+            Sc.level.clear_station_power_line_selection()
+        
         Commands.STATION_RECYCLE:
             # FIXME: LEFT OFF HERE: ----------------------------------------
             pass
             set_is_selected(false)
             update_station_info_panel_visibility(false)
+            var bot = Sc.level.get_bot_for_station_command(self, button_type)
             bot.move_to_destroy_station(self)
         
         Commands.STATION_INFO:
@@ -162,19 +159,7 @@ func _on_button_pressed(button_type: int) -> void:
             pass
             set_is_selected(true)
             update_station_info_panel_visibility(false)
-            if Sc.level.get_is_first_station_selected_for_running_power_line():
-                if Sc.level.first_selected_station_for_running_power_line == self:
-                    Sc.logger.print("Same wire end: Cancelling wire-run command")
-                    Sc.level.clear_station_power_line_selection()
-                else:
-                    Sc.logger.print("Second wire end")
-                    bot.move_to_attach_power_line(
-                            Sc.level.first_selected_station_for_running_power_line,
-                            self)
-                    Sc.level.clear_station_power_line_selection()
-            else:
-                Sc.logger.print("First wire end")
-                Sc.level.first_selected_station_for_running_power_line = self
+            Sc.level.set_selected_station_for_running_power_line(self)
         
         Commands.STATION_COMMAND, \
         Commands.STATION_SOLAR, \
@@ -182,6 +167,7 @@ func _on_button_pressed(button_type: int) -> void:
         Commands.STATION_BATTERY:
             set_is_selected(false)
             update_station_info_panel_visibility(false)
+            var bot = Sc.level.get_bot_for_station_command(self, button_type)
             _build_station(button_type, bot)
         
         Commands.BOT_CONSTRUCTOR, \
@@ -189,6 +175,7 @@ func _on_button_pressed(button_type: int) -> void:
         Commands.BOT_BARRIER:
             # FIXME: LEFT OFF HERE: ----------------------------------------
             pass
+            var bot = Sc.level.get_bot_for_station_command(self, button_type)
             bot.move_to_build_bot(self, button_type)
         
         _:

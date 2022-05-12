@@ -17,11 +17,11 @@ const STATION_SOLAR := 300
 const STATION_SCANNER := 500
 const STATION_BATTERY := 500
 const STATION_LINK_TO_MOTHERSHIP := 5000
+const STATION_STOP := 0
 const STATION_RECYCLE := 10
 const STATION_INFO := 0
 
-# FIXME: ---------------------------------- Set back to 30
-const RUN_WIRE := 3000
+const RUN_WIRE := 30
 
 const DYNAMIC_POWER_LINE_HIT := 20
 const STATIC_POWER_LINE_HIT := 10
