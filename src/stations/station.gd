@@ -1,6 +1,6 @@
 tool
 class_name Station, \
-"res://addons/scaffolder/assets/images/editor_icons/scaffolder_node_cyan.png"
+"res://addons/scaffolder/assets/images/editor_icons/scaffolder_node.png"
 extends ShapedLevelControl
 
 
@@ -8,6 +8,7 @@ const _OVERLAY_BUTTON_PANEL_CLASS := \
         preload("res://src/gui/overlay_button_panel.tscn")
 const _VIEWPORT_CENTER_REGION_DETECTOR_SCENE := preload(
         "res://addons/scaffolder/src/camera/camera_detector/viewport_center_region_detector.tscn")
+const _STATUS_OVERLAY_SCENE := preload("res://src/gui/status_overlay.tscn")
 
 const _CAMERA_DETECTOR_VIEWPORT_RATIO := Vector2(0.95, 0.95)
 
@@ -20,6 +21,8 @@ const _MAX_HIGHLIGHT_VIEWPORT_BOUNDS_RATIO := 0.05
 export var rope_attachment_offset := Vector2.ZERO
 
 var buttons: OverlayButtonPanel
+
+var status_overlay: StatusOverlay
 
 var camera_detector: CameraDetector
 
@@ -75,6 +78,14 @@ func _ready() -> void:
     
     screen_radius = 48.0
     property_list_changed_notify()
+    
+    var half_width_height: Vector2 = \
+        Sc.geometry.calculate_half_width_height(_shape.shape, false)
+    
+    status_overlay = Sc.utils.add_scene(self, _STATUS_OVERLAY_SCENE)
+    status_overlay.entity = self
+    status_overlay.anchor_y = -half_width_height.y * 2
+    status_overlay.set_up()
 
 
 func _destroy() -> void:
@@ -541,6 +552,14 @@ func _on_command_enablement_changed() -> void:
     update_info_panel_contents()
 
 
+func get_health() -> int:
+    return _health
+
+
+func get_health_capacity() -> int:
+    return _health_capacity
+
+
 func _get_health_capacity() -> int:
     var base_capacity: int = Healths.get_default_capacity(entity_command_type)
     
@@ -557,5 +576,6 @@ func modify_health(diff: int) -> void:
     if _health == previous_health:
         return
     update_info_panel_contents()
+    status_overlay.update()
     if _health == 0:
         Sc.level.on_station_health_depleted(self)

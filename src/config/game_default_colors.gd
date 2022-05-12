@@ -129,6 +129,11 @@ var hud_count_min := Color.from_hsv(0.3, 0.05, 0.5)
 var hud_count_max := Color.from_hsv(0.1, 0.7, 1.0)
 var hud_count_non_zero_min: Color = lerp(hud_count_min, hud_count_max, 0.4)
 
+var health_bar_background := Color("363552")
+var health_bar_full := Color("27cc37")
+var health_bar_medium := Color("dedb23")
+var health_bar_empty := Color("ff0000")
+
 #var modulation_button_normal := highlight_purple
 #var modulation_button_hover := highlight_light_purple
 #var modulation_button_pressed := highlight_dark_purple

@@ -4,11 +4,13 @@ extends SurfacerCharacter
 
 
 const _LIGHT_TEXTURE := preload(
-        "res://addons/scaffolder/assets/images/misc/circle_gradient_modified_1024.png")
+    "res://addons/scaffolder/assets/images/misc/circle_gradient_modified_1024.png")
 
 const CONSTANT_ENERGY_DRAIN_PERIOD := 0.4
 
 export var rope_attachment_offset := Vector2.ZERO
+
+var status_overlay: StatusOverlay
 
 var held_power_line: DynamicPowerLine
 
@@ -63,9 +65,15 @@ func _ready() -> void:
     navigator.connect("navigation_started", self, "_on_navigation_started")
     navigator.connect("navigation_ended", self, "_on_navigation_ended")
     Sc.info_panel.connect("closed", self, "_on_info_panel_closed")
-    _update_status()
     detects_pointer = true
     pointer_screen_radius = 48.0
+    
+    status_overlay = Sc.utils.add_scene(self, Station._STATUS_OVERLAY_SCENE)
+    status_overlay.entity = self
+    status_overlay.anchor_y = -collider.half_width_height.y
+    status_overlay.set_up()
+    
+    _update_status()
 
 
 func _destroy() -> void:
@@ -181,7 +189,8 @@ func open_radial_menu() -> void:
 
 
 func close_radial_menu() -> void:
-    if Sc.gui.hud._radial_menu.metadata == self:
+    if is_instance_valid(Sc.gui.hud._radial_menu) and \
+            Sc.gui.hud._radial_menu.metadata == self:
         close_radial_menu()
 
 
@@ -583,6 +592,14 @@ func _on_command_enablement_changed() -> void:
     update_info_panel_contents()
 
 
+func get_health() -> int:
+    return _health
+
+
+func get_health_capacity() -> int:
+    return _health_capacity
+
+
 func _get_health_capacity() -> int:
     var base_capacity: int = Healths.get_default_capacity(entity_command_type)
     
@@ -599,5 +616,6 @@ func modify_health(diff: int) -> void:
     if _health == previous_health:
         return
     update_info_panel_contents()
+    status_overlay.update()
     if _health == 0:
         Sc.level.on_bot_health_depleted(self)

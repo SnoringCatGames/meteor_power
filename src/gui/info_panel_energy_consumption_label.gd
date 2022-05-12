@@ -1,5 +1,5 @@
 tool
-class_name HealthLabel
+class_name InfoPanelEnergyConsumptionLabel
 extends HBoxContainer
 
 

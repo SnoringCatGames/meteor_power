@@ -61,6 +61,9 @@ func set_up(entity) -> void:
         row.set_up(command)
         command_rows.push_back(row)
     
+    $Status/HealthLabel.entity = entity
+    $Status/HealthLabel.set_up()
+    
     var is_empty_station := entity_command_type == Commands.STATION_EMPTY
     $Status.visible = !is_empty_station
     $UpgradesSeparator.visible = !is_empty_station
@@ -71,9 +74,14 @@ func set_up(entity) -> void:
 
 
 func update() -> void:
+    if entity.get_health_capacity() < 0:
+        $Status.visible = false
+    
+    $Status/HealthLabel.update()
+    
     # FIXME: -------------------------------
-    $Status/HealthLabel
     $Status/EnergyConsumptionLabel
+    
     for row in command_rows:
         row.update()
 
