@@ -21,6 +21,8 @@ const _CUMULATIVE_SOLAR_COLLECTORS_BUILT_SETTINGS_KEY := "solar_collectors_built
 const _CUMULATIVE_SCANNER_STATIONS_BUILT_SETTINGS_KEY := "scanner_stations_built"
 const _CUMULATIVE_BATTERY_STATIONS_BUILT_SETTINGS_KEY := "battery_stations_built"
 
+const _CUMULATIVE_WAVES_COMPLETED_SETTINGS_KEY := "waves_completed"
+
 const PIXELS_PER_MILE := 6400
 const KM_PER_MILE := 1.60934
 
@@ -59,6 +61,8 @@ var solar_collectors_built_count := 0
 var scanner_stations_built_count := 0
 var battery_stations_built_count := 0
 
+var waves_completed_count := 0
+
 
 func reset(id: String) -> void:
     .reset(id)
@@ -76,7 +80,25 @@ func reset(id: String) -> void:
     constructor_bot_count = 0
     line_runner_bot_count = 0
     barrier_bot_count = 0
+    
     power_line_count = 0
+    
+    meteors_collided_count = 0
+    bot_pixels_travelled = 0.0
+    bots_built_count = 0
+    stations_built_count = 0
+    power_lines_built_count = 0
+    
+    contructor_bots_built_count = 0
+    line_runner_bots_built_count = 0
+    barrier_bots_built_count = 0
+    
+    command_centers_built_count = 0
+    solar_collectors_built_count = 0
+    scanner_stations_built_count = 0
+    battery_stations_built_count = 0
+    
+    waves_completed_count = 0
 
 
 func _update_for_level_end(has_finished: bool) -> void:
@@ -134,6 +156,10 @@ func _update_for_level_end(has_finished: bool) -> void:
         [
             _CUMULATIVE_BATTERY_STATIONS_BUILT_SETTINGS_KEY,
             battery_stations_built_count,
+        ],
+        [
+            _CUMULATIVE_WAVES_COMPLETED_SETTINGS_KEY,
+            waves_completed_count,
         ],
     ]
     

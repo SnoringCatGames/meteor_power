@@ -89,6 +89,8 @@ func _end_wave() -> void:
 #    Sc.logger.print("MeteorController._end_wave")
     
     is_in_wave = false
+    
+    Sc.level.session.waves_completed_count += 1
 
 
 func _trigger_meteor() -> void:

@@ -351,6 +351,7 @@ var _gui_manifest := {
         LevelEnergyControlRow,
         StationsControlRow,
         BotsControlRow,
+        MeteorWavesCompletedControlRow,
         TimeControlRow,
         HighScoreEnergyControlRow,
         EnergyToNextUpgradeControlRow,
@@ -366,6 +367,7 @@ var _gui_manifest := {
         ScoreEnergyControlRow,
         HighScoreEnergyControlRow,
         EnergyToNextUpgradeControlRow,
+        MeteorWavesCompletedControlRow,
         TimeControlRow,
         LevelControlRow,
     ],
@@ -382,6 +384,12 @@ var _gui_manifest := {
             {
                 item_class = TimeControlRow,
                 settings_enablement_label = "Time",
+                enabled_by_default = false,
+                settings_group_key = "hud",
+            },
+            {
+                item_class = MeteorWavesCompletedControlRow,
+                settings_enablement_label = "Waves survived",
                 enabled_by_default = false,
                 settings_group_key = "hud",
             },

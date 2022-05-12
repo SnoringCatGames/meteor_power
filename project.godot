@@ -1424,6 +1424,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/levels/meteor_controller.gd"
 }, {
+"base": "TextControlRow",
+"class": "MeteorWavesCompletedControlRow",
+"language": "GDScript",
+"path": "res://src/gui/control_rows/meteor_waves_completed_control_row.gd"
+}, {
 "base": "CheckboxControlRow",
 "class": "MetronomeControlRow",
 "language": "GDScript",
@@ -2809,8 +2814,8 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/config/upgrades.gd"
 }, {
-"base": "Reference",
-"class": "UpgradesManager",
+"base": "Node",
+"class": "UpgradesController",
 "language": "GDScript",
 "path": "res://src/config/upgrades_controller.gd"
 }, {
@@ -3228,6 +3233,7 @@ _global_script_class_icons={
 "MainMenuScreen": "",
 "Meteor": "",
 "MeteorController": "",
+"MeteorWavesCompletedControlRow": "",
 "MetronomeControlRow": "",
 "MoveBackAndForthBehavior": "res://addons/surfacer/assets/images/editor_icons/move_back_and_forth_behavior.png",
 "MovementParameters": "res://addons/surfacer/assets/images/editor_icons/movement_params.png",
@@ -3505,7 +3511,7 @@ _global_script_class_icons={
 "TutorialModes": "",
 "UUID": "",
 "Upgrades": "",
-"UpgradesManager": "",
+"UpgradesController": "",
 "Utils": "",
 "ValidEdgeItemController": "",
 "ValidEdgeTrajectoryLegendItem": "",
