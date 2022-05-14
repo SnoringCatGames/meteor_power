@@ -324,7 +324,7 @@ func get_is_selected() -> bool:
 
 
 func get_radial_position_in_screen_space() -> Vector2:
-    return $Center.get_global_transform_with_canvas().origin
+    return Sc.utils.get_screen_position_of_node_in_level($Center)
 
 
 static func get_opacity_for_camera_position(
