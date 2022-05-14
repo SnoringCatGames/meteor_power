@@ -8,7 +8,7 @@ export var text := "" setget _set_text
 export var color: Color setget _set_color
 export(String, "Xs", "S", "M", "L", "Xl") var font_size := "S" \
         setget _set_font_size
-export var icon_scale := 2.0 setget _set_icon_scale
+export var icon_scale := 0.7 setget _set_icon_scale
 
 var _is_ready := false
 
