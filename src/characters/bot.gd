@@ -71,7 +71,8 @@ func _ready() -> void:
     navigator.connect("navigation_ended", self, "_on_navigation_ended")
     Sc.info_panel.connect("closed", self, "_on_info_panel_closed")
     detects_pointer = true
-    pointer_screen_radius = 48.0
+    pointer_screen_radius = \
+        Sc.device.inches_to_pixels(Station.SCREEN_RADIUS_INCHES)
     
     status_overlay = Sc.utils.add_scene(self, Station._STATUS_OVERLAY_SCENE)
     status_overlay.entity = self

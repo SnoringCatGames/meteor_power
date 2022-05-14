@@ -18,6 +18,8 @@ const _MAX_HIGHLIGHT_OPACITY_FOR_VIEWPORT_POSITION := 0.95
 const _MIN_HIGHLIGHT_VIEWPORT_BOUNDS_RATIO := 0.95
 const _MAX_HIGHLIGHT_VIEWPORT_BOUNDS_RATIO := 0.05
 
+const SCREEN_RADIUS_INCHES := 0.15
+
 export var rope_attachment_offset := Vector2.ZERO
 
 var buttons: OverlayButtonPanel
@@ -73,7 +75,7 @@ func _ready() -> void:
     
     Sc.info_panel.connect("closed", self, "_on_info_panel_closed")
     
-    screen_radius = 48.0
+    screen_radius = Sc.device.inches_to_pixels(SCREEN_RADIUS_INCHES)
     property_list_changed_notify()
     
     var half_width_height: Vector2 = \
