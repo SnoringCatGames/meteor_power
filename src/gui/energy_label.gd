@@ -26,6 +26,12 @@ func _ready() -> void:
     _update_text()
 
 
+func _on_gui_scale_changed() -> bool:
+    $ScaffolderTextureRect.texture_scale = \
+        Vector2.ONE * icon_scale * Sc.gui.scale
+    return false
+
+
 func _update_text() -> void:
     if text != "":
         $ScaffolderLabel.text = text
@@ -66,4 +72,4 @@ func _set_icon_scale(value: float) -> void:
     icon_scale = value
     if !_is_ready:
         return
-    $ScaffolderTextureRect.texture_scale = Vector2(value, value)
+    $ScaffolderTextureRect.texture_scale = Vector2(value, value) * Sc.gui.scale
