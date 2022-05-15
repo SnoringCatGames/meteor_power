@@ -8,7 +8,7 @@ const IS_CONNECTABLE := false
 
 
 func _init().(ENTITY_COMMAND_TYPE, IS_CONNECTABLE) -> void:
-    pass
+    shield_activated = true
 
 
 func get_buttons() -> Array:

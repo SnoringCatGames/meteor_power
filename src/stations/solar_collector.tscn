@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://src/stations/solar_collector.gd" type="Script" id=1]
 [ext_resource path="res://assets/images/stations/solar_collector.png" type="Texture" id=2]
 [ext_resource path="res://assets/images/stations/solar_collector_dark.png" type="Texture" id=3]
 [ext_resource path="res://addons/scaffolder/src/shader_outlineable_sprite.tscn" type="PackedScene" id=4]
+[ext_resource path="res://addons/scaffolder/src/pixelated_outline.gdshader" type="Shader" id=5]
 
 [sub_resource type="Animation" id=1]
 length = 0.001
@@ -66,13 +67,30 @@ tracks/0/keys = {
 "values": [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33 ]
 }
 
+[sub_resource type="ShaderMaterial" id=5]
+shader = ExtResource( 5 )
+shader_param/color = Color( 0.8, 0.172549, 0.0862745, 0.81225 )
+shader_param/thickness = 1.0
+shader_param/pattern = 2
+shader_param/is_inside = false
+shader_param/adds_margins = true
+shader_param/saturation = 1.0
+
+[sub_resource type="ShaderMaterial" id=6]
+shader = ExtResource( 5 )
+shader_param/color = Color( 0.8, 0.172549, 0.0862745, 0.81225 )
+shader_param/thickness = 1.0
+shader_param/pattern = 2
+shader_param/is_inside = false
+shader_param/adds_margins = true
+shader_param/saturation = 1.0
+
 [node name="SolarCollector" type="Area2D"]
-collision_layer = 1073741824
+collision_layer = 1073741840
 collision_mask = 0
 monitoring = false
-monitorable = false
 script = ExtResource( 1 )
-screen_radius = 48.0
+screen_radius = 28.8
 shape_rectangle_extents = Vector2( 24, 28 )
 shape_offset = Vector2( 0, -28 )
 rope_attachment_offset = Vector2( 0, -2 )
@@ -85,14 +103,20 @@ anims/shine = SubResource( 2 )
 [node name="Shine" parent="." instance=ExtResource( 4 )]
 visible = false
 light_mask = 2
+material = SubResource( 5 )
 position = Vector2( 0, -32 )
 texture = ExtResource( 2 )
 hframes = 34
+is_outlined = true
+outline_color = Color( 0.8, 0.172549, 0.0862745, 0.81225 )
 
 [node name="Dark" parent="." instance=ExtResource( 4 )]
 light_mask = 2
+material = SubResource( 6 )
 position = Vector2( 0, -32 )
 texture = ExtResource( 3 )
+is_outlined = true
+outline_color = Color( 0.8, 0.172549, 0.0862745, 0.81225 )
 
 [node name="Center" type="Position2D" parent="."]
 position = Vector2( 0, -33 )

@@ -39,6 +39,8 @@ var is_connected_to_command_center := false
 
 var is_connectable := true
 
+var shield_activated := false
+
 var entity_command_type := Commands.UNKNOWN
 
 var start_time := INF
@@ -59,6 +61,8 @@ func _init(
 
 
 func _ready() -> void:
+    self.monitorable = true
+    
     start_time = Sc.time.get_scaled_play_time()
     total_time = 0.0
     
@@ -224,7 +228,8 @@ func open_radial_menu() -> void:
 
 
 func close_radial_menu() -> void:
-    if Sc.gui.hud._radial_menu.metadata == self:
+    if is_instance_valid(Sc.gui.hud._radial_menu) and \
+            Sc.gui.hud._radial_menu.metadata == self:
         close_radial_menu()
 
 
@@ -515,10 +520,11 @@ func _on_disconnected_from_command_center() -> void:
 
 func _on_hit_by_meteor() -> void:
     Sc.level.session.meteors_collided_count += 1
-    Sc.level.deduct_energy(Costs.STATION_HIT)
-    var damage := Healths.METEOR_DAMAGE
-    # FIXME: --------------- Consider modifying damage depending on Upgrades.
-    modify_health(-damage)
+    if !shield_activated:
+        Sc.level.deduct_energy(Costs.STATION_HIT)
+        var damage := Healths.METEOR_DAMAGE
+        # FIXME: --------------- Consider modifying damage depending on Upgrades.
+        modify_health(-damage)
 
 
 func _get_common_radial_menu_item_types() -> Array:
