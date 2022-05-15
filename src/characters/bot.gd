@@ -7,6 +7,7 @@ const _LIGHT_TEXTURE := preload(
     "res://addons/scaffolder/assets/images/misc/circle_gradient_modified_1024.png")
 
 const CONSTANT_ENERGY_DRAIN_PERIOD := 0.4
+const MOVEMENT_ENERGY_DRAIN_PERIOD := 0.4
 
 const MIN_OPACITY_MULTIPLIER := 0.3
 const MAX_OPACITY_MULTIPLIER := 1.0
@@ -36,8 +37,7 @@ var is_powered_on := true
 var is_stopping := false
 var is_hovered := false
 
-var movement_distance_per_one_enery_value := 20.0
-var total_movement_distance_cost := 0.0
+var total_movement_time := 0.0
 
 var viewport_position_outline_alpha_multiplier := 0.0
 
@@ -100,15 +100,15 @@ func _physics_process(delta: float) -> void:
             is_stopping:
         _stop_nav()
     
-    var previous_total_movement_distance_cost := total_movement_distance_cost
-    var current_distance_cost := \
-            surface_state.velocity.length() * ScaffolderTime.PHYSICS_TIME_STEP
-    total_movement_distance_cost += current_distance_cost
+    var previous_total_movement_time := total_movement_time
+    var current_movement_time := \
+        Sc.time.get_scaled_time_step() if \
+        surface_state.velocity != Vector2.ZERO else \
+        0.0
+    total_movement_time += current_movement_time
     
-    if int(previous_total_movement_distance_cost / \
-            movement_distance_per_one_enery_value) != \
-            int(total_movement_distance_cost / \
-            movement_distance_per_one_enery_value):
+    if int(previous_total_movement_time / MOVEMENT_ENERGY_DRAIN_PERIOD) != \
+            int(total_movement_time / MOVEMENT_ENERGY_DRAIN_PERIOD):
         Sc.level.deduct_energy(Costs.BOT_MOVE)
     
     if int(previous_total_time / CONSTANT_ENERGY_DRAIN_PERIOD) != \

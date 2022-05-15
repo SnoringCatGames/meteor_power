@@ -20,6 +20,8 @@ const _MAX_HIGHLIGHT_VIEWPORT_BOUNDS_RATIO := 0.05
 
 const SCREEN_RADIUS_INCHES := 0.15
 
+const SHIELD_ENERGY_DRAIN_PERIOD := 0.4
+
 export var rope_attachment_offset := Vector2.ZERO
 
 var buttons: OverlayButtonPanel
@@ -46,6 +48,7 @@ var entity_command_type := Commands.UNKNOWN
 var start_time := INF
 var previous_total_time := INF
 var total_time := INF
+var total_shield_time := INF
 
 var _health := 0
 var _health_capacity := 0
@@ -65,6 +68,7 @@ func _ready() -> void:
     
     start_time = Sc.time.get_scaled_play_time()
     total_time = 0.0
+    total_shield_time = 0.0
     
     buttons = Sc.utils.add_scene(self, _OVERLAY_BUTTON_PANEL_CLASS)
     buttons.connect("button_pressed", self, "_on_button_pressed")
@@ -101,6 +105,17 @@ func _destroy() -> void:
 func _physics_process(delta: float) -> void:
     previous_total_time = total_time
     total_time = Sc.time.get_scaled_play_time() - start_time
+    
+    var previous_total_shield_time := total_shield_time
+    var current_shield_time := \
+        Sc.time.get_scaled_time_step() if \
+        shield_activated else \
+        0.0
+    total_shield_time += current_shield_time
+    
+    if int(previous_total_shield_time / SHIELD_ENERGY_DRAIN_PERIOD) != \
+            int(total_shield_time / SHIELD_ENERGY_DRAIN_PERIOD):
+        Sc.level.deduct_energy(Costs.STATION_SHIELD)
 
 
 func _set_up_camera_detector() -> void:

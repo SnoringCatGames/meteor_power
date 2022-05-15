@@ -20,6 +20,7 @@ const STATION_LINK_TO_MOTHERSHIP := 5000
 const STATION_STOP := 0
 const STATION_RECYCLE := 10
 const STATION_INFO := 0
+const STATION_SHIELD := 1
 
 const RUN_WIRE := 30
 
@@ -27,4 +28,4 @@ const DYNAMIC_POWER_LINE_HIT := 20
 const STATIC_POWER_LINE_HIT := 10
 const STATION_HIT := 40
 const BOT_HIT := 80
-const BOT_ALIVE := 1
+const BOT_ALIVE := 0
