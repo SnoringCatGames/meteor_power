@@ -11,6 +11,8 @@ const CONSTANT_ENERGY_DRAIN_PERIOD := 0.4
 const MIN_OPACITY_MULTIPLIER := 0.3
 const MAX_OPACITY_MULTIPLIER := 1.0
 
+const POINTER_DISTANCE_SQUARED_OFFSET_FOR_SELECTION_PRIORITY := 30.0 * 30.0
+
 export var rope_attachment_offset := Vector2.ZERO
 
 var status_overlay: StatusOverlay
@@ -73,6 +75,8 @@ func _ready() -> void:
     detects_pointer = true
     pointer_screen_radius = \
         Sc.device.inches_to_pixels(Station.SCREEN_RADIUS_INCHES)
+    _set_pointer_distance_squared_offset_for_selection_priority(
+        POINTER_DISTANCE_SQUARED_OFFSET_FOR_SELECTION_PRIORITY)
     
     status_overlay = Sc.utils.add_scene(self, Station._STATUS_OVERLAY_SCENE)
     status_overlay.entity = self
