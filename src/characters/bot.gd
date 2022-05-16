@@ -35,6 +35,8 @@ var is_powered_on := true
 var is_stopping := false
 var is_hovered := false
 
+var is_triggering_new_navigation := false
+
 var total_movement_time := 0.0
 
 var viewport_position_outline_alpha_multiplier := 0.0
@@ -337,7 +339,7 @@ func _on_reached_second_station_for_power_line() -> void:
     assert(is_instance_valid(held_power_line))
     self.held_power_line._on_connected()
     Sc.level.deduct_energy(Cost.RUN_WIRE)
-    _on_command_ended()
+    stop()
 
 
 func get_power_line_attachment_position() -> Vector2:
@@ -366,7 +368,7 @@ func _on_reached_station_to_build() -> void:
         ])
     Sc.level.replace_station(target_station, command)
     Sc.level.deduct_energy(Command.COSTS[command])
-    _on_command_ended()
+    stop()
 
 
 func move_to_destroy_station(station: Station) -> void:
@@ -387,7 +389,7 @@ func _on_reached_station_to_destroy() -> void:
     assert(is_instance_valid(target_station))
     Sc.level.replace_station(target_station, Command.STATION_EMPTY)
     Sc.level.deduct_energy(Cost.STATION_RECYCLE)
-    _on_command_ended()
+    stop()
 
 
 func move_to_recycle_self() -> void:
@@ -407,7 +409,7 @@ func _on_reached_station_to_recycle_self() -> void:
         ])
     assert(is_instance_valid(target_station))
     Sc.level.deduct_energy(Command.COSTS[Command.BOT_RECYCLE])
-    _on_command_ended()
+    stop()
     Sc.level.remove_bot(self)
 
 
@@ -431,15 +433,18 @@ func _on_reached_station_to_build_bot() -> void:
     assert(is_instance_valid(target_station))
     Sc.level.add_bot(command)
     Sc.level.deduct_energy(Command.COSTS[command])
-    _on_command_ended()
+    stop()
 
 
 func _navigate_to_target_station() -> void:
     if self._extra_collision_detection_area.overlaps_area(target_station):
+        is_triggering_new_navigation = false
         _on_reached_target_station()
     else:
+        is_triggering_new_navigation = true
         navigator.navigate_to_position(
                 target_station.get_position_along_surface(self))
+        is_triggering_new_navigation = false
 
 
 func stop() -> void:
@@ -497,7 +502,7 @@ func _on_powered_on() -> void:
 
 
 func _on_powered_down() -> void:
-    _on_command_ended()
+    stop()
     is_powered_on = false
     _update_status()
 
@@ -517,7 +522,8 @@ func _on_navigation_started(is_retry: bool) -> void:
 
 func _on_navigation_ended(did_reach_destination: bool) -> void:
 #    Sc.logger.print("Bot._on_navigation_ended")
-    _on_command_ended()
+    if !is_triggering_new_navigation:
+        _on_command_ended()
 
 
 func _on_started_colliding(
