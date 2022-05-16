@@ -8,7 +8,7 @@ enum {
     STOP,
     RUN_POWER_LINE,
     DESTROY_STATION,
-    REPAIR_STATION,
+    STATION_REPAIR,
     BUILD_STATION,
     POWER_ON_BOT,
     BUILD_BOT,
@@ -28,8 +28,8 @@ static func get_string(type: int) -> String:
             return "RUN_POWER_LINE"
         DESTROY_STATION:
             return "DESTROY_STATION"
-        REPAIR_STATION:
-            return "REPAIR_STATION"
+        STATION_REPAIR:
+            return "STATION_REPAIR"
         BUILD_STATION:
             return "BUILD_STATION"
         POWER_ON_BOT:

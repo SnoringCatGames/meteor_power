@@ -23,6 +23,8 @@ const STATION_INFO := 0
 const STATION_SHIELD := 1
 
 const RUN_WIRE := 30
+const STATION_REPAIR := 30
+const WIRE_REPAIR := 10
 
 const DYNAMIC_POWER_LINE_HIT := 20
 const STATIC_POWER_LINE_HIT := 10

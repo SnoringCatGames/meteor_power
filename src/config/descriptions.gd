@@ -10,6 +10,7 @@ const CANNOT_TRASH_LAST_BOT := "The last bot cannot be recycled."
 const CANNOT_RUN_WIRE_WITH_ONE_STATION := \
     "There must be at least two stations to run a power line."
 const ALREADY_LINKED_TO_MOTHERSHIP := "Already linked to mothership."
+const ALREADY_AT_FULL_HEALTH := "Already at full health."
 
 const LEVEL_SUCCESS_EXPLANATION := \
     "You succeeded in linking back to the mother ship!"
@@ -90,6 +91,8 @@ const COMMAND_LABELS := {
     STATION_INFO = "Info",
     
     RUN_WIRE = "Run wire",
+    STATION_REPAIR = "Repair station",
+    WIRE_REPAIR = "Repair wire",
 }
 
 const COMMAND_DESCRIPTIONS := {
@@ -145,5 +148,11 @@ const COMMAND_DESCRIPTIONS := {
     
     RUN_WIRE = [
         "Runs a wire to connect this station to another.",
+    ],
+    STATION_REPAIR = [
+        "Repairs this station.",
+    ],
+    WIRE_REPAIR = [
+        "Repairs this wire.",
     ],
 }

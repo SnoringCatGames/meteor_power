@@ -243,7 +243,7 @@ func open_radial_menu() -> void:
 
 
 func close_radial_menu() -> void:
-    if is_instance_valid(Sc.gui.hud._radial_menu) and \
+    if Sc.gui.hud.get_is_radial_menu_open() and \
             Sc.gui.hud._radial_menu.metadata == self:
         Sc.gui.hud.close_radial_menu()
 
@@ -559,7 +559,7 @@ func _get_radial_menu_items() -> Array:
         command_item.id = type
         command_item.description = Commands.COMMAND_LABELS[type]
         command_item.texture = Commands.TEXTURES[type]
-        command_item.disabled_message = Sc.level.command_enablement[type]
+        command_item.disabled_message = get_disabled_message(type)
         result.push_back(command_item)
     return result
 
@@ -573,6 +573,23 @@ func _get_radial_menu_item_types() -> Array:
 func _on_command_enablement_changed() -> void:
     buttons._on_command_enablement_changed()
     update_info_panel_contents()
+    if Sc.gui.hud.get_is_radial_menu_open() and \
+            Sc.gui.hud._radial_menu.metadata == self:
+        for item in Sc.gui.hud._radial_menu._items:
+            item.disabled_message = get_disabled_message(item.id)
+
+
+func get_disabled_message(command: int) -> String:
+    var message: String = Sc.level.command_enablement[command]
+    if message != "":
+        return message
+    match command:
+        Commands.STATION_REPAIR:
+            if _health >= _health_capacity:
+                return Descriptions.ALREADY_AT_FULL_HEALTH
+        _:
+            pass
+    return ""
 
 
 func get_health() -> int:
@@ -600,5 +617,8 @@ func modify_health(diff: int) -> void:
         return
     update_info_panel_contents()
     status_overlay.update()
+    if _health == _health_capacity or \
+            previous_health == _health_capacity:
+        _on_command_enablement_changed()
     if _health == 0:
         Sc.level.on_station_health_depleted(self)

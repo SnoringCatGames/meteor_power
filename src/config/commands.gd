@@ -25,6 +25,8 @@ enum {
     STATION_INFO,
     
     RUN_WIRE,
+    STATION_REPAIR,
+    WIRE_REPAIR,
 }
 
 const VALUES := [
@@ -50,6 +52,8 @@ const VALUES := [
     STATION_INFO,
     
     RUN_WIRE,
+    STATION_REPAIR,
+    WIRE_REPAIR,
 ]
 
 const COSTS := {
@@ -75,6 +79,8 @@ const COSTS := {
     STATION_INFO: Costs.STATION_INFO,
     
     RUN_WIRE: Costs.RUN_WIRE,
+    STATION_REPAIR: Costs.STATION_REPAIR,
+    WIRE_REPAIR: Costs.WIRE_REPAIR,
 }
 
 const ENTITY_NAMES := {
@@ -124,6 +130,8 @@ const COMMAND_LABELS := {
     STATION_INFO: Descriptions.COMMAND_LABELS.STATION_INFO,
     
     RUN_WIRE: Descriptions.COMMAND_LABELS.RUN_WIRE,
+    STATION_REPAIR: Descriptions.COMMAND_LABELS.STATION_REPAIR,
+    WIRE_REPAIR: Descriptions.COMMAND_LABELS.WIRE_REPAIR,
 }
 
 const COMMAND_DESCRIPTIONS := {
@@ -149,6 +157,8 @@ const COMMAND_DESCRIPTIONS := {
     STATION_INFO: Descriptions.COMMAND_DESCRIPTIONS.STATION_INFO,
     
     RUN_WIRE: Descriptions.COMMAND_DESCRIPTIONS.RUN_WIRE,
+    STATION_REPAIR: Descriptions.COMMAND_DESCRIPTIONS.STATION_REPAIR,
+    WIRE_REPAIR: Descriptions.COMMAND_DESCRIPTIONS.WIRE_REPAIR,
 }
 
 const TEXTURES := {
@@ -172,8 +182,10 @@ const TEXTURES := {
     STATION_STOP: preload("res://assets/images/gui/overlay_buttons/stop_overlay_button.png"),
     STATION_RECYCLE: preload("res://assets/images/gui/overlay_buttons/destroy_overlay_button.png"),
     STATION_INFO: preload("res://assets/images/gui/overlay_buttons/info_overlay_button.png"),
+    STATION_REPAIR: preload("res://assets/images/gui/overlay_buttons/repair_overlay_button.png"),
     
     RUN_WIRE: preload("res://assets/images/gui/overlay_buttons/run_power_line_button.png"),
+    WIRE_REPAIR: preload("res://assets/images/gui/overlay_buttons/repair_overlay_button.png"),
 }
 
 
@@ -217,6 +229,10 @@ static func get_string(type: int) -> String:
             return "STATION_INFO"
         RUN_WIRE:
             return "RUN_WIRE"
+        STATION_REPAIR:
+            return "STATION_REPAIR"
+        WIRE_REPAIR:
+            return "WIRE_REPAIR"
         _:
             Sc.logger.error("Commands.get_string: %s" % str(type))
             return ""

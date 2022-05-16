@@ -458,9 +458,6 @@ func update_command_enablement() -> void:
         for entities in [bots, stations]:
             for entity in entities:
                 entity._on_command_enablement_changed()
-        if Sc.gui.hud.get_is_radial_menu_open():
-            for item in Sc.gui.hud._radial_menu._items:
-                item.disabled_message = command_enablement[item.id]
 
 
 func set_selected_station_for_running_power_line(station: Station) -> void:

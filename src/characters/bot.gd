@@ -202,7 +202,7 @@ func open_radial_menu() -> void:
 
 
 func close_radial_menu() -> void:
-    if is_instance_valid(Sc.gui.hud._radial_menu) and \
+    if Sc.gui.hud.get_is_radial_menu_open() and \
             Sc.gui.hud._radial_menu.metadata == self:
         Sc.gui.hud.close_radial_menu()
 
@@ -566,7 +566,7 @@ func _on_reached_target_station() -> void:
                 _on_reached_first_station_for_power_line()
         BotCommand.DESTROY_STATION:
             _on_reached_station_to_destroy()
-        BotCommand.REPAIR_STATION:
+        BotCommand.STATION_REPAIR:
             pass
         BotCommand.BUILD_STATION:
             _on_reached_station_to_build()
@@ -636,7 +636,7 @@ func _get_radial_menu_items() -> Array:
         command_item.id = type
         command_item.description = Commands.COMMAND_LABELS[type]
         command_item.texture = Commands.TEXTURES[type]
-        command_item.disabled_message = Sc.level.command_enablement[type]
+        command_item.disabled_message = get_disabled_message(type)
         result.push_back(command_item)
     return result
 
@@ -649,6 +649,19 @@ func _get_radial_menu_item_types() -> Array:
 
 func _on_command_enablement_changed() -> void:
     update_info_panel_contents()
+    if Sc.gui.hud.get_is_radial_menu_open() and \
+            Sc.gui.hud._radial_menu.metadata == self:
+        for item in Sc.gui.hud._radial_menu._items:
+            item.disabled_message = get_disabled_message(item.id)
+
+
+func get_disabled_message(command: int) -> String:
+    var message: String = Sc.level.command_enablement[command]
+    if message != "":
+        return message
+    match command:
+        _:
+            return ""
 
 
 func get_health() -> int:
