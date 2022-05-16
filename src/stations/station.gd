@@ -4,10 +4,10 @@ class_name Station, \
 extends ShapedLevelControl
 
 
-const _OVERLAY_BUTTON_PANEL_CLASS := \
-        preload("res://src/gui/overlay_button_panel.tscn")
+const _OVERLAY_BUTTON_PANEL_CLASS := preload(
+    "res://src/gui/overlay_button_panel.tscn")
 const _VIEWPORT_CENTER_REGION_DETECTOR_SCENE := preload(
-        "res://addons/scaffolder/src/camera/camera_detector/viewport_center_region_detector.tscn")
+    "res://addons/scaffolder/src/camera/camera_detector/viewport_center_region_detector.tscn")
 const _STATUS_OVERLAY_SCENE := preload("res://src/gui/status_overlay.tscn")
 
 const _CAMERA_DETECTOR_VIEWPORT_RATIO := Vector2(0.95, 0.95)
@@ -245,7 +245,7 @@ func open_radial_menu() -> void:
 func close_radial_menu() -> void:
     if is_instance_valid(Sc.gui.hud._radial_menu) and \
             Sc.gui.hud._radial_menu.metadata == self:
-        close_radial_menu()
+        Sc.gui.hud.close_radial_menu()
 
 
 func get_is_own_info_panel_shown() -> bool:
