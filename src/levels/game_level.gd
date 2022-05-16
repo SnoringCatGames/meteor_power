@@ -258,7 +258,8 @@ func _on_radial_menu_closed() -> void:
 func _on_active_player_character_changed() -> void:
     ._on_active_player_character_changed()
     
-    if _previous_active_player_character == selected_bot:
+    if _previous_active_player_character == selected_bot and \
+            is_instance_valid(selected_bot):
         selected_bot.set_is_selected(false)
     
     if is_instance_valid(selected_bot) and \

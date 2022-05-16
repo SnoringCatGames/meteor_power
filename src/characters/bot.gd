@@ -217,6 +217,9 @@ func open_radial_menu() -> void:
             "touch_up_center", self, "_on_radial_menu_touch_up_center")
     radial_menu.connect(
             "touch_up_outside", self, "_on_radial_menu_touch_up_outside")
+    if !(behavior is PlayerNavigationBehavior) and \
+            !(behavior is DefaultBehavior):
+        get_behavior(DefaultBehavior).is_active = true
 
 
 func close_radial_menu() -> void:
@@ -503,15 +506,19 @@ func _on_command_ended() -> void:
     
     command = Command.UNKNOWN
     is_active = false
-    is_new = is_initial_nav
+    is_new = false
     is_stopping = false
-    is_initial_nav = false
     
     target_station = null
     next_target_station = null
     if is_instance_valid(held_power_line):
         Sc.level.remove_power_line(held_power_line)
     held_power_line = null
+    
+    if is_initial_nav:
+        default_behavior = get_behavior(WanderBehavior)
+        is_initial_nav = false
+        is_new = true
     
     _update_status()
 
@@ -620,6 +627,8 @@ func _on_radial_menu_item_selected(item: RadialMenuItem) -> void:
             set_is_selected(true)
             set_is_player_control_active(false)
             update_info_panel_visibility(true)
+            if behavior is DefaultBehavior:
+                get_behavior(WanderBehavior).trigger(false)
         _:
             Sc.logger.error("Bot._on_radial_menu_item_selected")
 
@@ -630,6 +639,8 @@ func _on_radial_menu_touch_up_center() -> void:
 
 func _on_radial_menu_touch_up_outside() -> void:
     set_is_selected(false)
+    if behavior is DefaultBehavior:
+        get_behavior(WanderBehavior).trigger(false)
 
 
 func _process_sounds() -> void:
