@@ -35,6 +35,7 @@ var is_powered_on := true
 var is_stopping := false
 var is_hovered := false
 
+var is_initial_nav := false
 var is_triggering_new_navigation := false
 
 var total_movement_time := 0.0
@@ -84,6 +85,23 @@ func _ready() -> void:
     status_overlay.set_up()
     
     _update_status()
+    
+    _walk_to_side_of_command_center()
+    is_initial_nav = true
+    is_new = true
+    _update_status()
+
+
+func _walk_to_side_of_command_center() -> void:
+    var target_point := Vector2(
+        Sc.level.command_center.get_bounds().end.x,
+        Sc.level.command_center.position.y)
+    var surface: Surface = \
+        Sc.level.command_center.get_position_along_surface(self).surface
+    var destination := PositionAlongSurfaceFactory \
+        .create_position_offset_from_target_point(
+            target_point, surface, collider, true)
+    navigator.navigate_to_position(destination)
 
 
 func _destroy() -> void:
@@ -469,6 +487,7 @@ func _on_command_started(command: int) -> void:
     is_active = true
     is_new = false
     is_stopping = false
+    is_initial_nav = false
     
     target_station = null
     next_target_station = null
@@ -484,8 +503,9 @@ func _on_command_ended() -> void:
     
     command = Command.UNKNOWN
     is_active = false
-    is_new = false
+    is_new = is_initial_nav
     is_stopping = false
+    is_initial_nav = false
     
     target_station = null
     next_target_station = null

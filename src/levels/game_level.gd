@@ -597,15 +597,11 @@ func replace_station(
         Command.STATION_EMPTY:
             station_scene = _EMPTY_STATION_SCENE
         _:
-            Sc.logger.error("GameLevel.add_station")
-    var new_station := Sc.utils.add_scene($Stations, station_scene)
+            Sc.logger.error("GameLevel.replace_station")
+    var new_station := station_scene.instance()
     new_station.position = station_position
+    $Stations.add_child(new_station)
     _on_station_created(new_station)
-
-
-func add_station(station: Station) -> void:
-    $Stations.add_child(station)
-    _on_station_created(station)
 
 
 func remove_station(station: Station) -> void:
