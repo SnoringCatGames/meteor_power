@@ -21,7 +21,7 @@ var status_overlay: StatusOverlay
 var held_power_line: DynamicPowerLine
 
 var status := BotStatus.NEW
-var command := Commands.UNKNOWN
+var command := Command.UNKNOWN
 
 var target_station: Station
 var next_target_station: Station
@@ -39,7 +39,7 @@ var total_movement_time := 0.0
 
 var viewport_position_outline_alpha_multiplier := 0.0
 
-var entity_command_type := Commands.UNKNOWN
+var entity_command_type := Command.UNKNOWN
 
 var _health := 0
 var _health_capacity := 0
@@ -107,11 +107,11 @@ func _physics_process(delta: float) -> void:
     
     if int(previous_total_movement_time / MOVEMENT_ENERGY_DRAIN_PERIOD) != \
             int(total_movement_time / MOVEMENT_ENERGY_DRAIN_PERIOD):
-        Sc.level.deduct_energy(Costs.BOT_MOVE)
+        Sc.level.deduct_energy(Cost.BOT_MOVE)
     
     if int(previous_total_time / CONSTANT_ENERGY_DRAIN_PERIOD) != \
             int(total_time / CONSTANT_ENERGY_DRAIN_PERIOD):
-        Sc.level.deduct_energy(Costs.BOT_ALIVE)
+        Sc.level.deduct_energy(Cost.BOT_ALIVE)
     
     if did_move_last_frame:
         _update_highlight_for_camera_position()
@@ -291,7 +291,7 @@ func move_to_attach_power_line(
         destination_station: Station) -> void:
     if origin_station == destination_station:
         return
-    _on_command_started(Commands.RUN_WIRE)
+    _on_command_started(Command.RUN_WIRE)
     self.target_station = origin_station
     self.next_target_station = destination_station
     _navigate_to_target_station()
@@ -303,7 +303,7 @@ func _on_reached_first_station_for_power_line() -> void:
     Sc.logger.print(
         "Bot._on_reached_first_station_for_power_line: bot=%s, station=%s, p=%s" % [
             self.character_name,
-            Commands.get_string(target_station.entity_command_type),
+            Command.get_string(target_station.entity_command_type),
             target_station.position,
         ])
     assert(is_instance_valid(target_station))
@@ -319,7 +319,7 @@ func _on_reached_first_station_for_power_line() -> void:
             PowerLine.HELD_BY_BOT)
     Sc.level.add_power_line(held_power_line)
     _navigate_to_target_station()
-    Sc.level.deduct_energy(Costs.RUN_WIRE)
+    Sc.level.deduct_energy(Cost.RUN_WIRE)
 
 
 func _on_reached_second_station_for_power_line() -> void:
@@ -328,12 +328,12 @@ func _on_reached_second_station_for_power_line() -> void:
     Sc.logger.print(
         "Bot._on_reached_second_station_for_power_line: bot=%s, station=%s, p=%s" % [
             self.character_name,
-            Commands.get_string(target_station.entity_command_type),
+            Command.get_string(target_station.entity_command_type),
             target_station.position,
         ])
     assert(is_instance_valid(held_power_line))
     self.held_power_line._on_connected()
-    Sc.level.deduct_energy(Costs.RUN_WIRE)
+    Sc.level.deduct_energy(Cost.RUN_WIRE)
     _on_command_ended()
 
 
@@ -358,16 +358,16 @@ func _on_reached_station_to_build() -> void:
     Sc.logger.print(
         "Bot._on_reached_station_to_build: bot=%s, station=%s, p=%s" % [
             self.character_name,
-            Commands.get_string(target_station.entity_command_type),
+            Command.get_string(target_station.entity_command_type),
             target_station.position,
         ])
     Sc.level.replace_station(target_station, command)
-    Sc.level.deduct_energy(Commands.COSTS[command])
+    Sc.level.deduct_energy(Command.COSTS[command])
     _on_command_ended()
 
 
 func move_to_destroy_station(station: Station) -> void:
-    _on_command_started(Commands.STATION_RECYCLE)
+    _on_command_started(Command.STATION_RECYCLE)
     self.target_station = station
     _navigate_to_target_station()
 
@@ -378,17 +378,17 @@ func _on_reached_station_to_destroy() -> void:
     Sc.logger.print(
         "Bot._on_reached_station_to_destroy: bot=%s, station=%s, p=%s" % [
             self.character_name,
-            Commands.get_string(target_station.entity_command_type),
+            Command.get_string(target_station.entity_command_type),
             target_station.position,
         ])
     assert(is_instance_valid(target_station))
-    Sc.level.replace_station(target_station, Commands.STATION_EMPTY)
-    Sc.level.deduct_energy(Costs.STATION_RECYCLE)
+    Sc.level.replace_station(target_station, Command.STATION_EMPTY)
+    Sc.level.deduct_energy(Cost.STATION_RECYCLE)
     _on_command_ended()
 
 
 func move_to_recycle_self() -> void:
-    _on_command_started(Commands.BOT_RECYCLE)
+    _on_command_started(Command.BOT_RECYCLE)
     self.target_station = Sc.level.command_center
     _navigate_to_target_station()
 
@@ -403,7 +403,7 @@ func _on_reached_station_to_recycle_self() -> void:
             target_station.position,
         ])
     assert(is_instance_valid(target_station))
-    Sc.level.deduct_energy(Commands.COSTS[Commands.BOT_RECYCLE])
+    Sc.level.deduct_energy(Command.COSTS[Command.BOT_RECYCLE])
     _on_command_ended()
     Sc.level.remove_bot(self)
 
@@ -422,12 +422,12 @@ func _on_reached_station_to_build_bot() -> void:
     Sc.logger.print(
         "Bot._on_reached_station_to_build_bot: bot=%s, bot_to_build=%s, p=%s" % [
             self.character_name,
-            Commands.get_string(command),
+            Command.get_string(command),
             target_station.position,
         ])
     assert(is_instance_valid(target_station))
     Sc.level.add_bot(command)
-    Sc.level.deduct_energy(Commands.COSTS[command])
+    Sc.level.deduct_energy(Command.COSTS[command])
     _on_command_ended()
 
 
@@ -453,7 +453,7 @@ func _stop_nav() -> void:
 
 func _on_command_started(command: int) -> void:
 #    Sc.logger.print(
-#            "Bot._on_command_started: %s" % Commands.get_string(command))
+#            "Bot._on_command_started: %s" % Command.get_string(command))
     
     Sc.audio.play_sound("command_acc")
     
@@ -472,9 +472,9 @@ func _on_command_started(command: int) -> void:
 
 func _on_command_ended() -> void:
 #    Sc.logger.print(
-#            "Bot._on_command_ended: %s" % Commands.get_string(command))
+#            "Bot._on_command_ended: %s" % Command.get_string(command))
     
-    command = Commands.UNKNOWN
+    command = Command.UNKNOWN
     is_active = false
     is_new = false
     is_stopping = false
@@ -507,7 +507,7 @@ func _on_navigation_started(is_retry: bool) -> void:
 #    Sc.logger.print("Bot._on_navigation_started: %s" % \
 #            str(navigation_state.is_triggered_by_player_selection))
     if navigation_state.is_triggered_by_player_selection:
-        _on_command_started(Commands.BOT_MOVE)
+        _on_command_started(Command.BOT_MOVE)
     show_exclamation_mark()
     set_is_selected(false)
 
@@ -542,32 +542,32 @@ func _on_started_colliding_deferred(
 
 func _on_hit_by_meteor() -> void:
     Sc.level.session.meteors_collided_count += 1
-    Sc.level.deduct_energy(Costs.BOT_HIT)
-    var damage := Healths.METEOR_DAMAGE
-    # FIXME: --------------- Consider modifying damage depending on Upgrades.
+    Sc.level.deduct_energy(Cost.BOT_HIT)
+    var damage := Health.METEOR_DAMAGE
+    # FIXME: --------------- Consider modifying damage depending on Upgrade.
     modify_health(-damage)
 
 
 func _on_reached_target_station() -> void:
     match command:
-        Commands.RUN_WIRE:
+        Command.RUN_WIRE:
             if is_instance_valid(held_power_line):
                 _on_reached_second_station_for_power_line()
             else:
                 _on_reached_first_station_for_power_line()
-        Commands.STATION_RECYCLE:
+        Command.STATION_RECYCLE:
             _on_reached_station_to_destroy()
-        Commands.STATION_REPAIR:
+        Command.STATION_REPAIR:
             pass
-        Commands.STATION_SOLAR, \
-        Commands.STATION_SCANNER, \
-        Commands.STATION_BATTERY:
+        Command.STATION_SOLAR, \
+        Command.STATION_SCANNER, \
+        Command.STATION_BATTERY:
             _on_reached_station_to_build()
-        Commands.BOT_RECYCLE:
+        Command.BOT_RECYCLE:
             _on_reached_station_to_recycle_self()
-        Commands.BOT_CONSTRUCTOR, \
-        Commands.BOT_LINE_RUNNER, \
-        Commands.BOT_BARRIER:
+        Command.BOT_CONSTRUCTOR, \
+        Command.BOT_LINE_RUNNER, \
+        Command.BOT_BARRIER:
             _on_reached_station_to_build_bot()
         _:
             Sc.logger.error(
@@ -577,17 +577,17 @@ func _on_reached_target_station() -> void:
 
 func _on_radial_menu_item_selected(item: RadialMenuItem) -> void:
     match item.id:
-        Commands.BOT_COMMAND:
+        Command.BOT_COMMAND:
             set_is_player_control_active(true)
-        Commands.BOT_STOP:
+        Command.BOT_STOP:
             set_is_selected(false)
             update_info_panel_visibility(false)
             stop()
-        Commands.BOT_RECYCLE:
+        Command.BOT_RECYCLE:
             set_is_selected(false)
             update_info_panel_visibility(false)
             move_to_recycle_self()
-        Commands.BOT_INFO:
+        Command.BOT_INFO:
             set_is_selected(true)
             set_is_player_control_active(false)
             update_info_panel_visibility(true)
@@ -615,10 +615,10 @@ func _process_sounds() -> void:
 
 func _get_common_radial_menu_item_types() -> Array:
     return [
-        Commands.BOT_COMMAND,
-        Commands.BOT_STOP,
-        Commands.BOT_RECYCLE,
-        Commands.BOT_INFO,
+        Command.BOT_COMMAND,
+        Command.BOT_STOP,
+        Command.BOT_RECYCLE,
+        Command.BOT_INFO,
     ]
 
 
@@ -627,10 +627,10 @@ func _get_radial_menu_items() -> Array:
     var result := []
     for type in types:
         var command_item := GameRadialMenuItem.new()
-        command_item.cost = Commands.COSTS[type]
+        command_item.cost = Command.COSTS[type]
         command_item.id = type
-        command_item.description = Commands.COMMAND_LABELS[type]
-        command_item.texture = Commands.TEXTURES[type]
+        command_item.description = Command.COMMAND_LABELS[type]
+        command_item.texture = Command.TEXTURES[type]
         command_item.disabled_message = get_disabled_message(type)
         result.push_back(command_item)
     return result
@@ -668,10 +668,10 @@ func get_health_capacity() -> int:
 
 
 func _get_health_capacity() -> int:
-    var base_capacity: int = Healths.get_default_capacity(entity_command_type)
+    var base_capacity: int = Health.get_default_capacity(entity_command_type)
     
     # FIXME: -------------------------
-    # - Modify health-capacity for Upgrades.
+    # - Modify health-capacity for Upgrade.
     # - Update health-capacity when linking to mothership.
     
     return base_capacity

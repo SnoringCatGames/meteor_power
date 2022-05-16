@@ -1,4 +1,4 @@
-class_name TutorialModes
+class_name TutorialMode
 extends Reference
 
 
@@ -19,5 +19,5 @@ static func get_string(type: int) -> String:
         NONE:
             return "NONE"
         _:
-            Sc.logger.error("TutorialModes.get_string")
+            Sc.logger.error("TutorialMode.get_string")
             return ""

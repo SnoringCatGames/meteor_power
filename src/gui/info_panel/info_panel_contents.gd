@@ -7,7 +7,7 @@ const _INFO_PANEL_COMMAND_ROW_SCENE := preload(
     "res://src/gui/info_panel/info_panel_command_row.tscn")
 
 var entity
-var entity_command_type := Commands.UNKNOWN
+var entity_command_type := Command.UNKNOWN
 # Array<InfoPanelCommandRow>
 var command_rows := []
 
@@ -26,7 +26,7 @@ func set_up(entity) -> void:
     
     # Render bulleted description rows.
     var description_lines: Array = \
-        Commands.ENTITY_DESCRIPTIONS[entity_command_type]
+        Command.ENTITY_DESCRIPTIONS[entity_command_type]
     for line in description_lines:
         var row := HBoxContainer.new()
         $Description.add_child(row)
@@ -53,8 +53,8 @@ func set_up(entity) -> void:
     # Render command rows.
     var commands: Array = entity._get_radial_menu_item_types()
     for command in commands:
-        if command == Commands.STATION_INFO or \
-                command == Commands.BOT_INFO:
+        if command == Command.STATION_INFO or \
+                command == Command.BOT_INFO:
             continue
         var row: InfoPanelCommandRow = \
             Sc.utils.add_scene($Commands, _INFO_PANEL_COMMAND_ROW_SCENE)
@@ -64,11 +64,11 @@ func set_up(entity) -> void:
     $Status/HealthLabel.entity = entity
     $Status/HealthLabel.set_up()
     
-    var is_empty_station := entity_command_type == Commands.STATION_EMPTY
+    var is_empty_station := entity_command_type == Command.STATION_EMPTY
     $Status.visible = !is_empty_station
     $UpgradesSeparator.visible = !is_empty_station
     $UpgradesLabel.visible = !is_empty_station
-    $Upgrades.visible = !is_empty_station
+    $Upgrade.visible = !is_empty_station
     
     update()
 
@@ -87,7 +87,7 @@ func update() -> void:
 
 
 func get_data() -> InfoPanelData:
-    var name: String = Commands.ENTITY_NAMES[entity_command_type]
+    var name: String = Command.ENTITY_NAMES[entity_command_type]
     var data := InfoPanelData.new(name, self)
     data.meta = entity
     return data

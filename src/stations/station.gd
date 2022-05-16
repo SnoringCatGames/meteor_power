@@ -43,7 +43,7 @@ var is_connectable := true
 
 var shield_activated := false
 
-var entity_command_type := Commands.UNKNOWN
+var entity_command_type := Command.UNKNOWN
 
 var start_time := INF
 var previous_total_time := INF
@@ -115,7 +115,7 @@ func _physics_process(delta: float) -> void:
     
     if int(previous_total_shield_time / SHIELD_ENERGY_DRAIN_PERIOD) != \
             int(total_shield_time / SHIELD_ENERGY_DRAIN_PERIOD):
-        Sc.level.deduct_energy(Costs.STATION_SHIELD)
+        Sc.level.deduct_energy(Cost.STATION_SHIELD)
 
 
 func _set_up_camera_detector() -> void:
@@ -156,7 +156,7 @@ func _on_level_started() -> void:
 
 func _on_button_pressed(button_type: int) -> void:
     match button_type:
-        Commands.STATION_LINK_TO_MOTHERSHIP:
+        Command.STATION_LINK_TO_MOTHERSHIP:
             # FIXME: LEFT OFF HERE: ----------------------------------------
             # - Show a fancy energy-field shimmer effect over all bots and
             #   stations to indicate the boost.
@@ -164,16 +164,16 @@ func _on_button_pressed(button_type: int) -> void:
             # - Animate a fancy beaming-up effect from the command center.
             # - Show a persistent beaming-up ray from the command center?
             Sc.level.did_level_succeed = true
-            Sc.level.deduct_energy(Costs.STATION_LINK_TO_MOTHERSHIP)
+            Sc.level.deduct_energy(Cost.STATION_LINK_TO_MOTHERSHIP)
             set_is_selected(false)
             update_info_panel_visibility(false)
         
-        Commands.STATION_STOP:
+        Command.STATION_STOP:
             set_is_selected(false)
             update_info_panel_visibility(false)
             Sc.level.clear_station_power_line_selection()
         
-        Commands.STATION_RECYCLE:
+        Command.STATION_RECYCLE:
             # FIXME: LEFT OFF HERE: ----------------------------------------
             pass
             set_is_selected(false)
@@ -181,29 +181,29 @@ func _on_button_pressed(button_type: int) -> void:
             var bot = Sc.level.get_bot_for_station_command(self, button_type)
             bot.move_to_destroy_station(self)
         
-        Commands.STATION_INFO:
+        Command.STATION_INFO:
             set_is_selected(true)
             update_info_panel_visibility(true)
         
-        Commands.RUN_WIRE:
+        Command.RUN_WIRE:
             # FIXME: LEFT OFF HERE: ----------------------------------------
             pass
             set_is_selected(true)
             update_info_panel_visibility(false)
             Sc.level.set_selected_station_for_running_power_line(self)
         
-        Commands.STATION_COMMAND, \
-        Commands.STATION_SOLAR, \
-        Commands.STATION_SCANNER, \
-        Commands.STATION_BATTERY:
+        Command.STATION_COMMAND, \
+        Command.STATION_SOLAR, \
+        Command.STATION_SCANNER, \
+        Command.STATION_BATTERY:
             set_is_selected(false)
             update_info_panel_visibility(false)
             var bot = Sc.level.get_bot_for_station_command(self, button_type)
             _build_station(button_type, bot)
         
-        Commands.BOT_CONSTRUCTOR, \
-        Commands.BOT_LINE_RUNNER, \
-        Commands.BOT_BARRIER:
+        Command.BOT_CONSTRUCTOR, \
+        Command.BOT_LINE_RUNNER, \
+        Command.BOT_BARRIER:
             # FIXME: LEFT OFF HERE: ----------------------------------------
             pass
             var bot = Sc.level.get_bot_for_station_command(self, button_type)
@@ -212,7 +212,7 @@ func _on_button_pressed(button_type: int) -> void:
         _:
             Sc.logger.error("Station._on_button_pressed")
     
-    if button_type != Commands.RUN_WIRE:
+    if button_type != Command.RUN_WIRE:
         Sc.level.clear_station_power_line_selection()
 
 
@@ -320,7 +320,7 @@ func _on_touch_down(
         Sc.level.selected_bot.set_is_player_control_active(false)
         
         if Sc.level.get_is_first_station_selected_for_running_power_line():
-            _on_button_pressed(Commands.RUN_WIRE)
+            _on_button_pressed(Command.RUN_WIRE)
             return
     
     open_radial_menu()
@@ -502,7 +502,7 @@ func _check_is_connected_to_command_center_recursive(
         visited_stations: Dictionary) -> bool:
     visited_stations[station] = true
     for other_station in station.connections:
-        if other_station.entity_command_type == Commands.STATION_COMMAND:
+        if other_station.entity_command_type == Command.STATION_COMMAND:
             return true
         if visited_stations.has(other_station):
             continue
@@ -536,17 +536,17 @@ func _on_disconnected_from_command_center() -> void:
 func _on_hit_by_meteor() -> void:
     Sc.level.session.meteors_collided_count += 1
     if !shield_activated:
-        Sc.level.deduct_energy(Costs.STATION_HIT)
-        var damage := Healths.METEOR_DAMAGE
-        # FIXME: --------------- Consider modifying damage depending on Upgrades.
+        Sc.level.deduct_energy(Cost.STATION_HIT)
+        var damage := Health.METEOR_DAMAGE
+        # FIXME: --------------- Consider modifying damage depending on Upgrade.
         modify_health(-damage)
 
 
 func _get_common_radial_menu_item_types() -> Array:
     return [
-        Commands.RUN_WIRE,
-        Commands.STATION_RECYCLE,
-        Commands.STATION_INFO,
+        Command.RUN_WIRE,
+        Command.STATION_RECYCLE,
+        Command.STATION_INFO,
     ]
 
 
@@ -555,10 +555,10 @@ func _get_radial_menu_items() -> Array:
     var result := []
     for type in types:
         var command_item := GameRadialMenuItem.new()
-        command_item.cost = Commands.COSTS[type]
+        command_item.cost = Command.COSTS[type]
         command_item.id = type
-        command_item.description = Commands.COMMAND_LABELS[type]
-        command_item.texture = Commands.TEXTURES[type]
+        command_item.description = Command.COMMAND_LABELS[type]
+        command_item.texture = Command.TEXTURES[type]
         command_item.disabled_message = get_disabled_message(type)
         result.push_back(command_item)
     return result
@@ -584,9 +584,9 @@ func get_disabled_message(command: int) -> String:
     if message != "":
         return message
     match command:
-        Commands.STATION_REPAIR:
+        Command.STATION_REPAIR:
             if _health >= _health_capacity:
-                return Descriptions.ALREADY_AT_FULL_HEALTH
+                return Description.ALREADY_AT_FULL_HEALTH
         _:
             pass
     return ""
@@ -601,10 +601,10 @@ func get_health_capacity() -> int:
 
 
 func _get_health_capacity() -> int:
-    var base_capacity: int = Healths.get_default_capacity(entity_command_type)
+    var base_capacity: int = Health.get_default_capacity(entity_command_type)
     
     # FIXME: -------------------------
-    # - Modify health-capacity for Upgrades.
+    # - Modify health-capacity for Upgrade.
     # - Update health-capacity when linking to mothership.
     
     return base_capacity

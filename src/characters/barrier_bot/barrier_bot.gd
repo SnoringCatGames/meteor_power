@@ -3,7 +3,7 @@ class_name BarrierBot
 extends Bot
 
 
-const ENTITY_COMMAND_TYPE := Commands.BOT_BARRIER
+const ENTITY_COMMAND_TYPE := Command.BOT_BARRIER
 
 
 func _init().(ENTITY_COMMAND_TYPE) -> void:

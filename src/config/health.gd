@@ -1,4 +1,4 @@
-class_name Healths
+class_name Health
 extends Reference
 
 
@@ -19,27 +19,27 @@ const METEOR_DAMAGE := 100
 
 static func get_default_capacity(entity_command_type: int) -> int:
     match entity_command_type:
-        Commands.BOT_CONSTRUCTOR:
+        Command.BOT_CONSTRUCTOR:
             return BOT_CONSTRUCTOR
-        Commands.BOT_LINE_RUNNER:
+        Command.BOT_LINE_RUNNER:
             return BOT_LINE_RUNNER
-        Commands.BOT_BARRIER:
+        Command.BOT_BARRIER:
             return BOT_BARRIER
         
-        Commands.STATION_COMMAND:
+        Command.STATION_COMMAND:
             return STATION_COMMAND
-        Commands.STATION_SOLAR:
+        Command.STATION_SOLAR:
             return STATION_SOLAR
-        Commands.STATION_SCANNER:
+        Command.STATION_SCANNER:
             return STATION_SCANNER
-        Commands.STATION_BATTERY:
+        Command.STATION_BATTERY:
             return STATION_BATTERY
-        Commands.STATION_EMPTY:
+        Command.STATION_EMPTY:
             return STATION_EMPTY
         
-        Commands.RUN_WIRE:
+        Command.RUN_WIRE:
             return POWER_LINE
         
         _:
-            Sc.logger.error("Healths.get_default_capacity")
+            Sc.logger.error("Health.get_default_capacity")
             return -1

@@ -87,8 +87,8 @@ func _draw_polyline() -> void:
 
 func _on_hit_by_meteor() -> void:
     Sc.level.session.meteors_collided_count += 1
-    var damage := Healths.METEOR_DAMAGE
-    # FIXME: --------------- Consider modifying damage depending on Upgrades.
+    var damage := Health.METEOR_DAMAGE
+    # FIXME: --------------- Consider modifying damage depending on Upgrade.
     modify_health(-damage)
 
 
@@ -120,10 +120,10 @@ func _update_highlight_for_camera_position() -> void:
 
 
 func _get_health_capacity() -> int:
-    var base_capacity: int = Healths.POWER_LINE
+    var base_capacity: int = Health.POWER_LINE
     
     # FIXME: -------------------------
-    # - Modify health-capacity for Upgrades.
+    # - Modify health-capacity for Upgrade.
     # - Update health-capacity when linking to mothership.
     
     return base_capacity

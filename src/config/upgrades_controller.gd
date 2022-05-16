@@ -35,10 +35,10 @@ func _init() -> void:
 
 
 func load_unlocked_upgrades() -> void:
-    _unlocked_upgrades.resize(Upgrades.VALUES.size())
-    for upgrade in Upgrades.VALUES:
+    _unlocked_upgrades.resize(Upgrade.VALUES.size())
+    for upgrade in Upgrade.VALUES:
         var unlocked: bool = Sc.save_state.get_setting(
-            UNLOCKED_UPGRADE_SETTINGS_KEY_PREFIX + Upgrades.get_string(upgrade),
+            UNLOCKED_UPGRADE_SETTINGS_KEY_PREFIX + Upgrade.get_string(upgrade),
             false)
         _unlocked_upgrades[upgrade] = unlocked
         if unlocked:
@@ -52,7 +52,7 @@ func set_unlocked(
     if was_unlocked != unlocked:
         _unlocked_upgrades[upgrade] = unlocked
         Sc.save_state.set_setting(
-            UNLOCKED_UPGRADE_SETTINGS_KEY_PREFIX + Upgrades.get_string(upgrade),
+            UNLOCKED_UPGRADE_SETTINGS_KEY_PREFIX + Upgrade.get_string(upgrade),
             unlocked)
         if unlocked:
             _unlocked_count += 1

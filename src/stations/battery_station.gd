@@ -3,7 +3,7 @@ class_name BatteryStation
 extends Station
 
 
-const ENTITY_COMMAND_TYPE := Commands.STATION_BATTERY
+const ENTITY_COMMAND_TYPE := Command.STATION_BATTERY
 const IS_CONNECTABLE := true
 
 
@@ -13,16 +13,16 @@ func _init().(ENTITY_COMMAND_TYPE, IS_CONNECTABLE) -> void:
 
 func get_buttons() -> Array:
     return [
-        Commands.RUN_WIRE,
-#        Commands.STATION_RECYCLE,
+        Command.RUN_WIRE,
+#        Command.STATION_RECYCLE,
     ]
 
 
 func _get_radial_menu_item_types() -> Array:
     return [
-        Commands.RUN_WIRE,
-        Commands.STATION_RECYCLE,
-        Commands.STATION_INFO,
+        Command.RUN_WIRE,
+        Command.STATION_RECYCLE,
+        Command.STATION_INFO,
     ]
 
 

@@ -1,4 +1,4 @@
-class_name Descriptions
+class_name Description
 extends Reference
 
 

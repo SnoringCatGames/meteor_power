@@ -1,4 +1,4 @@
-class_name Upgrades
+class_name Upgrade
 extends Reference
 
 
@@ -128,5 +128,5 @@ static func get_string(type: int) -> String:
             return "INTER_STELLAR_TRAVEL_4"
         
         _:
-            Sc.logger.error("TutorialModes.get_string")
+            Sc.logger.error("TutorialMode.get_string")
             return ""

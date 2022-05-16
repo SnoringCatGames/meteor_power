@@ -1,4 +1,4 @@
-class_name Costs
+class_name Cost
 extends Reference
 
 

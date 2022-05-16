@@ -3,7 +3,7 @@ class_name CommandCenter
 extends Station
 
 
-const ENTITY_COMMAND_TYPE := Commands.STATION_COMMAND
+const ENTITY_COMMAND_TYPE := Command.STATION_COMMAND
 const IS_CONNECTABLE := false
 
 
@@ -13,19 +13,19 @@ func _init().(ENTITY_COMMAND_TYPE, IS_CONNECTABLE) -> void:
 
 func get_buttons() -> Array:
     return [
-        Commands.RUN_WIRE,
-#        Commands.BOT_CONSTRUCTOR,
-#        Commands.BOT_LINE_RUNNER,
-#        Commands.BOT_BARRIER,
+        Command.RUN_WIRE,
+#        Command.BOT_CONSTRUCTOR,
+#        Command.BOT_LINE_RUNNER,
+#        Command.BOT_BARRIER,
     ]
 
 
 func _get_radial_menu_item_types() -> Array:
     return [
-        Commands.RUN_WIRE,
-        Commands.BOT_CONSTRUCTOR,
-        Commands.STATION_LINK_TO_MOTHERSHIP,
-        Commands.STATION_INFO,
+        Command.RUN_WIRE,
+        Command.BOT_CONSTRUCTOR,
+        Command.STATION_LINK_TO_MOTHERSHIP,
+        Command.STATION_INFO,
     ]
 
 

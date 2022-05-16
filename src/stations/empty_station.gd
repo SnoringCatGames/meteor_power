@@ -3,7 +3,7 @@ class_name EmptyStation
 extends Station
 
 
-const ENTITY_COMMAND_TYPE := Commands.STATION_EMPTY
+const ENTITY_COMMAND_TYPE := Command.STATION_EMPTY
 const IS_CONNECTABLE := false
 
 
@@ -15,13 +15,13 @@ func _build_station(
         button_type: int,
         bot) -> void:
     match button_type:
-        Commands.STATION_SOLAR:
+        Command.STATION_SOLAR:
             bot.move_to_build_station(self, button_type)
-        Commands.STATION_SCANNER:
+        Command.STATION_SCANNER:
             bot.move_to_build_station(self, button_type)
-        Commands.STATION_BATTERY:
+        Command.STATION_BATTERY:
             bot.move_to_build_station(self, button_type)
-        Commands.STATION_COMMAND, \
+        Command.STATION_COMMAND, \
         _:
             Sc.logger.error("EmptyStation._on_station_button_pressed")
 
@@ -32,16 +32,16 @@ func _get_normal_highlight_color() -> Color:
 
 func get_buttons() -> Array:
     return [
-#        Commands.STATION_SOLAR,
+#        Command.STATION_SOLAR,
     ]
 
 
 func _get_radial_menu_item_types() -> Array:
     return [
-        Commands.STATION_SOLAR,
-        Commands.STATION_SCANNER,
-        Commands.STATION_BATTERY,
-        Commands.STATION_INFO,
+        Command.STATION_SOLAR,
+        Command.STATION_SCANNER,
+        Command.STATION_BATTERY,
+        Command.STATION_INFO,
     ]
 
 

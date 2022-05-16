@@ -56,7 +56,7 @@ var command_enablement := []
 # Array<String>
 var previous_command_enablement := []
 
-var tutorial_mode := TutorialModes.NONE
+var tutorial_mode := TutorialMode.NONE
 
 var first_selected_station_for_running_power_line: Station = null
 
@@ -83,11 +83,11 @@ func _ready() -> void:
     
     _overlay_buttons_fade_tween = ScaffolderTween.new(self)
     
-    for command in Commands.VALUES:
-        _max_command_cost = max(_max_command_cost, Commands.COSTS[command])
+    for command in Command.VALUES:
+        _max_command_cost = max(_max_command_cost, Command.COSTS[command])
     
-    command_enablement.resize(Commands.VALUES.size())
-    for command in Commands.VALUES:
+    command_enablement.resize(Command.VALUES.size())
+    for command in Command.VALUES:
         command_enablement[command] = ""
     previous_command_enablement = command_enablement.duplicate()
 
@@ -121,7 +121,7 @@ func _start() -> void:
         _on_station_created(empty_station, true)
     
     # Always start with a constructor bot.
-    var starting_bot := add_bot(Commands.BOT_CONSTRUCTOR, true)
+    var starting_bot := add_bot(Command.BOT_CONSTRUCTOR, true)
     # FIXME: ------------------- REMOVE.
     starting_bot.position.x += 96.0
     
@@ -198,9 +198,9 @@ func quit(
     # -   Unless we are restarting.
     has_finished = !session._is_restarting and did_level_succeed
     if did_level_succeed:
-        session._game_over_explanation = Descriptions.LEVEL_SUCCESS_EXPLANATION
+        session._game_over_explanation = Description.LEVEL_SUCCESS_EXPLANATION
     else:
-        session._game_over_explanation = Descriptions.LEVEL_FAILURE_EXPLANATION
+        session._game_over_explanation = Description.LEVEL_FAILURE_EXPLANATION
     for bot in bots:
         session.bot_pixels_travelled += bot.distance_travelled
     .quit(has_finished, immediately)
@@ -389,63 +389,63 @@ func add_energy(energy: int) -> void:
 func update_command_enablement() -> void:
     # Disable any command for which there isn't enough energy.
     if session.current_energy < _max_command_cost:
-        for command in Commands.VALUES:
+        for command in Command.VALUES:
             var previous_enablement: bool = command_enablement[command] == ""
             var next_enablement: bool = \
-                Commands.COSTS[command] <= session.current_energy
+                Command.COSTS[command] <= session.current_energy
             if previous_enablement != next_enablement:
                 command_enablement[command] = \
                     "" if \
                     next_enablement else \
-                    Descriptions.NOT_ENOUGH_ENERGY
+                    Description.NOT_ENOUGH_ENERGY
     
     # Disable bot-creation when at max bot capacity.
     if session.total_bot_count >= session.bot_capacity:
-        command_enablement[Commands.BOT_CONSTRUCTOR] = \
-            Descriptions.MAX_BOT_CAPACITY
-        command_enablement[Commands.BOT_LINE_RUNNER] = \
-            Descriptions.MAX_BOT_CAPACITY
-        command_enablement[Commands.BOT_BARRIER] = \
-            Descriptions.MAX_BOT_CAPACITY
+        command_enablement[Command.BOT_CONSTRUCTOR] = \
+            Description.MAX_BOT_CAPACITY
+        command_enablement[Command.BOT_LINE_RUNNER] = \
+            Description.MAX_BOT_CAPACITY
+        command_enablement[Command.BOT_BARRIER] = \
+            Description.MAX_BOT_CAPACITY
     
     # Disable bot-recycling when there's only one bot left.
     if session.total_bot_count <= 1:
-        command_enablement[Commands.BOT_RECYCLE] = \
-            Descriptions.CANNOT_TRASH_LAST_BOT
+        command_enablement[Command.BOT_RECYCLE] = \
+            Description.CANNOT_TRASH_LAST_BOT
     
     # Disable wire-running when there's only one station left.
     if session.total_station_count <= 1:
-        command_enablement[Commands.RUN_WIRE] = \
-            Descriptions.CANNOT_RUN_WIRE_WITH_ONE_STATION
+        command_enablement[Command.RUN_WIRE] = \
+            Description.CANNOT_RUN_WIRE_WITH_ONE_STATION
     
     if did_level_succeed:
         # FIXME: --------------- Add support for second and third links.
-        command_enablement[Commands.STATION_LINK_TO_MOTHERSHIP] = \
-                Descriptions.ALREADY_LINKED_TO_MOTHERSHIP
+        command_enablement[Command.STATION_LINK_TO_MOTHERSHIP] = \
+                Description.ALREADY_LINKED_TO_MOTHERSHIP
         
     # FIXME: LEFT OFF HERE: --------------------------
-    if tutorial_mode != TutorialModes.NONE:
+    if tutorial_mode != TutorialMode.NONE:
         pass
     
-#    command_enablement[Commands.BOT_CONSTRUCTOR]
-#    command_enablement[Commands.BOT_LINE_RUNNER]
-#    command_enablement[Commands.BOT_BARRIER]
-#    command_enablement[Commands.BOT_COMMAND]
-#    command_enablement[Commands.BOT_STOP]
-#    command_enablement[Commands.BOT_MOVE]
-#    command_enablement[Commands.BOT_RECYCLE]
-#    command_enablement[Commands.BOT_INFO]
+#    command_enablement[Command.BOT_CONSTRUCTOR]
+#    command_enablement[Command.BOT_LINE_RUNNER]
+#    command_enablement[Command.BOT_BARRIER]
+#    command_enablement[Command.BOT_COMMAND]
+#    command_enablement[Command.BOT_STOP]
+#    command_enablement[Command.BOT_MOVE]
+#    command_enablement[Command.BOT_RECYCLE]
+#    command_enablement[Command.BOT_INFO]
 #
-#    command_enablement[Commands.STATION_EMPTY]
-#    command_enablement[Commands.STATION_COMMAND]
-#    command_enablement[Commands.STATION_SOLAR]
-#    command_enablement[Commands.STATION_SCANNER]
-#    command_enablement[Commands.STATION_BATTERY]
-#    command_enablement[Commands.STATION_LINK_TO_MOTHERSHIP]
-#    command_enablement[Commands.STATION_RECYCLE]
-#    command_enablement[Commands.STATION_INFO]
+#    command_enablement[Command.STATION_EMPTY]
+#    command_enablement[Command.STATION_COMMAND]
+#    command_enablement[Command.STATION_SOLAR]
+#    command_enablement[Command.STATION_SCANNER]
+#    command_enablement[Command.STATION_BATTERY]
+#    command_enablement[Command.STATION_LINK_TO_MOTHERSHIP]
+#    command_enablement[Command.STATION_RECYCLE]
+#    command_enablement[Command.STATION_INFO]
 #
-#    command_enablement[Commands.RUN_WIRE]
+#    command_enablement[Command.RUN_WIRE]
     
     var changed := false
     for i in command_enablement.size():
@@ -467,7 +467,7 @@ func set_selected_station_for_running_power_line(station: Station) -> void:
             clear_station_power_line_selection()
         else:
             Sc.logger.print("Second wire end")
-            var bot := get_bot_for_station_command(station, Commands.RUN_WIRE)
+            var bot := get_bot_for_station_command(station, Command.RUN_WIRE)
             bot.move_to_attach_power_line(
                     first_selected_station_for_running_power_line,
                     station)
@@ -529,7 +529,7 @@ func add_bot(
         is_default_bot := false) -> Bot:
     var bot_scene: PackedScene
     match bot_type:
-        Commands.BOT_CONSTRUCTOR:
+        Command.BOT_CONSTRUCTOR:
             bot_scene = _CONSTRUCTOR_BOT_SCENE
         _:
             Sc.logger.error("GameLevel.add_bot")
@@ -586,15 +586,15 @@ func replace_station(
     remove_station(old_station)
     var station_scene: PackedScene
     match new_station_type:
-        Commands.STATION_COMMAND:
+        Command.STATION_COMMAND:
             station_scene = _COMMAND_CENTER_SCENE
-        Commands.STATION_SOLAR:
+        Command.STATION_SOLAR:
             station_scene = _SOLAR_COLLECTOR_SCENE
-        Commands.STATION_BATTERY:
+        Command.STATION_BATTERY:
             pass
-        Commands.STATION_SCANNER:
+        Command.STATION_SCANNER:
             pass
-        Commands.STATION_EMPTY:
+        Command.STATION_EMPTY:
             station_scene = _EMPTY_STATION_SCENE
         _:
             Sc.logger.error("GameLevel.add_station")
@@ -664,7 +664,7 @@ func _on_station_created(
 
 func on_station_health_depleted(station: Station) -> void:
     # FIXME: ------------------------ Play sound
-    Sc.level.replace_station(station, Commands.STATION_EMPTY)
+    Sc.level.replace_station(station, Command.STATION_EMPTY)
 
 
 func on_bot_health_depleted(bot: Bot) -> void:
