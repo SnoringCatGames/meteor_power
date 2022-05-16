@@ -12,6 +12,7 @@ enum {
     BUILD_STATION,
     POWER_ON_BOT,
     BUILD_BOT,
+    BOT_RECYCLE,
 }
 
 
@@ -35,6 +36,8 @@ static func get_string(type: int) -> String:
             return "POWER_ON_BOT"
         BUILD_BOT:
             return "BUILD_BOT"
+        BOT_RECYCLE:
+            return "BOT_RECYCLE"
         _:
             Sc.logger.error("BotCommand.get_string")
             return ""

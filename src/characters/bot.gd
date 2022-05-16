@@ -204,7 +204,7 @@ func open_radial_menu() -> void:
 func close_radial_menu() -> void:
     if is_instance_valid(Sc.gui.hud._radial_menu) and \
             Sc.gui.hud._radial_menu.metadata == self:
-        close_radial_menu()
+        Sc.gui.hud.close_radial_menu()
 
 
 func get_is_own_info_panel_shown() -> bool:
@@ -336,8 +336,6 @@ func _on_reached_second_station_for_power_line() -> void:
     assert(is_instance_valid(held_power_line))
     self.held_power_line._on_connected()
     Sc.level.deduct_energy(Costs.RUN_WIRE)
-    self.held_power_line = null
-    self.target_station = null
     _on_command_ended()
 
 
@@ -368,7 +366,6 @@ func _on_reached_station_to_build() -> void:
         ])
     Sc.level.replace_station(target_station, station_type)
     Sc.level.deduct_energy(Commands.COSTS[station_type])
-    target_station = null
     _on_command_ended()
 
 
@@ -389,9 +386,31 @@ func _on_reached_station_to_destroy() -> void:
         ])
     assert(is_instance_valid(target_station))
     Sc.level.replace_station(target_station, Commands.STATION_EMPTY)
-    Sc.level.deduct_energy(Costs.DESTROY)
-    target_station = null
+    Sc.level.deduct_energy(Costs.STATION_RECYCLE)
     _on_command_ended()
+
+
+func move_to_recycle_self() -> void:
+    _on_command_started(BotCommand.BOT_RECYCLE)
+    self.target_station = Sc.level.command_center
+    self.station_type = Commands.STATION_COMMAND
+    _navigate_to_target_station()
+
+
+func _on_reached_station_to_recycle_self() -> void:
+    # FIXME: Play sound and particles
+    Sc.audio.play_sound("command_finished")
+    Sc.logger.print(
+        ("Bot._on_reached_station_to_recycle_self: " +
+        "bot=%s, bot_to_build=%s, p=%s") % [
+            self.character_name,
+            Commands.get_string(station_type),
+            target_station.position,
+        ])
+    assert(is_instance_valid(target_station))
+    Sc.level.deduct_energy(Commands.COSTS[Commands.BOT_RECYCLE])
+    _on_command_ended()
+    Sc.level.remove_bot(self)
 
 
 func move_to_build_bot(
@@ -415,9 +434,8 @@ func _on_reached_station_to_build_bot() -> void:
     assert(is_instance_valid(target_station))
     Sc.level.add_bot(bot_type)
     Sc.level.deduct_energy(Commands.COSTS[bot_type])
-    self.target_station = null
-    self.bot_type = Commands.UNKNOWN
     _on_command_ended()
+
 
 func _navigate_to_target_station() -> void:
     if self._extra_collision_detection_area.overlaps_area(target_station):
@@ -474,6 +492,7 @@ func _on_command_ended() -> void:
     bot_type = Commands.UNKNOWN
     if is_instance_valid(held_power_line):
         Sc.level.remove_power_line(held_power_line)
+    held_power_line = null
     
     _update_status()
 
@@ -551,6 +570,8 @@ func _on_reached_target_station() -> void:
             pass
         BotCommand.BUILD_STATION:
             _on_reached_station_to_build()
+        BotCommand.BOT_RECYCLE:
+            _on_reached_station_to_recycle_self()
         BotCommand.BUILD_BOT:
             _on_reached_station_to_build_bot()
         _:
@@ -564,14 +585,13 @@ func _on_radial_menu_item_selected(item: RadialMenuItem) -> void:
         Commands.BOT_COMMAND:
             set_is_player_control_active(true)
         Commands.BOT_STOP:
+            set_is_selected(false)
+            update_info_panel_visibility(false)
             stop()
-            set_is_selected(false)
-            update_info_panel_visibility(false)
         Commands.BOT_RECYCLE:
-            # FIXME: LEFT OFF HERE: ----------------------------------------
-            pass
             set_is_selected(false)
             update_info_panel_visibility(false)
+            move_to_recycle_self()
         Commands.BOT_INFO:
             set_is_selected(true)
             set_is_player_control_active(false)
