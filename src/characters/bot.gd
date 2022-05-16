@@ -659,7 +659,7 @@ func get_disabled_message(command: int) -> String:
         return message
     match command:
         Command.BOT_STOP:
-            if status == BotStatus.IDLE:
+            if !is_active:
                 return Description.ALREADY_STOPPED
         _:
             pass
