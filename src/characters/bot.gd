@@ -21,12 +21,10 @@ var status_overlay: StatusOverlay
 var held_power_line: DynamicPowerLine
 
 var status := BotStatus.NEW
-var command := BotCommand.UNKNOWN
+var command := Commands.UNKNOWN
 
 var target_station: Station
 var next_target_station: Station
-var station_type := Commands.UNKNOWN
-var bot_type := Commands.UNKNOWN
 
 var light: Light2D
 
@@ -293,7 +291,7 @@ func move_to_attach_power_line(
         destination_station: Station) -> void:
     if origin_station == destination_station:
         return
-    _on_command_started(BotCommand.RUN_POWER_LINE)
+    _on_command_started(Commands.RUN_WIRE)
     self.target_station = origin_station
     self.next_target_station = destination_station
     _navigate_to_target_station()
@@ -348,9 +346,8 @@ func get_power_line_attachment_position() -> Vector2:
 func move_to_build_station(
         station: EmptyStation,
         station_type: int) -> void:
-    _on_command_started(BotCommand.BUILD_STATION)
+    _on_command_started(station_type)
     self.target_station = station
-    self.station_type = station_type
     _navigate_to_target_station()
 
 
@@ -364,13 +361,13 @@ func _on_reached_station_to_build() -> void:
             Commands.get_string(target_station.entity_command_type),
             target_station.position,
         ])
-    Sc.level.replace_station(target_station, station_type)
-    Sc.level.deduct_energy(Commands.COSTS[station_type])
+    Sc.level.replace_station(target_station, command)
+    Sc.level.deduct_energy(Commands.COSTS[command])
     _on_command_ended()
 
 
 func move_to_destroy_station(station: Station) -> void:
-    _on_command_started(BotCommand.DESTROY_STATION)
+    _on_command_started(Commands.STATION_RECYCLE)
     self.target_station = station
     _navigate_to_target_station()
 
@@ -391,9 +388,8 @@ func _on_reached_station_to_destroy() -> void:
 
 
 func move_to_recycle_self() -> void:
-    _on_command_started(BotCommand.BOT_RECYCLE)
+    _on_command_started(Commands.BOT_RECYCLE)
     self.target_station = Sc.level.command_center
-    self.station_type = Commands.STATION_COMMAND
     _navigate_to_target_station()
 
 
@@ -402,9 +398,8 @@ func _on_reached_station_to_recycle_self() -> void:
     Sc.audio.play_sound("command_finished")
     Sc.logger.print(
         ("Bot._on_reached_station_to_recycle_self: " +
-        "bot=%s, bot_to_build=%s, p=%s") % [
+        "bot=%s, p=%s") % [
             self.character_name,
-            Commands.get_string(station_type),
             target_station.position,
         ])
     assert(is_instance_valid(target_station))
@@ -416,9 +411,8 @@ func _on_reached_station_to_recycle_self() -> void:
 func move_to_build_bot(
         station: Station,
         bot_type: int) -> void:
-    _on_command_started(BotCommand.BUILD_BOT)
+    _on_command_started(bot_type)
     self.target_station = station
-    self.bot_type = bot_type
     _navigate_to_target_station()
 
 
@@ -428,12 +422,12 @@ func _on_reached_station_to_build_bot() -> void:
     Sc.logger.print(
         "Bot._on_reached_station_to_build_bot: bot=%s, bot_to_build=%s, p=%s" % [
             self.character_name,
-            Commands.get_string(station_type),
+            Commands.get_string(command),
             target_station.position,
         ])
     assert(is_instance_valid(target_station))
-    Sc.level.add_bot(bot_type)
-    Sc.level.deduct_energy(Commands.COSTS[bot_type])
+    Sc.level.add_bot(command)
+    Sc.level.deduct_energy(Commands.COSTS[command])
     _on_command_ended()
 
 
@@ -459,7 +453,7 @@ func _stop_nav() -> void:
 
 func _on_command_started(command: int) -> void:
 #    Sc.logger.print(
-#            "Bot._on_command_started: %s" % BotCommand.get_string(command))
+#            "Bot._on_command_started: %s" % Commands.get_string(command))
     
     Sc.audio.play_sound("command_acc")
     
@@ -470,7 +464,6 @@ func _on_command_started(command: int) -> void:
     
     target_station = null
     next_target_station = null
-    station_type = Commands.UNKNOWN
     if is_instance_valid(held_power_line):
         Sc.level.remove_power_line(held_power_line)
         
@@ -479,17 +472,15 @@ func _on_command_started(command: int) -> void:
 
 func _on_command_ended() -> void:
 #    Sc.logger.print(
-#            "Bot._on_command_ended: %s" % BotCommand.get_string(command))
+#            "Bot._on_command_ended: %s" % Commands.get_string(command))
     
-    self.command = BotCommand.UNKNOWN
+    command = Commands.UNKNOWN
     is_active = false
     is_new = false
     is_stopping = false
     
     target_station = null
     next_target_station = null
-    station_type = Commands.UNKNOWN
-    bot_type = Commands.UNKNOWN
     if is_instance_valid(held_power_line):
         Sc.level.remove_power_line(held_power_line)
     held_power_line = null
@@ -516,7 +507,7 @@ func _on_navigation_started(is_retry: bool) -> void:
 #    Sc.logger.print("Bot._on_navigation_started: %s" % \
 #            str(navigation_state.is_triggered_by_player_selection))
     if navigation_state.is_triggered_by_player_selection:
-        _on_command_started(BotCommand.MOVE)
+        _on_command_started(Commands.BOT_MOVE)
     show_exclamation_mark()
     set_is_selected(false)
 
@@ -559,20 +550,24 @@ func _on_hit_by_meteor() -> void:
 
 func _on_reached_target_station() -> void:
     match command:
-        BotCommand.RUN_POWER_LINE:
+        Commands.RUN_WIRE:
             if is_instance_valid(held_power_line):
                 _on_reached_second_station_for_power_line()
             else:
                 _on_reached_first_station_for_power_line()
-        BotCommand.DESTROY_STATION:
+        Commands.STATION_RECYCLE:
             _on_reached_station_to_destroy()
-        BotCommand.STATION_REPAIR:
+        Commands.STATION_REPAIR:
             pass
-        BotCommand.BUILD_STATION:
+        Commands.STATION_SOLAR, \
+        Commands.STATION_SCANNER, \
+        Commands.STATION_BATTERY:
             _on_reached_station_to_build()
-        BotCommand.BOT_RECYCLE:
+        Commands.BOT_RECYCLE:
             _on_reached_station_to_recycle_self()
-        BotCommand.BUILD_BOT:
+        Commands.BOT_CONSTRUCTOR, \
+        Commands.BOT_LINE_RUNNER, \
+        Commands.BOT_BARRIER:
             _on_reached_station_to_build_bot()
         _:
             Sc.logger.error(

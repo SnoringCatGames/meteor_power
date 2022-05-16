@@ -115,11 +115,6 @@ _global_script_classes=[ {
 "path": "res://src/characters/bot.gd"
 }, {
 "base": "Reference",
-"class": "BotCommand",
-"language": "GDScript",
-"path": "res://src/characters/bot_command.gd"
-}, {
-"base": "Reference",
 "class": "BotStatus",
 "language": "GDScript",
 "path": "res://src/characters/bot_status.gd"
@@ -2991,7 +2986,6 @@ _global_script_class_icons={
 "Behavior": "",
 "BehaviorMoveResult": "",
 "Bot": "",
-"BotCommand": "",
 "BotStatus": "",
 "BotsControlRow": "",
 "ButtonControlsControlRow": "",
