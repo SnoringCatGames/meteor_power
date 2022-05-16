@@ -20,7 +20,7 @@ var status_overlay: StatusOverlay
 
 var held_power_line: DynamicPowerLine
 
-var status := BotStatus.NEW
+var status := BotStatus.UNKNOWN
 var command := Command.UNKNOWN
 
 var target_station: Station
@@ -230,22 +230,25 @@ func update_info_panel_visibility(is_visible: bool) -> void:
 
 
 func _update_status() -> void:
+    var previous_status := status
     if _get_is_player_control_active():
-        self.status = BotStatus.PLAYER_CONTROL_ACTIVE
+        status = BotStatus.PLAYER_CONTROL_ACTIVE
     elif is_hovered:
-        self.status = BotStatus.HOVERED
+        status = BotStatus.HOVERED
     elif is_selected:
-        self.status = BotStatus.SELECTED
+        status = BotStatus.SELECTED
     elif is_new:
-        self.status = BotStatus.NEW
+        status = BotStatus.NEW
     elif is_active:
-        self.status = BotStatus.ACTIVE
+        status = BotStatus.ACTIVE
     elif !is_powered_on:
-        self.status = BotStatus.POWERED_DOWN
+        status = BotStatus.POWERED_DOWN
     else:
-        self.status = BotStatus.IDLE
+        status = BotStatus.IDLE
 #    Sc.logger.print("Bot._update_status: %s" % BotStatus.get_string(status))
-    update_highlight()
+    if status != previous_status:
+        update_highlight()
+        _on_command_enablement_changed()
 
 
 func update_highlight() -> void:
@@ -655,8 +658,12 @@ func get_disabled_message(command: int) -> String:
     if message != "":
         return message
     match command:
+        Command.BOT_STOP:
+            if status == BotStatus.IDLE:
+                return Description.ALREADY_STOPPED
         _:
-            return ""
+            pass
+    return ""
 
 
 func get_health() -> int:

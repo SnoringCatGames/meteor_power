@@ -11,6 +11,7 @@ const CANNOT_RUN_WIRE_WITH_ONE_STATION := \
     "There must be at least two stations to run a power line."
 const ALREADY_LINKED_TO_MOTHERSHIP := "Already linked to mothership."
 const ALREADY_AT_FULL_HEALTH := "Already at full health."
+const ALREADY_STOPPED := "Already stopped."
 
 const LEVEL_SUCCESS_EXPLANATION := \
     "You succeeded in linking back to the mother ship!"
