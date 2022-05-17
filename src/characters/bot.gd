@@ -143,7 +143,7 @@ func _unhandled_input(event: InputEvent) -> void:
     if event is InputEventMouseButton and \
             event.button_index == BUTTON_RIGHT and \
             event.pressed:
-        stop_on_surface()
+        stop_on_surface(false)
 
 
 func _on_level_started() -> void:
@@ -221,8 +221,9 @@ func open_radial_menu() -> void:
     default_behavior = static_behavior
     behavior.next_behavior = get_behavior(StaticBehavior)
     if !(behavior is PlayerNavigationBehavior) and \
+            !(behavior is NavigationOverrideBehavior) and \
             !(behavior is StaticBehavior):
-        stop_on_surface()
+        stop_on_surface(false)
         get_behavior(StaticBehavior).is_active = true
 
 
@@ -364,7 +365,7 @@ func _on_reached_second_station_for_power_line() -> void:
     assert(is_instance_valid(held_power_line))
     self.held_power_line._on_connected()
     Sc.level.deduct_energy(Cost.RUN_WIRE)
-    stop_on_surface()
+    stop_on_surface(true)
 
 
 func get_power_line_attachment_position() -> Vector2:
@@ -393,7 +394,7 @@ func _on_reached_station_to_build() -> void:
         ])
     Sc.level.replace_station(target_station, command)
     Sc.level.deduct_energy(Command.COSTS[command])
-    stop_on_surface()
+    stop_on_surface(true)
 
 
 func move_to_destroy_station(station: Station) -> void:
@@ -414,7 +415,7 @@ func _on_reached_station_to_destroy() -> void:
     assert(is_instance_valid(target_station))
     Sc.level.replace_station(target_station, Command.STATION_EMPTY)
     Sc.level.deduct_energy(Cost.STATION_RECYCLE)
-    stop_on_surface()
+    stop_on_surface(true)
 
 
 func move_to_recycle_self() -> void:
@@ -434,7 +435,7 @@ func _on_reached_station_to_recycle_self() -> void:
         ])
     assert(is_instance_valid(target_station))
     Sc.level.deduct_energy(Command.COSTS[Command.BOT_RECYCLE])
-    stop_on_surface()
+    stop_on_surface(false)
     Sc.level.remove_bot(self)
 
 
@@ -458,7 +459,7 @@ func _on_reached_station_to_build_bot() -> void:
     assert(is_instance_valid(target_station))
     Sc.level.add_bot(command)
     Sc.level.deduct_energy(Command.COSTS[command])
-    stop_on_surface()
+    stop_on_surface(true)
 
 
 func _navigate_to_target_station() -> void:
@@ -480,10 +481,13 @@ func stop_on_surface(triggers_wander := false) -> void:
 func _stop_nav_immediately() -> void:
     ._stop_nav_immediately()
     if triggers_wander_when_stopped:
-        # FIXME: --------------------- Remove triggers_wander_when_stopped, and
-        # just make sure behavior.next_behavior is working.
-        pass
+        default_behavior = get_behavior(WanderBehavior)
+    triggers_wander_when_stopped = false
     _on_command_ended()
+    if behavior is PlayerNavigationBehavior or \
+            behavior is NavigationOverrideBehavior or \
+            behavior is StaticBehavior:
+        default_behavior.trigger(false)
 
 
 func _on_command_started(command: int) -> void:
@@ -515,7 +519,6 @@ func _on_command_ended() -> void:
     is_active = false
     is_new = false
     is_waiting_to_stop_on_surface = false
-    triggers_wander_when_stopped = false
     
     target_station = null
     next_target_station = null
@@ -537,7 +540,7 @@ func _on_powered_on() -> void:
 
 
 func _on_powered_down() -> void:
-    stop_on_surface()
+    stop_on_surface(false)
     is_powered_on = false
     _update_status()
 
@@ -626,7 +629,7 @@ func _on_radial_menu_item_selected(item: RadialMenuItem) -> void:
         Command.BOT_STOP:
             set_is_selected(false)
             update_info_panel_visibility(false)
-            stop_on_surface()
+            stop_on_surface(true)
         Command.BOT_RECYCLE:
             set_is_selected(false)
             update_info_panel_visibility(false)
