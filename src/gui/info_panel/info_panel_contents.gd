@@ -68,7 +68,7 @@ func set_up(entity) -> void:
     $Status.visible = !is_empty_station
     $UpgradesSeparator.visible = !is_empty_station
     $UpgradesLabel.visible = !is_empty_station
-    $Upgrade.visible = !is_empty_station
+    $Upgrades.visible = !is_empty_station
     
     update()
 

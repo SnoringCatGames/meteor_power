@@ -82,6 +82,7 @@ func _ready() -> void:
     status_overlay = Sc.utils.add_scene(self, Station._STATUS_OVERLAY_SCENE)
     status_overlay.entity = self
     status_overlay.anchor_y = -collider.half_width_height.y
+    status_overlay.z_index = 1
     status_overlay.set_up()
     
     _update_status()
@@ -217,8 +218,14 @@ func open_radial_menu() -> void:
             "touch_up_center", self, "_on_radial_menu_touch_up_center")
     radial_menu.connect(
             "touch_up_outside", self, "_on_radial_menu_touch_up_outside")
+    radial_menu.connect(
+            "closed", self, "_on_radial_menu_closed")
+    var static_behavior := get_behavior(DefaultBehavior)
+    default_behavior = static_behavior
+    behavior.next_behavior = get_behavior(DefaultBehavior)
     if !(behavior is PlayerNavigationBehavior) and \
             !(behavior is DefaultBehavior):
+        stop()
         get_behavior(DefaultBehavior).is_active = true
 
 
@@ -641,6 +648,12 @@ func _on_radial_menu_touch_up_outside() -> void:
     set_is_selected(false)
     if behavior is DefaultBehavior:
         get_behavior(WanderBehavior).trigger(false)
+
+
+func _on_radial_menu_closed() -> void:
+    var wander_behavior := get_behavior(WanderBehavior)
+    behavior.next_behavior = wander_behavior
+    default_behavior = wander_behavior
 
 
 func _process_sounds() -> void:
