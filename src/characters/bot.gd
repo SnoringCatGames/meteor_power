@@ -358,27 +358,28 @@ func _on_reached_second_station_for_power_line() -> void:
     Sc.audio.play_sound("command_finished")
     Sc.logger.print(
         "Bot._on_reached_second_station_for_power_line: bot=%s, station=%s, p=%s" % [
-            self.character_name,
+            character_name,
             Command.get_string(target_station.entity_command_type),
             target_station.position,
         ])
     assert(is_instance_valid(held_power_line))
-    self.held_power_line._on_connected()
+    held_power_line._on_connected()
+    held_power_line = null
     Sc.level.deduct_energy(Cost.RUN_WIRE)
     stop_on_surface(true)
 
 
 func get_power_line_attachment_position() -> Vector2:
-    return self.position + \
-            self.rope_attachment_offset * \
-            Vector2(self.surface_state.horizontal_facing_sign, 1.0)
+    return position + \
+            rope_attachment_offset * \
+            Vector2(surface_state.horizontal_facing_sign, 1.0)
 
 
 func move_to_build_station(
         station: EmptyStation,
         station_type: int) -> void:
     _on_command_started(station_type)
-    self.target_station = station
+    target_station = station
     _navigate_to_target_station()
 
 
