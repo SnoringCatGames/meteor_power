@@ -83,3 +83,12 @@ surface_speed_multiplier = 0.3
 max_distance_per_movement = 96.0
 min_pause_between_movements = 0.5
 max_pause_between_movements = 1.5
+
+[node name="Light2D2" type="Light2D" parent="."]
+texture = ExtResource( 4 )
+texture_scale = 0.1
+color = Color( 0.976471, 1, 0.521569, 0.9 )
+range_layer_min = -100
+range_layer_max = 100
+range_item_cull_mask = 2
+shadow_item_cull_mask = 2

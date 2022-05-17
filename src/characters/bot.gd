@@ -543,7 +543,7 @@ func _on_navigation_started(is_retry: bool) -> void:
 #            str(navigation_state.is_triggered_by_player_selection))
     if navigation_state.is_triggered_by_player_selection:
         _on_command_started(Command.BOT_MOVE)
-    show_exclamation_mark()
+        show_exclamation_mark()
     set_is_selected(false)
 
 
