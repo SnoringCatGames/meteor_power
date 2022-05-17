@@ -1809,6 +1809,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/surfacer/src/platform_graph/edge/models/readonly_movement_parameters_proxy.gd"
 }, {
+"base": "PlatformGraph",
+"class": "ReadonlyPlatformGraphProxy",
+"language": "GDScript",
+"path": "res://addons/surfacer/src/platform_graph/readonly_platform_graph_proxy.gd"
+}, {
 "base": "FrameworkManifestCustomProperty",
 "class": "RecalculateTilesetCustomProperty",
 "language": "GDScript",
@@ -3330,6 +3335,7 @@ _global_script_class_icons={
 "RadialMenuLabel": "",
 "RateAppScreen": "",
 "ReadonlyMovementParametersProxy": "res://addons/surfacer/assets/images/editor_icons/movement_params.png",
+"ReadonlyPlatformGraphProxy": "",
 "RecalculateTilesetCustomProperty": "",
 "RecentMovementAnnotatorControlRow": "",
 "Rect2Editor": "",
