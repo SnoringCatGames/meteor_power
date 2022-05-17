@@ -103,6 +103,9 @@ func _destroy() -> void:
 
 
 func _physics_process(delta: float) -> void:
+    if Engine.editor_hint:
+        return
+    
     previous_total_time = total_time
     total_time = Sc.time.get_scaled_play_time() - start_time
     
