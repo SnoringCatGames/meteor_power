@@ -289,11 +289,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/surfacer/src/character/choreographer.gd"
 }, {
-"base": "Behavior",
-"class": "ChoreographyBehavior",
-"language": "GDScript",
-"path": "res://addons/surfacer/src/character/behaviors/choreography_behavior.gd"
-}, {
 "base": "Reference",
 "class": "CircularBuffer",
 "language": "GDScript",
@@ -508,11 +503,6 @@ _global_script_classes=[ {
 "class": "DebugTimeDisplayControlRow",
 "language": "GDScript",
 "path": "res://addons/scaffolder/src/gui/control_rows/settings/debug_time_display_control_row.gd"
-}, {
-"base": "Behavior",
-"class": "DefaultBehavior",
-"language": "GDScript",
-"path": "res://addons/surfacer/src/character/behaviors/default_behavior.gd"
 }, {
 "base": "Reference",
 "class": "Description",
@@ -1474,6 +1464,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/surfacer/src/platform_graph/navigation_interruption_resolution.gd"
 }, {
+"base": "Behavior",
+"class": "NavigationOverrideBehavior",
+"language": "GDScript",
+"path": "res://addons/surfacer/src/character/behaviors/navigation_override_behavior.gd"
+}, {
 "base": "ScaffolderCamera",
 "class": "NavigationPreselectionCamera",
 "language": "GDScript",
@@ -2339,6 +2334,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/surface_tiler/src/global/st.gd"
 }, {
+"base": "Behavior",
+"class": "StaticBehavior",
+"language": "GDScript",
+"path": "res://addons/surfacer/src/character/behaviors/static_behavior.gd"
+}, {
 "base": "ScaffolderCamera",
 "class": "StaticCamera",
 "language": "GDScript",
@@ -3031,7 +3031,6 @@ _global_script_class_icons={
 "CharacterType": "",
 "CheckboxControlRow": "",
 "Choreographer": "",
-"ChoreographyBehavior": "",
 "CircularBuffer": "",
 "ClimbAdjacentSurfacesBehavior": "res://addons/surfacer/assets/images/editor_icons/climb_adjacent_surfaces_behavior.png",
 "ClimbToAdjacentSurfaceCalculator": "",
@@ -3075,7 +3074,6 @@ _global_script_class_icons={
 "DebugPanel": "res://addons/scaffolder/assets/images/editor_icons/debug_panel.png",
 "DebugPanelControlRow": "",
 "DebugTimeDisplayControlRow": "",
-"DefaultBehavior": "",
 "Description": "",
 "DescriptionItemController": "",
 "DestinationLegendItem": "",
@@ -3268,6 +3266,7 @@ _global_script_class_icons={
 "MusicControlRow": "",
 "NavBar": "res://addons/scaffolder/assets/images/editor_icons/nav_bar.png",
 "NavigationInterruptionResolution": "",
+"NavigationOverrideBehavior": "",
 "NavigationPreselectionCamera": "",
 "NavigationPulseAnnotator": "",
 "NavigatorAnnotator": "",
@@ -3441,6 +3440,7 @@ _global_script_class_icons={
 "SquirrelAwayTilemap": "",
 "SquirrelAwayTilemapWithManyAngles": "",
 "StInterface": "",
+"StaticBehavior": "",
 "StaticCamera": "",
 "StaticColorConfig": "",
 "StaticPowerLine": "",

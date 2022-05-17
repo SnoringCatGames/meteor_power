@@ -32,8 +32,9 @@ var is_selected := false
 var is_new := true
 var is_active := false
 var is_powered_on := true
-var is_stopping := false
 var is_hovered := false
+
+var triggers_wander_when_stopped := false
 
 var is_initial_nav := false
 var is_triggering_new_navigation := false
@@ -102,7 +103,7 @@ func _walk_to_side_of_command_center() -> void:
     var destination := PositionAlongSurfaceFactory \
         .create_position_offset_from_target_point(
             target_point, surface, collider, true)
-    navigator.navigate_to_position(destination)
+    navigate_imperatively(destination)
 
 
 func _destroy() -> void:
@@ -114,10 +115,6 @@ func _destroy() -> void:
 func _physics_process(delta: float) -> void:
     if Engine.editor_hint:
         return
-    
-    if surface_state.just_left_air and \
-            is_stopping:
-        _stop_nav()
     
     var previous_total_movement_time := total_movement_time
     var current_movement_time := \
@@ -146,7 +143,7 @@ func _unhandled_input(event: InputEvent) -> void:
     if event is InputEventMouseButton and \
             event.button_index == BUTTON_RIGHT and \
             event.pressed:
-        stop()
+        stop_on_surface()
 
 
 func _on_level_started() -> void:
@@ -220,13 +217,13 @@ func open_radial_menu() -> void:
             "touch_up_outside", self, "_on_radial_menu_touch_up_outside")
     radial_menu.connect(
             "closed", self, "_on_radial_menu_closed")
-    var static_behavior := get_behavior(DefaultBehavior)
+    var static_behavior := get_behavior(StaticBehavior)
     default_behavior = static_behavior
-    behavior.next_behavior = get_behavior(DefaultBehavior)
+    behavior.next_behavior = get_behavior(StaticBehavior)
     if !(behavior is PlayerNavigationBehavior) and \
-            !(behavior is DefaultBehavior):
-        stop()
-        get_behavior(DefaultBehavior).is_active = true
+            !(behavior is StaticBehavior):
+        stop_on_surface()
+        get_behavior(StaticBehavior).is_active = true
 
 
 func close_radial_menu() -> void:
@@ -367,7 +364,7 @@ func _on_reached_second_station_for_power_line() -> void:
     assert(is_instance_valid(held_power_line))
     self.held_power_line._on_connected()
     Sc.level.deduct_energy(Cost.RUN_WIRE)
-    stop()
+    stop_on_surface()
 
 
 func get_power_line_attachment_position() -> Vector2:
@@ -396,7 +393,7 @@ func _on_reached_station_to_build() -> void:
         ])
     Sc.level.replace_station(target_station, command)
     Sc.level.deduct_energy(Command.COSTS[command])
-    stop()
+    stop_on_surface()
 
 
 func move_to_destroy_station(station: Station) -> void:
@@ -417,7 +414,7 @@ func _on_reached_station_to_destroy() -> void:
     assert(is_instance_valid(target_station))
     Sc.level.replace_station(target_station, Command.STATION_EMPTY)
     Sc.level.deduct_energy(Cost.STATION_RECYCLE)
-    stop()
+    stop_on_surface()
 
 
 func move_to_recycle_self() -> void:
@@ -437,7 +434,7 @@ func _on_reached_station_to_recycle_self() -> void:
         ])
     assert(is_instance_valid(target_station))
     Sc.level.deduct_energy(Command.COSTS[Command.BOT_RECYCLE])
-    stop()
+    stop_on_surface()
     Sc.level.remove_bot(self)
 
 
@@ -461,7 +458,7 @@ func _on_reached_station_to_build_bot() -> void:
     assert(is_instance_valid(target_station))
     Sc.level.add_bot(command)
     Sc.level.deduct_energy(Command.COSTS[command])
-    stop()
+    stop_on_surface()
 
 
 func _navigate_to_target_station() -> void:
@@ -470,20 +467,22 @@ func _navigate_to_target_station() -> void:
         _on_reached_target_station()
     else:
         is_triggering_new_navigation = true
-        navigator.navigate_to_position(
-                target_station.get_position_along_surface(self))
+        navigate_imperatively(target_station.get_position_along_surface(self))
         is_triggering_new_navigation = false
 
 
-func stop() -> void:
+func stop_on_surface(triggers_wander := false) -> void:
     _on_command_ended()
-    is_stopping = true
-    if surface_state.is_grabbing_surface:
-        _stop_nav()
+    triggers_wander_when_stopped = triggers_wander
+    .stop_on_surface()
 
 
-func _stop_nav() -> void:
-    navigator.stop(false)
+func _stop_nav_immediately() -> void:
+    ._stop_nav_immediately()
+    if triggers_wander_when_stopped:
+        # FIXME: --------------------- Remove triggers_wander_when_stopped, and
+        # just make sure behavior.next_behavior is working.
+        pass
     _on_command_ended()
 
 
@@ -496,7 +495,8 @@ func _on_command_started(command: int) -> void:
     self.command = command
     is_active = true
     is_new = false
-    is_stopping = false
+    is_waiting_to_stop_on_surface = false
+    triggers_wander_when_stopped = false
     is_initial_nav = false
     
     target_station = null
@@ -514,7 +514,8 @@ func _on_command_ended() -> void:
     command = Command.UNKNOWN
     is_active = false
     is_new = false
-    is_stopping = false
+    is_waiting_to_stop_on_surface = false
+    triggers_wander_when_stopped = false
     
     target_station = null
     next_target_station = null
@@ -536,7 +537,7 @@ func _on_powered_on() -> void:
 
 
 func _on_powered_down() -> void:
-    stop()
+    stop_on_surface()
     is_powered_on = false
     _update_status()
 
@@ -625,7 +626,7 @@ func _on_radial_menu_item_selected(item: RadialMenuItem) -> void:
         Command.BOT_STOP:
             set_is_selected(false)
             update_info_panel_visibility(false)
-            stop()
+            stop_on_surface()
         Command.BOT_RECYCLE:
             set_is_selected(false)
             update_info_panel_visibility(false)
@@ -634,7 +635,7 @@ func _on_radial_menu_item_selected(item: RadialMenuItem) -> void:
             set_is_selected(true)
             set_is_player_control_active(false)
             update_info_panel_visibility(true)
-            if behavior is DefaultBehavior:
+            if behavior is StaticBehavior:
                 get_behavior(WanderBehavior).trigger(false)
         _:
             Sc.logger.error("Bot._on_radial_menu_item_selected")
@@ -646,7 +647,7 @@ func _on_radial_menu_touch_up_center() -> void:
 
 func _on_radial_menu_touch_up_outside() -> void:
     set_is_selected(false)
-    if behavior is DefaultBehavior:
+    if behavior is StaticBehavior:
         get_behavior(WanderBehavior).trigger(false)
 
 
