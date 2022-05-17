@@ -14,10 +14,7 @@ collision_layer = 8
 script = ExtResource( 1 )
 character_name = "construction_bot"
 collision_detection_layers = 56
-detects_pointer = true
 pointer_screen_radius = 48.0
-is_bouncy = false
-rotates_to_match_surface_normal = true
 rope_attachment_offset = Vector2( -1, -4 )
 primary_annotation_color = Object(Reference,"script":Resource( "res://addons/scaffolder/src/config/color_config/static_color_config.gd" ),"h":0.123932,"s":0.509804,"v":0.6,"a":1.0,"r":0.6,"g":0.521569,"b":0.294118,"color":Color( 0.6, 0.521569, 0.294118, 1 ),"_h":0.123932,"_s":0.509804,"_v":0.6,"_a":1.0,"_color":null)
 
@@ -82,51 +79,7 @@ __meta__ = {
 [node name="WanderBehavior" parent="." instance=ExtResource( 5 )]
 can_leave_start_surface = false
 max_distance_from_behavior_start_position = 256.0
+surface_speed_multiplier = 0.3
 max_distance_per_movement = 96.0
 min_pause_between_movements = 0.5
 max_pause_between_movements = 1.5
-
-[node name="Light2D2" type="Light2D" parent="."]
-texture = ExtResource( 4 )
-texture_scale = 0.1
-color = Color( 0.976471, 1, 0.521569, 0.9 )
-range_layer_min = -100
-range_layer_max = 100
-range_item_cull_mask = 2
-shadow_item_cull_mask = 2
-
-[node name="Light2D3" type="Light2D" parent="."]
-texture = ExtResource( 4 )
-texture_scale = 0.1
-color = Color( 0.976471, 1, 0.521569, 0.9 )
-range_layer_min = -100
-range_layer_max = 100
-range_item_cull_mask = 2
-shadow_item_cull_mask = 2
-
-[node name="Light2D4" type="Light2D" parent="."]
-texture = ExtResource( 4 )
-texture_scale = 0.1
-color = Color( 0.976471, 1, 0.521569, 0.9 )
-range_layer_min = -100
-range_layer_max = 100
-range_item_cull_mask = 2
-shadow_item_cull_mask = 2
-
-[node name="Light2D5" type="Light2D" parent="."]
-texture = ExtResource( 4 )
-texture_scale = 0.1
-color = Color( 0.976471, 1, 0.521569, 0.9 )
-range_layer_min = -100
-range_layer_max = 100
-range_item_cull_mask = 2
-shadow_item_cull_mask = 2
-
-[node name="Light2D6" type="Light2D" parent="."]
-texture = ExtResource( 4 )
-texture_scale = 0.1
-color = Color( 0.976471, 1, 0.521569, 0.9 )
-range_layer_min = -100
-range_layer_max = 100
-range_item_cull_mask = 2
-shadow_item_cull_mask = 2
