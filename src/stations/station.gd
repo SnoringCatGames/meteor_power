@@ -154,7 +154,7 @@ func _set_up_desaturatable() -> void:
 
 
 func _on_level_started() -> void:
-    pass
+    _update_highlight_for_camera_position()
 
 
 func _on_button_pressed(button_type: int) -> void:
@@ -529,11 +529,11 @@ func _update_all_connections_connected_to_command_center_recursive(
 
 
 func _on_connected_to_command_center() -> void:
-    pass
+    _update_highlight()
 
 
 func _on_disconnected_from_command_center() -> void:
-    pass
+    _update_highlight()
 
 
 func _on_hit_by_meteor() -> void:
