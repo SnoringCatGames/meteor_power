@@ -553,10 +553,12 @@ func _update_all_connections_connected_to_command_center_recursive(
 
 func _on_transitively_connected_to_command_center() -> void:
     _update_highlight()
+    update_info_panel_contents()
 
 
 func _on_transitively_disconnected_from_command_center() -> void:
     _update_highlight()
+    update_info_panel_contents()
 
 
 func _on_connected_to_station(other: Station) -> void:
