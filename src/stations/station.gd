@@ -268,8 +268,7 @@ func update_info_panel_contents() -> void:
 func update_info_panel_visibility(is_visible: bool) -> void:
     if is_visible:
         if !get_is_own_info_panel_shown():
-            var contents: InfoPanelContents = \
-                Game.INFO_PANEL_CONTENTS_SCENE.instance()
+            var contents = Game.INFO_PANEL_CONTENTS_SCENE.instance()
             contents.set_up(self)
             Sc.info_panel.show_panel(contents.get_data())
     else:

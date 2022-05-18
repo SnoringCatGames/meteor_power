@@ -18,6 +18,9 @@ const LEVEL_SUCCESS_EXPLANATION := \
 const LEVEL_FAILURE_EXPLANATION := \
     "Your command center was destroyed\nbefore linking back to the mother ship!"
 
+const IS_CONNECTED := "Online"
+const IS_DISCONNECTED := "Disconnected from command center!"
+
 const ENTITY_NAMES := {
     BOT_CONSTRUCTOR = "Constructor bot",
     BOT_LINE_RUNNER = "Line-runner bot",

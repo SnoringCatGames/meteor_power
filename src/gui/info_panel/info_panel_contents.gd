@@ -6,6 +6,11 @@ extends VBoxContainer
 const _INFO_PANEL_COMMAND_ROW_SCENE := preload(
     "res://src/gui/info_panel/info_panel_command_row.tscn")
 
+var CONNECTION_STATUS_CONNECTED_COLOR := \
+    ColorFactory.opacify("connected_background", 0.3)
+var CONNECTION_STATUS_DISCONNECTED_COLOR := \
+    ColorFactory.opacify("disconnected_background", 0.3)
+
 var entity
 var entity_command_type := Command.UNKNOWN
 # Array<InfoPanelCommandRow>
@@ -74,6 +79,23 @@ func set_up(entity) -> void:
 
 
 func update() -> void:
+    if entity is CommandCenter or \
+            entity is EmptyStation or \
+            entity is Bot:
+        $ConnectionStatus.visible = false
+    elif entity is Station:
+        $ConnectionStatus.visible = true
+        $ConnectionStatus/ScaffolderPanelContainer.color_override = \
+            CONNECTION_STATUS_CONNECTED_COLOR if \
+            entity.is_connected_to_command_center else \
+            CONNECTION_STATUS_DISCONNECTED_COLOR
+        $ConnectionStatus/ScaffolderPanelContainer/HBoxContainer/ScaffolderLabel.text = \
+            Description.IS_CONNECTED if \
+            entity.is_connected_to_command_center else \
+            Description.IS_DISCONNECTED
+    else:
+        Sc.logger.error("InfoPanelContents.update")
+    
     if entity.get_health_capacity() < 0:
         $Status.visible = false
     

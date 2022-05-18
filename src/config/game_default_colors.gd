@@ -135,6 +135,9 @@ var health_bar_medium := Color("dedb23")
 var health_bar_empty := Color("ff0000")
 var health_bar_heart := Color("ff5768")
 
+var connected_background := health_bar_full
+var disconnected_background := health_bar_empty
+
 #var modulation_button_normal := highlight_purple
 #var modulation_button_hover := highlight_light_purple
 #var modulation_button_pressed := highlight_dark_purple
