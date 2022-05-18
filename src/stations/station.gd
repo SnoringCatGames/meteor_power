@@ -192,9 +192,8 @@ func _on_button_pressed(button_type: int) -> void:
             update_info_panel_visibility(true)
         
         Command.RUN_WIRE:
-            # FIXME: LEFT OFF HERE: ----------------------------------------
-            pass
-            set_is_selected(true)
+            if !Sc.level.get_is_first_station_selected_for_running_power_line():
+                set_is_selected(true)
             update_info_panel_visibility(false)
             Sc.level.set_selected_station_for_running_power_line(self)
         
