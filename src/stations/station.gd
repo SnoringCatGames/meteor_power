@@ -322,10 +322,13 @@ func _on_touch_down(
     
     if is_instance_valid(Sc.level.selected_bot):
         Sc.level.selected_bot.set_is_player_control_active(false)
-        
-        if Sc.level.get_is_first_station_selected_for_running_power_line():
+    
+    if Sc.level.get_is_first_station_selected_for_running_power_line():
+        if Sc.level.first_selected_station_for_running_power_line == self:
+            _on_button_pressed(Command.STATION_STOP)
+        else:
             _on_button_pressed(Command.RUN_WIRE)
-            return
+        return
     
     open_radial_menu()
 
