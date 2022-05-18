@@ -14,7 +14,7 @@ const MAX_OPACITY_MULTIPLIER := 1.0
 
 const POINTER_DISTANCE_SQUARED_OFFSET_FOR_SELECTION_PRIORITY := 30.0 * 30.0
 
-export var rope_attachment_offset := Vector2.ZERO
+export var wire_attachment_offset := Vector2.ZERO
 
 var status_overlay: StatusOverlay
 
@@ -369,9 +369,9 @@ func _on_reached_second_station_for_power_line() -> void:
     stop_on_surface(true)
 
 
-func get_power_line_attachment_position() -> Vector2:
+func get_power_line_attachment_position(entity_on_other_end) -> Vector2:
     return position + \
-            rope_attachment_offset * \
+            wire_attachment_offset * \
             Vector2(surface_state.horizontal_facing_sign, 1.0)
 
 

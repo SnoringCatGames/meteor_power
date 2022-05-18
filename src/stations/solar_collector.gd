@@ -36,17 +36,17 @@ func _get_radial_menu_item_types() -> Array:
     ]
 
 
-func _on_connected_to_command_center() -> void:
-    ._on_connected_to_command_center()
-    Sc.logger.print("SolarCollector._on_connected_to_command_center")
+func _on_transitively_connected_to_command_center() -> void:
+    ._on_transitively_connected_to_command_center()
+    Sc.logger.print("SolarCollector._on_transitively_connected_to_command_center")
     $Dark.visible = false
     $Shine.visible = true
     $AnimationPlayer.play("shine")
 
 
-func _on_disconnected_from_command_center() -> void:
-    ._on_disconnected_from_command_center()
-    Sc.logger.print("SolarCollector._on_disconnected_from_command_center")
+func _on_transitively_disconnected_from_command_center() -> void:
+    ._on_transitively_disconnected_from_command_center()
+    Sc.logger.print("SolarCollector._on_transitively_disconnected_from_command_center")
     $Dark.visible = true
     $Shine.visible = false
     $AnimationPlayer.play("dark")

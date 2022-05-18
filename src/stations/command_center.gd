@@ -6,9 +6,26 @@ extends Station
 const ENTITY_COMMAND_TYPE := Command.STATION_COMMAND
 const IS_CONNECTABLE := false
 
+const OUTLET_OFFSETS := [
+    Vector2(-24.0, -15.0),
+    Vector2(-19.0, -15.0),
+    Vector2(-24.0, -10.0),
+    Vector2(-19.0, -10.0),
+]
+
+# Array<Dictionary<Bot|Station, true>>
+var outlets := []
+
+# Dictionary<Bot|Station, int>
+var entity_to_outlet_index := {}
+
 
 func _init().(ENTITY_COMMAND_TYPE, IS_CONNECTABLE) -> void:
     shield_activated = true
+    
+    outlets.resize(4)
+    for i in outlets.size():
+        outlets[i] = {}
 
 
 func get_buttons() -> Array:
@@ -35,3 +52,52 @@ func _update_outline() -> void:
     $ShaderOutlineableAnimatedSprite.outline_color = outline_color
     $ShaderOutlineableAnimatedSprite.outline_color.a *= \
             active_outline_alpha_multiplier
+
+
+func get_next_outlet_index() -> int:
+    var min_connected_index := -1
+    var min_connection_count := INF
+    for i in outlets.size():
+        if outlets[i].size() < min_connection_count:
+            min_connection_count = outlets[i].size()
+            min_connected_index = i
+    return min_connected_index
+
+
+func _on_plugged_into_bot(bot) -> void:
+    assert(!entity_to_outlet_index.has(bot))
+    var i := get_next_outlet_index()
+    outlets[i][bot] = true
+    entity_to_outlet_index[bot] = i
+
+
+func _on_replaced_bot_plugin_with_station(
+        bot,
+        destination_station: Station) -> void:
+    assert(entity_to_outlet_index.has(bot))
+    assert(!entity_to_outlet_index.has(destination_station))
+    var i: int = entity_to_outlet_index[bot]
+    outlets[i].erase(bot)
+    entity_to_outlet_index.erase(bot)
+    outlets[i][destination_station] = true
+    entity_to_outlet_index[destination_station] = i
+
+
+func _on_plugged_into_station(origin_station: Station) -> void:
+    assert(!entity_to_outlet_index.has(origin_station))
+    var i := get_next_outlet_index()
+    outlets[i][origin_station] = true
+    entity_to_outlet_index[origin_station] = i
+
+
+func _on_disconnected_from_station(other: Station) -> void:
+    assert(entity_to_outlet_index.has(other))
+    var i: int = entity_to_outlet_index[other]
+    outlets[i].erase(other)
+    entity_to_outlet_index.erase(other)
+
+
+func get_power_line_attachment_position(entity_on_other_end) -> Vector2:
+    var i: int = entity_to_outlet_index[entity_on_other_end]
+    var wire_attachment_offset: Vector2 = OUTLET_OFFSETS[i]
+    return self.position + wire_attachment_offset

@@ -22,13 +22,18 @@ func _init(
     var target_distance: float = \
             origin_station.position.distance_to(destination_station.position)
     self.rope = Rope.new(target_distance)
+    origin_station._on_plugged_into_bot(bot)
 
 
 func _on_connected() -> void:
+    var bot = end_attachment
     self.mode = PowerLine.CONNECTED
     self.end_attachment = destination_station
     origin_station.add_connection(destination_station)
     destination_station.add_connection(origin_station)
+    origin_station \
+        ._on_replaced_bot_plugin_with_station(bot, destination_station)
+    destination_station._on_plugged_into_station(origin_station)
     Sc.time.set_timeout(
             self,
             "_replace_with_static_line",
@@ -47,8 +52,8 @@ func _replace_with_static_line() -> void:
 
 func _physics_process(_delta: float) -> void:
     rope.update_end_positions(
-            start_attachment.get_power_line_attachment_position(),
-            end_attachment.get_power_line_attachment_position())
+            start_attachment.get_power_line_attachment_position(end_attachment),
+            end_attachment.get_power_line_attachment_position(start_attachment))
     rope.on_physics_frame()
 
 

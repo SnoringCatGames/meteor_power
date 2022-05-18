@@ -167,7 +167,7 @@ func _update_for_level_end(has_finished: bool) -> void:
         var key: String = stat[0]
         var value = stat[1]
         var previous_global_value = Sc.save_state.get_setting(key, 0)
-        var previous_level_value = Sc.save_state.get_level_setting(_id, key)
+        var previous_level_value = Sc.save_state.get_level_setting(_id, key, 0)
         Sc.save_state.set_setting(key, previous_global_value + value)
         Sc.save_state.set_level_setting(_id, key, previous_level_value + value)
     

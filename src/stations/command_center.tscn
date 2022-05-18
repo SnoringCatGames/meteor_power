@@ -137,17 +137,17 @@ light_mask = 2
 collision_layer = 1073741840
 collision_mask = 0
 monitoring = false
+monitorable = false
 script = ExtResource( 1 )
 screen_radius = 28.8
 shape_rectangle_extents = Vector2( 29, 24 )
 shape_offset = Vector2( 0, -24 )
-rope_attachment_offset = Vector2( 0, -36 )
 
 [node name="ShaderOutlineableAnimatedSprite" parent="." groups=["slow_motionables"] instance=ExtResource( 3 )]
 light_mask = 2
 position = Vector2( 0, -32 )
 frames = SubResource( 32 )
-frame = 4
+frame = 6
 playing = true
 outline_color = Color( 0.309804, 1, 0.768627, 0 )
 adds_margins = false

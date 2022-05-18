@@ -22,7 +22,7 @@ const SCREEN_RADIUS_INCHES := 0.15
 
 const SHIELD_ENERGY_DRAIN_PERIOD := 0.4
 
-export var rope_attachment_offset := Vector2.ZERO
+export var wire_attachment_offset := Vector2.ZERO
 
 var buttons: OverlayButtonPanel
 
@@ -64,6 +64,9 @@ func _init(
 
 
 func _ready() -> void:
+    if Engine.editor_hint:
+        return
+    
     self.monitorable = true
     
     start_time = Sc.time.get_scaled_play_time()
@@ -449,8 +452,8 @@ func _update_outline() -> void:
     Sc.logger.error("Abstract Station._update_outline is not implemented")
 
 
-func get_power_line_attachment_position() -> Vector2:
-    return self.position + self.rope_attachment_offset
+func get_power_line_attachment_position(entity_on_other_end) -> Vector2:
+    return self.position + self.wire_attachment_offset
 
 
 func get_buttons() -> Array:
@@ -493,9 +496,9 @@ func _check_is_connected_to_command_center() -> void:
             _check_is_connected_to_command_center_recursive(self, {})
     if was_connected_to_command_center != is_connected_to_command_center:
         if is_connected_to_command_center:
-            _on_connected_to_command_center()
+            _on_transitively_connected_to_command_center()
         else:
-            _on_disconnected_from_command_center()
+            _on_transitively_disconnected_from_command_center()
         _update_all_connections_connected_to_command_center_recursive(
                 is_connected_to_command_center, self, {})
 
@@ -528,12 +531,36 @@ func _update_all_connections_connected_to_command_center_recursive(
                 is_connected_to_command_center, other_station, visited_stations)
 
 
-func _on_connected_to_command_center() -> void:
+func _on_transitively_connected_to_command_center() -> void:
     _update_highlight()
 
 
-func _on_disconnected_from_command_center() -> void:
+func _on_transitively_disconnected_from_command_center() -> void:
     _update_highlight()
+
+
+# FIXME: LEFT OFF HERE: ------------------- Call this.
+func _on_connected_to_station(other: Station) -> void:
+    pass
+
+
+# FIXME: LEFT OFF HERE: ------------------- Call this.
+func _on_disconnected_from_station(other: Station) -> void:
+    pass
+
+
+func _on_plugged_into_bot(bot) -> void:
+    pass
+
+
+func _on_replaced_bot_plugin_with_station(
+        bot,
+        destination_station: Station) -> void:
+    pass
+
+
+func _on_plugged_into_station(origin_station: Station) -> void:
+    pass
 
 
 func _on_hit_by_meteor() -> void:

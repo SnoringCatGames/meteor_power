@@ -22,7 +22,7 @@ tracks/0/keys = {
 "values": [ 0 ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Shine:my_frame")
+tracks/1/path = NodePath("Dark:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -31,20 +31,14 @@ tracks/1/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ 1 ]
+"values": [ 0 ]
 }
 
 [sub_resource type="Animation" id=4]
 resource_name = "dark"
-length = 0.1
-
-[sub_resource type="Animation" id=2]
-resource_name = "shine"
-length = 2.4
-loop = true
-step = 0.009
+length = 10.0
 tracks/0/type = "value"
-tracks/0/path = NodePath("Shine:my_frame")
+tracks/0/path = NodePath("Dark:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -53,19 +47,25 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ 1 ]
+"values": [ 0 ]
 }
-tracks/1/type = "value"
-tracks/1/path = NodePath("Shine:frame")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.009, 0.018, 0.027, 0.036, 0.045, 0.054, 0.063, 0.072, 0.081, 0.09, 0.099, 0.108, 0.117, 0.126, 0.135, 0.144, 0.153, 0.162, 0.171, 0.18, 0.189, 0.198, 0.207, 0.216, 0.225, 0.234, 0.243, 0.252, 0.261, 0.27, 0.279, 0.288 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+
+[sub_resource type="Animation" id=2]
+resource_name = "shine"
+length = 2.4
+loop = true
+step = 0.009
+tracks/0/type = "value"
+tracks/0/path = NodePath("Shine:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.009, 0.018, 0.027, 0.036, 0.045, 0.054, 0.063, 0.072, 0.081, 0.09, 0.099, 0.108, 0.117, 0.126, 0.135, 0.144, 0.153, 0.162, 0.171, 0.18, 0.189, 0.198, 0.207, 0.216, 0.225, 0.234, 0.243, 0.252, 0.261, 0.27, 0.279, 0.288, 0.488, 0.688, 0.888, 2, 2.2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32 ]
+"values": [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37 ]
 }
 
 [node name="SolarCollector" type="Area2D"]
@@ -76,29 +76,28 @@ script = ExtResource( 1 )
 screen_radius = 28.8
 shape_rectangle_extents = Vector2( 24, 28 )
 shape_offset = Vector2( 0, -28 )
-rope_attachment_offset = Vector2( 0, -2 )
+wire_attachment_offset = Vector2( -17, -7 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." groups=["slow_motionables"]]
 anims/RESET = SubResource( 1 )
 anims/dark = SubResource( 4 )
 anims/shine = SubResource( 2 )
 
-[node name="Shine" parent="." instance=ExtResource( 6 )]
-position = Vector2( 0, -33 )
-texture = ExtResource( 2 )
-hframes = 33
-frame = 1
-is_outlined = true
-normal_texture = ExtResource( 2 )
-outlined_texture = ExtResource( 7 )
-my_frame = 1
-
 [node name="Dark" parent="." instance=ExtResource( 6 )]
-position = Vector2( 0, -33 )
+position = Vector2( 0, -32 )
 texture = ExtResource( 3 )
 is_outlined = true
 normal_texture = ExtResource( 3 )
 outlined_texture = ExtResource( 8 )
+
+[node name="Shine" parent="." instance=ExtResource( 6 )]
+visible = false
+position = Vector2( 0, -32 )
+texture = ExtResource( 2 )
+hframes = 39
+is_outlined = true
+normal_texture = ExtResource( 2 )
+outlined_texture = ExtResource( 7 )
 
 [node name="Center" type="Position2D" parent="."]
 position = Vector2( 0, -33 )

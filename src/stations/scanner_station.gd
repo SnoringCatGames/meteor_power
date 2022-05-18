@@ -26,15 +26,15 @@ func _get_radial_menu_item_types() -> Array:
     ]
 
 
-func _on_connected_to_command_center() -> void:
-    Sc.logger.print("ScannerStation._on_connected_to_command_center")
+func _on_transitively_connected_to_command_center() -> void:
+    Sc.logger.print("ScannerStation._on_transitively_connected_to_command_center")
     $Disconnected.visible = false
     $Connected.visible = true
     $AnimationPlayer.play("connected")
 
 
-func _on_disconnected_from_command_center() -> void:
-    Sc.logger.print("ScannerStation._on_disconnected_from_command_center")
+func _on_transitively_disconnected_from_command_center() -> void:
+    Sc.logger.print("ScannerStation._on_transitively_disconnected_from_command_center")
     $Disconnected.visible = true
     $Connected.visible = false
     $AnimationPlayer.play("disconnected")
