@@ -491,8 +491,14 @@ func clear_station_power_line_selection() -> void:
     first_selected_station_for_running_power_line = null
     if is_instance_valid(
             previous_first_selected_station_for_running_power_line):
-        previous_first_selected_station_for_running_power_line.buttons \
+        previous_first_selected_station_for_running_power_line \
+            .set_is_selected(false)
+        previous_first_selected_station_for_running_power_line \
             ._on_command_enablement_changed()
+        for other_station in \
+                previous_first_selected_station_for_running_power_line \
+                    .station_connections:
+            other_station._on_command_enablement_changed()
 
 
 func connect_dynamic_power_line_to_second_station(
