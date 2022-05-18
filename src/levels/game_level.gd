@@ -476,7 +476,7 @@ func set_selected_station_for_running_power_line(station: Station) -> void:
     else:
         Sc.logger.print("First wire end")
         first_selected_station_for_running_power_line = station
-        station.buttons._on_command_enablement_changed()
+        station._on_command_enablement_changed()
 
 
 func get_is_first_station_selected_for_running_power_line() -> bool:
@@ -487,27 +487,20 @@ func clear_station_power_line_selection() -> void:
     var previous_first_selected_station_for_running_power_line := \
             first_selected_station_for_running_power_line
     first_selected_station_for_running_power_line = null
-    if is_instance_valid(first_selected_station_for_running_power_line):
-        first_selected_station_for_running_power_line.buttons \
+    if is_instance_valid(
+            previous_first_selected_station_for_running_power_line):
+        previous_first_selected_station_for_running_power_line.buttons \
             ._on_command_enablement_changed()
 
 
 func add_power_line(power_line: PowerLine) -> void:
     $PowerLines.add_child(power_line)
-    _on_power_line_created(power_line)
-
-
-func remove_power_line(power_line: PowerLine) -> void:
-    _on_power_line_destroyed(power_line)
-
-
-func _on_power_line_created(power_line: PowerLine) -> void:
     session.power_lines_built_count += 1
     power_lines.push_back(power_line)
 
 
-func _on_power_line_destroyed(power_line: PowerLine) -> void:
-    self.power_lines.erase(power_line)
+func remove_power_line(power_line: PowerLine) -> void:
+    power_lines.erase(power_line)
     power_line.queue_free()
 
 
@@ -583,6 +576,7 @@ func remove_bot(bot: Bot) -> void:
 func replace_station(
         old_station: Station,
         new_station_type: int) -> void:
+    var previous_station_count: int = session.total_station_count
     var station_position := old_station.position
     remove_station(old_station)
     var station_scene: PackedScene
@@ -671,7 +665,7 @@ func on_bot_health_depleted(bot: Bot) -> void:
 
 func on_power_line_health_depleted(power_line: PowerLine) -> void:
     Sc.audio.play_sound("wire_break")
-    Sc.level.remove_power_line(self)
+    remove_power_line(power_line)
 
 
 func _update_session_counts() -> void:
