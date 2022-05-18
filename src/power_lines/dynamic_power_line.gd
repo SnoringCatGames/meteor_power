@@ -4,6 +4,7 @@ extends PowerLine
 
 const _STABILIZATION_DELAY_BEFORE_SWITCHING_TO_STATIC_LINE := 1.0
 
+var bot
 var origin_station
 var destination_station
 var rope: Rope
@@ -17,11 +18,13 @@ func _init(
         origin_station,
         bot,
         mode) -> void:
+    self.bot = bot
     self.origin_station = origin_station
     self.destination_station = destination_station
     var target_distance: float = \
             origin_station.position.distance_to(destination_station.position)
     self.rope = Rope.new(target_distance)
+    origin_station.add_bot_connection(bot, self)
     origin_station._on_plugged_into_bot(bot)
 
 
@@ -29,11 +32,11 @@ func _on_connected() -> void:
     var bot = end_attachment
     self.mode = PowerLine.CONNECTED
     self.end_attachment = destination_station
-    origin_station.add_connection(destination_station)
-    destination_station.add_connection(origin_station)
-    origin_station \
-        ._on_replaced_bot_plugin_with_station(bot, destination_station)
-    destination_station._on_plugged_into_station(origin_station)
+    Sc.level.connect_dynamic_power_line_to_second_station(
+        origin_station,
+        destination_station,
+        bot,
+        self)
     Sc.time.set_timeout(
             self,
             "_replace_with_static_line",
@@ -41,13 +44,12 @@ func _on_connected() -> void:
 
 
 func _replace_with_static_line() -> void:
-    var connected_power_line := StaticPowerLine.new(
-            self.rope,
-            self.start_attachment,
-            self.destination_station,
+    var static_power_line := StaticPowerLine.new(
+            rope,
+            start_attachment,
+            destination_station,
             PowerLine.CONNECTED)
-    Sc.level.add_power_line(connected_power_line)
-    Sc.level.remove_power_line(self)
+    Sc.level.replace_dynamic_power_line(self, static_power_line)
 
 
 func _physics_process(_delta: float) -> void:
@@ -74,13 +76,8 @@ func _draw() -> void:
 
 func _on_hit_by_meteor() -> void:
     Sc.logger.print("DynamicPowerLine._on_hit_by_meteor")
-    if end_attachment.has_method("stop"):
-        # Is Bot.
-        end_attachment.stop()
-        Sc.level.deduct_energy(Cost.DYNAMIC_POWER_LINE_HIT)
-    else:
-        # Is Station.
-        start_attachment.remove_connection(end_attachment)
-        end_attachment.remove_connection(start_attachment)
+    if mode == PowerLine.CONNECTED:
         Sc.level.deduct_energy(Cost.STATIC_POWER_LINE_HIT)
+    else:
+        Sc.level.deduct_energy(Cost.DYNAMIC_POWER_LINE_HIT)
     ._on_hit_by_meteor()

@@ -246,10 +246,15 @@ func _on_command_enablement_changed() -> void:
     
     var disabled: bool = Sc.level.command_enablement[Command.RUN_WIRE] != ""
     
+    var is_run_wire_button_visible: bool = \
+        disabled or \
+        Sc.level.first_selected_station_for_running_power_line != station and \
+        !station.station_connections.has(
+            Sc.level.first_selected_station_for_running_power_line)
+    
     var visible_button: SpriteModulationButton
     var hidden_button: SpriteModulationButton
-    if disabled or \
-            Sc.level.first_selected_station_for_running_power_line != station:
+    if is_run_wire_button_visible:
         visible_button = $Buttons/RunPowerLine
         hidden_button = $Buttons/Stop
     else:

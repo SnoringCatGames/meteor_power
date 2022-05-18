@@ -65,15 +65,25 @@ func get_next_outlet_index() -> int:
 
 
 func _on_plugged_into_bot(bot) -> void:
+    ._on_plugged_into_bot(bot)
     assert(!entity_to_outlet_index.has(bot))
     var i := get_next_outlet_index()
     outlets[i][bot] = true
     entity_to_outlet_index[bot] = i
 
 
+func _on_unplugged_from_bot(bot) -> void:
+    ._on_unplugged_from_bot(bot)
+    assert(entity_to_outlet_index.has(bot))
+    var i: int = entity_to_outlet_index[bot]
+    outlets[i].erase(bot)
+    entity_to_outlet_index.erase(bot)
+
+
 func _on_replaced_bot_plugin_with_station(
         bot,
         destination_station: Station) -> void:
+    ._on_replaced_bot_plugin_with_station(bot, destination_station)
     assert(entity_to_outlet_index.has(bot))
     assert(!entity_to_outlet_index.has(destination_station))
     var i: int = entity_to_outlet_index[bot]
@@ -84,6 +94,7 @@ func _on_replaced_bot_plugin_with_station(
 
 
 func _on_plugged_into_station(origin_station: Station) -> void:
+    ._on_plugged_into_station(origin_station)
     assert(!entity_to_outlet_index.has(origin_station))
     var i := get_next_outlet_index()
     outlets[i][origin_station] = true
@@ -91,6 +102,7 @@ func _on_plugged_into_station(origin_station: Station) -> void:
 
 
 func _on_disconnected_from_station(other: Station) -> void:
+    ._on_disconnected_from_station(other)
     assert(entity_to_outlet_index.has(other))
     var i: int = entity_to_outlet_index[other]
     outlets[i].erase(other)

@@ -340,9 +340,10 @@ func _on_reached_first_station_for_power_line() -> void:
     assert(is_instance_valid(next_target_station))
     var origin_station := target_station
     var destination_station := next_target_station
-    self.target_station = next_target_station
-    self.next_target_station = null
-    self.held_power_line = DynamicPowerLine.new(
+    target_station = next_target_station
+    next_target_station = null
+    assert(held_power_line == null)
+    held_power_line = DynamicPowerLine.new(
             origin_station,
             destination_station,
             self,
@@ -354,18 +355,37 @@ func _on_reached_first_station_for_power_line() -> void:
 
 func _on_reached_second_station_for_power_line() -> void:
     # FIXME: Play sound and particles
-    Sc.audio.play_sound("command_finished")
-    Sc.logger.print(
-        "Bot._on_reached_second_station_for_power_line: bot=%s, station=%s, p=%s" % [
-            character_name,
-            Command.get_string(target_station.entity_command_type),
-            target_station.position,
-        ])
     assert(is_instance_valid(held_power_line))
-    held_power_line._on_connected()
-    held_power_line = null
-    Sc.level.deduct_energy(Cost.RUN_WIRE)
-    stop_on_surface(true)
+    if held_power_line.origin_station.station_connections.has(
+            held_power_line.destination_station):
+        # The stations are already connected.
+        # -   This should be uncommon, but can sometimes happen.
+        # -   For example, two bots could simultaneously be commanded to run a
+        #     wire from A to B, in which case, A and B would not be detected as
+        #     connected when triggering the latter command.
+        Sc.audio.play_sound("nav_select_fail")
+        Sc.logger.print(
+            ("STATIONS ALREADY CONNECTED: " +
+            "bot=%s, station=%s, p=%s") % [
+                character_name,
+                Command.get_string(target_station.entity_command_type),
+                target_station.position,
+            ])
+        drop_power_line()
+        stop_on_surface(true)
+    else:
+        Sc.audio.play_sound("command_finished")
+        Sc.logger.print(
+            ("Bot._on_reached_second_station_for_power_line: " +
+            "bot=%s, station=%s, p=%s") % [
+                character_name,
+                Command.get_string(target_station.entity_command_type),
+                target_station.position,
+            ])
+        held_power_line._on_connected()
+        held_power_line = null
+        Sc.level.deduct_energy(Cost.RUN_WIRE)
+        stop_on_surface(true)
 
 
 func get_power_line_attachment_position(entity_on_other_end) -> Vector2:
@@ -490,6 +510,17 @@ func _stop_nav_immediately() -> void:
         default_behavior.trigger(false)
 
 
+func drop_power_line() -> void:
+    if !is_instance_valid(held_power_line):
+        return
+    assert(held_power_line.end_attachment == self)
+    held_power_line.start_attachment \
+        .remove_bot_connection(self, held_power_line)
+    held_power_line.start_attachment._on_unplugged_from_bot(self)
+    Sc.level.remove_power_line(held_power_line)
+    held_power_line = null
+
+
 func _on_command_started(command: int) -> void:
 #    Sc.logger.print(
 #            "Bot._on_command_started: %s" % Command.get_string(command))
@@ -505,9 +536,8 @@ func _on_command_started(command: int) -> void:
     
     target_station = null
     next_target_station = null
-    if is_instance_valid(held_power_line):
-        Sc.level.remove_power_line(held_power_line)
-        
+    drop_power_line()
+    
     _update_status()
 
 
@@ -522,9 +552,7 @@ func _on_command_ended() -> void:
     
     target_station = null
     next_target_station = null
-    if is_instance_valid(held_power_line):
-        Sc.level.remove_power_line(held_power_line)
-    held_power_line = null
+    drop_power_line()
     
     if is_initial_nav:
         default_behavior = get_behavior(WanderBehavior)

@@ -477,6 +477,8 @@ func set_selected_station_for_running_power_line(station: Station) -> void:
         Sc.logger.print("First wire end")
         first_selected_station_for_running_power_line = station
         station._on_command_enablement_changed()
+        for other_station in station.station_connections:
+            other_station._on_command_enablement_changed()
 
 
 func get_is_first_station_selected_for_running_power_line() -> bool:
@@ -493,6 +495,19 @@ func clear_station_power_line_selection() -> void:
             ._on_command_enablement_changed()
 
 
+func connect_dynamic_power_line_to_second_station(
+        origin_station: Station,
+        destination_station: Station,
+        bot: Bot,
+        power_line: DynamicPowerLine) -> void:
+    origin_station.remove_bot_connection(bot, power_line)
+    origin_station.add_station_connection(destination_station, power_line)
+    destination_station.add_station_connection(origin_station, power_line)
+    origin_station \
+        ._on_replaced_bot_plugin_with_station(bot, destination_station)
+    destination_station._on_plugged_into_station(origin_station)
+
+
 func add_power_line(power_line: PowerLine) -> void:
     $PowerLines.add_child(power_line)
     session.power_lines_built_count += 1
@@ -500,8 +515,27 @@ func add_power_line(power_line: PowerLine) -> void:
 
 
 func remove_power_line(power_line: PowerLine) -> void:
+    assert(power_lines.has(power_line))
     power_lines.erase(power_line)
     power_line.queue_free()
+
+
+func replace_dynamic_power_line(
+        dynamic_power_line: DynamicPowerLine,
+        static_power_line: StaticPowerLine) -> void:
+    assert(dynamic_power_line.origin_station.station_connections[ \
+        dynamic_power_line.destination_station] == dynamic_power_line)
+    assert(dynamic_power_line.destination_station.station_connections[ \
+        dynamic_power_line.origin_station] == dynamic_power_line)
+    
+    dynamic_power_line.origin_station.station_connections[
+        dynamic_power_line.destination_station] = static_power_line
+    dynamic_power_line.destination_station.station_connections[
+        dynamic_power_line.origin_station] = static_power_line
+    
+    add_power_line(static_power_line)
+    session.power_lines_built_count -= 1
+    remove_power_line(dynamic_power_line)
 
 
 func get_bot_for_station_command(
@@ -558,8 +592,10 @@ func add_bot(
 
 
 func remove_bot(bot: Bot) -> void:
+    bot.drop_power_line()
     if !session.is_ended:
         session.bot_pixels_travelled += bot.distance_travelled
+    assert(bots.has(bot))
     bots.erase(bot)
     if bot is ConstructionBot:
         constructor_bots.erase(bot)
@@ -576,6 +612,19 @@ func remove_bot(bot: Bot) -> void:
 func replace_station(
         old_station: Station,
         new_station_type: int) -> void:
+    for bot in old_station.bot_connections:
+        var power_line: DynamicPowerLine = old_station.bot_connections[bot]
+        assert(bot.held_power_line == power_line)
+        bot.drop_power_line()
+        bot.stop_on_surface(true)
+        remove_power_line(power_line)
+    
+    for other_station in old_station.station_connections:
+        var power_line: PowerLine = \
+            old_station.station_connections[other_station]
+        other_station.remove_station_connection(old_station)
+        remove_power_line(power_line)
+    
     var previous_station_count: int = session.total_station_count
     var station_position := old_station.position
     remove_station(old_station)
@@ -600,13 +649,7 @@ func replace_station(
 
 
 func remove_station(station: Station) -> void:
-    # Remove any attached power lines.
-    for power_line in power_lines:
-        if power_line.start_attachment == station or \
-                power_line.end_attachment == station:
-            power_line.on_attachment_removed()
-            remove_power_line(power_line)
-    
+    assert(stations.has(station))
     stations.erase(station)
     if station is CommandCenter:
         command_centers.erase(station)
@@ -655,7 +698,7 @@ func _on_station_created(
 
 func on_station_health_depleted(station: Station) -> void:
     # FIXME: ------------------------ Play sound
-    Sc.level.replace_station(station, Command.STATION_EMPTY)
+    replace_station(station, Command.STATION_EMPTY)
 
 
 func on_bot_health_depleted(bot: Bot) -> void:
@@ -665,6 +708,17 @@ func on_bot_health_depleted(bot: Bot) -> void:
 
 func on_power_line_health_depleted(power_line: PowerLine) -> void:
     Sc.audio.play_sound("wire_break")
+    if power_line.end_attachment is Bot:
+        # NOTE: This is covered by drop_power_line.
+#        power_line.start_attachment \
+#            .remove_bot_connection(power_line.end_attachment, power_line)
+        power_line.end_attachment.drop_power_line()
+        power_line.end_attachment.stop_on_surface(true)
+    else:
+        power_line.start_attachment \
+            .remove_station_connection(power_line.end_attachment)
+        power_line.end_attachment \
+            .remove_station_connection(power_line.start_attachment)
     remove_power_line(power_line)
 
 

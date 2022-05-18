@@ -34,8 +34,11 @@ var active_outline_alpha_multiplier := 0.0
 var viewport_position_outline_alpha_multiplier := 0.0
 var outline_color := ColorConfig.TRANSPARENT
 
-# Dictionary<Station, bool>
-var connections := {}
+# Dictionary<Station, PowerLine>
+var station_connections := {}
+
+# Dictionary<Bot, PowerLine>
+var bot_connections := {}
 
 var is_connected_to_command_center := false
 
@@ -475,19 +478,33 @@ func get_position_along_surface(
             true)
 
 
-func add_connection(other_station: Station) -> void:
-    if connections.has(other_station):
-#        Sc.logger.warning("Station.add_connection")
-        return
-    connections[other_station] = true
+func add_bot_connection(
+        bot,
+        power_line: PowerLine) -> void:
+    assert(!bot_connections.has(bot))
+    bot_connections[bot] = power_line
+
+
+func remove_bot_connection(
+        bot,
+        power_line: PowerLine) -> void:
+    assert(bot_connections[bot] == power_line)
+    bot_connections.erase(bot)
+
+
+func add_station_connection(
+        other_station: Station,
+        power_line: PowerLine) -> void:
+    assert(!station_connections.has(other_station))
+    station_connections[other_station] = power_line
+    _on_connected_to_station(other_station)
     _check_is_connected_to_command_center()
 
 
-func remove_connection(other_station: Station) -> void:
-    if !connections.has(other_station):
-#        Sc.logger.warning("Station.remove_connection")
-        return
-    connections.erase(other_station)
+func remove_station_connection(other_station: Station) -> void:
+    assert(station_connections.has(other_station))
+    station_connections.erase(other_station)
+    _on_disconnected_from_station(other_station)
     _check_is_connected_to_command_center()
 
 
@@ -508,7 +525,7 @@ func _check_is_connected_to_command_center_recursive(
         station: Station,
         visited_stations: Dictionary) -> bool:
     visited_stations[station] = true
-    for other_station in station.connections:
+    for other_station in station.station_connections:
         if other_station.entity_command_type == Command.STATION_COMMAND:
             return true
         if visited_stations.has(other_station):
@@ -525,7 +542,7 @@ func _update_all_connections_connected_to_command_center_recursive(
         visited_stations: Dictionary) -> void:
     station.is_connected_to_command_center = is_connected_to_command_center
     visited_stations[station] = true
-    for other_station in station.connections:
+    for other_station in station.station_connections:
         if visited_stations.has(other_station):
             continue
         _update_all_connections_connected_to_command_center_recursive(
@@ -540,17 +557,19 @@ func _on_transitively_disconnected_from_command_center() -> void:
     _update_highlight()
 
 
-# FIXME: LEFT OFF HERE: ------------------- Call this.
 func _on_connected_to_station(other: Station) -> void:
     pass
 
 
-# FIXME: LEFT OFF HERE: ------------------- Call this.
 func _on_disconnected_from_station(other: Station) -> void:
     pass
 
 
 func _on_plugged_into_bot(bot) -> void:
+    pass
+
+
+func _on_unplugged_from_bot(bot) -> void:
     pass
 
 
