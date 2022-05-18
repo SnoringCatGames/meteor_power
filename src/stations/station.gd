@@ -42,8 +42,6 @@ var bot_connections := {}
 
 var is_connected_to_command_center := false
 
-var is_connectable := true
-
 var shield_activated := false
 
 var entity_command_type := Command.UNKNOWN
@@ -57,11 +55,8 @@ var _health := 0
 var _health_capacity := 0
 
 
-func _init(
-        entity_command_type: int,
-        is_connectable: bool) -> void:
+func _init(entity_command_type: int) -> void:
     self.entity_command_type = entity_command_type
-    self.is_connectable = is_connectable
     _health_capacity = _get_health_capacity()
     _health = _health_capacity
 
@@ -327,7 +322,9 @@ func _on_touch_down(
         Sc.level.selected_bot.set_is_player_control_active(false)
     
     if Sc.level.get_is_first_station_selected_for_running_power_line():
-        if Sc.level.first_selected_station_for_running_power_line == self:
+        if Sc.level.first_selected_station_for_running_power_line == self or \
+                station_connections.has(Sc.level.first_selected_station_for_running_power_line) or \
+                entity_command_type == Command.STATION_EMPTY:
             _on_button_pressed(Command.STATION_STOP)
         else:
             _on_button_pressed(Command.RUN_WIRE)
@@ -438,7 +435,8 @@ func _update_highlight() -> void:
     elif get_is_selected():
         outline_color = Sc.palette.get_color("station_selected")
     elif !is_connected_to_command_center and \
-            is_connectable:
+            entity_command_type != Command.STATION_COMMAND and \
+            entity_command_type != Command.STATION_EMPTY:
         outline_color = Sc.palette.get_color("station_disconnected")
     else:
         outline_color = _get_normal_highlight_color()
@@ -509,9 +507,13 @@ func remove_station_connection(other_station: Station) -> void:
 
 
 func _check_is_connected_to_command_center() -> void:
+    _set_is_connected_to_command_center(
+        _check_is_connected_to_command_center_recursive(self, {}))
+
+
+func _set_is_connected_to_command_center(value: bool) -> void:
     var was_connected_to_command_center := is_connected_to_command_center
-    self.is_connected_to_command_center = \
-            _check_is_connected_to_command_center_recursive(self, {})
+    is_connected_to_command_center = value
     if was_connected_to_command_center != is_connected_to_command_center:
         if is_connected_to_command_center:
             _on_transitively_connected_to_command_center()
@@ -540,7 +542,7 @@ func _update_all_connections_connected_to_command_center_recursive(
         is_connected_to_command_center: bool,
         station: Station,
         visited_stations: Dictionary) -> void:
-    station.is_connected_to_command_center = is_connected_to_command_center
+    station._set_is_connected_to_command_center(is_connected_to_command_center)
     visited_stations[station] = true
     for other_station in station.station_connections:
         if visited_stations.has(other_station):

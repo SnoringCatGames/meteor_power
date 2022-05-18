@@ -4,10 +4,9 @@ extends Station
 
 
 const ENTITY_COMMAND_TYPE := Command.STATION_SCANNER
-const IS_CONNECTABLE := true
 
 
-func _init().(ENTITY_COMMAND_TYPE, IS_CONNECTABLE) -> void:
+func _init().(ENTITY_COMMAND_TYPE) -> void:
     pass
 
 

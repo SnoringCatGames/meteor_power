@@ -4,13 +4,12 @@ extends Station
 
 
 const ENTITY_COMMAND_TYPE := Command.STATION_SOLAR
-const IS_CONNECTABLE := true
 
 var seconds_per_one_energy_value := 0.05
 var total_seconds := 0.0
 
 
-func _init().(ENTITY_COMMAND_TYPE, IS_CONNECTABLE) -> void:
+func _init().(ENTITY_COMMAND_TYPE) -> void:
     pass
 
 

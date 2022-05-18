@@ -4,7 +4,6 @@ extends Station
 
 
 const ENTITY_COMMAND_TYPE := Command.STATION_COMMAND
-const IS_CONNECTABLE := false
 
 const OUTLET_OFFSETS := [
     Vector2(-24.0, -15.0),
@@ -20,7 +19,7 @@ var outlets := []
 var entity_to_outlet_index := {}
 
 
-func _init().(ENTITY_COMMAND_TYPE, IS_CONNECTABLE) -> void:
+func _init().(ENTITY_COMMAND_TYPE) -> void:
     shield_activated = true
     
     outlets.resize(4)
