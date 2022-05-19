@@ -38,7 +38,6 @@ var triggers_command_when_landed := false
 var triggers_wander_when_landed := false
 
 var is_initial_nav := false
-var is_triggering_new_navigation := false
 
 var total_movement_time := 0.0
 
@@ -315,7 +314,7 @@ func _start_command_navigation() -> void:
     assert(command.target_station != command.next_target_station)
     match command.command:
         Command.BOT_MOVE:
-            # FIXME: ----------------------------
+            # This is handled by the PlayerNavigationBehavior.
             pass
         Command.STATION_REPAIR, \
         Command.WIRE_REPAIR:
@@ -451,18 +450,16 @@ func _navigate_to_target_station(target_station: Station) -> void:
     var already_there := \
         _extra_collision_detection_area.overlaps_area(target_station)
     if already_there:
-        is_triggering_new_navigation = false
         _on_reached_target_station()
     else:
-        is_triggering_new_navigation = true
         navigate_imperatively(target_station.get_position_along_surface(self))
-        is_triggering_new_navigation = false
 
 
 func stop_on_surface(
         triggers_command := false,
         triggers_wander := false) -> void:
-    _clear_command_state()
+    assert(!triggers_command or !triggers_wander)
+    _clear_command_state(is_active)
     triggers_command_when_landed = triggers_command
     triggers_wander_when_landed = triggers_wander
     .stop_on_surface()
@@ -470,11 +467,9 @@ func stop_on_surface(
 
 func _stop_nav_immediately() -> void:
     ._stop_nav_immediately()
-    _clear_command_state()
     var previous_triggers_command_when_landed := triggers_command_when_landed
     var previous_triggers_wander_when_landedd := triggers_wander_when_landed
-    triggers_command_when_landed = false
-    triggers_wander_when_landed = false
+    _clear_command_state(triggers_command_when_landed)
     if previous_triggers_command_when_landed:
         _start_command_navigation()
     else:
@@ -517,24 +512,21 @@ func _on_command_started() -> void:
     _update_status()
 
 
-func _clear_command_state() -> void:
+func _clear_command_state(next_is_active: bool) -> void:
 #    Sc.logger.print(
 #        "Bot._clear_command_state: %s" % \
 #        Command.get_string(command.command))
     
     var was_active := is_active
     
-    is_active = false
+    is_active = next_is_active
     is_new = false
     is_waiting_to_stop_on_surface = false
+    triggers_command_when_landed = false
+    triggers_wander_when_landed = false
     
     target_station = null
     drop_power_line()
-    
-    if is_initial_nav:
-        default_behavior = get_behavior(WanderBehavior)
-        is_initial_nav = false
-        is_new = true
     
     _update_status()
     
@@ -544,12 +536,12 @@ func _clear_command_state() -> void:
     set_is_selected(false)
     
     # FIXME: ---------- Fix this. It probably triggers false-positives right now.
-    if was_active:
+    if !is_active and was_active:
         Sc.level.on_bot_idle(self)
 
 
-func _cancel_command() -> void:
-    _clear_command_state()
+func _cancel_command(is_active: bool) -> void:
+    _clear_command_state(is_active)
     
     # FIXME: ---------------- De-queue commands when finished.
     if is_instance_valid(command):
@@ -566,7 +558,7 @@ func _on_navigation_started(is_retry: bool) -> void:
 #    Sc.logger.print("Bot._on_navigation_started: %s" % \
 #            str(navigation_state.is_triggered_by_player_selection))
     if navigation_state.is_triggered_by_player_selection:
-        _cancel_command()
+        _cancel_command(true)
         # FIXME: ---------------- Add this to in-progress list. Set command. Command.BOT_MOVE.
         _on_command_started()
         show_exclamation_mark()
@@ -575,8 +567,13 @@ func _on_navigation_started(is_retry: bool) -> void:
 
 func _on_navigation_ended(did_reach_destination: bool) -> void:
 #    Sc.logger.print("Bot._on_navigation_ended")
-    if !is_triggering_new_navigation:
-        _clear_command_state()
+    if navigation_state.is_triggered_by_player_selection:
+        _cancel_command(false)
+    elif is_initial_nav:
+        is_initial_nav = false
+        is_new = true
+        default_behavior = get_behavior(WanderBehavior)
+        default_behavior.trigger(false)
 
 
 func _on_started_colliding(
@@ -645,7 +642,7 @@ func _on_reached_target_station() -> void:
     
     if stops:
         stop_on_surface(false, true)
-        _cancel_command()
+        _cancel_command(false)
 
 
 func _on_radial_menu_item_selected(item: RadialMenuItem) -> void:
