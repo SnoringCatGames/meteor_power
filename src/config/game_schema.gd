@@ -327,6 +327,7 @@ var _gui_manifest := {
     
     display_time_type = TimeType.PLAY_PHYSICS_SCALED,
     
+    welcome_panel_scene = [TYPE_PACKED_SCENE, null],
     main_menu_image_scene = preload("res://src/gui/screens/loading_image.tscn"),
     game_over_image_scene = preload("res://src/gui/screens/loading_image.tscn"),
     loading_image_scene = preload("res://src/gui/screens/loading_image.tscn"),
@@ -569,6 +570,39 @@ var _subtractive_overrides := {
                     ScaffolderSchema.WELCOME_PANEL_ITEM_JUMP,
                 ],
             },
+            settings_item_manifest = {
+                groups = {
+                    main = {
+                        item_classes = [
+#                            MusicControlRow,
+#                            SoundEffectsControlRow,
+#                            HapticFeedbackControlRow,
+                        ],
+                    },
+                    annotations = {
+                        item_classes = [
+#                            RulerAnnotatorControlRow,
+#                            RecentMovementAnnotatorControlRow,
+#                            CharacterAnnotatorControlRow,
+#                            LevelAnnotatorControlRow,
+                        ],
+                    },
+                    hud = {
+                        item_classes = [
+#                            DebugPanelControlRow,
+                        ],
+                    },
+                    miscellaneous = {
+                        item_classes = [
+#                            ButtonControlsControlRow,
+                            WelcomePanelControlRow,
+#                            CameraZoomControlRow,
+#                            TimeScaleControlRow,
+#                            MetronomeControlRow,
+                        ],
+                    },
+                },
+            }
         },
     },
     SurfaceTilerSchema: {
