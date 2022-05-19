@@ -47,8 +47,14 @@ var line_runner_bots := []
 # Array<BarrierBot>
 var barrier_bots := []
 
+# Array<Bot>
+var idle_bots := []
+
 # Array<PowerLine>
 var power_lines := []
+
+# Array<BotCommand>
+var command_queue := []
 
 # Array<String>
 var command_enablement := []
@@ -362,6 +368,32 @@ func _update_camera() -> void:
     camera.transition_extra_zoom(extra_zoom)
 
 
+func add_command(
+        command: int,
+        target_station: Station,
+        next_target_station: Station = null) -> void:
+    var bot_command := BotCommand.new(
+        command,
+        target_station,
+        next_target_station)
+    command_queue.push_back(bot_command)
+    _try_next_command()
+
+
+func _try_next_command() -> void:
+    if command_queue.empty() or \
+            idle_bots.empty():
+        return
+    
+    # FIXME: ---------- Refactor this to instead use the next command that has
+    #                   an available free bot of the correct type.
+    var next_command: BotCommand = command_queue.pop_front()
+    var bot := get_bot_for_station_command(
+        next_command.target_station, Command.RUN_WIRE)
+    
+    bot.start_command(next_command)
+
+
 func deduct_energy(cost: int) -> void:
     if session.current_energy == 0:
         return
@@ -469,9 +501,10 @@ func set_selected_station_for_running_power_line(station: Station) -> void:
         else:
             Sc.logger.print("Second wire end")
             var bot := get_bot_for_station_command(station, Command.RUN_WIRE)
-            bot.move_to_attach_power_line(
-                    first_selected_station_for_running_power_line,
-                    station)
+            add_command(
+                Command.RUN_WIRE,
+                first_selected_station_for_running_power_line,
+                station)
             clear_station_power_line_selection()
     else:
         Sc.logger.print("First wire end")
@@ -558,6 +591,11 @@ func get_bot_for_station_command(
     return bot
 
 
+func on_bot_idle(bot: Bot) -> void:
+    idle_bots.push_back(bot)
+    _try_next_command()
+
+
 func add_bot(
         bot_type: int,
         is_default_bot := false) -> Bot:
@@ -622,7 +660,7 @@ func replace_station(
         var power_line: DynamicPowerLine = old_station.bot_connections[bot]
         assert(bot.held_power_line == power_line)
         bot.drop_power_line()
-        bot.stop_on_surface(true)
+        bot.stop_on_surface(false, true)
         remove_power_line(power_line)
     
     for other_station in old_station.station_connections:
@@ -719,7 +757,7 @@ func on_power_line_health_depleted(power_line: PowerLine) -> void:
 #        power_line.start_attachment \
 #            .remove_bot_connection(power_line.end_attachment, power_line)
         power_line.end_attachment.drop_power_line()
-        power_line.end_attachment.stop_on_surface(true)
+        power_line.end_attachment.stop_on_surface(false, true)
     else:
         power_line.start_attachment \
             .remove_station_connection(power_line.end_attachment)

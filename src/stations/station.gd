@@ -178,12 +178,9 @@ func _on_button_pressed(button_type: int) -> void:
             Sc.level.clear_station_power_line_selection()
         
         Command.STATION_RECYCLE:
-            # FIXME: LEFT OFF HERE: ----------------------------------------
-            pass
             set_is_selected(false)
             update_info_panel_visibility(false)
-            var bot = Sc.level.get_bot_for_station_command(self, button_type)
-            bot.move_to_destroy_station(self)
+            Sc.level.add_command(Command.STATION_RECYCLE, self)
         
         Command.STATION_INFO:
             set_is_selected(true)
@@ -207,10 +204,7 @@ func _on_button_pressed(button_type: int) -> void:
         Command.BOT_CONSTRUCTOR, \
         Command.BOT_LINE_RUNNER, \
         Command.BOT_BARRIER:
-            # FIXME: LEFT OFF HERE: ----------------------------------------
-            pass
-            var bot = Sc.level.get_bot_for_station_command(self, button_type)
-            bot.move_to_build_bot(self, button_type)
+            Sc.level.add_command(button_type, self)
         
         _:
             Sc.logger.error("Station._on_button_pressed")

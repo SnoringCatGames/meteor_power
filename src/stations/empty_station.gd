@@ -13,16 +13,7 @@ func _init().(ENTITY_COMMAND_TYPE) -> void:
 func _build_station(
         button_type: int,
         bot) -> void:
-    match button_type:
-        Command.STATION_SOLAR:
-            bot.move_to_build_station(self, button_type)
-        Command.STATION_SCANNER:
-            bot.move_to_build_station(self, button_type)
-        Command.STATION_BATTERY:
-            bot.move_to_build_station(self, button_type)
-        Command.STATION_COMMAND, \
-        _:
-            Sc.logger.error("EmptyStation._on_station_button_pressed")
+    Sc.level.add_command(button_type, self)
 
 
 func _get_normal_highlight_color() -> Color:
