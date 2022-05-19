@@ -10,7 +10,6 @@ enum {
     PLAYER_CONTROL_ACTIVE,
     SELECTED,
     HOVERED,
-    POWERED_DOWN,
     STOPPING,
 }
 
@@ -51,12 +50,6 @@ const HIGHLIGHT_CONFIGS := {
         energy = 1.1,
         outline_alpha_multiplier = 0.99,
     },
-    POWERED_DOWN: {
-        color = "bot_powered_down",
-        scale = 0.1,
-        energy = 0.6,
-        outline_alpha_multiplier = 0.99,
-    },
 }
 
 
@@ -76,8 +69,6 @@ static func get_string(type: int) -> String:
             return "SELECTED"
         HOVERED:
             return "HOVERED"
-        POWERED_DOWN:
-            return "POWERED_DOWN"
         STOPPING:
             return "STOPPING"
         _:

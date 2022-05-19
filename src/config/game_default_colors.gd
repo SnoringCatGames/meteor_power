@@ -107,7 +107,6 @@ var modulation_button_disabled := highlight_disabled
 var bot_idle := ColorFactory.opacify("highlight_yellow_idle_selected", 0.6)
 var bot_active := ColorFactory.opacify("highlight_teal", 0.4)
 var bot_new := ColorFactory.opacify("highlight_yellow_new_selected", 0.9)
-var bot_powered_down := ColorFactory.opacify("highlight_red", 0.9)
 var bot_selected := ColorFactory.opacify("highlight_blue_selected", 0.9)
 var bot_player_control_active := ColorFactory.opacify("highlight_purple", 0.9)
 var bot_hovered := ColorFactory.opacify("highlight_light_blue_selected", 0.9)
@@ -146,7 +145,6 @@ var disconnected_background := health_bar_empty
 #var bot_idle := ColorFactory.opacify("highlight_pink", 0.8)
 #var bot_active := ColorFactory.opacify("highlight_purple", 0.6)
 #var bot_new := ColorFactory.opacify("highlight_pink_new", 0.9)
-#var bot_powered_down := ColorFactory.opacify("highlight_red", 0.9)
 #var bot_selected := ColorFactory.opacify("highlight_blue_selected", 0.9)
 #var bot_hovered := ColorFactory.opacify("highlight_light_blue_selected", 0.9)
 #
