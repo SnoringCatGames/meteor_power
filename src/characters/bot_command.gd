@@ -9,6 +9,8 @@ var next_target_station: Station
 
 var bot
 
+var is_active := false
+
 
 func _init(
         command: int,

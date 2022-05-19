@@ -499,6 +499,8 @@ func _on_command_started() -> void:
     
     Sc.audio.play_sound("command_acc")
     
+    var was_active := is_active
+    
     is_active = true
     is_new = false
     is_waiting_to_stop_on_surface = false
@@ -510,6 +512,9 @@ func _on_command_started() -> void:
     drop_power_line()
     
     _update_status()
+    
+    if !was_active:
+        Sc.level.on_bot_idleness_changed(self, false)
 
 
 func _clear_command_state(next_is_active: bool) -> void:
@@ -519,7 +524,6 @@ func _clear_command_state(next_is_active: bool) -> void:
     
     var was_active := is_active
     
-    is_active = next_is_active
     is_new = false
     is_waiting_to_stop_on_surface = false
     triggers_command_when_landed = false
@@ -535,19 +539,17 @@ func _clear_command_state(next_is_active: bool) -> void:
     # - Maybe don't wander if selected, but then start wander when deselected?
     set_is_selected(false)
     
-    # FIXME: ---------- Fix this. It probably triggers false-positives right now.
-    if !is_active and was_active:
-        Sc.level.on_bot_idle(self)
+    if !next_is_active and was_active:
+        is_active = false
+        Sc.level.on_bot_idleness_changed(self, true)
 
 
 func _cancel_command(is_active: bool) -> void:
-    _clear_command_state(is_active)
-    
-    # FIXME: ---------------- De-queue commands when finished.
     if is_instance_valid(command):
+        Sc.level.cancel_command(command)
         command = null
     
-    # FIXME: ---------------------- Set-up state for next command in queue.
+    _clear_command_state(is_active)
 
 
 func _on_info_panel_closed(data: InfoPanelData) -> void:
@@ -572,8 +574,10 @@ func _on_navigation_ended(did_reach_destination: bool) -> void:
     elif is_initial_nav:
         is_initial_nav = false
         is_new = true
+        is_active = false
         default_behavior = get_behavior(WanderBehavior)
         default_behavior.trigger(false)
+        Sc.level.on_bot_idleness_changed(self, true)
 
 
 func _on_started_colliding(

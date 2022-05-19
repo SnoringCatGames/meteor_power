@@ -198,8 +198,7 @@ func _on_button_pressed(button_type: int) -> void:
         Command.STATION_BATTERY:
             set_is_selected(false)
             update_info_panel_visibility(false)
-            var bot = Sc.level.get_bot_for_station_command(self, button_type)
-            _build_station(button_type, bot)
+            _build_station(button_type)
         
         Command.BOT_CONSTRUCTOR, \
         Command.BOT_LINE_RUNNER, \
@@ -268,9 +267,7 @@ func update_info_panel_visibility(is_visible: bool) -> void:
             Sc.info_panel.close_panel()
 
 
-func _build_station(
-        button_type: int,
-        bot) -> void:
+func _build_station(button_type: int) -> void:
     Sc.logger.error("Abstract Station._build_station is not implemented")
 
 

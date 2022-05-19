@@ -47,14 +47,17 @@ var line_runner_bots := []
 # Array<BarrierBot>
 var barrier_bots := []
 
-# Array<Bot>
-var idle_bots := []
+# Dictionary<Bot, true>
+var idle_bots := {}
 
 # Array<PowerLine>
 var power_lines := []
 
 # Array<BotCommand>
 var command_queue := []
+
+# Dictionary<BotCommand, true>
+var in_progress_commands := {}
 
 # Array<String>
 var command_enablement := []
@@ -278,6 +281,8 @@ func _on_active_player_character_changed() -> void:
     
     level_control_press_controller.are_touches_disabled = \
             is_instance_valid(_active_player_character)
+    
+    Sc.gui.hud.fade(is_instance_valid(_active_player_character))
 
 
 func _on_bot_selection_changed(
@@ -387,11 +392,19 @@ func _try_next_command() -> void:
     
     # FIXME: ---------- Refactor this to instead use the next command that has
     #                   an available free bot of the correct type.
-    var next_command: BotCommand = command_queue.pop_front()
-    var bot := get_bot_for_station_command(
-        next_command.target_station, Command.RUN_WIRE)
+    var command: BotCommand = command_queue.pop_front()
+    in_progress_commands[command] = true
+    command.is_active = true
     
-    bot.start_command(next_command)
+    var bot := get_bot_for_command(command.target_station, Command.RUN_WIRE)
+    bot.start_command(command)
+
+
+func cancel_command(command: BotCommand) -> void:
+    if command.is_active:
+        command_queue.erase(command)
+    else:
+        in_progress_commands.erase(command)
 
 
 func deduct_energy(cost: int) -> void:
@@ -500,7 +513,6 @@ func set_selected_station_for_running_power_line(station: Station) -> void:
             clear_station_power_line_selection()
         else:
             Sc.logger.print("Second wire end")
-            var bot := get_bot_for_station_command(station, Command.RUN_WIRE)
             add_command(
                 Command.RUN_WIRE,
                 first_selected_station_for_running_power_line,
@@ -577,23 +589,33 @@ func replace_dynamic_power_line(
     remove_power_line(dynamic_power_line)
 
 
-func get_bot_for_station_command(
+func get_bot_for_command(
         station: Station,
         command: int) -> Bot:
-    # FIXME: LEFT OFF HERE: ---------------------------------------------
-    # - Automatically select bot based on temporal distance.
+    # FIXME: ---------------------------------------------
     # - If there was a selected-bot when pressing the first run-line button,
     #   then use that bot.
-    var bot = \
-            selected_bot if \
-            is_instance_valid(selected_bot) else \
-            bots[0]
-    return bot
+    var closest_distance_squared := INF
+    var closest_bot: Bot = null
+    for bot in idle_bots:
+        var current_distance_squared: float = \
+            bot.position.distance_squared_to(station.position)
+        if current_distance_squared < closest_distance_squared:
+            closest_distance_squared = current_distance_squared
+            closest_bot = bot
+    return closest_bot
 
 
-func on_bot_idle(bot: Bot) -> void:
-    idle_bots.push_back(bot)
-    _try_next_command()
+func on_bot_idleness_changed(
+        bot: Bot,
+        is_idle: bool) -> void:
+    if is_idle:
+        assert(!idle_bots.has(bot))
+        idle_bots[bot] = true
+        _try_next_command()
+    else:
+        assert(idle_bots.has(bot))
+        idle_bots.erase(bot)
 
 
 func add_bot(

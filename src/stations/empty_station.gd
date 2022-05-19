@@ -10,9 +10,7 @@ func _init().(ENTITY_COMMAND_TYPE) -> void:
     pass
 
 
-func _build_station(
-        button_type: int,
-        bot) -> void:
+func _build_station(button_type: int) -> void:
     Sc.level.add_command(button_type, self)
 
 
