@@ -3,7 +3,7 @@ class_name EmptyStation
 extends Station
 
 
-const ENTITY_COMMAND_TYPE := Command.STATION_EMPTY
+const ENTITY_COMMAND_TYPE := CommandType.STATION_EMPTY
 
 
 func _init().(ENTITY_COMMAND_TYPE) -> void:
@@ -20,16 +20,16 @@ func _get_normal_highlight_color() -> Color:
 
 func get_buttons() -> Array:
     return [
-#        Command.STATION_SOLAR,
+#        CommandType.STATION_SOLAR,
     ]
 
 
 func _get_radial_menu_item_types() -> Array:
     return [
-        Command.STATION_SOLAR,
-        Command.STATION_SCANNER,
-        Command.STATION_BATTERY,
-        Command.STATION_INFO,
+        CommandType.STATION_SOLAR,
+        CommandType.STATION_SCANNER,
+        CommandType.STATION_BATTERY,
+        CommandType.STATION_INFO,
     ]
 
 

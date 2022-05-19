@@ -22,8 +22,7 @@ var held_power_line: DynamicPowerLine
 
 var status := BotStatus.UNKNOWN
 
-# FIXME: --------------- RENAME
-var command: BotCommand
+var command: Command
 
 var target_station: Station
 
@@ -34,6 +33,8 @@ var is_new := true
 var is_active := false
 var is_hovered := false
 
+var reached_target_station := false
+
 var triggers_command_when_landed := false
 var triggers_wander_when_landed := false
 
@@ -43,7 +44,7 @@ var total_movement_time := 0.0
 
 var viewport_position_outline_alpha_multiplier := 0.0
 
-var entity_command_type := Command.UNKNOWN
+var entity_command_type := CommandType.UNKNOWN
 
 var _health := 0
 var _health_capacity := 0
@@ -302,7 +303,7 @@ func _update_highlight_for_camera_position() -> void:
     update_highlight()
 
 
-func start_command(command: BotCommand) -> void:
+func start_command(command: Command) -> void:
     assert(!is_instance_valid(self.command))
     self.command = command
     # If on the ground, start the command; otherwise, wait.
@@ -312,23 +313,23 @@ func start_command(command: BotCommand) -> void:
 func _start_command_navigation() -> void:
     _on_command_started()
     assert(command.target_station != command.next_target_station)
-    match command.command:
-        Command.BOT_MOVE:
+    match command.type:
+        CommandType.BOT_MOVE:
             # This is handled by the PlayerNavigationBehavior.
             pass
-        Command.STATION_REPAIR, \
-        Command.WIRE_REPAIR:
+        CommandType.STATION_REPAIR, \
+        CommandType.WIRE_REPAIR:
             # FIXME: ----------------------------
             pass
-        Command.RUN_WIRE, \
-        Command.STATION_SOLAR, \
-        Command.STATION_SCANNER, \
-        Command.STATION_BATTERY, \
-        Command.BOT_CONSTRUCTOR, \
-        Command.BOT_LINE_RUNNER, \
-        Command.BOT_BARRIER, \
-        Command.STATION_RECYCLE, \
-        Command.BOT_RECYCLE:
+        CommandType.RUN_WIRE, \
+        CommandType.STATION_SOLAR, \
+        CommandType.STATION_SCANNER, \
+        CommandType.STATION_BATTERY, \
+        CommandType.BOT_CONSTRUCTOR, \
+        CommandType.BOT_LINE_RUNNER, \
+        CommandType.BOT_BARRIER, \
+        CommandType.STATION_RECYCLE, \
+        CommandType.BOT_RECYCLE:
             _navigate_to_target_station(command.target_station)
         _:
             Sc.logger.error("Bot._start_command_navigation")
@@ -340,7 +341,7 @@ func _on_reached_first_station_for_power_line() -> void:
     Sc.logger.print(
         "Bot._on_reached_first_station_for_power_line: bot=%s, station=%s, p=%s" % [
             self.character_name,
-            Command.get_string(target_station.entity_command_type),
+            CommandType.get_string(target_station.entity_command_type),
             target_station.position,
         ])
     assert(is_instance_valid(command.target_station))
@@ -371,7 +372,7 @@ func _on_reached_second_station_for_power_line() -> void:
             ("STATIONS ALREADY CONNECTED: " +
             "bot=%s, station=%s, p=%s") % [
                 character_name,
-                Command.get_string(target_station.entity_command_type),
+                CommandType.get_string(target_station.entity_command_type),
                 target_station.position,
             ])
         drop_power_line()
@@ -381,7 +382,7 @@ func _on_reached_second_station_for_power_line() -> void:
             ("Bot._on_reached_second_station_for_power_line: " +
             "bot=%s, station=%s, p=%s") % [
                 character_name,
-                Command.get_string(target_station.entity_command_type),
+                CommandType.get_string(target_station.entity_command_type),
                 target_station.position,
             ])
         held_power_line._on_connected()
@@ -396,11 +397,11 @@ func _on_reached_station_to_build() -> void:
     Sc.logger.print(
         "Bot._on_reached_station_to_build: bot=%s, station=%s, p=%s" % [
             self.character_name,
-            Command.get_string(target_station.entity_command_type),
+            CommandType.get_string(target_station.entity_command_type),
             target_station.position,
         ])
-    Sc.level.replace_station(target_station, command.command)
-    Sc.level.deduct_energy(Command.COSTS[command.command])
+    Sc.level.replace_station(target_station, command.type)
+    Sc.level.deduct_energy(CommandType.COSTS[command.type])
 
 
 func _on_reached_station_to_destroy() -> void:
@@ -409,11 +410,11 @@ func _on_reached_station_to_destroy() -> void:
     Sc.logger.print(
         "Bot._on_reached_station_to_destroy: bot=%s, station=%s, p=%s" % [
             self.character_name,
-            Command.get_string(target_station.entity_command_type),
+            CommandType.get_string(target_station.entity_command_type),
             target_station.position,
         ])
     assert(is_instance_valid(target_station))
-    Sc.level.replace_station(target_station, Command.STATION_EMPTY)
+    Sc.level.replace_station(target_station, CommandType.STATION_EMPTY)
     Sc.level.deduct_energy(Cost.STATION_RECYCLE)
 
 
@@ -427,7 +428,7 @@ func _on_reached_station_to_recycle_self() -> void:
             target_station.position,
         ])
     assert(is_instance_valid(target_station))
-    Sc.level.deduct_energy(Command.COSTS[Command.BOT_RECYCLE])
+    Sc.level.deduct_energy(CommandType.COSTS[CommandType.BOT_RECYCLE])
     Sc.level.remove_bot(self)
 
 
@@ -437,12 +438,12 @@ func _on_reached_station_to_build_bot() -> void:
     Sc.logger.print(
         "Bot._on_reached_station_to_build_bot: bot=%s, bot_to_build=%s, p=%s" % [
             self.character_name,
-            Command.get_string(command.command),
+            CommandType.get_string(command.type),
             target_station.position,
         ])
     assert(is_instance_valid(target_station))
-    Sc.level.add_bot(command.command)
-    Sc.level.deduct_energy(Command.COSTS[command.command])
+    Sc.level.add_bot(command.type)
+    Sc.level.deduct_energy(CommandType.COSTS[command.type])
 
 
 func _navigate_to_target_station(target_station: Station) -> void:
@@ -495,7 +496,7 @@ func drop_power_line() -> void:
 func _on_command_started() -> void:
 #    Sc.logger.print(
 #        "Bot._on_command_started: %s" % \
-#        Command.get_string(command.command))
+#        CommandType.get_string(command.type))
     
     Sc.audio.play_sound("command_acc")
     
@@ -504,6 +505,7 @@ func _on_command_started() -> void:
     is_active = true
     is_new = false
     is_waiting_to_stop_on_surface = false
+    reached_target_station = false
     triggers_command_when_landed = false
     triggers_wander_when_landed = false
     is_initial_nav = false
@@ -520,7 +522,7 @@ func _on_command_started() -> void:
 func _clear_command_state(next_is_active: bool) -> void:
 #    Sc.logger.print(
 #        "Bot._clear_command_state: %s" % \
-#        Command.get_string(command.command))
+#        CommandType.get_string(command.type))
     
     var was_active := is_active
     
@@ -539,17 +541,18 @@ func _clear_command_state(next_is_active: bool) -> void:
     # - Maybe don't wander if selected, but then start wander when deselected?
     set_is_selected(false)
     
-    if !next_is_active and was_active:
-        is_active = false
-        Sc.level.on_bot_idleness_changed(self, true)
-
-
-func _cancel_command(is_active: bool) -> void:
-    if is_instance_valid(command):
-        Sc.level.cancel_command(command)
-        command = null
+    var just_became_idle := !next_is_active and was_active
     
-    _clear_command_state(is_active)
+    if reached_target_station or \
+            just_became_idle:
+        if is_instance_valid(command):
+            Sc.level.cancel_command(command)
+            command = null
+    
+    if just_became_idle:
+        is_active = false
+        reached_target_station = false
+        Sc.level.on_bot_idleness_changed(self, true)
 
 
 func _on_info_panel_closed(data: InfoPanelData) -> void:
@@ -560,8 +563,8 @@ func _on_navigation_started(is_retry: bool) -> void:
 #    Sc.logger.print("Bot._on_navigation_started: %s" % \
 #            str(navigation_state.is_triggered_by_player_selection))
     if navigation_state.is_triggered_by_player_selection:
-        _cancel_command(true)
-        # FIXME: ---------------- Add this to in-progress list. Set command. Command.BOT_MOVE.
+        _clear_command_state(true)
+        # FIXME: ---------------- Add this to in-progress list. Set command. CommandType.BOT_MOVE.
         _on_command_started()
         show_exclamation_mark()
     set_is_selected(false)
@@ -570,7 +573,7 @@ func _on_navigation_started(is_retry: bool) -> void:
 func _on_navigation_ended(did_reach_destination: bool) -> void:
 #    Sc.logger.print("Bot._on_navigation_ended")
     if navigation_state.is_triggered_by_player_selection:
-        _cancel_command(false)
+        _clear_command_state(false)
     elif is_initial_nav:
         is_initial_nav = false
         is_new = true
@@ -612,56 +615,58 @@ func _on_hit_by_meteor() -> void:
 
 
 func _on_reached_target_station() -> void:
+    reached_target_station = true
+    
     var stops: bool
-    match command.command:
-        Command.RUN_WIRE:
+    match command.type:
+        CommandType.RUN_WIRE:
             if is_instance_valid(held_power_line):
                 _on_reached_second_station_for_power_line()
                 stops = true
             else:
                 _on_reached_first_station_for_power_line()
                 stops = false
-        Command.STATION_RECYCLE:
+        CommandType.STATION_RECYCLE:
             _on_reached_station_to_destroy()
             stops = true
-        Command.STATION_REPAIR:
+        CommandType.STATION_REPAIR:
             pass
-        Command.STATION_SOLAR, \
-        Command.STATION_SCANNER, \
-        Command.STATION_BATTERY:
+        CommandType.STATION_SOLAR, \
+        CommandType.STATION_SCANNER, \
+        CommandType.STATION_BATTERY:
             _on_reached_station_to_build()
             stops = true
-        Command.BOT_RECYCLE:
+        CommandType.BOT_RECYCLE:
             _on_reached_station_to_recycle_self()
             stops = false
-        Command.BOT_CONSTRUCTOR, \
-        Command.BOT_LINE_RUNNER, \
-        Command.BOT_BARRIER:
+        CommandType.BOT_CONSTRUCTOR, \
+        CommandType.BOT_LINE_RUNNER, \
+        CommandType.BOT_BARRIER:
             _on_reached_station_to_build_bot()
             stops = true
         _:
             Sc.logger.error(
                     "Bot._on_started_colliding: command=%s" % \
-                    str(command.command))
+                    str(command.type))
     
     if stops:
         stop_on_surface(false, true)
-        _cancel_command(false)
+        _clear_command_state(false)
 
 
 func _on_radial_menu_item_selected(item: RadialMenuItem) -> void:
     match item.id:
-        Command.BOT_COMMAND:
+        CommandType.BOT_COMMAND:
             set_is_player_control_active(true)
-        Command.BOT_STOP:
+        CommandType.BOT_STOP:
             set_is_selected(false)
             update_info_panel_visibility(false)
             stop_on_surface(false, true)
-        Command.BOT_RECYCLE:
+        CommandType.BOT_RECYCLE:
             set_is_selected(false)
             update_info_panel_visibility(false)
-            Sc.level.add_command(Command.BOT_RECYCLE, Sc.level.command_center)
-        Command.BOT_INFO:
+            Sc.level.add_command(CommandType.BOT_RECYCLE, Sc.level.command_center)
+        CommandType.BOT_INFO:
             set_is_selected(true)
             set_is_player_control_active(false)
             update_info_panel_visibility(true)
@@ -700,10 +705,10 @@ func _process_sounds() -> void:
 
 func _get_common_radial_menu_item_types() -> Array:
     return [
-        Command.BOT_COMMAND,
-        Command.BOT_STOP,
-        Command.BOT_RECYCLE,
-        Command.BOT_INFO,
+        CommandType.BOT_COMMAND,
+        CommandType.BOT_STOP,
+        CommandType.BOT_RECYCLE,
+        CommandType.BOT_INFO,
     ]
 
 
@@ -712,10 +717,10 @@ func _get_radial_menu_items() -> Array:
     var result := []
     for type in types:
         var command_item := GameRadialMenuItem.new()
-        command_item.cost = Command.COSTS[type]
+        command_item.cost = CommandType.COSTS[type]
         command_item.id = type
-        command_item.description = Command.COMMAND_LABELS[type]
-        command_item.texture = Command.TEXTURES[type]
+        command_item.description = CommandType.COMMAND_LABELS[type]
+        command_item.texture = CommandType.TEXTURES[type]
         command_item.disabled_message = get_disabled_message(type)
         result.push_back(command_item)
     return result
@@ -735,12 +740,12 @@ func _on_command_enablement_changed() -> void:
             item.disabled_message = get_disabled_message(item.id)
 
 
-func get_disabled_message(command: int) -> String:
-    var message: String = Sc.level.command_enablement[command]
+func get_disabled_message(command_type: int) -> String:
+    var message: String = Sc.level.command_enablement[command_type]
     if message != "":
         return message
-    match command:
-        Command.BOT_STOP:
+    match command_type:
+        CommandType.BOT_STOP:
             if !is_active:
                 return Description.ALREADY_STOPPED
         _:

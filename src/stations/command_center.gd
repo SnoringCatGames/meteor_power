@@ -3,7 +3,7 @@ class_name CommandCenter
 extends Station
 
 
-const ENTITY_COMMAND_TYPE := Command.STATION_COMMAND
+const ENTITY_COMMAND_TYPE := CommandType.STATION_COMMAND
 
 const OUTLET_OFFSETS := [
     Vector2(-24.0, -15.0),
@@ -29,19 +29,19 @@ func _init().(ENTITY_COMMAND_TYPE) -> void:
 
 func get_buttons() -> Array:
     return [
-        Command.RUN_WIRE,
-#        Command.BOT_CONSTRUCTOR,
-#        Command.BOT_LINE_RUNNER,
-#        Command.BOT_BARRIER,
+        CommandType.RUN_WIRE,
+#        CommandType.BOT_CONSTRUCTOR,
+#        CommandType.BOT_LINE_RUNNER,
+#        CommandType.BOT_BARRIER,
     ]
 
 
 func _get_radial_menu_item_types() -> Array:
     return [
-        Command.RUN_WIRE,
-        Command.BOT_CONSTRUCTOR,
-        Command.STATION_LINK_TO_MOTHERSHIP,
-        Command.STATION_INFO,
+        CommandType.RUN_WIRE,
+        CommandType.BOT_CONSTRUCTOR,
+        CommandType.STATION_LINK_TO_MOTHERSHIP,
+        CommandType.STATION_INFO,
     ]
 
 

@@ -1,8 +1,8 @@
-class_name BotCommand
+class_name Command
 extends Reference
 
 
-var command := Command.UNKNOWN
+var type := CommandType.UNKNOWN
 
 var target_station: Station
 var next_target_station: Station
@@ -13,9 +13,9 @@ var is_active := false
 
 
 func _init(
-        command: int,
+        type: int,
         target_station: Station,
         next_target_station: Station) -> void:
-    self.command = command
+    self.type = type
     self.target_station = target_station
     self.next_target_station = next_target_station

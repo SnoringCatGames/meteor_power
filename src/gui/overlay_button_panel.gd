@@ -25,13 +25,13 @@ const _BUTTON_SIZE := Vector2(30, 30)
 const _PANEL_OFFSET := Vector2(0, 8)
 
 const _BUTTON_KEYS := [
-    Command.STATION_STOP,
-    Command.STATION_RECYCLE,
-    Command.STATION_BATTERY,
-    Command.STATION_SCANNER,
-    Command.STATION_SOLAR,
-    Command.RUN_WIRE,
-    Command.BOT_CONSTRUCTOR,
+    CommandType.STATION_STOP,
+    CommandType.STATION_RECYCLE,
+    CommandType.STATION_BATTERY,
+    CommandType.STATION_SCANNER,
+    CommandType.STATION_SOLAR,
+    CommandType.RUN_WIRE,
+    CommandType.BOT_CONSTRUCTOR,
 ]
 
 # Array<TextureButton>
@@ -77,7 +77,7 @@ func set_up_controls(
 
 
 func set_buttons(button_types: Array) -> void:
-    has_run_power_line_button = button_types.has(Command.RUN_WIRE)
+    has_run_power_line_button = button_types.has(CommandType.RUN_WIRE)
     
     var visible_buttons := []
     
@@ -192,8 +192,8 @@ func _on_button_touch_down(
     Sc.utils.give_button_press_feedback()
     var button_type := _get_type_for_button(button)
     Sc.logger.print("OverlayButton pressed: button=%s, station=%s, p=%s" % [
-        Command.get_string(button_type),
-        Command.get_string(station.entity_command_type),
+        CommandType.get_string(button_type),
+        CommandType.get_string(station.entity_command_type),
         station.position,
        ])
     emit_signal("button_pressed", button_type)
@@ -201,39 +201,39 @@ func _on_button_touch_down(
 
 func _get_type_for_button(button: SpriteModulationButton) -> int:
     if button == buttons_container.get_node("Stop"):
-        return Command.STATION_STOP
+        return CommandType.STATION_STOP
     elif button == buttons_container.get_node("Destroy"):
-        return Command.STATION_RECYCLE
+        return CommandType.STATION_RECYCLE
     elif button == buttons_container.get_node("Battery"):
-        return Command.STATION_BATTERY
+        return CommandType.STATION_BATTERY
     elif button == buttons_container.get_node("Scanner"):
-        return Command.STATION_SCANNER
+        return CommandType.STATION_SCANNER
     elif button == buttons_container.get_node("Solar"):
-        return Command.STATION_SOLAR
+        return CommandType.STATION_SOLAR
     elif button == buttons_container.get_node("RunPowerLine"):
-        return Command.RUN_WIRE
+        return CommandType.RUN_WIRE
     elif button == buttons_container.get_node("ConstructorBot"):
-        return Command.BOT_CONSTRUCTOR
+        return CommandType.BOT_CONSTRUCTOR
     else:
         Sc.logger.error("OverlayButtonPanel._get_type_for_button")
-        return Command.UNKNOWN
+        return CommandType.UNKNOWN
 
 
 func _get_button_for_type(type: int) -> Node:
     match type:
-        Command.STATION_STOP:
+        CommandType.STATION_STOP:
             return $Buttons/Stop
-        Command.STATION_RECYCLE:
+        CommandType.STATION_RECYCLE:
             return $Buttons/Destroy
-        Command.STATION_BATTERY:
+        CommandType.STATION_BATTERY:
             return $Buttons/Battery
-        Command.STATION_SCANNER:
+        CommandType.STATION_SCANNER:
             return $Buttons/Scanner
-        Command.STATION_SOLAR:
+        CommandType.STATION_SOLAR:
             return $Buttons/Solar
-        Command.RUN_WIRE:
+        CommandType.RUN_WIRE:
             return $Buttons/RunPowerLine
-        Command.BOT_CONSTRUCTOR:
+        CommandType.BOT_CONSTRUCTOR:
             return $Buttons/ConstructorBot
         _:
             Sc.logger.error("OverlayButtonPanel._get_button_for_type")
@@ -244,7 +244,7 @@ func _on_command_enablement_changed() -> void:
     if !has_run_power_line_button:
         return
     
-    var disabled: bool = Sc.level.command_enablement[Command.RUN_WIRE] != ""
+    var disabled: bool = Sc.level.command_enablement[CommandType.RUN_WIRE] != ""
     
     var is_run_wire_button_visible: bool = \
         disabled or \

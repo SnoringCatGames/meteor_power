@@ -3,7 +3,7 @@ class_name ScannerStation
 extends Station
 
 
-const ENTITY_COMMAND_TYPE := Command.STATION_SCANNER
+const ENTITY_COMMAND_TYPE := CommandType.STATION_SCANNER
 
 
 func _init().(ENTITY_COMMAND_TYPE) -> void:
@@ -12,16 +12,16 @@ func _init().(ENTITY_COMMAND_TYPE) -> void:
 
 func get_buttons() -> Array:
     return [
-        Command.RUN_WIRE,
-#        Command.STATION_RECYCLE,
+        CommandType.RUN_WIRE,
+#        CommandType.STATION_RECYCLE,
     ]
 
 
 func _get_radial_menu_item_types() -> Array:
     return [
-        Command.RUN_WIRE,
-        Command.STATION_RECYCLE,
-        Command.STATION_INFO,
+        CommandType.RUN_WIRE,
+        CommandType.STATION_RECYCLE,
+        CommandType.STATION_INFO,
     ]
 
 

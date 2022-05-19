@@ -3,7 +3,7 @@ class_name LineRunnerBot
 extends Bot
 
 
-const ENTITY_COMMAND_TYPE := Command.BOT_LINE_RUNNER
+const ENTITY_COMMAND_TYPE := CommandType.BOT_LINE_RUNNER
 
 
 func _init().(ENTITY_COMMAND_TYPE) -> void:

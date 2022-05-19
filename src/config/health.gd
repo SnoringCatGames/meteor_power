@@ -19,25 +19,25 @@ const METEOR_DAMAGE := 100
 
 static func get_default_capacity(entity_command_type: int) -> int:
     match entity_command_type:
-        Command.BOT_CONSTRUCTOR:
+        CommandType.BOT_CONSTRUCTOR:
             return BOT_CONSTRUCTOR
-        Command.BOT_LINE_RUNNER:
+        CommandType.BOT_LINE_RUNNER:
             return BOT_LINE_RUNNER
-        Command.BOT_BARRIER:
+        CommandType.BOT_BARRIER:
             return BOT_BARRIER
         
-        Command.STATION_COMMAND:
+        CommandType.STATION_COMMAND:
             return STATION_COMMAND
-        Command.STATION_SOLAR:
+        CommandType.STATION_SOLAR:
             return STATION_SOLAR
-        Command.STATION_SCANNER:
+        CommandType.STATION_SCANNER:
             return STATION_SCANNER
-        Command.STATION_BATTERY:
+        CommandType.STATION_BATTERY:
             return STATION_BATTERY
-        Command.STATION_EMPTY:
+        CommandType.STATION_EMPTY:
             return STATION_EMPTY
         
-        Command.RUN_WIRE:
+        CommandType.RUN_WIRE:
             return POWER_LINE
         
         _:

@@ -3,7 +3,7 @@ class_name SolarCollector
 extends Station
 
 
-const ENTITY_COMMAND_TYPE := Command.STATION_SOLAR
+const ENTITY_COMMAND_TYPE := CommandType.STATION_SOLAR
 
 var seconds_per_one_energy_value := 0.05
 var total_seconds := 0.0
@@ -22,16 +22,16 @@ func _physics_process(delta: float) -> void:
 
 func get_buttons() -> Array:
     return [
-        Command.RUN_WIRE,
-#        Command.STATION_RECYCLE,
+        CommandType.RUN_WIRE,
+#        CommandType.STATION_RECYCLE,
     ]
 
 
 func _get_radial_menu_item_types() -> Array:
     return [
-        Command.RUN_WIRE,
-        Command.STATION_RECYCLE,
-        Command.STATION_INFO,
+        CommandType.RUN_WIRE,
+        CommandType.STATION_RECYCLE,
+        CommandType.STATION_INFO,
     ]
 
 

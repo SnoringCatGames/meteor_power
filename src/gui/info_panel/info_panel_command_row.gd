@@ -3,16 +3,16 @@ class_name InfoPanelCommandRow
 extends VBoxContainer
 
 
-var command := Command.UNKNOWN
+var type := CommandType.UNKNOWN
 var disablement_explanation: ScaffolderLabel
 
-func set_up(command) -> void:
-    self.command = command
+func set_up(type) -> void:
+    self.type = type
     
-    var cost: int = Command.COSTS[command]
-#    var label: String = Command.COMMAND_LABELS[command]
-    var texture: Texture = Command.TEXTURES[command]
-    var description_lines: Array = Command.COMMAND_DESCRIPTIONS[command]
+    var cost: int = CommandType.COSTS[type]
+#    var label: String = CommandType.COMMAND_LABELS[type]
+    var texture: Texture = CommandType.TEXTURES[type]
+    var description_lines: Array = CommandType.COMMAND_DESCRIPTIONS[type]
     
     $HBoxContainer/VBoxContainer2/ScaffolderTextureRect.texture = texture
     $HBoxContainer/VBoxContainer2/ScaffolderTextureRect.modulate = \
@@ -50,7 +50,7 @@ func set_up(command) -> void:
 
 func update() -> void:
     var disablement_explation_text: String = \
-        Sc.level.command_enablement[command]
+        Sc.level.command_enablement[type]
     var disabled := disablement_explation_text != ""
     
     disablement_explanation.text = disablement_explation_text

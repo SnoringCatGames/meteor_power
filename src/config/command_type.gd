@@ -1,4 +1,4 @@
-class_name Command
+class_name CommandType
 extends Reference
 
 
@@ -234,5 +234,5 @@ static func get_string(type: int) -> String:
         WIRE_REPAIR:
             return "WIRE_REPAIR"
         _:
-            Sc.logger.error("Command.get_string: %s" % str(type))
+            Sc.logger.error("CommandType.get_string: %s" % str(type))
             return ""

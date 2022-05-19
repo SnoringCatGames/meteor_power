@@ -445,7 +445,7 @@ var _gui_manifest := {
         items = [
             ["Select bot", "Hold Q/W/E/A/S/D"],
             ["Move bot", "L-click on platform"],
-            ["Command bot", "L-click on button"],
+            ["CommandType bot", "L-click on button"],
             ["Cancel command", "R-click"],
             ["Zoom in/out", "Scroll-wheel"],
         ],

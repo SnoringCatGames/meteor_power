@@ -27,7 +27,7 @@ const ENTITY_NAMES := {
     BOT_BARRIER = "Barrier bot",
     
     STATION_EMPTY = "Empty station site",
-    STATION_COMMAND = "Command center",
+    STATION_COMMAND = "CommandType center",
     STATION_SOLAR = "Solar station",
     STATION_SCANNER = "Scanner station",
     STATION_BATTERY = "Battery station",
@@ -78,7 +78,7 @@ const COMMAND_LABELS := {
     BOT_CONSTRUCTOR = "Build construction bot",
     BOT_LINE_RUNNER = "Build line-runner bot",
     BOT_BARRIER = "Build barrier bot",
-    BOT_COMMAND = "Command this bot",
+    BOT_COMMAND = "CommandType this bot",
     BOT_STOP = "Stop",
     BOT_MOVE = "Move bot",
     BOT_RECYCLE = "Recycle",

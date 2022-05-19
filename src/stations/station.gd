@@ -44,7 +44,7 @@ var is_connected_to_command_center := false
 
 var shield_activated := false
 
-var entity_command_type := Command.UNKNOWN
+var entity_command_type := CommandType.UNKNOWN
 
 var start_time := INF
 var previous_total_time := INF
@@ -160,7 +160,7 @@ func _on_level_started() -> void:
 
 func _on_button_pressed(button_type: int) -> void:
     match button_type:
-        Command.STATION_LINK_TO_MOTHERSHIP:
+        CommandType.STATION_LINK_TO_MOTHERSHIP:
             # FIXME: LEFT OFF HERE: ----------------------------------------
             # - Show a fancy energy-field shimmer effect over all bots and
             #   stations to indicate the boost.
@@ -172,43 +172,43 @@ func _on_button_pressed(button_type: int) -> void:
             set_is_selected(false)
             update_info_panel_visibility(false)
         
-        Command.STATION_STOP:
+        CommandType.STATION_STOP:
             set_is_selected(false)
             update_info_panel_visibility(false)
             Sc.level.clear_station_power_line_selection()
         
-        Command.STATION_RECYCLE:
+        CommandType.STATION_RECYCLE:
             set_is_selected(false)
             update_info_panel_visibility(false)
-            Sc.level.add_command(Command.STATION_RECYCLE, self)
+            Sc.level.add_command(CommandType.STATION_RECYCLE, self)
         
-        Command.STATION_INFO:
+        CommandType.STATION_INFO:
             set_is_selected(true)
             update_info_panel_visibility(true)
         
-        Command.RUN_WIRE:
+        CommandType.RUN_WIRE:
             if !Sc.level.get_is_first_station_selected_for_running_power_line():
                 set_is_selected(true)
             update_info_panel_visibility(false)
             Sc.level.set_selected_station_for_running_power_line(self)
         
-        Command.STATION_COMMAND, \
-        Command.STATION_SOLAR, \
-        Command.STATION_SCANNER, \
-        Command.STATION_BATTERY:
+        CommandType.STATION_COMMAND, \
+        CommandType.STATION_SOLAR, \
+        CommandType.STATION_SCANNER, \
+        CommandType.STATION_BATTERY:
             set_is_selected(false)
             update_info_panel_visibility(false)
             _build_station(button_type)
         
-        Command.BOT_CONSTRUCTOR, \
-        Command.BOT_LINE_RUNNER, \
-        Command.BOT_BARRIER:
+        CommandType.BOT_CONSTRUCTOR, \
+        CommandType.BOT_LINE_RUNNER, \
+        CommandType.BOT_BARRIER:
             Sc.level.add_command(button_type, self)
         
         _:
             Sc.logger.error("Station._on_button_pressed")
     
-    if button_type != Command.RUN_WIRE:
+    if button_type != CommandType.RUN_WIRE:
         Sc.level.clear_station_power_line_selection()
 
 
@@ -315,10 +315,10 @@ func _on_touch_down(
     if Sc.level.get_is_first_station_selected_for_running_power_line():
         if Sc.level.first_selected_station_for_running_power_line == self or \
                 station_connections.has(Sc.level.first_selected_station_for_running_power_line) or \
-                entity_command_type == Command.STATION_EMPTY:
-            _on_button_pressed(Command.STATION_STOP)
+                entity_command_type == CommandType.STATION_EMPTY:
+            _on_button_pressed(CommandType.STATION_STOP)
         else:
-            _on_button_pressed(Command.RUN_WIRE)
+            _on_button_pressed(CommandType.RUN_WIRE)
         return
     
     open_radial_menu()
@@ -426,8 +426,8 @@ func _update_highlight() -> void:
     elif get_is_selected():
         outline_color = Sc.palette.get_color("station_selected")
     elif !is_connected_to_command_center and \
-            entity_command_type != Command.STATION_COMMAND and \
-            entity_command_type != Command.STATION_EMPTY:
+            entity_command_type != CommandType.STATION_COMMAND and \
+            entity_command_type != CommandType.STATION_EMPTY:
         outline_color = Sc.palette.get_color("station_disconnected")
     else:
         outline_color = _get_normal_highlight_color()
@@ -519,7 +519,7 @@ func _check_is_connected_to_command_center_recursive(
         visited_stations: Dictionary) -> bool:
     visited_stations[station] = true
     for other_station in station.station_connections:
-        if other_station.entity_command_type == Command.STATION_COMMAND:
+        if other_station.entity_command_type == CommandType.STATION_COMMAND:
             return true
         if visited_stations.has(other_station):
             continue
@@ -589,9 +589,9 @@ func _on_hit_by_meteor() -> void:
 
 func _get_common_radial_menu_item_types() -> Array:
     return [
-        Command.RUN_WIRE,
-        Command.STATION_RECYCLE,
-        Command.STATION_INFO,
+        CommandType.RUN_WIRE,
+        CommandType.STATION_RECYCLE,
+        CommandType.STATION_INFO,
     ]
 
 
@@ -600,10 +600,10 @@ func _get_radial_menu_items() -> Array:
     var result := []
     for type in types:
         var command_item := GameRadialMenuItem.new()
-        command_item.cost = Command.COSTS[type]
+        command_item.cost = CommandType.COSTS[type]
         command_item.id = type
-        command_item.description = Command.COMMAND_LABELS[type]
-        command_item.texture = Command.TEXTURES[type]
+        command_item.description = CommandType.COMMAND_LABELS[type]
+        command_item.texture = CommandType.TEXTURES[type]
         command_item.disabled_message = get_disabled_message(type)
         result.push_back(command_item)
     return result
@@ -624,12 +624,12 @@ func _on_command_enablement_changed() -> void:
             item.disabled_message = get_disabled_message(item.id)
 
 
-func get_disabled_message(command: int) -> String:
-    var message: String = Sc.level.command_enablement[command]
+func get_disabled_message(command_type: int) -> String:
+    var message: String = Sc.level.command_enablement[command_type]
     if message != "":
         return message
-    match command:
-        Command.STATION_REPAIR:
+    match command_type:
+        CommandType.STATION_REPAIR:
             if _health >= _health_capacity:
                 return Description.ALREADY_AT_FULL_HEALTH
         _:

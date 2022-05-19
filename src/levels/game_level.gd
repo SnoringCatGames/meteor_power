@@ -53,10 +53,10 @@ var idle_bots := {}
 # Array<PowerLine>
 var power_lines := []
 
-# Array<BotCommand>
+# Array<Command>
 var command_queue := []
 
-# Dictionary<BotCommand, true>
+# Dictionary<Command, true>
 var in_progress_commands := {}
 
 # Array<String>
@@ -92,11 +92,11 @@ func _ready() -> void:
     
     _overlay_buttons_fade_tween = ScaffolderTween.new(self)
     
-    for command in Command.VALUES:
-        _max_command_cost = max(_max_command_cost, Command.COSTS[command])
+    for command in CommandType.VALUES:
+        _max_command_cost = max(_max_command_cost, CommandType.COSTS[command])
     
-    command_enablement.resize(Command.VALUES.size())
-    for command in Command.VALUES:
+    command_enablement.resize(CommandType.VALUES.size())
+    for command in CommandType.VALUES:
         command_enablement[command] = ""
     previous_command_enablement = command_enablement.duplicate()
 
@@ -130,7 +130,7 @@ func _start() -> void:
         _on_station_created(empty_station, true)
     
     # Always start with a constructor bot.
-    var starting_bot := add_bot(Command.BOT_CONSTRUCTOR, true)
+    var starting_bot := add_bot(CommandType.BOT_CONSTRUCTOR, true)
     # FIXME: ------------------- REMOVE.
     starting_bot.position.x += 96.0
     
@@ -374,14 +374,14 @@ func _update_camera() -> void:
 
 
 func add_command(
-        command: int,
+        type: int,
         target_station: Station,
         next_target_station: Station = null) -> void:
-    var bot_command := BotCommand.new(
-        command,
+    var command := Command.new(
+        type,
         target_station,
         next_target_station)
-    command_queue.push_back(bot_command)
+    command_queue.push_back(command)
     _try_next_command()
 
 
@@ -392,15 +392,15 @@ func _try_next_command() -> void:
     
     # FIXME: ---------- Refactor this to instead use the next command that has
     #                   an available free bot of the correct type.
-    var command: BotCommand = command_queue.pop_front()
+    var command: Command = command_queue.pop_front()
     in_progress_commands[command] = true
     command.is_active = true
     
-    var bot := get_bot_for_command(command.target_station, Command.RUN_WIRE)
+    var bot := get_bot_for_command(command.target_station, CommandType.RUN_WIRE)
     bot.start_command(command)
 
 
-func cancel_command(command: BotCommand) -> void:
+func cancel_command(command: Command) -> void:
     if command.is_active:
         command_queue.erase(command)
     else:
@@ -435,10 +435,10 @@ func add_energy(energy: int) -> void:
 func update_command_enablement() -> void:
     # Disable any command for which there isn't enough energy.
     if session.current_energy < _max_command_cost:
-        for command in Command.VALUES:
+        for command in CommandType.VALUES:
             var previous_enablement: bool = command_enablement[command] == ""
             var next_enablement: bool = \
-                Command.COSTS[command] <= session.current_energy
+                CommandType.COSTS[command] <= session.current_energy
             if previous_enablement != next_enablement:
                 command_enablement[command] = \
                     "" if \
@@ -447,51 +447,51 @@ func update_command_enablement() -> void:
     
     # Disable bot-creation when at max bot capacity.
     if session.total_bot_count >= session.bot_capacity:
-        command_enablement[Command.BOT_CONSTRUCTOR] = \
+        command_enablement[CommandType.BOT_CONSTRUCTOR] = \
             Description.MAX_BOT_CAPACITY
-        command_enablement[Command.BOT_LINE_RUNNER] = \
+        command_enablement[CommandType.BOT_LINE_RUNNER] = \
             Description.MAX_BOT_CAPACITY
-        command_enablement[Command.BOT_BARRIER] = \
+        command_enablement[CommandType.BOT_BARRIER] = \
             Description.MAX_BOT_CAPACITY
     
     # Disable bot-recycling when there's only one bot left.
     if session.total_bot_count <= 1:
-        command_enablement[Command.BOT_RECYCLE] = \
+        command_enablement[CommandType.BOT_RECYCLE] = \
             Description.CANNOT_TRASH_LAST_BOT
     
     # Disable wire-running when there's only one station left.
     if session.total_station_count <= 1:
-        command_enablement[Command.RUN_WIRE] = \
+        command_enablement[CommandType.RUN_WIRE] = \
             Description.CANNOT_RUN_WIRE_WITH_ONE_STATION
     
     if did_level_succeed:
         # FIXME: --------------- Add support for second and third links.
-        command_enablement[Command.STATION_LINK_TO_MOTHERSHIP] = \
+        command_enablement[CommandType.STATION_LINK_TO_MOTHERSHIP] = \
                 Description.ALREADY_LINKED_TO_MOTHERSHIP
         
     # FIXME: LEFT OFF HERE: --------------------------
     if tutorial_mode != TutorialMode.NONE:
         pass
     
-#    command_enablement[Command.BOT_CONSTRUCTOR]
-#    command_enablement[Command.BOT_LINE_RUNNER]
-#    command_enablement[Command.BOT_BARRIER]
-#    command_enablement[Command.BOT_COMMAND]
-#    command_enablement[Command.BOT_STOP]
-#    command_enablement[Command.BOT_MOVE]
-#    command_enablement[Command.BOT_RECYCLE]
-#    command_enablement[Command.BOT_INFO]
+#    command_enablement[CommandType.BOT_CONSTRUCTOR]
+#    command_enablement[CommandType.BOT_LINE_RUNNER]
+#    command_enablement[CommandType.BOT_BARRIER]
+#    command_enablement[CommandType.BOT_COMMAND]
+#    command_enablement[CommandType.BOT_STOP]
+#    command_enablement[CommandType.BOT_MOVE]
+#    command_enablement[CommandType.BOT_RECYCLE]
+#    command_enablement[CommandType.BOT_INFO]
 #
-#    command_enablement[Command.STATION_EMPTY]
-#    command_enablement[Command.STATION_COMMAND]
-#    command_enablement[Command.STATION_SOLAR]
-#    command_enablement[Command.STATION_SCANNER]
-#    command_enablement[Command.STATION_BATTERY]
-#    command_enablement[Command.STATION_LINK_TO_MOTHERSHIP]
-#    command_enablement[Command.STATION_RECYCLE]
-#    command_enablement[Command.STATION_INFO]
+#    command_enablement[CommandType.STATION_EMPTY]
+#    command_enablement[CommandType.STATION_COMMAND]
+#    command_enablement[CommandType.STATION_SOLAR]
+#    command_enablement[CommandType.STATION_SCANNER]
+#    command_enablement[CommandType.STATION_BATTERY]
+#    command_enablement[CommandType.STATION_LINK_TO_MOTHERSHIP]
+#    command_enablement[CommandType.STATION_RECYCLE]
+#    command_enablement[CommandType.STATION_INFO]
 #
-#    command_enablement[Command.RUN_WIRE]
+#    command_enablement[CommandType.RUN_WIRE]
     
     var changed := false
     for i in command_enablement.size():
@@ -514,7 +514,7 @@ func set_selected_station_for_running_power_line(station: Station) -> void:
         else:
             Sc.logger.print("Second wire end")
             add_command(
-                Command.RUN_WIRE,
+                CommandType.RUN_WIRE,
                 first_selected_station_for_running_power_line,
                 station)
             clear_station_power_line_selection()
@@ -591,7 +591,7 @@ func replace_dynamic_power_line(
 
 func get_bot_for_command(
         station: Station,
-        command: int) -> Bot:
+        command_type: int) -> Bot:
     # FIXME: ---------------------------------------------
     # - If there was a selected-bot when pressing the first run-line button,
     #   then use that bot.
@@ -623,7 +623,7 @@ func add_bot(
         is_default_bot := false) -> Bot:
     var bot_scene: PackedScene
     match bot_type:
-        Command.BOT_CONSTRUCTOR:
+        CommandType.BOT_CONSTRUCTOR:
             bot_scene = _CONSTRUCTOR_BOT_SCENE
         _:
             Sc.logger.error("GameLevel.add_bot")
@@ -696,15 +696,15 @@ func replace_station(
     remove_station(old_station)
     var station_scene: PackedScene
     match new_station_type:
-        Command.STATION_COMMAND:
+        CommandType.STATION_COMMAND:
             station_scene = _COMMAND_CENTER_SCENE
-        Command.STATION_SOLAR:
+        CommandType.STATION_SOLAR:
             station_scene = _SOLAR_COLLECTOR_SCENE
-        Command.STATION_BATTERY:
+        CommandType.STATION_BATTERY:
             pass
-        Command.STATION_SCANNER:
+        CommandType.STATION_SCANNER:
             pass
-        Command.STATION_EMPTY:
+        CommandType.STATION_EMPTY:
             station_scene = _EMPTY_STATION_SCENE
         _:
             Sc.logger.error("GameLevel.replace_station")
@@ -764,7 +764,7 @@ func _on_station_created(
 
 func on_station_health_depleted(station: Station) -> void:
     # FIXME: ------------------------ Play sound
-    replace_station(station, Command.STATION_EMPTY)
+    replace_station(station, CommandType.STATION_EMPTY)
 
 
 func on_bot_health_depleted(bot: Bot) -> void:
