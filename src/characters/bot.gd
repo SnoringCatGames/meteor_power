@@ -33,7 +33,7 @@ var is_new := true
 var is_active := false
 var is_hovered := false
 
-var reached_target_station := false
+var reached_command_target := false
 
 var triggers_command_when_landed := false
 var triggers_wander_when_landed := false
@@ -451,7 +451,7 @@ func _navigate_to_target_station(target_station: Station) -> void:
     var already_there := \
         _extra_collision_detection_area.overlaps_area(target_station)
     if already_there:
-        _on_reached_target_station()
+        _on_reached_command_target()
     else:
         navigate_imperatively(target_station.get_position_along_surface(self))
 
@@ -505,7 +505,7 @@ func _on_command_started() -> void:
     is_active = true
     is_new = false
     is_waiting_to_stop_on_surface = false
-    reached_target_station = false
+    reached_command_target = false
     triggers_command_when_landed = false
     triggers_wander_when_landed = false
     is_initial_nav = false
@@ -543,7 +543,7 @@ func _clear_command_state(next_is_active: bool) -> void:
     
     var just_became_idle := !next_is_active and was_active
     
-    if reached_target_station or \
+    if reached_command_target or \
             just_became_idle:
         if is_instance_valid(command):
             Sc.level.cancel_command(command)
@@ -551,7 +551,7 @@ func _clear_command_state(next_is_active: bool) -> void:
     
     if just_became_idle:
         is_active = false
-        reached_target_station = false
+        reached_command_target = false
         Sc.level.on_bot_idleness_changed(self, true)
 
 
@@ -559,20 +559,30 @@ func _on_info_panel_closed(data: InfoPanelData) -> void:
     set_is_selected(false)
 
 
-func _on_navigation_started(is_retry: bool) -> void:
+func _on_navigation_started(
+        is_retry: bool,
+        triggered_by_player: bool) -> void:
 #    Sc.logger.print("Bot._on_navigation_started: %s" % \
-#            str(navigation_state.is_triggered_by_player_selection))
-    if navigation_state.is_triggered_by_player_selection:
+#            str(navigation_state.triggered_by_player))
+    if triggered_by_player:
         _clear_command_state(true)
-        # FIXME: ---------------- Add this to in-progress list. Set command. CommandType.BOT_MOVE.
+        if is_instance_valid(command):
+            Sc.level.cancel_command(command)
+            command = null
+        command = Command.new(CommandType.BOT_MOVE, null, null)
+        command.is_active = true
+        Sc.level.in_progress_commands[command] = true
         _on_command_started()
         show_exclamation_mark()
     set_is_selected(false)
 
 
-func _on_navigation_ended(did_reach_destination: bool) -> void:
+func _on_navigation_ended(
+        did_reach_destination: bool,
+        triggered_by_player) -> void:
 #    Sc.logger.print("Bot._on_navigation_ended")
-    if navigation_state.is_triggered_by_player_selection:
+    if triggered_by_player:
+        reached_command_target = true
         _clear_command_state(false)
     elif is_initial_nav:
         is_initial_nav = false
@@ -597,7 +607,7 @@ func _on_started_colliding_deferred(
             pass
         "stations":
             if target_station == target:
-                _on_reached_target_station()
+                _on_reached_command_target()
         "meteors":
             target._on_collided_with_bot(self)
             _on_hit_by_meteor()
@@ -614,8 +624,8 @@ func _on_hit_by_meteor() -> void:
     modify_health(-damage)
 
 
-func _on_reached_target_station() -> void:
-    reached_target_station = true
+func _on_reached_command_target() -> void:
+    reached_command_target = true
     
     var stops: bool
     match command.type:

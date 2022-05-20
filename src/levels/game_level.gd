@@ -131,8 +131,6 @@ func _start() -> void:
     
     # Always start with a constructor bot.
     var starting_bot := add_bot(CommandType.BOT_CONSTRUCTOR, true)
-    # FIXME: ------------------- REMOVE.
-    starting_bot.position.x += 96.0
     
     for station in stations:
         station._on_level_started()
