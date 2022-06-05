@@ -1,17 +1,21 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://addons/surfacer/src/character/surfacer_character_animator.gd" type="Script" id=1]
-[ext_resource path="res://assets/images/characters/construction_bot_walking.png" type="Texture" id=2]
-[ext_resource path="res://assets/images/characters/construction_bot_standing_outline.png" type="Texture" id=3]
-[ext_resource path="res://assets/images/characters/construction_bot_building_outline.png" type="Texture" id=4]
-[ext_resource path="res://assets/images/characters/construction_jump_rise_outline.png" type="Texture" id=5]
-[ext_resource path="res://assets/images/characters/construction_jump_rise.png" type="Texture" id=6]
-[ext_resource path="res://assets/images/characters/construction_bot_standing.png" type="Texture" id=7]
-[ext_resource path="res://assets/images/characters/construction_jump_fall_outline.png" type="Texture" id=8]
-[ext_resource path="res://assets/images/characters/construction_jump_fall.png" type="Texture" id=9]
-[ext_resource path="res://assets/images/characters/construction_bot_building.png" type="Texture" id=10]
+[ext_resource path="res://assets/images/characters/line_runner_building_outline.png" type="Texture" id=2]
+[ext_resource path="res://assets/images/characters/line_runner_walking_outline.png" type="Texture" id=3]
+[ext_resource path="res://assets/images/characters/line_runner_jump_fall_outline.png" type="Texture" id=4]
+[ext_resource path="res://assets/images/characters/line_runner_jump_rise.png" type="Texture" id=5]
+[ext_resource path="res://assets/images/characters/line_runner_jump_rise_outline.png" type="Texture" id=6]
+[ext_resource path="res://assets/images/characters/line_runner_jump_fall.png" type="Texture" id=7]
+[ext_resource path="res://assets/images/characters/line_runner_standing_outline.png" type="Texture" id=8]
+[ext_resource path="res://assets/images/characters/line_runner_building.png" type="Texture" id=9]
+[ext_resource path="res://assets/images/characters/line_runner_standing.png" type="Texture" id=10]
 [ext_resource path="res://addons/scaffolder/src/texture_outlineable_sprite.tscn" type="PackedScene" id=11]
-[ext_resource path="res://assets/images/characters/construction_bot_walking_outline.png" type="Texture" id=12]
+[ext_resource path="res://assets/images/characters/line_runner_walking.png" type="Texture" id=12]
+[ext_resource path="res://assets/images/characters/line_runner_walking_backwards.png" type="Texture" id=13]
+[ext_resource path="res://assets/images/characters/line_runner_walking_backwards_outline.png" type="Texture" id=14]
+[ext_resource path="res://assets/images/characters/line_runner_standing_backwards_outline.png" type="Texture" id=15]
+[ext_resource path="res://assets/images/characters/line_runner_standing_backwards.png" type="Texture" id=16]
 
 [sub_resource type="Animation" id=12]
 resource_name = "Build"
@@ -32,7 +36,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id=1]
 resource_name = "ClimbDown"
-length = 0.14
+length = 0.63
 loop = true
 step = 0.07
 tracks/0/type = "value"
@@ -42,15 +46,15 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.07 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 0.07, 0.14, 0.21, 0.28, 0.35, 0.42, 0.49, 0.56 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 0, 1 ]
+"values": [ 0, 1, 2, 3, 4, 5, 6, 7, 8 ]
 }
 
 [sub_resource type="Animation" id=2]
 resource_name = "ClimbUp"
-length = 0.14
+length = 0.63
 loop = true
 step = 0.07
 tracks/0/type = "value"
@@ -60,15 +64,15 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.07 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 0.07, 0.14, 0.21, 0.28, 0.35, 0.42, 0.49, 0.56 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 0, 1 ]
+"values": [ 0, 1, 2, 3, 4, 5, 6, 7, 8 ]
 }
 
 [sub_resource type="Animation" id=8]
 resource_name = "CrawlOnCeiling"
-length = 0.14
+length = 0.63
 loop = true
 step = 0.07
 tracks/0/type = "value"
@@ -78,15 +82,15 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.07 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 0.07, 0.14, 0.21, 0.28, 0.35, 0.42, 0.49, 0.56 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 0, 1 ]
+"values": [ 0, 1, 2, 3, 4, 5, 6, 7, 8 ]
 }
 
 [sub_resource type="Animation" id=3]
 resource_name = "JumpFall"
-length = 0.14
+length = 0.21
 loop = true
 step = 0.07
 tracks/0/type = "value"
@@ -96,15 +100,15 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.07 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 0.07, 0.14 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
-"values": [ 0, 1 ]
+"values": [ 0, 1, 2 ]
 }
 
 [sub_resource type="Animation" id=4]
 resource_name = "JumpRise"
-length = 0.14
+length = 0.21
 loop = true
 step = 0.07
 tracks/0/type = "value"
@@ -114,10 +118,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.07 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 0.07, 0.14 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
-"values": [ 0, 1 ]
+"values": [ 0, 1, 2 ]
 }
 
 [sub_resource type="Animation" id=11]
@@ -297,7 +301,7 @@ tracks/0/keys = {
 }
 
 [sub_resource type="Animation" id=7]
-length = 0.56
+length = 0.63
 loop = true
 step = 0.07
 tracks/0/type = "value"
@@ -307,10 +311,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.07, 0.14, 0.21, 0.28, 0.35, 0.42, 0.49 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.07, 0.14, 0.21, 0.28, 0.35, 0.42, 0.49, 0.56 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 0, 1, 2, 3, 4, 5, 6, 7 ]
+"values": [ 0, 1, 2, 3, 4, 5, 6, 7, 8 ]
 }
 
 [node name="LineRunnerBotAnimator" type="Node2D"]
@@ -379,78 +383,88 @@ animations = {
 }
 
 [node name="Walk" parent="." instance=ExtResource( 11 )]
-visible = false
-position = Vector2( 0, -16 )
-texture = ExtResource( 2 )
-hframes = 8
-normal_texture = ExtResource( 2 )
-outlined_texture = ExtResource( 12 )
+position = Vector2( 0, -17 )
+texture = ExtResource( 12 )
+hframes = 9
+normal_texture = ExtResource( 12 )
+outlined_texture = ExtResource( 3 )
 
 [node name="ClimbUp" parent="." instance=ExtResource( 11 )]
 visible = false
-texture = ExtResource( 2 )
-hframes = 8
-normal_texture = ExtResource( 2 )
-outlined_texture = ExtResource( 12 )
+position = Vector2( -17, 0 )
+rotation = -1.5708
+texture = ExtResource( 12 )
+hframes = 9
+normal_texture = ExtResource( 12 )
+outlined_texture = ExtResource( 3 )
 
 [node name="ClimbDown" parent="." instance=ExtResource( 11 )]
 visible = false
-texture = ExtResource( 2 )
-hframes = 8
-normal_texture = ExtResource( 2 )
-outlined_texture = ExtResource( 12 )
+position = Vector2( -17, 0 )
+rotation = -1.5708
+texture = ExtResource( 13 )
+hframes = 9
+normal_texture = ExtResource( 13 )
+outlined_texture = ExtResource( 14 )
 
 [node name="CrawlOnCeiling" parent="." instance=ExtResource( 11 )]
 visible = false
-texture = ExtResource( 2 )
-hframes = 8
-normal_texture = ExtResource( 2 )
-outlined_texture = ExtResource( 12 )
+position = Vector2( 0, 17 )
+rotation = 3.14159
+texture = ExtResource( 13 )
+hframes = 9
+normal_texture = ExtResource( 13 )
+outlined_texture = ExtResource( 14 )
 
 [node name="Rest" parent="." instance=ExtResource( 11 )]
-position = Vector2( 0, -16 )
-texture = ExtResource( 7 )
+visible = false
+position = Vector2( 0, -17 )
+texture = ExtResource( 10 )
 hframes = 8
-normal_texture = ExtResource( 7 )
-outlined_texture = ExtResource( 3 )
+normal_texture = ExtResource( 10 )
+outlined_texture = ExtResource( 8 )
 
 [node name="RestOnWall" parent="." instance=ExtResource( 11 )]
 visible = false
-texture = ExtResource( 2 )
+position = Vector2( -17, 0 )
+rotation = -1.5708
+texture = ExtResource( 10 )
 hframes = 8
-normal_texture = ExtResource( 2 )
-outlined_texture = ExtResource( 12 )
+normal_texture = ExtResource( 10 )
+outlined_texture = ExtResource( 8 )
 
 [node name="RestOnCeiling" parent="." instance=ExtResource( 11 )]
 visible = false
-texture = ExtResource( 2 )
+position = Vector2( 0, 17 )
+rotation = 3.14159
+texture = ExtResource( 16 )
 hframes = 8
-normal_texture = ExtResource( 2 )
-outlined_texture = ExtResource( 12 )
+normal_texture = ExtResource( 16 )
+outlined_texture = ExtResource( 15 )
 
 [node name="JumpFall" parent="." instance=ExtResource( 11 )]
 visible = false
-position = Vector2( 1, -15 )
-texture = ExtResource( 9 )
-hframes = 2
-normal_texture = ExtResource( 9 )
-outlined_texture = ExtResource( 8 )
+position = Vector2( 0, -15 )
+texture = ExtResource( 7 )
+hframes = 3
+normal_texture = ExtResource( 7 )
+outlined_texture = ExtResource( 4 )
 
 [node name="JumpRise" parent="." instance=ExtResource( 11 )]
 visible = false
-position = Vector2( 1, -15 )
-texture = ExtResource( 6 )
-hframes = 2
-normal_texture = ExtResource( 6 )
-outlined_texture = ExtResource( 5 )
+position = Vector2( 0, -7 )
+texture = ExtResource( 5 )
+hframes = 3
+normal_texture = ExtResource( 5 )
+outlined_texture = ExtResource( 6 )
 
 [node name="Build" parent="." instance=ExtResource( 11 )]
 visible = false
-position = Vector2( 5, -18 )
-texture = ExtResource( 10 )
+position = Vector2( -1, -21 )
+texture = ExtResource( 9 )
 hframes = 17
-normal_texture = ExtResource( 10 )
-outlined_texture = ExtResource( 4 )
+normal_texture = ExtResource( 9 )
+outlined_texture = ExtResource( 2 )
 
 [node name="RESET" parent="." instance=ExtResource( 11 )]
 visible = false

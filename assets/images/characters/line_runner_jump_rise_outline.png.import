@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/construction_bot_standing_border.png-a4ab97f49510984a0e6d453d97d8ad5f.stex"
+path="res://.import/line_runner_jump_rise_outline.png-606efaa22ccd6dbde90212b98e6e8487.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/images/characters/construction_bot_standing_border.png"
-dest_files=[ "res://.import/construction_bot_standing_border.png-a4ab97f49510984a0e6d453d97d8ad5f.stex" ]
+source_file="res://assets/images/characters/line_runner_jump_rise_outline.png"
+dest_files=[ "res://.import/line_runner_jump_rise_outline.png-606efaa22ccd6dbde90212b98e6e8487.stex" ]
 
 [params]
 
