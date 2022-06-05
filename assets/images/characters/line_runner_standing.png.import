@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/construction_bot_building_outline.png-229edcb1bbf652ce7092a8ad94a12631.stex"
+path="res://.import/line_runner_standing.png-e31098d91f2e56c7c6fffe061816bbee.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/images/characters/construction_bot_building_outline.png"
-dest_files=[ "res://.import/construction_bot_building_outline.png-229edcb1bbf652ce7092a8ad94a12631.stex" ]
+source_file="res://assets/images/characters/line_runner_standing.png"
+dest_files=[ "res://.import/line_runner_standing.png-e31098d91f2e56c7c6fffe061816bbee.stex" ]
 
 [params]
 
@@ -20,7 +20,7 @@ compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
-flags/filter=false
+flags/filter=true
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2
