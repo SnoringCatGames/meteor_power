@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://src/characters/line_runner_bot/line_runner_bot.gd" type="Script" id=1]
 [ext_resource path="res://src/characters/line_runner_bot/line_runner_bot_animator.tscn" type="PackedScene" id=2]
 [ext_resource path="res://addons/surfacer/src/platform_graph/edge/models/movement_parameters.tscn" type="PackedScene" id=3]
 [ext_resource path="res://addons/scaffolder/assets/images/misc/circle_gradient_modified_1024.png" type="Texture" id=4]
+[ext_resource path="res://addons/surfacer/src/character/behaviors/wander_behavior.tscn" type="PackedScene" id=5]
 
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 10, 15 )
@@ -51,8 +52,10 @@ shadow_item_cull_mask = 2
 collider_shape = SubResource( 3 )
 character_category_name = "line_runner"
 __movement_params_identifier__ = "_"
+can_grab_walls = true
+can_grab_ceilings = true
 can_target_in_air_destinations = false
-surface_speed_multiplier = 0.5
+surface_speed_multiplier = 0.8
 air_horizontal_speed_multiplier = 0.6
 gravity_multiplier = 0.2
 walk_acceleration_multiplier = 0.6
@@ -60,6 +63,7 @@ in_air_horizontal_acceleration_multiplier = 1.2
 friction_coefficient_multiplier = 1.8
 jump_boost_multiplier = 0.5
 move_to_collinear_surface_edge_weight_multiplier_override = -1.0
+air_edge_weight_multiplier_override = 2.0
 collision_margin_for_edge_calculations = 1.0
 collision_margin_for_waypoint_positions = 4.0
 oblique_collison_normal_aspect_ratio_threshold = 10.0
@@ -71,3 +75,11 @@ shape = SubResource( 3 )
 __meta__ = {
 "_edit_lock_": true
 }
+
+[node name="WanderBehavior" parent="." instance=ExtResource( 5 )]
+can_leave_start_surface = false
+max_distance_from_behavior_start_position = 256.0
+surface_speed_multiplier = 0.3
+max_distance_per_movement = 96.0
+min_pause_between_movements = 0.5
+max_pause_between_movements = 1.5

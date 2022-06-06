@@ -267,7 +267,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id=10]
 resource_name = "RestOnCeiling"
-length = 0.14
+length = 0.56
 loop = true
 step = 0.07
 tracks/0/type = "value"
@@ -277,14 +277,14 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.07 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 0.07, 0.14, 0.21, 0.28, 0.35, 0.42, 0.49 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 0, 1 ]
+"values": [ 0, 1, 2, 3, 4, 5, 6, 7 ]
 }
 
 [sub_resource type="Animation" id=6]
-length = 0.14
+length = 0.56
 loop = true
 step = 0.07
 tracks/0/type = "value"
@@ -294,10 +294,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.07 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 0.07, 0.14, 0.21, 0.28, 0.35, 0.42, 0.49 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 0, 1 ]
+"values": [ 0, 1, 2, 3, 4, 5, 6, 7 ]
 }
 
 [sub_resource type="Animation" id=7]
@@ -377,7 +377,7 @@ animations = {
 },
 "Walk": {
 "name": "Walk",
-"speed": 0.5,
+"speed": 2.0,
 "sprite_name": "Walk"
 }
 }

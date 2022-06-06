@@ -17,6 +17,7 @@ var level_manifest := {
         scene_path = LEVELS_PATH_PREFIX + "level0.tscn",
         platform_graph_character_category_names = [
             "construction_bot",
+            "line_runner",
         ],
         cell_size = Vector2(32.0, 32.0),
         start_energy = 2000,
@@ -31,6 +32,7 @@ var level_manifest := {
         scene_path = LEVELS_PATH_PREFIX + "level1.tscn",
         platform_graph_character_category_names = [
             "construction_bot",
+            "line_runner",
         ],
         cell_size = Vector2(32.0, 32.0),
         start_energy = 2000,

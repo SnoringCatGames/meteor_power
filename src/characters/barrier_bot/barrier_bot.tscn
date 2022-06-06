@@ -1,8 +1,7 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://src/characters/line_runner_bot/line_runner_bot.gd" type="Script" id=1]
 [ext_resource path="res://src/characters/barrier_bot/barrier_bot_animator.tscn" type="PackedScene" id=2]
-[ext_resource path="res://addons/surfacer/src/platform_graph/edge/models/movement_parameters.tscn" type="PackedScene" id=3]
 [ext_resource path="res://addons/scaffolder/assets/images/misc/circle_gradient_modified_1024.png" type="Texture" id=4]
 
 [sub_resource type="RectangleShape2D" id=3]
@@ -46,23 +45,6 @@ range_layer_min = -100
 range_layer_max = 100
 range_item_cull_mask = 2
 shadow_item_cull_mask = 2
-
-[node name="MovementParameters" parent="." instance=ExtResource( 3 )]
-collider_shape = SubResource( 3 )
-character_category_name = "barrier"
-__movement_params_identifier__ = "_"
-can_target_in_air_destinations = false
-surface_speed_multiplier = 0.5
-air_horizontal_speed_multiplier = 0.6
-gravity_multiplier = 0.2
-walk_acceleration_multiplier = 0.6
-in_air_horizontal_acceleration_multiplier = 1.2
-friction_coefficient_multiplier = 1.8
-jump_boost_multiplier = 0.5
-move_to_collinear_surface_edge_weight_multiplier_override = -1.0
-collision_margin_for_edge_calculations = 1.0
-collision_margin_for_waypoint_positions = 4.0
-oblique_collison_normal_aspect_ratio_threshold = 10.0
 
 [node name="BarrierBotAnimator" parent="." instance=ExtResource( 2 )]
 
