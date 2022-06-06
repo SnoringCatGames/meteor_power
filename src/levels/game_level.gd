@@ -5,6 +5,10 @@ extends SurfacerLevel
 
 const _CONSTRUCTOR_BOT_SCENE := preload(
         "res://src/characters/construction_bot/construction_bot.tscn")
+const _LINE_RUNNER_BOT_SCENE := preload(
+        "res://src/characters/line_runner_bot/line_runner_bot.tscn")
+const _BARRIER_BOT_SCENE := preload(
+        "res://src/characters/barrier_bot/barrier_bot.tscn")
 const _COMMAND_CENTER_SCENE := preload("res://src/stations/command_center.tscn")
 const _EMPTY_STATION_SCENE := preload("res://src/stations/empty_station.tscn")
 const _SOLAR_COLLECTOR_SCENE := preload(
@@ -623,6 +627,10 @@ func add_bot(
     match bot_type:
         CommandType.BOT_CONSTRUCTOR:
             bot_scene = _CONSTRUCTOR_BOT_SCENE
+        CommandType.BOT_LINE_RUNNER:
+            bot_scene = _LINE_RUNNER_BOT_SCENE
+        CommandType.BOT_BARRIER:
+            bot_scene = _BARRIER_BOT_SCENE
         _:
             Sc.logger.error("GameLevel.add_bot")
             return null

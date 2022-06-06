@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://src/characters/line_runner_bot/line_runner_bot.gd" type="Script" id=1]
-[ext_resource path="res://src/characters/construction_bot/construction_bot_animator.tscn" type="PackedScene" id=2]
+[ext_resource path="res://src/characters/barrier_bot/barrier_bot_animator.tscn" type="PackedScene" id=2]
 [ext_resource path="res://addons/surfacer/src/platform_graph/edge/models/movement_parameters.tscn" type="PackedScene" id=3]
 [ext_resource path="res://addons/scaffolder/assets/images/misc/circle_gradient_modified_1024.png" type="Texture" id=4]
 
@@ -11,6 +11,32 @@ extents = Vector2( 10, 15 )
 [node name="BarrierBot" type="KinematicBody2D"]
 collision_layer = 8
 script = ExtResource( 1 )
+character_name = "barrier"
+collision_detection_layers = 56
+pointer_screen_radius = 48.0
+primary_annotation_color = Object(Reference,"script":Resource( "res://addons/scaffolder/src/config/color_config/static_color_config.gd" ),"h":0.123932,"s":0.509804,"v":0.6,"a":1.0,"r":0.6,"g":0.521569,"b":0.294118,"color":Color( 0.6, 0.521569, 0.294118, 1 ),"_h":0.123932,"_s":0.509804,"_v":0.6,"_a":1.0,"_color":null)
+
+secondary_annotation_color = Object(Reference,"script":Resource( "res://addons/scaffolder/src/config/color_config/palette_color_config.gd" ),"h":0.0,"s":0.0,"v":0.0,"a":0.0,"key":"white","_h_override":-1.0,"_s_override":-1.0,"_v_override":-1.0,"_a_override":-1.0,"h_delta":0.0,"s_delta":0.0,"v_delta":0.0,"a_delta":0.0,"override_color":Color( -1, -2, -2, -1 ),"delta_color":Color( 0, 0, 0, 0 ),"key":"white","_h_override":-1.0,"_s_override":-1.0,"_v_override":-1.0,"_a_override":-1.0,"h_delta":0.0,"s_delta":0.0,"v_delta":0.0,"a_delta":0.0)
+
+navigation_annotation_color_override = Object(Reference,"script":Resource( "res://addons/scaffolder/src/config/color_config/static_color_config.gd" ),"h":0.758523,"s":0.690196,"v":1.0,"a":1.0,"r":0.690197,"g":0.309804,"b":1.0,"color":Color( 0.690197, 0.309804, 1, 1 ),"_h":0.758523,"_s":0.690196,"_v":1.0,"_a":1.0,"_color":null)
+
+position_annotation_color_override = Object(Reference,"script":Resource( "res://addons/scaffolder/src/config/color_config/static_color_config.gd" ),"h":0.758523,"s":0.690196,"v":1.0,"a":1.0,"r":0.690197,"g":0.309804,"b":1.0,"color":Color( 0.690197, 0.309804, 1, 1 ),"_h":0.758523,"_s":0.690196,"_v":1.0,"_a":1.0,"_color":null)
+
+exclamation_mark_width_start = 4.0
+exclamation_mark_length_start = 24.0
+exclamation_mark_stroke_width_start = 1.2
+exclamation_mark_duration = 1.8
+exclamation_mark_throttle_interval = 1.0
+logs_common_debugging_events = false
+logs_custom_events = true
+logs_behavior_events = false
+logs_navigator_events = false
+logs_collision_events = false
+logs_surface_events = false
+logs_action_events = false
+logs_verbose_events = false
+logs_verbose_navigator_events = false
+stores_logs_on_character_instances = false
 
 [node name="Light2D" type="Light2D" parent="."]
 texture = ExtResource( 4 )
@@ -23,7 +49,7 @@ shadow_item_cull_mask = 2
 
 [node name="MovementParameters" parent="." instance=ExtResource( 3 )]
 collider_shape = SubResource( 3 )
-character_category_name = "construction_bot"
+character_category_name = "barrier"
 __movement_params_identifier__ = "_"
 can_target_in_air_destinations = false
 surface_speed_multiplier = 0.5
@@ -38,9 +64,7 @@ collision_margin_for_edge_calculations = 1.0
 collision_margin_for_waypoint_positions = 4.0
 oblique_collison_normal_aspect_ratio_threshold = 10.0
 
-[node name="ConstructionBotAnimator" parent="." instance=ExtResource( 2 )]
-is_outlined = true
-outline_color = Color( 0.878431, 0.705882, 0, 0.2 )
+[node name="BarrierBotAnimator" parent="." instance=ExtResource( 2 )]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 3 )

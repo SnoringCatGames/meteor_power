@@ -383,6 +383,7 @@ animations = {
 }
 
 [node name="Walk" parent="." instance=ExtResource( 11 )]
+visible = false
 position = Vector2( 0, -17 )
 texture = ExtResource( 12 )
 hframes = 9
@@ -417,7 +418,6 @@ normal_texture = ExtResource( 13 )
 outlined_texture = ExtResource( 14 )
 
 [node name="Rest" parent="." instance=ExtResource( 11 )]
-visible = false
 position = Vector2( 0, -17 )
 texture = ExtResource( 10 )
 hframes = 8

@@ -40,6 +40,8 @@ func _get_radial_menu_item_types() -> Array:
     return [
         CommandType.RUN_WIRE,
         CommandType.BOT_CONSTRUCTOR,
+        CommandType.BOT_LINE_RUNNER,
+        CommandType.BOT_BARRIER,
         CommandType.STATION_LINK_TO_MOTHERSHIP,
         CommandType.STATION_INFO,
     ]
