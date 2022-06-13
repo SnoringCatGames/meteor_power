@@ -384,6 +384,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/stations/command_center.gd"
 }, {
+"base": "Control",
+"class": "CommandQueueItem",
+"language": "GDScript",
+"path": "res://src/gui/command_queue_item.gd"
+}, {
+"base": "ScaffolderPanelContainer",
+"class": "CommandQueueList",
+"language": "GDScript",
+"path": "res://src/gui/command_queue_list.gd"
+}, {
 "base": "Reference",
 "class": "CommandType",
 "language": "GDScript",
@@ -3055,6 +3065,8 @@ _global_script_class_icons={
 "ColorPalette": "",
 "Command": "",
 "CommandCenter": "",
+"CommandQueueItem": "",
+"CommandQueueList": "",
 "CommandType": "",
 "ConfirmDataDeletionScreenLocal": "",
 "ConfirmDataDeletionScreenWithAnalytics": "",
