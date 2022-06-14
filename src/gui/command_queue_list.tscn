@@ -9,8 +9,10 @@ bg_color = Color( 1, 1, 1, 0 )
 script = ExtResource( 2 )
 
 [node name="CommandQueueList" type="PanelContainer"]
+light_mask = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 2
 custom_styles/panel = SubResource( 1 )
 script = ExtResource( 1 )
 style = 0
@@ -22,10 +24,17 @@ content_margin_right_override = -1
 content_margin_bottom_override = -1
 
 [node name="InProgressCommands" type="VBoxContainer" parent="."]
+light_mask = 0
 margin_right = 1024.0
 margin_bottom = 768.0
+mouse_filter = 2
+custom_constants/separation = 4
+__meta__ = {
+"sc_separation": 4
+}
 
 [node name="Spacer" parent="." instance=ExtResource( 3 )]
+light_mask = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 512.0
@@ -36,5 +45,11 @@ rect_min_size = Vector2( 0, 8 )
 size = Vector2( 0, 8 )
 
 [node name="QueuedCommands" type="VBoxContainer" parent="."]
+light_mask = 0
 margin_right = 1024.0
 margin_bottom = 768.0
+mouse_filter = 2
+custom_constants/separation = 4
+__meta__ = {
+"sc_separation": 4
+}

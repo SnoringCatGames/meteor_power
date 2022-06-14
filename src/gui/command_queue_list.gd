@@ -6,7 +6,9 @@ extends ScaffolderPanelContainer
 const _COMMAND_QUEUE_ITEM_SCENE := \
     preload("res://src/gui/command_queue_item.tscn")
 
-const PADDING := 16.0
+const OUTER_PADDING_X := 2.0
+const OUTER_PADDING_Y := 32.0
+const INTRA_ITEM_PADDING := 8.0
 
 # Dictionary<Command, CommandQueueItem>
 var queued_command_to_control := {}
@@ -30,13 +32,17 @@ func _on_gui_scale_changed() -> bool:
 
 
 func _deferred_on_gui_scale_changed() -> bool:
-    rect_position.x = Sc.gui.hud.hud_key_value_list.rect_position.x
+    rect_position.x = \
+        Sc.gui.hud.hud_key_value_list.rect_position.x + \
+        OUTER_PADDING_X * Sc.gui.scale
     rect_position.y = \
         Sc.gui.hud.hud_key_value_list.get_bottom_coordinate() + \
-        PADDING * Sc.gui.scale
-    $InProgressCommands.add_constant_override("separation", PADDING)
-    $QueuedCommands.add_constant_override("separation", PADDING)
-    $Spacer.size.y = PADDING
+        OUTER_PADDING_Y * Sc.gui.scale
+    $InProgressCommands.add_constant_override(
+        "separation", INTRA_ITEM_PADDING * Sc.gui.scale)
+    $QueuedCommands.add_constant_override(
+        "separation", INTRA_ITEM_PADDING * Sc.gui.scale)
+    $Spacer.size.y = 0.0
     return false
 
 
