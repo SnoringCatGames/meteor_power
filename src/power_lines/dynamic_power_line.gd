@@ -29,6 +29,8 @@ func _init(
 
 
 func _on_connected() -> void:
+    if _destroyed:
+        return
     var bot = end_attachment
     self.mode = PowerLine.CONNECTED
     self.end_attachment = destination_station
@@ -53,6 +55,8 @@ func _replace_with_static_line() -> void:
 
 
 func _physics_process(_delta: float) -> void:
+    if _destroyed:
+        return
     rope.update_end_positions(
             start_attachment.get_power_line_attachment_position(end_attachment),
             end_attachment.get_power_line_attachment_position(start_attachment))
@@ -60,6 +64,8 @@ func _physics_process(_delta: float) -> void:
 
 
 func _process(_delta: float) -> void:
+    if _destroyed:
+        return
     update()
 
 
@@ -75,6 +81,8 @@ func _draw() -> void:
 
 
 func _on_hit_by_meteor() -> void:
+    if _destroyed:
+        return
     Sc.logger.print("DynamicPowerLine._on_hit_by_meteor")
     if mode == PowerLine.CONNECTED:
         Sc.level.deduct_energy(Cost.STATIC_POWER_LINE_HIT)

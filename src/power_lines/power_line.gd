@@ -28,6 +28,8 @@ var viewport_position_outline_alpha_multiplier := 1.0
 var collision_area: Area2D
 var shape: SegmentShape2D
 
+var _destroyed := false
+
 
 func _init(
         start_attachment,
@@ -49,6 +51,11 @@ func _init(
 #    status_overlay.entity = self
 #    status_overlay.anchor_y = center_position.position
 #    status_overlay.set_up()
+
+
+func _destroy() -> void:
+    _destroyed = true
+    queue_free()
 
 
 func _create_collision_area() -> void:
@@ -86,6 +93,8 @@ func _draw_polyline() -> void:
 
 
 func _on_hit_by_meteor() -> void:
+    if _destroyed:
+        return
     Sc.level.session.meteors_collided_count += 1
     var damage := Health.METEOR_DAMAGE
     # FIXME: --------------- Consider modifying damage depending on Upgrade.
@@ -93,10 +102,14 @@ func _on_hit_by_meteor() -> void:
 
 
 func _on_panned() -> void:
+    if _destroyed:
+        return
     _update_highlight_for_camera_position()
 
 
 func _on_zoomed() -> void:
+    if _destroyed:
+        return
     _update_highlight_for_camera_position()
 
 

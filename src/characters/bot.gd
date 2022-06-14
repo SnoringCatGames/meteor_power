@@ -336,6 +336,13 @@ func _start_command_navigation() -> void:
 
 
 func _on_reached_first_station_for_power_line() -> void:
+    if !is_instance_valid(command.target_station) or \
+            !is_instance_valid(command.next_target_station):
+        # One of the stations has been destroyed.
+        # FIXME: Play error sound
+        Sc.audio.play_sound("nav_select_fail")
+        return
+    
     # FIXME: Play sound and particles
     Sc.audio.play_sound("command_acc")
     Sc.logger.print(
@@ -358,6 +365,14 @@ func _on_reached_first_station_for_power_line() -> void:
 
 
 func _on_reached_second_station_for_power_line() -> void:
+    if !is_instance_valid(command.target_station) or \
+            !is_instance_valid(command.next_target_station):
+        # One of the stations has been destroyed.
+        # FIXME: Play error sound
+        Sc.audio.play_sound("nav_select_fail")
+        drop_power_line()
+        return
+    
     # FIXME: Play sound and particles
     assert(is_instance_valid(held_power_line))
     if held_power_line.origin_station.station_connections.has(
@@ -405,6 +420,12 @@ func _on_reached_station_to_build() -> void:
 
 
 func _on_reached_station_to_destroy() -> void:
+    if !is_instance_valid(command.target_station):
+        # The station has been destroyed.
+        # FIXME: Play error sound
+        Sc.audio.play_sound("nav_select_fail")
+        return
+    
     # FIXME: Play sound and particles
     Sc.audio.play_sound("command_finished")
     Sc.logger.print(
@@ -419,6 +440,12 @@ func _on_reached_station_to_destroy() -> void:
 
 
 func _on_reached_station_to_recycle_self() -> void:
+    if !is_instance_valid(command.target_station):
+        # The station has been destroyed.
+        # FIXME: Play error sound
+        Sc.audio.play_sound("nav_select_fail")
+        return
+    
     # FIXME: Play sound and particles
     Sc.audio.play_sound("command_finished")
     Sc.logger.print(
@@ -433,6 +460,12 @@ func _on_reached_station_to_recycle_self() -> void:
 
 
 func _on_reached_station_to_build_bot() -> void:
+    if !is_instance_valid(command.target_station):
+        # The station has been destroyed.
+        # FIXME: Play error sound
+        Sc.audio.play_sound("nav_select_fail")
+        return
+    
     # FIXME: Play sound and particles
     Sc.audio.play_sound("command_finished")
     Sc.logger.print(
@@ -572,6 +605,7 @@ func _on_navigation_started(
         command = Command.new(CommandType.BOT_MOVE, null, null)
         command.is_active = true
         Sc.level.in_progress_commands[command] = true
+        Sc.gui.hud.command_queue_list.sync_queue()
         _on_command_started()
         show_exclamation_mark()
     set_is_selected(false)

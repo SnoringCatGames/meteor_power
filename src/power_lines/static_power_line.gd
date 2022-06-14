@@ -24,6 +24,8 @@ func _draw() -> void:
 
 
 func _on_hit_by_meteor() -> void:
+    if _destroyed:
+        return
     Sc.logger.print("StaticPowerLine._on_hit_by_meteor")
     Sc.level.deduct_energy(Cost.STATIC_POWER_LINE_HIT)
     ._on_hit_by_meteor()

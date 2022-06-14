@@ -192,9 +192,9 @@ func _override_for_level() -> void:
 func _destroy() -> void:
     ._destroy()
     for station in stations:
-        station.queue_free()
+        station._destroy()
     for power_line in power_lines:
-        power_line.queue_free()
+        power_line._destroy()
 
 
 #func _on_initial_input() -> void:
@@ -388,25 +388,25 @@ func add_command(
 
 
 func _try_next_command() -> void:
-    if command_queue.empty() or \
-            idle_bots.empty():
-        return
+    if !command_queue.empty() and \
+            !idle_bots.empty():
+        # FIXME: ---------- Refactor this to instead use the next command that
+        #                   has an available free bot of the correct type.
+        var command: Command = command_queue.pop_front()
+        in_progress_commands[command] = true
+        command.is_active = true
+        
+        var bot := get_bot_for_command(
+            command.target_station, CommandType.RUN_WIRE)
+        bot.start_command(command)
     
-    # FIXME: ---------- Refactor this to instead use the next command that has
-    #                   an available free bot of the correct type.
-    var command: Command = command_queue.pop_front()
-    in_progress_commands[command] = true
-    command.is_active = true
-    
-    var bot := get_bot_for_command(command.target_station, CommandType.RUN_WIRE)
-    bot.start_command(command)
+    Sc.gui.hud.command_queue_list.sync_queue()
 
 
 func cancel_command(command: Command) -> void:
-    if command.is_active:
-        command_queue.erase(command)
-    else:
-        in_progress_commands.erase(command)
+    command_queue.erase(command)
+    in_progress_commands.erase(command)
+    Sc.gui.hud.command_queue_list.sync_queue()
 
 
 func deduct_energy(cost: int) -> void:
@@ -570,7 +570,7 @@ func add_power_line(power_line: PowerLine) -> void:
 func remove_power_line(power_line: PowerLine) -> void:
     assert(power_lines.has(power_line))
     power_lines.erase(power_line)
-    power_line.queue_free()
+    power_line._destroy()
 
 
 func replace_dynamic_power_line(
@@ -695,6 +695,7 @@ func replace_station(
         var power_line: PowerLine = \
             old_station.station_connections[other_station]
         other_station.remove_station_connection(old_station)
+        old_station.remove_station_connection(other_station)
         remove_power_line(power_line)
     
     var previous_station_count: int = session.total_station_count
@@ -791,7 +792,7 @@ func on_power_line_health_depleted(power_line: PowerLine) -> void:
             .remove_station_connection(power_line.end_attachment)
         power_line.end_attachment \
             .remove_station_connection(power_line.start_attachment)
-    remove_power_line(power_line)
+        remove_power_line(power_line)
 
 
 func _update_session_counts() -> void:
