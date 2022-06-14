@@ -15,15 +15,14 @@ var is_active := false
 
 
 func _ready() -> void:
-    # FIXME: -------------- Update colors.
     $SpriteModulationButton.normal_modulate = \
-        ColorFactory.palette("modulation_button_normal")
+        ColorFactory.palette("command_queue_item_active_normal")
     $SpriteModulationButton.hover_modulate = \
-        ColorFactory.palette("modulation_button_hover")
+        ColorFactory.palette("command_queue_item_active_hover")
     $SpriteModulationButton.pressed_modulate = \
-        ColorFactory.palette("modulation_button_pressed")
+        ColorFactory.palette("command_queue_item_active_pressed")
     $SpriteModulationButton.disabled_modulate = \
-        ColorFactory.palette("modulation_button_disabled")
+        ColorFactory.palette("command_queue_item_active_disabled")
 
 
 func set_up() -> void:

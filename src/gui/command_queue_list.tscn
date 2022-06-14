@@ -23,31 +23,36 @@ content_margin_top_override = -1
 content_margin_right_override = -1
 content_margin_bottom_override = -1
 
-[node name="InProgressCommands" type="VBoxContainer" parent="."]
-light_mask = 0
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
 margin_right = 1024.0
 margin_bottom = 768.0
+mouse_filter = 2
+
+[node name="InProgressCommands" type="VBoxContainer" parent="VBoxContainer"]
+light_mask = 0
+margin_right = 1024.0
 mouse_filter = 2
 custom_constants/separation = 4
 __meta__ = {
 "sc_separation": 4
 }
 
-[node name="Spacer" parent="." instance=ExtResource( 3 )]
+[node name="Spacer" parent="VBoxContainer" instance=ExtResource( 3 )]
 light_mask = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 512.0
-margin_top = 380.0
+margin_top = 4.0
 margin_right = 512.0
-margin_bottom = 388.0
+margin_bottom = 12.0
 rect_min_size = Vector2( 0, 8 )
 size = Vector2( 0, 8 )
 
-[node name="QueuedCommands" type="VBoxContainer" parent="."]
+[node name="QueuedCommands" type="VBoxContainer" parent="VBoxContainer"]
 light_mask = 0
+margin_top = 16.0
 margin_right = 1024.0
-margin_bottom = 768.0
+margin_bottom = 16.0
 mouse_filter = 2
 custom_constants/separation = 4
 __meta__ = {

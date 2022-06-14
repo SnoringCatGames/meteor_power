@@ -114,7 +114,8 @@ var bot_hovered := ColorFactory.opacify("highlight_light_blue_selected", 0.9)
 var station_normal := ColorFactory.opacify("highlight_teal", 0.65)
 var station_disconnected := ColorFactory.opacify("highlight_red", 0.9)
 var station_selected := ColorFactory.opacify("highlight_blue_selected", 0.9)
-var station_hovered := ColorFactory.opacify("highlight_light_blue_selected", 0.9)
+var station_hovered := \
+    ColorFactory.opacify("highlight_light_blue_selected", 0.9)
 
 var hud_icon := highlight_purply_blue
 #var hud_totals := faint_orange
@@ -136,6 +137,12 @@ var health_bar_heart := Color("ff5768")
 
 var connected_background := health_bar_full
 var disconnected_background := health_bar_empty
+
+var command_queue_item_active_normal := Color("ffd129")
+var command_queue_item_active_hover := Color("fffbdb")
+var command_queue_item_active_pressed := Color("6b4d00")
+var command_queue_item_active_disabled := \
+    ColorFactory.opacify("highlight_disabled", 0.8)
 
 #var modulation_button_normal := highlight_purple
 #var modulation_button_hover := highlight_light_purple

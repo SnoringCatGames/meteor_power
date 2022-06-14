@@ -38,11 +38,11 @@ func _deferred_on_gui_scale_changed() -> bool:
     rect_position.y = \
         Sc.gui.hud.hud_key_value_list.get_bottom_coordinate() + \
         OUTER_PADDING_Y * Sc.gui.scale
-    $InProgressCommands.add_constant_override(
+    $VBoxContainer/InProgressCommands.add_constant_override(
         "separation", INTRA_ITEM_PADDING * Sc.gui.scale)
-    $QueuedCommands.add_constant_override(
+    $VBoxContainer/QueuedCommands.add_constant_override(
         "separation", INTRA_ITEM_PADDING * Sc.gui.scale)
-    $Spacer.size.y = 0.0
+    $VBoxContainer/Spacer.size.y = 0.0
     return false
 
 
@@ -50,12 +50,12 @@ func sync_queue() -> void:
     in_progress_command_to_control = _sync_queue_helper(
         Sc.level.in_progress_commands,
         in_progress_command_to_control,
-        $InProgressCommands,
+        $VBoxContainer/InProgressCommands,
         true)
     queued_command_to_control = _sync_queue_helper(
         Sc.level.command_queue,
         queued_command_to_control,
-        $QueuedCommands,
+        $VBoxContainer/QueuedCommands,
         false)
 
 
