@@ -190,11 +190,11 @@ func _override_for_level() -> void:
 
 
 func _destroy() -> void:
-    ._destroy()
     for station in stations:
         station._destroy()
     for power_line in power_lines:
         power_line._destroy()
+    ._destroy()
 
 
 #func _on_initial_input() -> void:
