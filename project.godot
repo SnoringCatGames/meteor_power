@@ -69,11 +69,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/scaffolder/src/annotators/annotation_element_type.gd"
 }, {
-"base": "Reference",
-"class": "AnnotatorType",
-"language": "GDScript",
-"path": "res://addons/scaffolder/src/annotators/annotator_type.gd"
-}, {
 "base": "Node",
 "class": "Audio",
 "language": "GDScript",
@@ -378,6 +373,11 @@ _global_script_classes=[ {
 "class": "Command",
 "language": "GDScript",
 "path": "res://src/characters/command.gd"
+}, {
+"base": "Node2D",
+"class": "CommandAnnotator",
+"language": "GDScript",
+"path": "res://src/gui/command_annotator.gd"
 }, {
 "base": "Station",
 "class": "CommandCenter",
@@ -978,6 +978,11 @@ _global_script_classes=[ {
 "class": "FullScreenPanel",
 "language": "GDScript",
 "path": "res://addons/scaffolder/src/gui/widgets/full_screen_panel.gd"
+}, {
+"base": "SurfacerAnnotators",
+"class": "GameAnnotators",
+"language": "GDScript",
+"path": "res://src/gui/game_annotators.gd"
 }, {
 "base": "Reference",
 "class": "GameDefaultAnnotationParameters",
@@ -1888,6 +1893,11 @@ _global_script_classes=[ {
 "class": "ScInterface",
 "language": "GDScript",
 "path": "res://addons/scaffolder/src/global/sc.gd"
+}, {
+"base": "Reference",
+"class": "ScaffolderAnnotatorTypes",
+"language": "GDScript",
+"path": "res://addons/scaffolder/src/annotators/scaffolder_annotator_types.gd"
 }, {
 "base": "Node2D",
 "class": "ScaffolderAnnotators",
@@ -3002,7 +3012,6 @@ _global_script_class_icons={
 "AnimatedTextureRect": "res://addons/scaffolder/assets/images/editor_icons/animated_texture_rect.png",
 "AnnotationElement": "",
 "AnnotationElementType": "",
-"AnnotatorType": "",
 "Audio": "",
 "Background": "",
 "BarrierBot": "",
@@ -3064,6 +3073,7 @@ _global_script_class_icons={
 "ColorFactory": "",
 "ColorPalette": "",
 "Command": "",
+"CommandAnnotator": "",
 "CommandCenter": "",
 "CommandQueueItem": "",
 "CommandQueueList": "",
@@ -3184,6 +3194,7 @@ _global_script_class_icons={
 "FromAirCalculator": "",
 "FromAirEdge": "",
 "FullScreenPanel": "res://addons/scaffolder/assets/images/editor_icons/full_screen_panel.png",
+"GameAnnotators": "",
 "GameDefaultAnnotationParameters": "",
 "GameDefaultColors": "",
 "GameInterface": "",
@@ -3366,6 +3377,7 @@ _global_script_class_icons={
 "RunAwayBehavior": "res://addons/surfacer/assets/images/editor_icons/run_away_behavior.png",
 "SaveState": "",
 "ScInterface": "",
+"ScaffolderAnnotatorTypes": "",
 "ScaffolderAnnotators": "",
 "ScaffolderAppMetadata": "",
 "ScaffolderAudioManifest": "",

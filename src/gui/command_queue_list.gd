@@ -92,9 +92,15 @@ func _sync_queue_helper(
 func _on_single_unhandled_touch_down(
         pointer_screen_position: Vector2,
         pointer_level_position: Vector2) -> void:
+    clear_cancel_status()
+
+
+func clear_cancel_status(exception_command: Command = null) -> void:
     for collection in [
         in_progress_command_to_control,
         queued_command_to_control,
     ]:
         for command in collection:
+            if command == exception_command:
+                continue
             collection[command].is_in_cancel_mode = false

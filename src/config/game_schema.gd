@@ -526,7 +526,8 @@ var _additive_overrides := {
             gui_mode_time_scale = 0.07,
             tick_tock_tempo_multiplier = 1,
             saturation = 0.3,
-        }
+        },
+        annotators_class = GameAnnotators,
     },
     SurfacerSchema: {
         movement_manifest = {

@@ -77,6 +77,9 @@ func _set_is_in_cancel_mode(value: bool) -> void:
 
 
 func _on_touch_down(level_position: Vector2, is_already_handled: bool) -> void:
+    # Clear the cancel-status from other command-queue items.
+    Sc.gui.hud.command_queue_list.clear_cancel_status(command)
+    
     if is_in_cancel_mode:
         if is_instance_valid(command.bot):
             command.bot.stop_on_surface(false, true)
@@ -85,3 +88,23 @@ func _on_touch_down(level_position: Vector2, is_already_handled: bool) -> void:
         visible = false
     else:
         _set_is_in_cancel_mode(true)
+
+
+func _show_phantom_indicators() -> void:
+    # FIXME: LEFT OFF HERE: --------------------------
+    # - The thing to render depends on the type of command.
+    # - Build station:
+    #   - Render a phantom of the building.
+    # - Build bot:
+    #   - Render a phantom of the bot, offset from the command center.
+    # - Run line:
+    #   - Render a phantom of the line.
+    # - Command bot:
+    #   - (This should be handled by the is-active default logic.)
+    # - Destroy station:
+    #   - Highlight the building to destroy.
+    # - Destroy bot:
+    #   - (This should be handled by the is-active default logic.)
+    # - ALSO, if the command is active, then highlight the current bot, and
+    #   render the current bot's path.
+    pass
