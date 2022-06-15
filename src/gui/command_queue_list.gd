@@ -18,6 +18,8 @@ var in_progress_command_to_control := {}
 
 func _ready() -> void:
     Sc.gui.add_gui_to_scale(self)
+    Sc.level.touch_listener.connect(
+        "single_unhandled_touch_down", self, "_on_single_unhandled_touch_down")
 
 
 func _destroy() -> void:
@@ -85,3 +87,14 @@ func _sync_queue_helper(
         command_to_control_map[obsolete_command].queue_free()
     
     return updated_command_map
+
+
+func _on_single_unhandled_touch_down(
+        pointer_screen_position: Vector2,
+        pointer_level_position: Vector2) -> void:
+    for collection in [
+        in_progress_command_to_control,
+        queued_command_to_control,
+    ]:
+        for command in collection:
+            collection[command].is_in_cancel_mode = false

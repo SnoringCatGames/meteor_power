@@ -13,8 +13,14 @@ var command: Command
 
 var is_active := false
 
+var is_in_cancel_mode := false setget _set_is_in_cancel_mode
 
-func _ready() -> void:
+
+func set_up() -> void:
+    $SpriteModulationButton.connect("touch_down", self, "_on_touch_down")
+    
+    $SpriteModulationButton.texture = CommandType.TEXTURES[command.type]
+    
     $SpriteModulationButton.normal_modulate = \
         ColorFactory.palette("command_queue_item_active_normal")
     $SpriteModulationButton.hover_modulate = \
@@ -23,10 +29,6 @@ func _ready() -> void:
         ColorFactory.palette("command_queue_item_active_pressed")
     $SpriteModulationButton.disabled_modulate = \
         ColorFactory.palette("command_queue_item_active_disabled")
-
-
-func set_up() -> void:
-    $SpriteModulationButton.texture = CommandType.TEXTURES[command.type]
     
     if is_active:
         $SpriteModulationButton.alpha_multiplier = _ACTIVE_OPACITY
@@ -44,3 +46,42 @@ func _on_gui_scale_changed() -> bool:
     $SpriteModulationButton.shape_rectangle_extents = \
         _BUTTON_EXTENTS * Sc.gui.scale
     return false
+
+
+func _set_is_in_cancel_mode(value: bool) -> void:
+    var was_in_cancel_mode := is_in_cancel_mode
+    is_in_cancel_mode = value
+    if is_in_cancel_mode != was_in_cancel_mode:
+        var texture: Texture
+        if is_in_cancel_mode:
+            texture = CommandType.TEXTURES[CommandType.BOT_STOP]
+            $SpriteModulationButton.normal_modulate = \
+                ColorFactory.palette("command_queue_item_cancel_normal")
+            $SpriteModulationButton.hover_modulate = \
+                ColorFactory.palette("command_queue_item_cancel_hover")
+            $SpriteModulationButton.pressed_modulate = \
+                ColorFactory.palette("command_queue_item_cancel_pressed")
+            $SpriteModulationButton.disabled_modulate = \
+                ColorFactory.palette("command_queue_item_cancel_disabled")
+        else:
+            texture = CommandType.TEXTURES[command.type]
+            $SpriteModulationButton.normal_modulate = \
+                ColorFactory.palette("command_queue_item_active_normal")
+            $SpriteModulationButton.hover_modulate = \
+                ColorFactory.palette("command_queue_item_active_hover")
+            $SpriteModulationButton.pressed_modulate = \
+                ColorFactory.palette("command_queue_item_active_pressed")
+            $SpriteModulationButton.disabled_modulate = \
+                ColorFactory.palette("command_queue_item_active_disabled")
+        $SpriteModulationButton.texture = texture
+
+
+func _on_touch_down(level_position: Vector2, is_already_handled: bool) -> void:
+    if is_in_cancel_mode:
+        if is_instance_valid(command.bot):
+            command.bot.stop_on_surface(false, true)
+        else:
+            Sc.level.cancel_command(command)
+        visible = false
+    else:
+        _set_is_in_cancel_mode(true)

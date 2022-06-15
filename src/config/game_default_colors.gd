@@ -73,6 +73,8 @@ var highlight_disabled := Color("bb8b8b8b")
 var highlight_yellow := Color("ccc016")
 var highlight_orange := Color("cc7a16")
 var highlight_red := Color("cc2c16")
+var highlight_light_red := Color("ffd1bd")
+var highlight_dark_red := Color("5e0017")
 var highlight_light_purple := Color("f2e0ff")
 var highlight_purple := Color("b04fff")
 var highlight_dark_purple := Color("51048f")
@@ -142,6 +144,12 @@ var command_queue_item_active_normal := Color("ffd129")
 var command_queue_item_active_hover := Color("fffbdb")
 var command_queue_item_active_pressed := Color("6b4d00")
 var command_queue_item_active_disabled := \
+    ColorFactory.opacify("highlight_disabled", 0.8)
+
+var command_queue_item_cancel_normal := highlight_red
+var command_queue_item_cancel_hover := highlight_light_red
+var command_queue_item_cancel_pressed := highlight_dark_red
+var command_queue_item_cancel_disabled := \
     ColorFactory.opacify("highlight_disabled", 0.8)
 
 #var modulation_button_normal := highlight_purple

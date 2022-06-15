@@ -306,6 +306,7 @@ func _update_highlight_for_camera_position() -> void:
 func start_command(command: Command) -> void:
     assert(!is_instance_valid(self.command))
     self.command = command
+    command.bot = self
     # If on the ground, start the command; otherwise, wait.
     stop_on_surface(true, false)
 
@@ -616,6 +617,7 @@ func _on_navigation_started(
             command = null
         command = Command.new(CommandType.BOT_MOVE, null, null)
         command.is_active = true
+        command.bot = self
         Sc.level.in_progress_commands[command] = true
         Sc.gui.hud.command_queue_list.sync_queue()
         _on_command_started()
