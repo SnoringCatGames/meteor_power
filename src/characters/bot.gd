@@ -311,6 +311,10 @@ func start_command(command: Command) -> void:
 
 
 func _start_command_navigation() -> void:
+    call_deferred("_start_command_navigation_deferred")
+
+
+func _start_command_navigation_deferred() -> void:
     _on_command_started()
     assert(command.target_station != command.next_target_station)
     match command.type:
@@ -343,6 +347,10 @@ func _on_reached_first_station_for_power_line() -> void:
         Sc.audio.play_sound("nav_select_fail")
         return
     
+    call_deferred("_navigate_to_second_station_for_power_line_deferred")
+
+
+func _navigate_to_second_station_for_power_line_deferred() -> void:
     # FIXME: Play sound and particles
     Sc.audio.play_sound("command_acc")
     Sc.logger.print(
@@ -502,12 +510,12 @@ func stop_on_surface(
 func _stop_nav_immediately() -> void:
     ._stop_nav_immediately()
     var previous_triggers_command_when_landed := triggers_command_when_landed
-    var previous_triggers_wander_when_landedd := triggers_wander_when_landed
+    var previous_triggers_wander_when_landed := triggers_wander_when_landed
     _clear_command_state(triggers_command_when_landed)
     if previous_triggers_command_when_landed:
         _start_command_navigation()
     else:
-        if previous_triggers_wander_when_landedd:
+        if previous_triggers_wander_when_landed:
             default_behavior = get_behavior(WanderBehavior)
         if behavior is PlayerNavigationBehavior or \
                 behavior is NavigationOverrideBehavior or \
