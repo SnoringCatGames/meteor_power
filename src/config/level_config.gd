@@ -22,6 +22,8 @@ var level_manifest := {
         cell_size = Vector2(32.0, 32.0),
         start_energy = 2000,
         bot_capacity = 4,
+        music = "outrun_the_collapse",
+#        music = "just_keep_building",
     },
     "1": {
         name = "Level 2",
@@ -37,6 +39,7 @@ var level_manifest := {
         cell_size = Vector2(32.0, 32.0),
         start_energy = 2000,
         bot_capacity = 4,
+        music = "just_keep_building",
     },
 #    "1": {
 #        name = "Foo",

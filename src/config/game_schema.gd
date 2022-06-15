@@ -63,7 +63,21 @@ var _music_manifest := [
     {
         name = "just_keep_building",
         path_prefix = "res://assets/music/",
-        volume_db = -9.0,
+        volume_db = -4.0,
+        bpm = 120.0,
+        meter = 1,
+    },
+    {
+        name = "outrun_the_collapse",
+        path_prefix = "res://assets/music/",
+        volume_db = 0.0,
+        bpm = 120.0,
+        meter = 1,
+    },
+    {
+        name = "waiting_in_space",
+        path_prefix = "res://assets/music/",
+        volume_db = 0.0,
         bpm = 120.0,
         meter = 1,
     },
@@ -154,9 +168,9 @@ var _audio_manifest := {
     level_end_sound_win = "cadence_lose",
     level_end_sound_lose = "cadence_lose",
     
-    main_menu_music = "just_keep_building",
+    main_menu_music = "waiting_in_space",
     game_over_music = "just_keep_building",
-    pause_menu_music = "",
+    pause_menu_music = "waiting_in_space",
     default_level_music = "just_keep_building",
     
     pauses_level_music_on_pause = true,

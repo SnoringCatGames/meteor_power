@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/waiting_in_space.ogg-b13507028e39c7556a7e25ddddd87677.oggstr"
+
+[deps]
+
+source_file="res://assets/music/waiting_in_space.ogg"
+dest_files=[ "res://.import/waiting_in_space.ogg-b13507028e39c7556a7e25ddddd87677.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

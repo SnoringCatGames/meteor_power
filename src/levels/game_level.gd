@@ -812,7 +812,7 @@ func _update_session_counts() -> void:
 
 
 func get_music_name() -> String:
-    return "just_keep_building"
+    return session.config.music
 
 
 func get_slow_motion_music_name() -> String:

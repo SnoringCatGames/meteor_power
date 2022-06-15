@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/outrun_the_collapse.ogg-2ddf7ce04de3aa6add622b3db3d53de5.oggstr"
+
+[deps]
+
+source_file="res://assets/music/outrun_the_collapse.ogg"
+dest_files=[ "res://.import/outrun_the_collapse.ogg-2ddf7ce04de3aa6add622b3db3d53de5.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0
