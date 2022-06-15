@@ -351,6 +351,13 @@ func _on_reached_first_station_for_power_line() -> void:
 
 
 func _navigate_to_second_station_for_power_line_deferred() -> void:
+    if !is_instance_valid(command.target_station) or \
+            !is_instance_valid(command.next_target_station) or \
+            is_instance_valid(held_power_line):
+        # FIXME: Play error sound
+        Sc.audio.play_sound("nav_select_fail")
+        return
+    
     # FIXME: Play sound and particles
     Sc.audio.play_sound("command_acc")
     Sc.logger.print(
@@ -359,9 +366,6 @@ func _navigate_to_second_station_for_power_line_deferred() -> void:
             CommandType.get_string(target_station.entity_command_type),
             target_station.position,
         ])
-    assert(is_instance_valid(command.target_station))
-    assert(is_instance_valid(command.next_target_station))
-    assert(held_power_line == null)
     held_power_line = DynamicPowerLine.new(
         command.target_station,
         command.next_target_station,
