@@ -428,8 +428,8 @@ func _on_reached_station_to_build() -> void:
             CommandType.get_string(target_station.entity_command_type),
             target_station.position,
         ])
-    Sc.level.replace_station(target_station, command.type)
     Sc.level.deduct_energy(CommandType.COSTS[command.type])
+    Sc.level.replace_station(target_station, command.type)
 
 
 func _on_reached_station_to_destroy() -> void:
@@ -592,7 +592,7 @@ func _clear_command_state(next_is_active: bool) -> void:
     if reached_command_target or \
             just_became_idle:
         if is_instance_valid(command):
-            Sc.level.cancel_command(command)
+            Sc.level.cancel_command(command, true)
             command = null
     
     if just_became_idle:
@@ -613,7 +613,7 @@ func _on_navigation_started(
     if triggered_by_player:
         _clear_command_state(true)
         if is_instance_valid(command):
-            Sc.level.cancel_command(command)
+            Sc.level.cancel_command(command, true)
             command = null
         command = Command.new(CommandType.BOT_MOVE, null, null)
         command.is_active = true

@@ -23,7 +23,7 @@ const UNLOCK_ENERGY_COSTS := [
     70000,
 ]
 
-const UNLOCK_ENERGY_THRESHOLDS := []
+var UNLOCK_ENERGY_THRESHOLDS := []
 
 
 func _init() -> void:

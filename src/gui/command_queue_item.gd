@@ -17,7 +17,8 @@ var is_in_cancel_mode := false setget _set_is_in_cancel_mode
 
 
 func _destroy() -> void:
-    if Sc.annotators.command_annotator.command == command:
+    if is_instance_valid(Sc.annotators.command_annotator) and \
+            Sc.annotators.command_annotator.command == command:
         Sc.annotators.command_annotator.command = null
     queue_free()
 
@@ -101,10 +102,7 @@ func _on_touch_down(level_position: Vector2, is_already_handled: bool) -> void:
     Sc.gui.hud.command_queue_list.clear_cancel_status(command)
     
     if is_in_cancel_mode:
-        if is_instance_valid(command.bot):
-            command.bot.stop_on_surface(false, true)
-        else:
-            Sc.level.cancel_command(command)
+        Sc.level.cancel_command(command, false)
         visible = false
     else:
         _set_is_in_cancel_mode(true)

@@ -403,7 +403,13 @@ func _try_next_command() -> void:
     Sc.gui.hud.command_queue_list.sync_queue()
 
 
-func cancel_command(command: Command) -> void:
+func cancel_command(
+        command: Command,
+        already_canceled_bot := false) -> void:
+    if !already_canceled_bot and \
+            is_instance_valid(command.bot):
+        command.bot.stop_on_surface(false, true)
+        return
     command_queue.erase(command)
     in_progress_commands.erase(command)
     Sc.gui.hud.command_queue_list.sync_queue()
@@ -677,6 +683,10 @@ func remove_bot(bot: Bot) -> void:
         barrier_bots.erase(bot)
     else:
         Sc.logger.error("GameLevel.remove_bot")
+    for collection in [command_queue, in_progress_commands]:
+        for command in collection:
+            if command.bot == bot:
+                cancel_command(command)
     _update_session_counts()
     remove_character(bot)
 
@@ -736,6 +746,11 @@ func remove_station(station: Station) -> void:
         empty_stations.erase(station)
     else:
         Sc.logger.error("GameLevel.remove_station")
+    for collection in [command_queue, in_progress_commands]:
+        for command in collection:
+            if command.target_station == station or \
+                    command.next_target_station == station:
+                cancel_command(command)
     station._destroy()
     _update_session_counts()
 
