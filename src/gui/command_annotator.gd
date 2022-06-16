@@ -2,9 +2,6 @@ class_name CommandAnnotator
 extends Node2D
 
 
-# FIXME: LEFT OFF HERE: -----------------------------------
-
-
 const PHANTOM_SCENES := {
     CommandType.BOT_BARRIER: preload(
         "res://src/characters/barrier_bot/barrier_bot_phantom.tscn"),
@@ -29,9 +26,9 @@ var command: Command setget _set_command
 
 var navigator_annotator: NavigatorAnnotator
 
+var phantom: Phantom
 
-# FIXME: ----------------------------
-# - Call this when the item is selected, and the is-active status changes.
+
 func update_command() -> void:
     if is_instance_valid(command) and \
             is_instance_valid(command.bot):
@@ -50,56 +47,63 @@ func update_command() -> void:
         if is_instance_valid(navigator_annotator):
             navigator_annotator.queue_free()
     
-    # FIXME: LEFT OFF HERE: ---------------------------
-    # - Build station:
-    #   - Render a phantom of the building.
-    # - Build bot:
-    #   - Render a phantom of the bot, offset from the command center.
-    # - Run line:
-    #   - Render a phantom of the line.
-    # - Command bot:
-    #   - (This should be handled by the is-active default logic.)
-    # - Destroy station:
-    #   - Highlight the building to destroy.
-    # - Destroy bot:
-    #   - (This should be handled by the is-active default logic.)
-    
-    if is_instance_valid(command):
+    if is_instance_valid(command) and \
+            (!is_instance_valid(phantom) or \
+            phantom.command != command):
+        if is_instance_valid(phantom) and \
+                phantom.command != command:
+            phantom.queue_free()
+        
         match command.type:
-            CommandType.BOT_BARRIER:
-                pass
-            CommandType.BOT_CONSTRUCTOR:
-                pass
+            CommandType.BOT_BARRIER, \
+            CommandType.BOT_CONSTRUCTOR, \
             CommandType.BOT_LINE_RUNNER:
-                pass
+                if is_instance_valid(command.target_station):
+                    phantom = Sc.utils.add_scene(
+                        self, PHANTOM_SCENES[command.type])
+                    phantom.position = command.target_station.position
             
-            CommandType.STATION_COMMAND:
-                pass
-            CommandType.STATION_SOLAR:
-                pass
-            CommandType.STATION_SCANNER:
-                pass
+            CommandType.STATION_COMMAND, \
+            CommandType.STATION_SOLAR, \
+            CommandType.STATION_SCANNER, \
             CommandType.STATION_BATTERY:
-                pass
+                if is_instance_valid(command.target_station):
+                    phantom = Sc.utils.add_scene(
+                        self, PHANTOM_SCENES[command.type])
+                    phantom.position = command.target_station.position
             CommandType.STATION_EMPTY, \
             CommandType.STATION_RECYCLE:
-                pass
+                if is_instance_valid(command.target_station):
+                    phantom = Sc.utils.add_scene(
+                        self, PHANTOM_SCENES[CommandType.STATION_EMPTY])
+                    phantom.position = command.target_station.position
             
             CommandType.BOT_RECYCLE:
+                # This is handled by the bot's navigator annotation.
                 pass
             CommandType.BOT_COMMAND, \
             CommandType.BOT_MOVE:
+                # This is handled by the bot's navigator annotation.
                 pass
             
             CommandType.RUN_WIRE:
-                pass
-            CommandType.STATION_REPAIR:
+                # FIXME: ------------ Render a phantom of the line.
                 pass
             CommandType.WIRE_REPAIR:
+                # FIXME: ------------ Render a phantom of the line.
                 pass
+            CommandType.STATION_REPAIR:
+                if is_instance_valid(command.target_station):
+                    phantom = Sc.utils.add_scene(
+                        self, PHANTOM_SCENES[command.type])
+                    phantom.position = command.target_station.position
         
             _:
                 Sc.logger.error("CommandAnnotator.update_command")
+    
+    if !is_instance_valid(command) and \
+            is_instance_valid(phantom):
+        phantom.queue_free()
 
 
 func _set_command(value: Command) -> void:
