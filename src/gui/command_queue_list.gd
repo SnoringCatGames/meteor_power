@@ -15,6 +15,8 @@ var queued_command_to_control := {}
 # Dictionary<Command, CommandQueueItem>
 var in_progress_command_to_control := {}
 
+var item_in_cancel_mode: CommandQueueItem
+
 
 func _ready() -> void:
     Sc.gui.add_gui_to_scale(self)
@@ -24,6 +26,12 @@ func _ready() -> void:
 
 func _destroy() -> void:
     Sc.gui.remove_gui_to_scale(self)
+    for collection in [
+        in_progress_command_to_control,
+        queued_command_to_control,
+    ]:
+        for command in collection:
+            collection[command]._destroy()
     if !is_queued_for_deletion():
         queue_free()
 
@@ -49,6 +57,10 @@ func _deferred_on_gui_scale_changed() -> bool:
 
 
 func sync_queue() -> void:
+    var command_in_cancel_mode: Command
+    if is_instance_valid(item_in_cancel_mode):
+        command_in_cancel_mode = item_in_cancel_mode.command
+    
     in_progress_command_to_control = _sync_queue_helper(
         Sc.level.in_progress_commands,
         in_progress_command_to_control,
@@ -59,6 +71,11 @@ func sync_queue() -> void:
         queued_command_to_control,
         $VBoxContainer/QueuedCommands,
         false)
+    
+    if is_instance_valid(command_in_cancel_mode):
+        if in_progress_command_to_control.has(command_in_cancel_mode):
+            in_progress_command_to_control[command_in_cancel_mode] \
+                .is_in_cancel_mode = true
 
 
 func _sync_queue_helper(
@@ -84,7 +101,7 @@ func _sync_queue_helper(
     
     # Remove old items.
     for obsolete_command in command_to_control_map:
-        command_to_control_map[obsolete_command].queue_free()
+        command_to_control_map[obsolete_command]._destroy()
     
     return updated_command_map
 

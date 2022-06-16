@@ -16,6 +16,12 @@ var is_active := false
 var is_in_cancel_mode := false setget _set_is_in_cancel_mode
 
 
+func _destroy() -> void:
+    if Sc.annotators.command_annotator.command == command:
+        Sc.annotators.command_annotator.command = null
+    queue_free()
+
+
 func set_up() -> void:
     $SpriteModulationButton.connect("touch_down", self, "_on_touch_down")
     
@@ -51,6 +57,7 @@ func _on_gui_scale_changed() -> bool:
 func _set_is_in_cancel_mode(value: bool) -> void:
     var was_in_cancel_mode := is_in_cancel_mode
     is_in_cancel_mode = value
+    
     if is_in_cancel_mode != was_in_cancel_mode:
         var texture: Texture
         if is_in_cancel_mode:
@@ -74,6 +81,19 @@ func _set_is_in_cancel_mode(value: bool) -> void:
             $SpriteModulationButton.disabled_modulate = \
                 ColorFactory.palette("command_queue_item_active_disabled")
         $SpriteModulationButton.texture = texture
+    
+    # Update phantom-indicator annotations.
+    if Sc.annotators.command_annotator.command == command and \
+            !is_in_cancel_mode:
+        Sc.annotators.command_annotator.command = null
+    elif Sc.annotators.command_annotator.command != command and \
+            is_in_cancel_mode:
+        Sc.annotators.command_annotator.command = command
+    
+    if is_in_cancel_mode:
+        Sc.gui.hud.command_queue_list.item_in_cancel_mode = self
+    elif Sc.gui.hud.command_queue_list.item_in_cancel_mode == self:
+        Sc.gui.hud.command_queue_list.item_in_cancel_mode = null
 
 
 func _on_touch_down(level_position: Vector2, is_already_handled: bool) -> void:
@@ -88,23 +108,3 @@ func _on_touch_down(level_position: Vector2, is_already_handled: bool) -> void:
         visible = false
     else:
         _set_is_in_cancel_mode(true)
-
-
-func _show_phantom_indicators() -> void:
-    # FIXME: LEFT OFF HERE: --------------------------
-    # - The thing to render depends on the type of command.
-    # - Build station:
-    #   - Render a phantom of the building.
-    # - Build bot:
-    #   - Render a phantom of the bot, offset from the command center.
-    # - Run line:
-    #   - Render a phantom of the line.
-    # - Command bot:
-    #   - (This should be handled by the is-active default logic.)
-    # - Destroy station:
-    #   - Highlight the building to destroy.
-    # - Destroy bot:
-    #   - (This should be handled by the is-active default logic.)
-    # - ALSO, if the command is active, then highlight the current bot, and
-    #   render the current bot's path.
-    pass
