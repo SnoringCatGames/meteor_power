@@ -1629,6 +1629,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/scaffolder/src/gui/screens/pause_screen.gd"
 }, {
+"base": "AnimatedSprite",
+"class": "Phantom",
+"language": "GDScript",
+"path": "res://src/characters/phantom.gd"
+}, {
 "base": "Node",
 "class": "PlInterface",
 "language": "GDScript",
@@ -3324,6 +3329,7 @@ _global_script_class_icons={
 "PathPreselectionAnnotator": "",
 "PauseButton": "res://addons/scaffolder/assets/images/editor_icons/scaffolder_placeholder.png",
 "PauseScreen": "",
+"Phantom": "",
 "PlInterface": "",
 "PlaceholderLoadingImage": "",
 "PlatformGraph": "",
