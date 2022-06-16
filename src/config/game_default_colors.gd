@@ -152,6 +152,8 @@ var command_queue_item_cancel_pressed := highlight_dark_red
 var command_queue_item_cancel_disabled := \
     ColorFactory.opacify("highlight_disabled", 0.8)
 
+var command_phantom := highlight_purple
+
 #var modulation_button_normal := highlight_purple
 #var modulation_button_hover := highlight_light_purple
 #var modulation_button_pressed := highlight_dark_purple
