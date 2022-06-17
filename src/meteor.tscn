@@ -1,93 +1,93 @@
 [gd_scene load_steps=50 format=2]
 
-[ext_resource path="res://src/levels/meteor.gd" type="Script" id=1]
-[ext_resource path="res://assets/images/meteor.png" type="Texture" id=2]
-[ext_resource path="res://assets/images/meteor_small.png" type="Texture" id=3]
-[ext_resource path="res://assets/images/meteor_tail_large.png" type="Texture" id=4]
-[ext_resource path="res://assets/images/meteor_trail.png" type="Texture" id=5]
+[ext_resource path="res://src/meteor.gd" type="Script" id=1]
+[ext_resource path="res://assets/images/meteor_trail.png" type="Texture" id=2]
+[ext_resource path="res://assets/images/meteor_tail_large.png" type="Texture" id=3]
+[ext_resource path="res://assets/images/meteor_small.png" type="Texture" id=4]
+[ext_resource path="res://assets/images/meteor.png" type="Texture" id=5]
 [ext_resource path="res://addons/scaffolder/assets/images/misc/circle_gradient_modified_1024.png" type="Texture" id=6]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 15.0
 
 [sub_resource type="AtlasTexture" id=44]
-atlas = ExtResource( 4 )
+atlas = ExtResource( 3 )
 region = Rect2( 0, 0, 35, 95 )
 
 [sub_resource type="AtlasTexture" id=45]
-atlas = ExtResource( 4 )
+atlas = ExtResource( 3 )
 region = Rect2( 35, 0, 35, 95 )
 
 [sub_resource type="AtlasTexture" id=46]
-atlas = ExtResource( 4 )
+atlas = ExtResource( 3 )
 region = Rect2( 70, 0, 35, 95 )
 
 [sub_resource type="AtlasTexture" id=47]
-atlas = ExtResource( 4 )
+atlas = ExtResource( 3 )
 region = Rect2( 105, 0, 35, 95 )
 
 [sub_resource type="AtlasTexture" id=48]
-atlas = ExtResource( 4 )
+atlas = ExtResource( 3 )
 region = Rect2( 140, 0, 35, 95 )
 
 [sub_resource type="AtlasTexture" id=49]
-atlas = ExtResource( 4 )
+atlas = ExtResource( 3 )
 region = Rect2( 0, 95, 35, 95 )
 
 [sub_resource type="AtlasTexture" id=50]
-atlas = ExtResource( 4 )
+atlas = ExtResource( 3 )
 region = Rect2( 35, 95, 35, 95 )
 
 [sub_resource type="AtlasTexture" id=51]
-atlas = ExtResource( 4 )
+atlas = ExtResource( 3 )
 region = Rect2( 70, 95, 35, 95 )
 
 [sub_resource type="AtlasTexture" id=52]
-atlas = ExtResource( 4 )
+atlas = ExtResource( 3 )
 region = Rect2( 105, 95, 35, 95 )
 
 [sub_resource type="AtlasTexture" id=53]
-atlas = ExtResource( 4 )
+atlas = ExtResource( 3 )
 region = Rect2( 140, 95, 35, 95 )
 
 [sub_resource type="AtlasTexture" id=54]
-atlas = ExtResource( 4 )
+atlas = ExtResource( 3 )
 region = Rect2( 0, 190, 35, 95 )
 
 [sub_resource type="AtlasTexture" id=55]
-atlas = ExtResource( 4 )
+atlas = ExtResource( 3 )
 region = Rect2( 35, 190, 35, 95 )
 
 [sub_resource type="AtlasTexture" id=56]
-atlas = ExtResource( 4 )
+atlas = ExtResource( 3 )
 region = Rect2( 70, 190, 35, 95 )
 
 [sub_resource type="AtlasTexture" id=57]
-atlas = ExtResource( 4 )
+atlas = ExtResource( 3 )
 region = Rect2( 105, 190, 35, 95 )
 
 [sub_resource type="AtlasTexture" id=58]
-atlas = ExtResource( 4 )
+atlas = ExtResource( 3 )
 region = Rect2( 140, 190, 35, 95 )
 
 [sub_resource type="AtlasTexture" id=59]
-atlas = ExtResource( 4 )
+atlas = ExtResource( 3 )
 region = Rect2( 0, 285, 35, 95 )
 
 [sub_resource type="AtlasTexture" id=60]
-atlas = ExtResource( 4 )
+atlas = ExtResource( 3 )
 region = Rect2( 35, 285, 35, 95 )
 
 [sub_resource type="AtlasTexture" id=61]
-atlas = ExtResource( 4 )
+atlas = ExtResource( 3 )
 region = Rect2( 70, 285, 35, 95 )
 
 [sub_resource type="AtlasTexture" id=62]
-atlas = ExtResource( 4 )
+atlas = ExtResource( 3 )
 region = Rect2( 105, 285, 35, 95 )
 
 [sub_resource type="AtlasTexture" id=63]
-atlas = ExtResource( 4 )
+atlas = ExtResource( 3 )
 region = Rect2( 140, 285, 35, 95 )
 
 [sub_resource type="SpriteFrames" id=64]
@@ -99,83 +99,83 @@ animations = [ {
 } ]
 
 [sub_resource type="AtlasTexture" id=23]
-atlas = ExtResource( 5 )
+atlas = ExtResource( 2 )
 region = Rect2( 0, 0, 28, 56 )
 
 [sub_resource type="AtlasTexture" id=24]
-atlas = ExtResource( 5 )
+atlas = ExtResource( 2 )
 region = Rect2( 28, 0, 28, 56 )
 
 [sub_resource type="AtlasTexture" id=25]
-atlas = ExtResource( 5 )
+atlas = ExtResource( 2 )
 region = Rect2( 56, 0, 28, 56 )
 
 [sub_resource type="AtlasTexture" id=26]
-atlas = ExtResource( 5 )
+atlas = ExtResource( 2 )
 region = Rect2( 84, 0, 28, 56 )
 
 [sub_resource type="AtlasTexture" id=27]
-atlas = ExtResource( 5 )
+atlas = ExtResource( 2 )
 region = Rect2( 112, 0, 28, 56 )
 
 [sub_resource type="AtlasTexture" id=28]
-atlas = ExtResource( 5 )
+atlas = ExtResource( 2 )
 region = Rect2( 0, 56, 28, 56 )
 
 [sub_resource type="AtlasTexture" id=29]
-atlas = ExtResource( 5 )
+atlas = ExtResource( 2 )
 region = Rect2( 28, 56, 28, 56 )
 
 [sub_resource type="AtlasTexture" id=30]
-atlas = ExtResource( 5 )
+atlas = ExtResource( 2 )
 region = Rect2( 56, 56, 28, 56 )
 
 [sub_resource type="AtlasTexture" id=31]
-atlas = ExtResource( 5 )
+atlas = ExtResource( 2 )
 region = Rect2( 84, 56, 28, 56 )
 
 [sub_resource type="AtlasTexture" id=32]
-atlas = ExtResource( 5 )
+atlas = ExtResource( 2 )
 region = Rect2( 112, 56, 28, 56 )
 
 [sub_resource type="AtlasTexture" id=33]
-atlas = ExtResource( 5 )
+atlas = ExtResource( 2 )
 region = Rect2( 0, 112, 28, 56 )
 
 [sub_resource type="AtlasTexture" id=34]
-atlas = ExtResource( 5 )
+atlas = ExtResource( 2 )
 region = Rect2( 28, 112, 28, 56 )
 
 [sub_resource type="AtlasTexture" id=35]
-atlas = ExtResource( 5 )
+atlas = ExtResource( 2 )
 region = Rect2( 56, 112, 28, 56 )
 
 [sub_resource type="AtlasTexture" id=36]
-atlas = ExtResource( 5 )
+atlas = ExtResource( 2 )
 region = Rect2( 84, 112, 28, 56 )
 
 [sub_resource type="AtlasTexture" id=37]
-atlas = ExtResource( 5 )
+atlas = ExtResource( 2 )
 region = Rect2( 112, 112, 28, 56 )
 
 [sub_resource type="AtlasTexture" id=38]
-atlas = ExtResource( 5 )
+atlas = ExtResource( 2 )
 region = Rect2( 0, 168, 28, 56 )
 
 [sub_resource type="AtlasTexture" id=39]
-atlas = ExtResource( 5 )
+atlas = ExtResource( 2 )
 region = Rect2( 28, 168, 28, 56 )
 
 [sub_resource type="AtlasTexture" id=40]
-atlas = ExtResource( 5 )
+atlas = ExtResource( 2 )
 region = Rect2( 56, 168, 28, 56 )
 
 [sub_resource type="AtlasTexture" id=41]
-atlas = ExtResource( 5 )
+atlas = ExtResource( 2 )
 region = Rect2( 84, 168, 28, 56 )
 
 [sub_resource type="AtlasTexture" id=42]
-atlas = ExtResource( 5 )
+atlas = ExtResource( 2 )
 region = Rect2( 112, 168, 28, 56 )
 
 [sub_resource type="SpriteFrames" id=43]
@@ -198,11 +198,11 @@ shape = SubResource( 1 )
 [node name="Large" type="Sprite" parent="."]
 visible = false
 light_mask = 0
-texture = ExtResource( 2 )
+texture = ExtResource( 5 )
 
 [node name="Small" type="Sprite" parent="."]
 light_mask = 0
-texture = ExtResource( 3 )
+texture = ExtResource( 4 )
 
 [node name="LargeTail" type="AnimatedSprite" parent="." groups=["slow_motionables"]]
 visible = false

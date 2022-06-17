@@ -74,10 +74,10 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/scaffolder/src/utils/audio.gd"
 }, {
-"base": "ScaffolderBackground",
+"base": "Reference",
 "class": "Background",
 "language": "GDScript",
-"path": "res://src/levels/background.gd"
+"path": "res://src/background.gd"
 }, {
 "base": "Bot",
 "class": "BarrierBot",
@@ -1432,12 +1432,12 @@ _global_script_classes=[ {
 "base": "Area2D",
 "class": "Meteor",
 "language": "GDScript",
-"path": "res://src/levels/meteor.gd"
+"path": "res://src/meteor.gd"
 }, {
 "base": "Node2D",
 "class": "MeteorController",
 "language": "GDScript",
-"path": "res://src/levels/meteor_controller.gd"
+"path": "res://src/meteor_controller.gd"
 }, {
 "base": "TextControlRow",
 "class": "MeteorWavesCompletedControlRow",
@@ -1632,7 +1632,7 @@ _global_script_classes=[ {
 "base": "Node2D",
 "class": "Phantom",
 "language": "GDScript",
-"path": "res://src/characters/phantom.gd"
+"path": "res://src/phantom.gd"
 }, {
 "base": "Node",
 "class": "PlInterface",
@@ -1763,6 +1763,11 @@ _global_script_classes=[ {
 "class": "PowerLine",
 "language": "GDScript",
 "path": "res://src/power_lines/power_line.gd"
+}, {
+"base": "Phantom",
+"class": "PowerLinePhantom",
+"language": "GDScript",
+"path": "res://src/power_line_phantom.gd"
 }, {
 "base": "Screen",
 "class": "PrecomputePlatformGraphsScreen",
@@ -3356,6 +3361,7 @@ _global_script_class_icons={
 "PositionAlongSurface": "",
 "PositionAlongSurfaceFactory": "",
 "PowerLine": "",
+"PowerLinePhantom": "",
 "PrecomputePlatformGraphsScreen": "",
 "PriorityQueue": "",
 "Profiler": "",

@@ -1,0 +1,2 @@
+class_name PowerLinePhantom
+extends Phantom

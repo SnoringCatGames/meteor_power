@@ -2,7 +2,7 @@
 
 [ext_resource path="res://src/levels/game_level.gd" type="Script" id=1]
 [ext_resource path="res://src/tiles/collidable_tilemap.tscn" type="PackedScene" id=2]
-[ext_resource path="res://src/levels/background.tscn" type="PackedScene" id=3]
+[ext_resource path="res://src/background.tscn" type="PackedScene" id=3]
 [ext_resource path="res://src/stations/empty_station.tscn" type="PackedScene" id=4]
 [ext_resource path="res://addons/surfacer/src/tiles/surface_enablement.tscn" type="PackedScene" id=5]
 [ext_resource path="res://src/tiles/collidable_tileset.tres" type="TileSet" id=6]

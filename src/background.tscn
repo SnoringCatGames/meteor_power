@@ -6,7 +6,7 @@
 [ext_resource path="res://assets/images/background/nebula.png" type="Texture" id=4]
 [ext_resource path="res://assets/images/background/far.png" type="Texture" id=5]
 [ext_resource path="res://assets/images/background/middle.png" type="Texture" id=6]
-[ext_resource path="res://src/levels/background.gd" type="Script" id=7]
+[ext_resource path="res://src/background.gd" type="Script" id=7]
 
 [node name="Background" type="ParallaxBackground"]
 scroll_ignore_camera_zoom = true
