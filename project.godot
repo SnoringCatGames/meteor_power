@@ -74,7 +74,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/scaffolder/src/utils/audio.gd"
 }, {
-"base": "Reference",
+"base": "ScaffolderBackground",
 "class": "Background",
 "language": "GDScript",
 "path": "res://src/background.gd"
@@ -578,6 +578,11 @@ _global_script_classes=[ {
 "class": "DynamicPowerLine",
 "language": "GDScript",
 "path": "res://src/power_lines/dynamic_power_line.gd"
+}, {
+"base": "Reference",
+"class": "DynamicRope",
+"language": "GDScript",
+"path": "res://src/power_lines/dynamic_rope.gd"
 }, {
 "base": "EdgeAttempt",
 "class": "Edge",
@@ -1767,7 +1772,7 @@ _global_script_classes=[ {
 "base": "Phantom",
 "class": "PowerLinePhantom",
 "language": "GDScript",
-"path": "res://src/power_line_phantom.gd"
+"path": "res://src/power_lines/power_line_phantom.gd"
 }, {
 "base": "Screen",
 "class": "PrecomputePlatformGraphsScreen",
@@ -1868,11 +1873,6 @@ _global_script_classes=[ {
 "class": "RightWallsItemController",
 "language": "GDScript",
 "path": "res://addons/surfacer/src/gui/platform_graph_inspector/inspector_item_controllers/surfaces_group/right_walls_item_controller.gd"
-}, {
-"base": "Reference",
-"class": "Rope",
-"language": "GDScript",
-"path": "res://src/power_lines/rope.gd"
 }, {
 "base": "Reference",
 "class": "RotatedShape",
@@ -2388,6 +2388,11 @@ _global_script_classes=[ {
 "class": "StaticPowerLine",
 "language": "GDScript",
 "path": "res://src/power_lines/static_power_line.gd"
+}, {
+"base": "Reference",
+"class": "StaticRope",
+"language": "GDScript",
+"path": "res://src/power_lines/static_rope.gd"
 }, {
 "base": "TextControlRow",
 "class": "StaticTextControlRow",
@@ -3124,6 +3129,7 @@ _global_script_class_icons={
 "DropdownControlRow": "",
 "DummyItemController": "",
 "DynamicPowerLine": "",
+"DynamicRope": "",
 "Edge": "",
 "EdgeAnnotationElement": "",
 "EdgeAttempt": "",
@@ -3382,7 +3388,6 @@ _global_script_class_icons={
 "ResetButton": "",
 "ReturnBehavior": "",
 "RightWallsItemController": "",
-"Rope": "",
 "RotatedShape": "",
 "RulerAnnotator": "",
 "RulerAnnotatorControlRow": "",
@@ -3486,6 +3491,7 @@ _global_script_class_icons={
 "StaticCamera": "",
 "StaticColorConfig": "",
 "StaticPowerLine": "",
+"StaticRope": "",
 "StaticTextControlRow": "",
 "Station": "res://addons/scaffolder/assets/images/editor_icons/scaffolder_node.png",
 "StationsControlRow": "",

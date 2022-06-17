@@ -20,6 +20,9 @@ const PHANTOM_SCENES := {
         "res://src/stations/scanner_station_phantom.tscn"),
     CommandType.STATION_SOLAR: preload(
         "res://src/stations/solar_collector_phantom.tscn"),
+    
+    CommandType.RUN_WIRE: preload(
+        "res://src/power_lines/power_line_phantom.tscn")
 }
 
 var command: Command setget _set_command
@@ -87,11 +90,21 @@ func update_command() -> void:
                 pass
             
             CommandType.RUN_WIRE:
-                # FIXME: ------------ Render a phantom of the line.
-                pass
+                if is_instance_valid(command.target_station) and \
+                        is_instance_valid(command.next_target_station):
+                    phantom = Sc.utils.add_scene(
+                        self, PHANTOM_SCENES[CommandType.RUN_WIRE])
+                    phantom.set_up(
+                        command.target_station.position,
+                        command.next_target_station.position)
             CommandType.WIRE_REPAIR:
-                # FIXME: ------------ Render a phantom of the line.
-                pass
+                if is_instance_valid(command.target_station) and \
+                        is_instance_valid(command.next_target_station):
+                    phantom = Sc.utils.add_scene(
+                        self, PHANTOM_SCENES[CommandType.RUN_WIRE])
+                    phantom.set_up(
+                        command.target_station.position,
+                        command.next_target_station.position)
             CommandType.STATION_REPAIR:
                 if is_instance_valid(command.target_station):
                     phantom = Sc.utils.add_scene(

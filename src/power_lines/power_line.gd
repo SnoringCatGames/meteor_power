@@ -86,8 +86,8 @@ func _draw_polyline() -> void:
             self,
             _vertices,
             color,
-            Rope.DISTANCE_BETWEEN_NODES * 100.0,
-            Rope.DISTANCE_BETWEEN_NODES * 0.5,
+            DynamicRope.DEFAULT_DISTANCE_BETWEEN_NODES * 100.0,
+            DynamicRope.DEFAULT_DISTANCE_BETWEEN_NODES * 0.5,
             2.0,
             width)
 

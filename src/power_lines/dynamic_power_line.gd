@@ -7,7 +7,7 @@ const _STABILIZATION_DELAY_BEFORE_SWITCHING_TO_STATIC_LINE := 1.0
 var bot
 var origin_station
 var destination_station
-var rope: Rope
+var rope: DynamicRope
 
 
 func _init(
@@ -23,7 +23,7 @@ func _init(
     self.destination_station = destination_station
     var target_distance: float = \
             origin_station.position.distance_to(destination_station.position)
-    self.rope = Rope.new(target_distance)
+    self.rope = DynamicRope.new(target_distance)
     origin_station.add_bot_connection(bot, self)
     origin_station._on_plugged_into_bot(bot)
 

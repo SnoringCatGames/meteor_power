@@ -3,7 +3,7 @@ extends PowerLine
 
 
 func _init(
-        rope: Rope,
+        rope: DynamicRope,
         start_attachment,
         end_attachment,
         mode: int).(
@@ -13,7 +13,7 @@ func _init(
     _parse_points(rope)
 
 
-func _parse_points(rope: Rope) -> void:
+func _parse_points(rope: DynamicRope) -> void:
     _vertices.resize(rope.nodes.size())
     for i in rope.nodes.size():
         _vertices[i] = rope.nodes[i].position
