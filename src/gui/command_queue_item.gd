@@ -3,11 +3,13 @@ class_name CommandQueueItem
 extends Control
 
 
-const _ACTIVE_OPACITY = 0.6
-const _INACTIVE_OPACITY = 0.3
-const _ACTIVE_SATURATION = 0.9
-const _INACTIVE_SATURATION = 0.3
-const _BUTTON_EXTENTS = Vector2.ONE * 32
+const _ACTIVE_OPACITY := 0.6
+const _INACTIVE_OPACITY := 0.3
+const _ACTIVE_SATURATION := 0.9
+const _INACTIVE_SATURATION := 0.3
+const _BUTTON_EXTENTS := Vector2.ONE * 32
+
+const _REMAINING_ENERGY_OPACITY := 0.9
 
 var command: Command
 
@@ -44,6 +46,8 @@ func set_up() -> void:
         $SpriteModulationButton.alpha_multiplier = _INACTIVE_OPACITY
         $SpriteModulationButton.saturation = _INACTIVE_SATURATION
     
+    $CenterContainer.modulate.a = _REMAINING_ENERGY_OPACITY
+    
     _on_gui_scale_changed()
 
 
@@ -52,7 +56,22 @@ func _on_gui_scale_changed() -> bool:
     $SpriteModulationButton.position = _BUTTON_EXTENTS * Sc.gui.scale
     $SpriteModulationButton.shape_rectangle_extents = \
         _BUTTON_EXTENTS * Sc.gui.scale
+    $CenterContainer.rect_min_size = rect_min_size
     return false
+
+
+func update_remaining_energy(remaining_energy: int) -> void:
+    $CenterContainer/ScaffolderPanelContainer/MarginContainer/EnergyLabel \
+        .cost = remaining_energy
+    var color: Color
+    if remaining_energy <= 0:
+        color = Sc.palette.get_color("energy_empty")
+    elif remaining_energy <= Cost.LOW_ENERGY_THRESHOLD:
+        color = Sc.palette.get_color("energy_low")
+    else:
+        color = Sc.palette.get_color("energy_high")
+    $CenterContainer/ScaffolderPanelContainer/MarginContainer/EnergyLabel \
+        .color = color
 
 
 func _set_is_in_cancel_mode(value: bool) -> void:

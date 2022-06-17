@@ -31,3 +31,5 @@ const STATIC_POWER_LINE_HIT := 10
 const STATION_HIT := 40
 const BOT_HIT := 80
 const BOT_ALIVE := 0
+
+const LOW_ENERGY_THRESHOLD := 800

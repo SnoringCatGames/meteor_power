@@ -137,6 +137,10 @@ var health_bar_medium := Color("dedb23")
 var health_bar_empty := Color("ff0000")
 var health_bar_heart := Color("ff5768")
 
+var energy_high := Color("27cc37")
+var energy_low := Color("dedb23")
+var energy_empty := Color("ff0000")
+
 var connected_background := health_bar_full
 var disconnected_background := health_bar_empty
 

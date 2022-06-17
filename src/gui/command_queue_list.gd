@@ -17,6 +17,8 @@ var in_progress_command_to_control := {}
 
 var item_in_cancel_mode: CommandQueueItem
 
+var _destroyed := false
+
 
 func _ready() -> void:
     Sc.gui.add_gui_to_scale(self)
@@ -25,6 +27,7 @@ func _ready() -> void:
 
 
 func _destroy() -> void:
+    _destroyed = true
     Sc.gui.remove_gui_to_scale(self)
     for collection in [
         in_progress_command_to_control,
@@ -54,6 +57,26 @@ func _deferred_on_gui_scale_changed() -> bool:
         "separation", INTRA_ITEM_PADDING * Sc.gui.scale)
     $VBoxContainer/Spacer.size.y = 0.0
     return false
+
+
+func _process(delta: float) -> void:
+    if _destroyed or \
+            Sc.levels.session.is_ended:
+        return
+    
+    var remaining_energy: int = Sc.levels.session.current_energy
+    for collection in [
+            Sc.level.in_progress_commands,
+            Sc.level.command_queue,
+        ]:
+        for command in collection:
+            remaining_energy -= CommandType.COSTS[command.type]
+            if queued_command_to_control.has(command):
+                queued_command_to_control[command] \
+                    .update_remaining_energy(remaining_energy)
+            if in_progress_command_to_control.has(command):
+                in_progress_command_to_control[command] \
+                    .update_remaining_energy(remaining_energy)
 
 
 func sync_queue() -> void:
