@@ -393,9 +393,6 @@ func _try_next_command() -> void:
         # FIXME: ---------- Refactor this to instead use the next command that
         #                   has an available free bot of the correct type.
         var command: Command = command_queue.pop_front()
-        in_progress_commands[command] = true
-        command.is_active = true
-        
         var bot := get_bot_for_command(
             command.target_station, CommandType.RUN_WIRE)
         bot.start_command(command)
@@ -408,7 +405,8 @@ func cancel_command(
         already_canceled_bot := false) -> void:
     if !already_canceled_bot and \
             is_instance_valid(command.bot):
-        command.bot.stop_on_surface(false, true)
+        command.bot.clear_command_state()
+        command.bot.stop_on_surface(true)
         return
     command_queue.erase(command)
     in_progress_commands.erase(command)
@@ -614,10 +612,8 @@ func get_bot_for_command(
     return closest_bot
 
 
-func on_bot_idleness_changed(
-        bot: Bot,
-        is_idle: bool) -> void:
-    if is_idle:
+func on_bot_idleness_changed(bot: Bot) -> void:
+    if !bot.get_is_active():
         assert(!idle_bots.has(bot))
         idle_bots[bot] = true
         _try_next_command()
@@ -697,8 +693,8 @@ func replace_station(
     for bot in old_station.bot_connections:
         var power_line: DynamicPowerLine = old_station.bot_connections[bot]
         assert(bot.held_power_line == power_line)
-        bot.drop_power_line()
-        bot.stop_on_surface(false, true)
+        bot.clear_command_state()
+        bot.stop_on_surface(true)
         remove_power_line(power_line)
     
     for other_station in old_station.station_connections:
@@ -800,8 +796,8 @@ func on_power_line_health_depleted(power_line: PowerLine) -> void:
         # NOTE: This is covered by drop_power_line.
 #        power_line.start_attachment \
 #            .remove_bot_connection(power_line.end_attachment, power_line)
-        power_line.end_attachment.drop_power_line()
-        power_line.end_attachment.stop_on_surface(false, true)
+        power_line.end_attachment.clear_command_state()
+        power_line.end_attachment.stop_on_surface(true)
     else:
         power_line.start_attachment \
             .remove_station_connection(power_line.end_attachment)

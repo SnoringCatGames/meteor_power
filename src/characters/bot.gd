@@ -24,21 +24,15 @@ var status := BotStatus.UNKNOWN
 
 var command: Command
 
-var target_station: Station
-
 var light: Light2D
 
 var is_selected := false
 var is_new := true
-var is_active := false
 var is_hovered := false
-
-var reached_command_target := false
+var is_initial_nav := false
 
 var triggers_command_when_landed := false
 var triggers_wander_when_landed := false
-
-var is_initial_nav := false
 
 var total_movement_time := 0.0
 
@@ -87,9 +81,10 @@ func _ready() -> void:
     status_overlay.z_index = 1
     status_overlay.set_up()
     
-    _walk_to_side_of_command_center()
     is_initial_nav = true
     is_new = true
+    
+    _walk_to_side_of_command_center()
 
 
 func _walk_to_side_of_command_center() -> void:
@@ -101,9 +96,8 @@ func _walk_to_side_of_command_center() -> void:
     var destination := PositionAlongSurfaceFactory \
         .create_position_offset_from_target_point(
             target_point, surface, collider, true)
-    is_active = true
-    _update_status()
-    navigate_imperatively(destination)
+    start_command(Command.new(CommandType.BOT_MOVE, null, null, destination))
+    is_initial_nav = true
 
 
 func _destroy() -> void:
@@ -213,7 +207,8 @@ func open_radial_menu() -> void:
     if !(behavior is PlayerNavigationBehavior) and \
             !(behavior is NavigationOverrideBehavior) and \
             !(behavior is StaticBehavior):
-        stop_on_surface(false, false)
+        clear_command_state()
+        stop_on_surface(false)
         get_behavior(StaticBehavior).is_active = true
 
 
@@ -256,7 +251,7 @@ func _update_status() -> void:
         status = BotStatus.SELECTED
     elif is_new:
         status = BotStatus.NEW
-    elif is_active:
+    elif get_is_active():
         status = BotStatus.ACTIVE
     else:
         status = BotStatus.IDLE
@@ -303,45 +298,42 @@ func _update_highlight_for_camera_position() -> void:
     update_highlight()
 
 
-func start_command(command: Command) -> void:
-    assert(!is_instance_valid(self.command))
+func start_command(
+        command: Command,
+        triggers_navigation := true) -> void:
+    var was_active := get_is_active()
+    
+    if is_instance_valid(self.command):
+        Sc.level.cancel_command(self.command, true)
+    
+    drop_power_line()
+    
     self.command = command
+    
+    command.is_active = true
     command.bot = self
+    
+    Sc.level.command_queue.erase(command)
+    Sc.level.in_progress_commands[command] = true
+    Sc.gui.hud.command_queue_list.sync_queue()
+    
+    if !was_active and !is_initial_nav:
+        Sc.level.on_bot_idleness_changed(self)
+    
+    if !is_initial_nav:
+        Sc.audio.play_sound("command_acc")
+        is_new = false
+    is_initial_nav = false
+    
+    _update_status()
+    
     # If on the ground, start the command; otherwise, wait.
-    stop_on_surface(true, false)
-
-
-func _start_command_navigation() -> void:
-    call_deferred("_start_command_navigation_deferred")
-
-
-func _start_command_navigation_deferred() -> void:
-    _on_command_started()
-    assert(command.target_station != command.next_target_station)
-    match command.type:
-        CommandType.BOT_MOVE:
-            # This is handled by the PlayerNavigationBehavior.
-            pass
-        CommandType.STATION_REPAIR, \
-        CommandType.WIRE_REPAIR:
-            # FIXME: ----------------------------
-            pass
-        CommandType.RUN_WIRE, \
-        CommandType.STATION_SOLAR, \
-        CommandType.STATION_SCANNER, \
-        CommandType.STATION_BATTERY, \
-        CommandType.BOT_CONSTRUCTOR, \
-        CommandType.BOT_LINE_RUNNER, \
-        CommandType.BOT_BARRIER, \
-        CommandType.STATION_RECYCLE, \
-        CommandType.BOT_RECYCLE:
-            _navigate_to_target_station(command.target_station)
-        _:
-            Sc.logger.error("Bot._start_command_navigation")
+    stop_on_surface(false)
 
 
 func _on_reached_first_station_for_power_line() -> void:
-    if !is_instance_valid(command.target_station) or \
+    if !is_instance_valid(command) or \
+            !is_instance_valid(command.target_station) or \
             !is_instance_valid(command.next_target_station):
         # One of the stations has been destroyed.
         # FIXME: Play error sound
@@ -352,7 +344,8 @@ func _on_reached_first_station_for_power_line() -> void:
 
 
 func _navigate_to_second_station_for_power_line_deferred() -> void:
-    if !is_instance_valid(command.target_station) or \
+    if !is_instance_valid(command) or \
+            !is_instance_valid(command.target_station) or \
             !is_instance_valid(command.next_target_station) or \
             is_instance_valid(held_power_line):
         # FIXME: Play error sound
@@ -364,8 +357,8 @@ func _navigate_to_second_station_for_power_line_deferred() -> void:
     Sc.logger.print(
         "Bot._on_reached_first_station_for_power_line: bot=%s, station=%s, p=%s" % [
             self.character_name,
-            CommandType.get_string(target_station.entity_command_type),
-            target_station.position,
+            CommandType.get_string(command.target_station.entity_command_type),
+            command.target_station.position,
         ])
     held_power_line = DynamicPowerLine.new(
         command.target_station,
@@ -373,12 +366,13 @@ func _navigate_to_second_station_for_power_line_deferred() -> void:
         self,
         PowerLine.HELD_BY_BOT)
     Sc.level.add_power_line(held_power_line)
-    _navigate_to_target_station(command.next_target_station)
+    _navigate_command(command.next_target_station)
     Sc.level.deduct_energy(Cost.RUN_WIRE)
 
 
 func _on_reached_second_station_for_power_line() -> void:
-    if !is_instance_valid(command.target_station) or \
+    if !is_instance_valid(command) or \
+            !is_instance_valid(command.target_station) or \
             !is_instance_valid(command.next_target_station):
         # One of the stations has been destroyed.
         # FIXME: Play error sound
@@ -400,8 +394,9 @@ func _on_reached_second_station_for_power_line() -> void:
             ("STATIONS ALREADY CONNECTED: " +
             "bot=%s, station=%s, p=%s") % [
                 character_name,
-                CommandType.get_string(target_station.entity_command_type),
-                target_station.position,
+                CommandType.get_string(
+                    command.target_station.entity_command_type),
+                command.target_station.position,
             ])
         drop_power_line()
     else:
@@ -410,8 +405,9 @@ func _on_reached_second_station_for_power_line() -> void:
             ("Bot._on_reached_second_station_for_power_line: " +
             "bot=%s, station=%s, p=%s") % [
                 character_name,
-                CommandType.get_string(target_station.entity_command_type),
-                target_station.position,
+                CommandType.get_string(
+                    command.target_station.entity_command_type),
+                command.target_station.position,
             ])
         held_power_line._on_connected()
         held_power_line = null
@@ -421,19 +417,21 @@ func _on_reached_second_station_for_power_line() -> void:
 func _on_reached_station_to_build() -> void:
     # FIXME: Play sound and particles
     Sc.audio.play_sound("command_finished")
-    assert(is_instance_valid(target_station))
+    assert(is_instance_valid(command) and \
+            is_instance_valid(command.target_station))
     Sc.logger.print(
         "Bot._on_reached_station_to_build: bot=%s, station=%s, p=%s" % [
             self.character_name,
-            CommandType.get_string(target_station.entity_command_type),
-            target_station.position,
+            CommandType.get_string(command.target_station.entity_command_type),
+            command.target_station.position,
         ])
     Sc.level.deduct_energy(CommandType.COSTS[command.type])
-    Sc.level.replace_station(target_station, command.type)
+    Sc.level.replace_station(command.target_station, command.type)
 
 
 func _on_reached_station_to_destroy() -> void:
-    if !is_instance_valid(command.target_station):
+    if !is_instance_valid(command) or \
+            !is_instance_valid(command.target_station):
         # The station has been destroyed.
         # FIXME: Play error sound
         Sc.audio.play_sound("nav_select_fail")
@@ -444,16 +442,17 @@ func _on_reached_station_to_destroy() -> void:
     Sc.logger.print(
         "Bot._on_reached_station_to_destroy: bot=%s, station=%s, p=%s" % [
             self.character_name,
-            CommandType.get_string(target_station.entity_command_type),
-            target_station.position,
+            CommandType.get_string(command.target_station.entity_command_type),
+            command.target_station.position,
         ])
-    assert(is_instance_valid(target_station))
-    Sc.level.replace_station(target_station, CommandType.STATION_EMPTY)
+    assert(is_instance_valid(command.target_station))
+    Sc.level.replace_station(command.target_station, CommandType.STATION_EMPTY)
     Sc.level.deduct_energy(Cost.STATION_RECYCLE)
 
 
 func _on_reached_station_to_recycle_self() -> void:
-    if !is_instance_valid(command.target_station):
+    if !is_instance_valid(command) or \
+            !is_instance_valid(command.target_station):
         # The station has been destroyed.
         # FIXME: Play error sound
         Sc.audio.play_sound("nav_select_fail")
@@ -465,15 +464,16 @@ func _on_reached_station_to_recycle_self() -> void:
         ("Bot._on_reached_station_to_recycle_self: " +
         "bot=%s, p=%s") % [
             self.character_name,
-            target_station.position,
+            command.target_station.position,
         ])
-    assert(is_instance_valid(target_station))
+    assert(is_instance_valid(command.target_station))
     Sc.level.deduct_energy(CommandType.COSTS[CommandType.BOT_RECYCLE])
     Sc.level.remove_bot(self)
 
 
 func _on_reached_station_to_build_bot() -> void:
-    if !is_instance_valid(command.target_station):
+    if !is_instance_valid(command) or \
+            !is_instance_valid(command.target_station):
         # The station has been destroyed.
         # FIXME: Play error sound
         Sc.audio.play_sound("nav_select_fail")
@@ -485,42 +485,44 @@ func _on_reached_station_to_build_bot() -> void:
         "Bot._on_reached_station_to_build_bot: bot=%s, bot_to_build=%s, p=%s" % [
             self.character_name,
             CommandType.get_string(command.type),
-            target_station.position,
+            command.target_station.position,
         ])
-    assert(is_instance_valid(target_station))
+    assert(is_instance_valid(command.target_station))
     Sc.level.add_bot(command.type)
     Sc.level.deduct_energy(CommandType.COSTS[command.type])
 
 
-func _navigate_to_target_station(target_station: Station) -> void:
-    self.target_station = target_station
+func _navigate_command(station: Station = null) -> void:
+    assert(is_instance_valid(command))
+    
+    if !is_instance_valid(station):
+        if is_instance_valid(command.destination):
+            navigate_imperatively(command.destination)
+            return
+        else:
+            station = command.target_station
+    
     var already_there := \
-        _extra_collision_detection_area.overlaps_area(target_station)
+        _extra_collision_detection_area.overlaps_area(station)
     if already_there:
-        _on_reached_command_target()
+        _on_navigation_ended()
     else:
-        navigate_imperatively(target_station.get_position_along_surface(self))
+        var destination := station.get_position_along_surface(self)
+        navigate_imperatively(destination)
 
 
-func stop_on_surface(
-        triggers_command := false,
-        triggers_wander := false) -> void:
-    assert(!triggers_command or !triggers_wander)
-    _clear_command_state(is_active)
-    triggers_command_when_landed = triggers_command
+func stop_on_surface(triggers_wander := false) -> void:
+    assert(!is_instance_valid(command) or !triggers_wander)
     triggers_wander_when_landed = triggers_wander
     .stop_on_surface()
 
 
 func _stop_nav_immediately() -> void:
     ._stop_nav_immediately()
-    var previous_triggers_command_when_landed := triggers_command_when_landed
-    var previous_triggers_wander_when_landed := triggers_wander_when_landed
-    _clear_command_state(triggers_command_when_landed)
-    if previous_triggers_command_when_landed:
-        _start_command_navigation()
+    if is_instance_valid(command):
+        _navigate_command()
     else:
-        if previous_triggers_wander_when_landed:
+        if triggers_wander_when_landed:
             default_behavior = get_behavior(WanderBehavior)
         if behavior is PlayerNavigationBehavior or \
                 behavior is NavigationOverrideBehavior or \
@@ -539,66 +541,16 @@ func drop_power_line() -> void:
     held_power_line = null
 
 
-func _on_command_started() -> void:
-#    Sc.logger.print(
-#        "Bot._on_command_started: %s" % \
-#        CommandType.get_string(command.type))
-    
-    Sc.audio.play_sound("command_acc")
-    
-    var was_active := is_active
-    
-    is_active = true
-    is_new = false
-    is_waiting_to_stop_on_surface = false
-    reached_command_target = false
-    triggers_command_when_landed = false
-    triggers_wander_when_landed = false
-    is_initial_nav = false
-    
-    target_station = null
+func clear_command_state() -> void:
     drop_power_line()
-    
     _update_status()
-    
-    if !was_active:
-        Sc.level.on_bot_idleness_changed(self, false)
-
-
-func _clear_command_state(next_is_active: bool) -> void:
-#    Sc.logger.print(
-#        "Bot._clear_command_state: %s" % \
-#        CommandType.get_string(command.type))
-    
-    var was_active := is_active
-    
-    is_new = false
-    is_waiting_to_stop_on_surface = false
-    triggers_command_when_landed = false
-    triggers_wander_when_landed = false
-    
-    target_station = null
-    drop_power_line()
-    
-    _update_status()
-    
     # FIXME: --------------------------------------------
     # - Maybe keep the bot selected?
     # - Maybe don't wander if selected, but then start wander when deselected?
     set_is_selected(false)
-    
-    var just_became_idle := !next_is_active and was_active
-    
-    if reached_command_target or \
-            just_became_idle:
-        if is_instance_valid(command):
-            Sc.level.cancel_command(command, true)
-            command = null
-    
-    if just_became_idle:
-        is_active = false
-        reached_command_target = false
-        Sc.level.on_bot_idleness_changed(self, true)
+    if is_instance_valid(command):
+        Sc.level.cancel_command(command, true)
+        command = null
 
 
 func _on_info_panel_closed(data: InfoPanelData) -> void:
@@ -608,72 +560,24 @@ func _on_info_panel_closed(data: InfoPanelData) -> void:
 func _on_navigation_started(
         is_retry: bool,
         triggered_by_player: bool) -> void:
-#    Sc.logger.print("Bot._on_navigation_started: %s" % \
-#            str(navigation_state.triggered_by_player))
     if triggered_by_player:
-        _clear_command_state(true)
-        if is_instance_valid(command):
-            Sc.level.cancel_command(command, true)
-            command = null
-        command = Command.new(CommandType.BOT_MOVE, null, null)
-        command.is_active = true
-        command.bot = self
-        Sc.level.in_progress_commands[command] = true
-        Sc.gui.hud.command_queue_list.sync_queue()
-        _on_command_started()
+        var command := Command.new(
+            CommandType.BOT_MOVE,
+            null,
+            null,
+            navigator.get_destination())
+        start_command(command, false)
         show_exclamation_mark()
     set_is_selected(false)
 
 
 func _on_navigation_ended(
-        did_reach_destination: bool,
-        triggered_by_player) -> void:
-#    Sc.logger.print("Bot._on_navigation_ended")
-    if triggered_by_player:
-        reached_command_target = true
-        _clear_command_state(false)
-    elif is_initial_nav:
-        is_initial_nav = false
-        is_new = true
-        is_active = false
-        default_behavior = get_behavior(WanderBehavior)
-        default_behavior.trigger(false)
-        Sc.level.on_bot_idleness_changed(self, true)
-
-
-func _on_started_colliding(
-        target: Node2D,
-        layer_names: Array) -> void:
-    call_deferred("_on_started_colliding_deferred", target, layer_names)
-
-
-func _on_started_colliding_deferred(
-        target: Node2D,
-        layer_names: Array) -> void:
-    match layer_names[0]:
-        "bots":
-            pass
-        "stations":
-            if target_station == target:
-                _on_reached_command_target()
-        "meteors":
-            target._on_collided_with_bot(self)
-            _on_hit_by_meteor()
-        _:
-            Sc.logger.error("Bot._on_started_colliding: layer_names=%s" % \
-                    str(layer_names))
-
-
-func _on_hit_by_meteor() -> void:
-    Sc.level.session.meteors_collided_count += 1
-    Sc.level.deduct_energy(Cost.BOT_HIT)
-    var damage := Health.METEOR_DAMAGE
-    # FIXME: --------------- Consider modifying damage depending on Upgrade.
-    modify_health(-damage)
-
-
-func _on_reached_command_target() -> void:
-    reached_command_target = true
+        did_reach_destination := true,
+        triggered_by_player := false) -> void:
+    # The wander navigations don't correspond to a command.
+    if !get_is_active() or \
+            behavior is WanderBehavior:
+        return
     
     var stops: bool
     match command.type:
@@ -702,14 +606,50 @@ func _on_reached_command_target() -> void:
         CommandType.BOT_BARRIER:
             _on_reached_station_to_build_bot()
             stops = true
+        CommandType.BOT_MOVE:
+            stops = true
         _:
             Sc.logger.error(
-                    "Bot._on_started_colliding: command=%s" % \
+                    "Bot._on_navigation_ended: command=%s" % \
                     str(command.type))
     
     if stops:
-        stop_on_surface(false, true)
-        _clear_command_state(false)
+        clear_command_state()
+        
+        if is_initial_nav:
+            is_initial_nav = false
+            default_behavior = get_behavior(WanderBehavior)
+            default_behavior.trigger(false)
+        
+        Sc.level.on_bot_idleness_changed(self)
+
+
+func _on_started_colliding(
+        target: Node2D,
+        layer_names: Array) -> void:
+    match layer_names[0]:
+        "bots":
+            # Do nothing.
+            pass
+        "stations":
+            # -   Do nothing.
+            # -   Reacting when reaching command targets is handled by
+            #     _on_navigation_ended.
+            pass
+        "meteors":
+            target._on_collided_with_bot(self)
+            _on_hit_by_meteor()
+        _:
+            Sc.logger.error("Bot._on_started_colliding: layer_names=%s" % \
+                    str(layer_names))
+
+
+func _on_hit_by_meteor() -> void:
+    Sc.level.session.meteors_collided_count += 1
+    Sc.level.deduct_energy(Cost.BOT_HIT)
+    var damage := Health.METEOR_DAMAGE
+    # FIXME: --------------- Consider modifying damage depending on Upgrade.
+    modify_health(-damage)
 
 
 func _on_radial_menu_item_selected(item: RadialMenuItem) -> void:
@@ -719,7 +659,8 @@ func _on_radial_menu_item_selected(item: RadialMenuItem) -> void:
         CommandType.BOT_STOP:
             set_is_selected(false)
             update_info_panel_visibility(false)
-            stop_on_surface(false, true)
+            clear_command_state()
+            stop_on_surface(true)
         CommandType.BOT_RECYCLE:
             set_is_selected(false)
             update_info_panel_visibility(false)
@@ -804,7 +745,7 @@ func get_disabled_message(command_type: int) -> String:
         return message
     match command_type:
         CommandType.BOT_STOP:
-            if !is_active:
+            if !get_is_active():
                 return Description.ALREADY_STOPPED
         _:
             pass
@@ -844,3 +785,7 @@ func modify_health(diff: int) -> void:
     status_overlay.update()
     if _health == 0:
         Sc.level.on_bot_health_depleted(self)
+
+
+func get_is_active() -> bool:
+    return is_instance_valid(command)
