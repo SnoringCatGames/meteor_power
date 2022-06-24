@@ -72,6 +72,7 @@ tracks/0/keys = {
 collision_layer = 1073741840
 collision_mask = 0
 monitoring = false
+monitorable = false
 script = ExtResource( 1 )
 screen_radius = 28.8
 shape_rectangle_extents = Vector2( 24, 28 )

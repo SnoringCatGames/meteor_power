@@ -72,16 +72,6 @@ collision_mask = 0
 monitoring = false
 monitorable = false
 script = ExtResource( 1 )
-is_disabled = false
-is_focused = false
-screen_radius = 16.0
-mouse_filter = 0
-is_desaturatable = false
-shape_is_rectangular = true
-shape_rectangle_extents = Vector2( 8, 8 )
-shape_circle_radius = -1.0
-shape_offset = Vector2( 0, 0 )
-rope_attachment_offset = Vector2( 0, 0 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." groups=["slow_motionables"]]
 anims/RESET = SubResource( 1 )

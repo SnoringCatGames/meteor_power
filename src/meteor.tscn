@@ -209,14 +209,14 @@ visible = false
 light_mask = 0
 position = Vector2( 1, -42 )
 frames = SubResource( 64 )
-frame = 1
+frame = 3
 playing = true
 
 [node name="SmallTail" type="AnimatedSprite" parent="." groups=["slow_motionables"]]
 light_mask = 0
 position = Vector2( 1, -27 )
 frames = SubResource( 43 )
-frame = 12
+frame = 14
 playing = true
 
 [node name="Light2D" type="Light2D" parent="."]

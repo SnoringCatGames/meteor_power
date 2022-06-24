@@ -27,6 +27,10 @@ func _init().(ENTITY_COMMAND_TYPE) -> void:
         outlets[i] = {}
 
 
+func _ready() -> void:
+    Sc.slow_motion.set_time_scale_for_node($ShaderOutlineableAnimatedSprite)
+
+
 func get_buttons() -> Array:
     return [
         CommandType.RUN_WIRE,

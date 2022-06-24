@@ -20,6 +20,8 @@ var _last_scaled_time := INF
 
 func _ready() -> void:
     _set_up_desaturatable()
+    Sc.slow_motion.set_time_scale_for_node($LargeTail)
+    Sc.slow_motion.set_time_scale_for_node($SmallTail)
 
 
 func _set_up_desaturatable() -> void:

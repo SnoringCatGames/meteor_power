@@ -13,6 +13,10 @@ func _init().(ENTITY_COMMAND_TYPE) -> void:
     pass
 
 
+func _ready() -> void:
+    Sc.slow_motion.set_time_scale_for_node($AnimationPlayer)
+
+
 func _physics_process(delta: float) -> void:
     if is_connected_to_command_center:
         if int(previous_total_time / seconds_per_one_energy_value) != \
