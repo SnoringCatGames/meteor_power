@@ -11,7 +11,7 @@ var destination: PositionAlongSurface
 
 var bot
 
-var is_active := false
+var is_navigating := false
 
 
 func _init(

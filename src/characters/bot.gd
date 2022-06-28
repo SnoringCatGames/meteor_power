@@ -310,7 +310,6 @@ func start_command(
     
     self.command = command
     
-    command.is_active = true
     command.bot = self
     
     Sc.level.command_queue.erase(command)
@@ -495,6 +494,8 @@ func _on_reached_station_to_build_bot() -> void:
 func _navigate_command(station: Station = null) -> void:
     assert(is_instance_valid(command))
     
+    command.is_navigating = true
+    
     if !is_instance_valid(station):
         if is_instance_valid(command.destination):
             navigate_imperatively(command.destination)
@@ -574,9 +575,8 @@ func _on_navigation_started(
 func _on_navigation_ended(
         did_reach_destination := true,
         triggered_by_player := false) -> void:
-    # The wander navigations don't correspond to a command.
     if !get_is_active() or \
-            behavior is WanderBehavior:
+            !command.is_navigating:
         return
     
     var stops: bool
