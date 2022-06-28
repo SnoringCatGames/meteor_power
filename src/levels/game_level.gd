@@ -82,7 +82,8 @@ var first_selected_station_for_running_power_line: Station = null
 #              efficiency and/or durability?
 var did_level_succeed := false
 
-var is_trying_next_command := false
+var _is_energy_based_command_enablement_update_pending := false
+var _is_try_next_command_pending := false
 
 var _static_camera: StaticCamera
 
@@ -390,13 +391,13 @@ func add_command(
 
 
 func _try_next_command() -> void:
-    if !is_trying_next_command:
-        is_trying_next_command = true
+    if !_is_try_next_command_pending:
+        _is_try_next_command_pending = true
         call_deferred("_try_next_command_deferred")
 
 
 func _try_next_command_deferred() -> void:
-    is_trying_next_command = false
+    _is_try_next_command_pending = false
     
     while !command_queue.empty() and \
             !idle_bots.empty():
@@ -430,11 +431,9 @@ func deduct_energy(cost: int) -> void:
     var previous_energy: int = session.current_energy
     session.current_energy -= cost
     session.current_energy = max(session.current_energy, 0)
-    if (previous_energy > _max_command_cost) != \
-            (session.current_energy > _max_command_cost):
-        update_command_enablement()
     if session.current_energy == 0:
         quit(false, false)
+    _update_energy_based_command_enablement()
 
 
 func add_energy(energy: int) -> void:
@@ -444,12 +443,19 @@ func add_energy(energy: int) -> void:
     session.current_energy += energy
     session.total_energy += energy
     session._score = session.total_energy
-    if (previous_energy > _max_command_cost) != \
-            (session.current_energy > _max_command_cost):
-        update_command_enablement()
+    _update_energy_based_command_enablement()
 
 
-func update_command_enablement() -> void:
+func _update_energy_based_command_enablement() -> void:
+    if !_is_energy_based_command_enablement_update_pending:
+        _is_energy_based_command_enablement_update_pending = true
+        call_deferred("_update_energy_based_command_enablement_deferred")
+
+
+func _update_energy_based_command_enablement_deferred(
+        is_part_of_general_enablement_update := false) -> void:
+    _is_energy_based_command_enablement_update_pending = false
+    
     # Disable any command for which there isn't enough energy.
     if session.current_energy < _max_command_cost:
         for command in CommandType.VALUES:
@@ -461,6 +467,13 @@ func update_command_enablement() -> void:
                     "" if \
                     next_enablement else \
                     Description.NOT_ENOUGH_ENERGY
+    
+    if !is_part_of_general_enablement_update:
+        _check_for_command_enablement_changed()
+
+
+func update_command_enablement() -> void:
+    _update_energy_based_command_enablement_deferred(true)
     
     # Disable bot-creation when at max bot capacity.
     if session.total_bot_count >= session.bot_capacity:
@@ -484,7 +497,7 @@ func update_command_enablement() -> void:
     if did_level_succeed:
         # FIXME: --------------- Add support for second and third links.
         command_enablement[CommandType.STATION_LINK_TO_MOTHERSHIP] = \
-                Description.ALREADY_LINKED_TO_MOTHERSHIP
+            Description.ALREADY_LINKED_TO_MOTHERSHIP
         
     # FIXME: LEFT OFF HERE: --------------------------
     if tutorial_mode != TutorialMode.NONE:
@@ -510,6 +523,10 @@ func update_command_enablement() -> void:
 #
 #    command_enablement[CommandType.RUN_WIRE]
     
+    _check_for_command_enablement_changed()
+
+
+func _check_for_command_enablement_changed() -> void:
     var changed := false
     for i in command_enablement.size():
         if command_enablement[i] != previous_command_enablement[i]:
