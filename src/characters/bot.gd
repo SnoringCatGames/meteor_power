@@ -513,8 +513,8 @@ func _navigate_command(station: Station = null) -> void:
 
 
 func stop_on_surface(triggers_wander := false) -> void:
-    assert(!is_instance_valid(command) or !triggers_wander)
-    triggers_wander_when_landed = triggers_wander
+    triggers_wander_when_landed = \
+        !is_instance_valid(command) and triggers_wander
     .stop_on_surface()
 
 

@@ -82,6 +82,8 @@ var first_selected_station_for_running_power_line: Station = null
 #              efficiency and/or durability?
 var did_level_succeed := false
 
+var is_trying_next_command := false
+
 var _static_camera: StaticCamera
 
 var _overlay_buttons_fade_tween: ScaffolderTween
@@ -388,7 +390,15 @@ func add_command(
 
 
 func _try_next_command() -> void:
-    if !command_queue.empty() and \
+    if !is_trying_next_command:
+        is_trying_next_command = true
+        call_deferred("_try_next_command_deferred")
+
+
+func _try_next_command_deferred() -> void:
+    is_trying_next_command = false
+    
+    while !command_queue.empty() and \
             !idle_bots.empty():
         # FIXME: ---------- Refactor this to instead use the next command that
         #                   has an available free bot of the correct type.
@@ -406,6 +416,7 @@ func cancel_command(
     if !already_canceled_bot and \
             is_instance_valid(command.bot):
         command.bot.clear_command_state()
+        on_bot_idleness_changed(command.bot)
         command.bot.stop_on_surface(true)
         return
     command_queue.erase(command)
@@ -614,12 +625,12 @@ func get_bot_for_command(
 
 func on_bot_idleness_changed(bot: Bot) -> void:
     if !bot.get_is_active():
-        assert(!idle_bots.has(bot))
-        idle_bots[bot] = true
-        _try_next_command()
+        if !idle_bots.has(bot):
+            idle_bots[bot] = true
+            _try_next_command()
     else:
-        assert(idle_bots.has(bot))
-        idle_bots.erase(bot)
+        if idle_bots.has(bot):
+            idle_bots.erase(bot)
 
 
 func add_bot(
