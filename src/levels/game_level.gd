@@ -414,14 +414,14 @@ func _try_next_command_deferred() -> void:
 func cancel_command(
         command: Command,
         already_canceled_bot := false) -> void:
+    command_queue.erase(command)
+    in_progress_commands.erase(command)
     if !already_canceled_bot and \
             is_instance_valid(command.bot):
         command.bot.clear_command_state()
         on_bot_idleness_changed(command.bot)
         command.bot.stop_on_surface(true)
         return
-    command_queue.erase(command)
-    in_progress_commands.erase(command)
     Sc.gui.hud.command_queue_list.sync_queue()
 
 
@@ -698,6 +698,7 @@ func remove_bot(bot: Bot) -> void:
     if !session.is_ended:
         session.bot_pixels_travelled += bot.distance_travelled
     assert(bots.has(bot))
+    
     bots.erase(bot)
     if bot is ConstructionBot:
         constructor_bots.erase(bot)
@@ -707,10 +708,12 @@ func remove_bot(bot: Bot) -> void:
         barrier_bots.erase(bot)
     else:
         Sc.logger.error("GameLevel.remove_bot")
+    
     for collection in [command_queue, in_progress_commands]:
         for command in collection:
             if command.bot == bot:
                 cancel_command(command)
+    
     _update_session_counts()
     remove_character(bot)
 
@@ -718,20 +721,6 @@ func remove_bot(bot: Bot) -> void:
 func replace_station(
         old_station: Station,
         new_station_type: int) -> void:
-    for bot in old_station.bot_connections:
-        var power_line: DynamicPowerLine = old_station.bot_connections[bot]
-        assert(bot.held_power_line == power_line)
-        bot.clear_command_state()
-        bot.stop_on_surface(true)
-        remove_power_line(power_line)
-    
-    for other_station in old_station.station_connections:
-        var power_line: PowerLine = \
-            old_station.station_connections[other_station]
-        other_station.remove_station_connection(old_station)
-        old_station.remove_station_connection(other_station)
-        remove_power_line(power_line)
-    
     var previous_station_count: int = session.total_station_count
     var station_position := old_station.position
     remove_station(old_station)
@@ -756,6 +745,20 @@ func replace_station(
 
 
 func remove_station(station: Station) -> void:
+    for bot in station.bot_connections:
+        var power_line: DynamicPowerLine = station.bot_connections[bot]
+        assert(bot.held_power_line == power_line)
+        bot.clear_command_state()
+        bot.stop_on_surface(true)
+        remove_power_line(power_line)
+    
+    for other_station in station.station_connections:
+        var power_line: PowerLine = \
+            station.station_connections[other_station]
+        other_station.remove_station_connection(station)
+        station.remove_station_connection(other_station)
+        remove_power_line(power_line)
+    
     assert(stations.has(station))
     stations.erase(station)
     if station is CommandCenter:
@@ -770,11 +773,13 @@ func remove_station(station: Station) -> void:
         empty_stations.erase(station)
     else:
         Sc.logger.error("GameLevel.remove_station")
+    
     for collection in [command_queue, in_progress_commands]:
         for command in collection:
             if command.target_station == station or \
                     command.next_target_station == station:
                 cancel_command(command)
+    
     station._destroy()
     _update_session_counts()
 

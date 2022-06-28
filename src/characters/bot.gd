@@ -552,6 +552,7 @@ func clear_command_state() -> void:
     if is_instance_valid(command):
         Sc.level.cancel_command(command, true)
         command = null
+        Sc.level.on_bot_idleness_changed(self)
 
 
 func _on_info_panel_closed(data: InfoPanelData) -> void:
