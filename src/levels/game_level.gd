@@ -193,10 +193,21 @@ func _override_for_level() -> void:
 
 
 func _destroy() -> void:
-    for station in stations:
-        station._destroy()
     for power_line in power_lines:
         power_line._destroy()
+    
+    #########################################
+    # FIXME: --------- REMOVE:
+    # - ...After removing the corresponding asserts in station._destroy.
+    power_lines.clear()
+    for station in Sc.level.stations:
+        station.station_connections.clear()
+        station.bot_connections.clear()
+    #########################################
+    
+    for station in stations:
+        station._destroy()
+    
     ._destroy()
 
 
@@ -404,8 +415,18 @@ func _try_next_command_deferred() -> void:
         # FIXME: ---------- Refactor this to instead use the next command that
         #                   has an available free bot of the correct type.
         var command: Command = command_queue.pop_front()
+        if !is_instance_valid(command.target_station):
+            Sc.logger.warning(
+                "GameLevel._try_next_command_deferred: " +
+                "command.target_station has been freed.")
+            continue
         var bot := get_bot_for_command(
             command.target_station, CommandType.RUN_WIRE)
+        if !is_instance_valid(bot):
+            Sc.logger.warning(
+                "GameLevel._try_next_command_deferred: " +
+                "bot has been freed.")
+            continue
         bot.start_command(command)
     
     Sc.gui.hud.command_queue_list.sync_queue()
@@ -631,7 +652,13 @@ func get_bot_for_command(
     #   then use that bot.
     var closest_distance_squared := INF
     var closest_bot: Bot = null
-    for bot in idle_bots:
+    for bot in idle_bots.keys():
+        if !is_instance_valid(bot):
+            Sc.logger.warning(
+                "GameLevel.get_bot_for_command: " +
+                "bot has been freed.")
+            idle_bots.erase(bot)
+            continue
         var current_distance_squared: float = \
             bot.position.distance_squared_to(station.position)
         if current_distance_squared < closest_distance_squared:
@@ -699,6 +726,9 @@ func remove_bot(bot: Bot) -> void:
         session.bot_pixels_travelled += bot.distance_travelled
     assert(bots.has(bot))
     
+    if selected_bot == bot:
+        _clear_selection()
+    
     bots.erase(bot)
     if bot is ConstructionBot:
         constructor_bots.erase(bot)
@@ -709,10 +739,15 @@ func remove_bot(bot: Bot) -> void:
     else:
         Sc.logger.error("GameLevel.remove_bot")
     
+    idle_bots.erase(bot)
+    
+    var commands_to_cancel := []
     for collection in [command_queue, in_progress_commands]:
         for command in collection:
             if command.bot == bot:
-                cancel_command(command)
+                commands_to_cancel.push_back(command)
+    for command in commands_to_cancel:
+        cancel_command(command)
     
     _update_session_counts()
     remove_character(bot)
@@ -745,14 +780,14 @@ func replace_station(
 
 
 func remove_station(station: Station) -> void:
-    for bot in station.bot_connections:
+    for bot in station.bot_connections.keys():
         var power_line: DynamicPowerLine = station.bot_connections[bot]
         assert(bot.held_power_line == power_line)
         bot.clear_command_state()
         bot.stop_on_surface(true)
         remove_power_line(power_line)
     
-    for other_station in station.station_connections:
+    for other_station in station.station_connections.keys():
         var power_line: PowerLine = \
             station.station_connections[other_station]
         other_station.remove_station_connection(station)
@@ -774,11 +809,14 @@ func remove_station(station: Station) -> void:
     else:
         Sc.logger.error("GameLevel.remove_station")
     
+    var commands_to_cancel := []
     for collection in [command_queue, in_progress_commands]:
         for command in collection:
             if command.target_station == station or \
                     command.next_target_station == station:
-                cancel_command(command)
+                commands_to_cancel.push_back(command)
+    for command in commands_to_cancel:
+        cancel_command(command)
     
     station._destroy()
     _update_session_counts()

@@ -100,6 +100,23 @@ func _destroy() -> void:
     buttons._destroy()
     update_info_panel_visibility(false)
     close_radial_menu()
+    #####################################################################
+    # FIXME: ------------------------------------- REMOVE. Eventually...
+    # - Check whether there are any dangling references...
+    for station in Sc.level.stations:
+#        assert(!Sc.geometry.are_points_equal_with_epsilon(
+#            self.position, station.positon, 10.0))
+        for other in station.station_connections:
+            assert(!Sc.geometry.are_points_equal_with_epsilon(
+                self.position, other.position, 10.0))
+            print(other)
+    for power_line in Sc.level.power_lines:
+        assert(!Sc.geometry.are_points_equal_with_epsilon(
+            self.position, power_line.start_attachment.position, 10.0))
+        assert(!Sc.geometry.are_points_equal_with_epsilon(
+            self.position, power_line.end_attachment.position, 10.0))
+        print(power_line)
+    #####################################################################
     ._destroy()
 
 
