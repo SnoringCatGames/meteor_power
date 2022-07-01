@@ -43,6 +43,8 @@ var entity_command_type := CommandType.UNKNOWN
 var _health := 0
 var _health_capacity := 0
 
+var _stationary_frames_count_with_command_active := 0
+
 
 func _init(entity_command_type: int) -> void:
     self.entity_command_type = entity_command_type
@@ -127,6 +129,22 @@ func _physics_process(delta: float) -> void:
     
     if did_move_last_frame:
         _update_highlight_for_camera_position()
+    
+    if did_move_last_frame or \
+            !is_instance_valid(command):
+        _stationary_frames_count_with_command_active = 0
+    else:
+        _stationary_frames_count_with_command_active += 1
+    
+    # This is a hacky check to reset bots back to stable state in case
+    # something goes wrong when changing commands, navigation, and idleness.
+    if _stationary_frames_count_with_command_active > 7:
+        Sc.logger.warning(
+            "Bot._physics_process: " +
+            "stationary_frames_count > 7, " +
+            "with command still active.")
+        clear_command_state()
+        Sc.level.on_bot_idleness_changed(self)
 
 
 func _on_level_started() -> void:
@@ -623,6 +641,29 @@ func _on_navigation_ended(
             default_behavior.trigger(false)
         
         Sc.level.on_bot_idleness_changed(self)
+
+
+func _on_behavior_changed(
+        behavior: Behavior,
+        previous_behavior: Behavior) -> void:
+    if behavior is WanderBehavior or \
+            behavior is StaticBehavior:
+        # NOTE: This doesn't work, because default behaviors are triggered when
+        #       forcing navigation state to be stopped before executing a new
+        #       command.
+#        if is_instance_valid(command):
+#            Sc.logger.warning(
+#                "_on_behavior_changed: " +
+#                "Bot set to wander or static behavior, " +
+#                "with command still active.")
+#            clear_command_state()
+#        elif !Sc.level.idle_bots.has(self):
+#            Sc.logger.warning(
+#                "_on_behavior_changed: " +
+#                "Bot set to wander or static behavior, " +
+#                "but is not registered as idle.")
+#            Sc.level.on_bot_idleness_changed(self)
+        pass
 
 
 func _on_started_colliding(

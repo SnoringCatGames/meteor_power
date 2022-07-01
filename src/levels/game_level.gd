@@ -629,9 +629,11 @@ func add_power_line(power_line: PowerLine) -> void:
 
 
 func remove_power_line(power_line: PowerLine) -> void:
-    assert(power_lines.has(power_line))
+    if !is_instance_valid(power_line):
+        return
     power_lines.erase(power_line)
-    power_line._destroy()
+    if !power_line.is_queued_for_deletion():
+        power_line._destroy()
 
 
 func replace_dynamic_power_line(
