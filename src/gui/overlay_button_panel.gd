@@ -246,11 +246,32 @@ func _on_command_enablement_changed() -> void:
     
     var disabled: bool = Sc.level.command_enablement[CommandType.RUN_WIRE] != ""
     
-    var is_run_wire_button_visible: bool = \
-        disabled or \
-        Sc.level.first_selected_station_for_running_power_line != station and \
-        !station.station_connections.has(
-            Sc.level.first_selected_station_for_running_power_line)
+    var is_run_wire_button_visible: bool
+    if disabled:
+        # Always show the run-wire button when disabled.
+        is_run_wire_button_visible = true
+    elif Sc.level.first_selected_station_for_running_power_line == station:
+        # A station cannot be connected to itself.
+        is_run_wire_button_visible = false
+    elif station.station_connections.has(
+            Sc.level.first_selected_station_for_running_power_line):
+        # This station is already connected to the selected station.
+        is_run_wire_button_visible = false
+    else:
+        is_run_wire_button_visible = true
+        
+        # Check whether there is already a command for this run-wire button.
+        for collection in \
+                [Sc.level.command_queue, Sc.level.in_progress_commands]:
+            for command in collection:
+                if command.target_station == \
+                            Sc.level.first_selected_station_for_running_power_line and \
+                        command.next_target_station == station or \
+                        command.target_station == station and \
+                        command.next_target_station == \
+                            Sc.level.first_selected_station_for_running_power_line:
+                    is_run_wire_button_visible = false
+                    break
     
     var visible_button: SpriteModulationButton
     var hidden_button: SpriteModulationButton

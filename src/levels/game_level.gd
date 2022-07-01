@@ -573,20 +573,18 @@ func set_selected_station_for_running_power_line(station: Station) -> void:
     if is_instance_valid(first_selected_station_for_running_power_line):
         if first_selected_station_for_running_power_line == station:
             Sc.logger.print("Same wire end: Cancelling wire-run command")
-            clear_station_power_line_selection()
         else:
             Sc.logger.print("Second wire end")
             add_command(
                 CommandType.RUN_WIRE,
                 first_selected_station_for_running_power_line,
                 station)
-            clear_station_power_line_selection()
+        clear_station_power_line_selection()
     else:
         Sc.logger.print("First wire end")
         first_selected_station_for_running_power_line = station
-        station._on_command_enablement_changed()
-        for other_station in station.station_connections:
-            other_station._on_command_enablement_changed()
+        for station in stations:
+            station._on_command_enablement_changed()
 
 
 func get_is_first_station_selected_for_running_power_line() -> bool:
@@ -601,12 +599,8 @@ func clear_station_power_line_selection() -> void:
             previous_first_selected_station_for_running_power_line):
         previous_first_selected_station_for_running_power_line \
             .set_is_selected(false)
-        previous_first_selected_station_for_running_power_line \
-            ._on_command_enablement_changed()
-        for other_station in \
-                previous_first_selected_station_for_running_power_line \
-                    .station_connections:
-            other_station._on_command_enablement_changed()
+        for station in stations:
+            station._on_command_enablement_changed()
 
 
 func connect_dynamic_power_line_to_second_station(
