@@ -480,21 +480,27 @@ func _update_energy_based_command_enablement_deferred(
     # Disable any command for which there isn't enough energy.
     if session.current_energy < _max_command_cost:
         for command in CommandType.VALUES:
-            var previous_enablement: bool = command_enablement[command] == ""
-            var next_enablement: bool = \
+            var previous_enablement: String = command_enablement[command]
+            var is_enough_energy: bool = \
                 CommandType.COSTS[command] <= session.current_energy
-            if previous_enablement != next_enablement:
-                command_enablement[command] = \
-                    "" if \
-                    next_enablement else \
-                    Description.NOT_ENOUGH_ENERGY
+            
+            # Don't override other disablement messages.
+            if previous_enablement == "" and \
+                    !is_enough_energy:
+                command_enablement[command] = Description.NOT_ENOUGH_ENERGY
+                
+            elif previous_enablement == Description.NOT_ENOUGH_ENERGY and \
+                    is_enough_energy:
+                command_enablement[command] = ""
     
     if !is_part_of_general_enablement_update:
         _check_for_command_enablement_changed()
 
 
 func update_command_enablement() -> void:
-    _update_energy_based_command_enablement_deferred(true)
+    # Clear command-enablement.
+    for command in CommandType.VALUES:
+        command_enablement[command] = ""
     
     # Disable bot-creation when at max bot capacity.
     if session.total_bot_count >= session.bot_capacity:
@@ -543,6 +549,8 @@ func update_command_enablement() -> void:
 #    command_enablement[CommandType.STATION_INFO]
 #
 #    command_enablement[CommandType.RUN_WIRE]
+    
+    _update_energy_based_command_enablement_deferred(true)
     
     _check_for_command_enablement_changed()
 
