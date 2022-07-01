@@ -632,6 +632,14 @@ func remove_power_line(power_line: PowerLine) -> void:
     if !is_instance_valid(power_line):
         return
     power_lines.erase(power_line)
+    
+    if is_instance_valid(power_line.start_attachment) and \
+            power_line.start_attachment is Station:
+        power_line.start_attachment._on_command_enablement_changed()
+    if is_instance_valid(power_line.end_attachment) and \
+            power_line.end_attachment is Station:
+        power_line.end_attachment._on_command_enablement_changed()
+    
     if !power_line.is_queued_for_deletion():
         power_line._destroy()
 
@@ -877,6 +885,7 @@ func on_power_line_health_depleted(power_line: PowerLine) -> void:
         # NOTE: This is covered by drop_power_line.
 #        power_line.start_attachment \
 #            .remove_bot_connection(power_line.end_attachment, power_line)
+#        remove_power_line(power_line)
         power_line.end_attachment.clear_command_state()
         power_line.end_attachment.stop_on_surface(true)
     else:
