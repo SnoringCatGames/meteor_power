@@ -649,6 +649,23 @@ func get_disabled_message(command_type: int) -> String:
         CommandType.STATION_REPAIR:
             if _health >= _health_capacity:
                 return Description.ALREADY_AT_FULL_HEALTH
+        
+        CommandType.STATION_COMMAND, \
+        CommandType.STATION_BATTERY, \
+        CommandType.STATION_SCANNER, \
+        CommandType.STATION_SOLAR:
+            for collection in [
+                    Sc.level.command_queue, 
+                    Sc.level.in_progress_commands,
+                ]:
+                for command in collection:
+                    if command.target_station == self and \
+                            (command.type == CommandType.STATION_COMMAND or \
+                            command.type == CommandType.STATION_BATTERY or \
+                            command.type == CommandType.STATION_SCANNER or \
+                            command.type == CommandType.STATION_SOLAR):
+                        return Description.ALREADY_BUILDING_STATION
+        
         _:
             pass
     return ""
