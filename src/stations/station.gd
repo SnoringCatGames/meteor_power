@@ -217,7 +217,12 @@ func _on_button_pressed(button_type: int) -> void:
             update_info_panel_visibility(false)
             _build_station(button_type)
         
-        CommandType.BOT_CONSTRUCTOR, \
+        CommandType.BOT_CONSTRUCTOR:
+            Sc.audio.play_sound("command_finished")
+            Sc.level.add_bot(CommandType.BOT_CONSTRUCTOR)
+            Sc.level.deduct_energy(
+                CommandType.COSTS[CommandType.BOT_CONSTRUCTOR])
+        
         CommandType.BOT_LINE_RUNNER, \
         CommandType.BOT_BARRIER:
             Sc.level.add_command(button_type, self)
