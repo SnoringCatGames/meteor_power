@@ -18,6 +18,7 @@ var level_manifest := {
         platform_graph_character_category_names = [
             "construction_bot",
             "line_runner",
+            "barrier",
         ],
         cell_size = Vector2(32.0, 32.0),
         start_energy = 2000,
@@ -35,6 +36,7 @@ var level_manifest := {
         platform_graph_character_category_names = [
             "construction_bot",
             "line_runner",
+            "barrier",
         ],
         cell_size = Vector2(32.0, 32.0),
         start_energy = 2000,

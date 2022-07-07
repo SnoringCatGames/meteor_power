@@ -137,7 +137,8 @@ func _start() -> void:
         _on_station_created(empty_station, true)
     
     # Always start with a constructor bot.
-    var starting_bot := add_bot(CommandType.BOT_CONSTRUCTOR, true)
+#    var starting_bot := add_bot(CommandType.BOT_CONSTRUCTOR, true)
+    var starting_bot := add_bot(CommandType.BOT_LINE_RUNNER, true)
     
     for station in stations:
         station._on_level_started()

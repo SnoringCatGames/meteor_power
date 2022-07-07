@@ -117,7 +117,7 @@ func _on_graph_parse_progress(
     
     var character_name: String = \
             Sc.levels.get_level_config(Sc.levels.session.id) \
-            .platform_graph_character_names[character_index]
+            .platform_graph_character_category_names[character_index]
     var label_1 := "Character %s (%s of %s)" % [
         character_name,
         character_index + 1,
