@@ -59,6 +59,11 @@ func _update_outline() -> void:
             active_outline_alpha_multiplier
 
 
+func deactivate_shield() -> void:
+    # FIXME: ------------- Play sound, play animation/particles
+    shield_activated = false
+
+
 func get_next_outlet_index() -> int:
     var min_connected_index := -1
     var min_connection_count := INF

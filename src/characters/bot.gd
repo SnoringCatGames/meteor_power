@@ -706,7 +706,9 @@ func _on_radial_menu_item_selected(item: RadialMenuItem) -> void:
         CommandType.BOT_RECYCLE:
             set_is_selected(false)
             update_info_panel_visibility(false)
-            Sc.level.add_command(CommandType.BOT_RECYCLE, Sc.level.command_center)
+            if is_instance_valid(Sc.level.command_center):
+                Sc.level.add_command(
+                    CommandType.BOT_RECYCLE, Sc.level.command_center)
         CommandType.BOT_INFO:
             set_is_selected(true)
             set_is_player_control_active(false)

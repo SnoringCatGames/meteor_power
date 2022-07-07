@@ -448,13 +448,12 @@ func cancel_command(
 
 
 func deduct_energy(cost: int) -> void:
-    if session.current_energy == 0:
-        return
     var previous_energy: int = session.current_energy
     session.current_energy -= cost
     session.current_energy = max(session.current_energy, 0)
     if session.current_energy == 0:
-        quit(false, false)
+        if is_instance_valid(command_center):
+            command_center.deactivate_shield()
     _update_energy_based_command_enablement()
 
 
@@ -866,7 +865,10 @@ func _on_station_created(
 
 func on_station_health_depleted(station: Station) -> void:
     # FIXME: ------------------------ Play sound
+    var is_command_center := station is CommandCenter
     replace_station(station, CommandType.STATION_EMPTY)
+    if is_command_center:
+        quit(false, false)
 
 
 func on_bot_health_depleted(bot: Bot) -> void:
