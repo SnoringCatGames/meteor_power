@@ -411,24 +411,29 @@ func _try_next_command() -> void:
 func _try_next_command_deferred() -> void:
     _is_try_next_command_pending = false
     
-    while !command_queue.empty() and \
-            !idle_bots.empty():
-        # FIXME: ---------- Refactor this to instead use the next command that
-        #                   has an available free bot of the correct type.
-        var command: Command = command_queue.pop_front()
+    var i := 0
+    while i < command_queue.size():
+        var command: Command = command_queue[i]
+        
         if !is_instance_valid(command.target_station):
             Sc.logger.warning(
                 "GameLevel._try_next_command_deferred: " +
                 "command.target_station has been freed.")
+            command_queue.remove(i)
             continue
+        
         var bot := get_bot_for_command(
-            command.target_station, CommandType.RUN_WIRE)
+            command.target_station, command.type)
         if !is_instance_valid(bot):
-            Sc.logger.warning(
-                "GameLevel._try_next_command_deferred: " +
-                "bot has been freed.")
+            # No idle bot was able to handle the command.
+            i += 1
             continue
+        
+        command_queue.remove(i)
         bot.start_command(command)
+        
+        if idle_bots.empty():
+            break
     
     Sc.gui.hud.command_queue_list.sync_queue()
 
@@ -672,7 +677,9 @@ func get_bot_for_command(
             idle_bots.erase(bot)
             continue
         var current_distance_squared: float = \
-            bot.position.distance_squared_to(station.position)
+            bot.position.distance_squared_to(station.position) if \
+            bot.get_can_handle_command(command_type) else \
+            INF
         if current_distance_squared < closest_distance_squared:
             closest_distance_squared = current_distance_squared
             closest_bot = bot

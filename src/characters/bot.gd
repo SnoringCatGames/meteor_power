@@ -833,3 +833,35 @@ func modify_health(diff: int) -> void:
 
 func get_is_active() -> bool:
     return is_instance_valid(command)
+
+
+func get_can_handle_command(type: int) -> bool:
+    match type:
+        CommandType.BOT_LINE_RUNNER, \
+        CommandType.BOT_BARRIER, \
+        CommandType.BOT_COMMAND, \
+        CommandType.BOT_STOP, \
+        CommandType.BOT_MOVE, \
+        CommandType.BOT_RECYCLE, \
+        CommandType.STATION_COMMAND, \
+        CommandType.STATION_SOLAR, \
+        CommandType.STATION_SCANNER, \
+        CommandType.STATION_BATTERY, \
+        CommandType.STATION_LINK_TO_MOTHERSHIP, \
+        CommandType.STATION_RECYCLE, \
+        CommandType.RUN_WIRE, \
+        CommandType.STATION_REPAIR, \
+        CommandType.WIRE_REPAIR:
+            return true
+        
+        CommandType.BOT_CONSTRUCTOR, \
+        CommandType.BOT_INFO, \
+        CommandType.STATION_EMPTY, \
+        CommandType.STATION_STOP, \
+        CommandType.STATION_INFO:
+            return false
+        
+        CommandType.UNKNOWN, \
+        _:
+            Sc.logger.error("Bot.get_can_handle_command")
+            return false
