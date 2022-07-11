@@ -99,7 +99,9 @@ func _on_collided_with_bot(bot) -> void:
 
 func _explode() -> void:
     Sc.audio.play_sound("meteor_land")
-    Sc.annotators.add_transient(MeteorExplosionAnnotator.new(position))
+    var annotator := MeteorExplosionAnnotator.new(position)
+    annotator.set_is_small(!is_large)
+    Sc.annotators.add_transient(annotator)
     _destroy()
 
 
