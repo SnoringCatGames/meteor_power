@@ -556,7 +556,9 @@ func drop_power_line() -> void:
     held_power_line.start_attachment \
         .remove_bot_connection(self, held_power_line)
     held_power_line.start_attachment._on_unplugged_from_bot(self)
-    Sc.level.remove_power_line(held_power_line)
+    if held_power_line.cut_start_index < 0:
+        held_power_line.cut_start_index = held_power_line._vertices.size() - 2
+    Sc.level.remove_power_line(held_power_line, true)
     held_power_line = null
 
 

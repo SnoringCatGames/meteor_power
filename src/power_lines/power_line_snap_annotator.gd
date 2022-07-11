@@ -15,24 +15,23 @@ var opacity: float
 
 
 func _init(power_line: PowerLine).(DURATION) -> void:
-    var intersection_vertex_start_index := \
-        power_line.latest_meteor_intersection_vertex_start_index if \
-        power_line.latest_meteor_intersection_vertex_start_index >= 0 else \
+    var cut_start_index := \
+        power_line.cut_start_index if \
+        power_line.cut_start_index >= 0 else \
         power_line._vertices.size() - 2
     var snap_position: Vector2 = lerp(
-        power_line._vertices[intersection_vertex_start_index],
-        power_line._vertices[intersection_vertex_start_index + 1],
+        power_line._vertices[cut_start_index],
+        power_line._vertices[cut_start_index + 1],
         0.5)
     
-    if intersection_vertex_start_index > 0:
-        start_vertices = \
-            power_line._vertices.slice(0, intersection_vertex_start_index)
+    if cut_start_index > 0:
+        start_vertices = power_line._vertices.slice(0, cut_start_index)
     else:
         start_vertices = []
     
-    if intersection_vertex_start_index < power_line._vertices.size() - 2:
+    if cut_start_index < power_line._vertices.size() - 2:
         end_vertices = power_line._vertices.slice(
-            intersection_vertex_start_index + 1,
+            cut_start_index + 1,
             power_line._vertices.size() - 1)
     else:
         end_vertices = []
@@ -54,6 +53,8 @@ func _init(power_line: PowerLine).(DURATION) -> void:
         end_rope.override_nodes(end_vertices)
         end_rope.nodes.front().previous_position = snap_position
         end_rope.nodes.front().is_fixed = false
+        end_rope.nodes.back().is_fixed = \
+            power_line.mode != PowerLine.HELD_BY_BOT
     
     _update()
 
@@ -74,6 +75,12 @@ func _update() -> void:
             1.0,
             0.0,
             opacity_progress)
+    
+    if is_instance_valid(start_rope):
+        start_rope.on_physics_frame()
+    
+    if is_instance_valid(end_rope):
+        end_rope.on_physics_frame()
 
 
 func _update_vertices(

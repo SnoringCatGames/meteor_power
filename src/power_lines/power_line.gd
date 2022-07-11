@@ -20,7 +20,7 @@ var end_attachment
 
 var mode := UNKNOWN
 
-var latest_meteor_intersection_vertex_start_index := -1
+var cut_start_index := -1
 
 var _health := 0
 var _health_capacity := 0
@@ -150,8 +150,7 @@ func _draw_polyline() -> void:
 func _on_hit_by_meteor(meteor) -> void:
     if _destroyed:
         return
-    latest_meteor_intersection_vertex_start_index = \
-        _get_meteor_intersection_vertex_start_index(meteor)
+    cut_start_index = _get_meteor_intersection_vertex_start_index(meteor)
     Sc.level.session.meteors_collided_count += 1
     var damage := Health.METEOR_DAMAGE
     # FIXME: --------------- Consider modifying damage depending on Upgrade.

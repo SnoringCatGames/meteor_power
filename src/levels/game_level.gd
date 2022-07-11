@@ -627,7 +627,9 @@ func add_power_line(power_line: PowerLine) -> void:
     power_lines.push_back(power_line)
 
 
-func remove_power_line(power_line: PowerLine) -> void:
+func remove_power_line(
+        power_line: PowerLine,
+        animates_snap: bool) -> void:
     if !is_instance_valid(power_line):
         return
     power_lines.erase(power_line)
@@ -638,6 +640,9 @@ func remove_power_line(power_line: PowerLine) -> void:
     if is_instance_valid(power_line.end_attachment) and \
             power_line.end_attachment is Station:
         power_line.end_attachment._on_command_enablement_changed()
+    
+    if animates_snap:
+        Sc.annotators.add_transient(PowerLineSnapAnnotator.new(power_line))
     
     if !power_line.is_queued_for_deletion():
         power_line._destroy()
@@ -658,7 +663,7 @@ func replace_dynamic_power_line(
     
     add_power_line(static_power_line)
     session.power_lines_built_count -= 1
-    remove_power_line(dynamic_power_line)
+    remove_power_line(dynamic_power_line, false)
 
 
 func get_bot_for_command(
@@ -804,14 +809,19 @@ func remove_station(station: Station) -> void:
         assert(bot.held_power_line == power_line)
         bot.clear_command_state()
         bot.stop_on_surface(true)
-        remove_power_line(power_line)
+        power_line.cut_start_index = 0
+        remove_power_line(power_line, true)
     
     for other_station in station.station_connections.keys():
         var power_line: PowerLine = \
             station.station_connections[other_station]
         other_station.remove_station_connection(station)
         station.remove_station_connection(other_station)
-        remove_power_line(power_line)
+        if station == power_line.start_attachment:
+            power_line.cut_start_index = 0
+        else:
+            power_line.cut_start_index = power_line._vertices.size() - 2
+        remove_power_line(power_line, true)
     
     assert(stations.has(station))
     stations.erase(station)
@@ -885,7 +895,6 @@ func on_bot_health_depleted(bot: Bot) -> void:
 
 func on_power_line_health_depleted(power_line: PowerLine) -> void:
     Sc.audio.play_sound("wire_break")
-    Sc.annotators.add_transient(PowerLineSnapAnnotator.new(power_line))
     if power_line.end_attachment is Bot:
         # NOTE: This is covered by drop_power_line.
 #        power_line.start_attachment \
@@ -898,7 +907,7 @@ func on_power_line_health_depleted(power_line: PowerLine) -> void:
             .remove_station_connection(power_line.end_attachment)
         power_line.end_attachment \
             .remove_station_connection(power_line.start_attachment)
-        remove_power_line(power_line)
+        remove_power_line(power_line, true)
 
 
 func _update_session_counts() -> void:
