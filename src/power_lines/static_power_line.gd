@@ -11,6 +11,7 @@ func _init(
         end_attachment,
         mode) -> void:
     _parse_points(rope)
+    _update_collision_segments()
 
 
 func _parse_points(rope: DynamicRope) -> void:

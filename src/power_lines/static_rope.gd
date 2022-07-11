@@ -45,3 +45,10 @@ func _init(
     vertices.resize(dynamic_rope.nodes.size())
     for i in vertices.size():
         vertices[i] = dynamic_rope.nodes[i].position
+
+
+func get_stretched_length() -> float:
+    var length := 0.0
+    for i in range(1, vertices.size()):
+        length += vertices[i - 1].distance_to(vertices[i])
+    return length

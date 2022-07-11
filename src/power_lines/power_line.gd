@@ -13,6 +13,8 @@ const ROPE_COLOR := Color("ffcf9a1f")
 
 const ROPE_WIDTH := 2.0
 
+const COLLISION_SEGMENT_COUNT := 3
+
 var start_attachment
 var end_attachment
 
@@ -21,12 +23,18 @@ var mode := UNKNOWN
 var _health := 0
 var _health_capacity := 0
 
+# Array<Vector2>
 var _vertices := []
+# Array<float>
+var _render_segment_lengths := []
+
+var _total_length := 0.0
 
 var viewport_position_outline_alpha_multiplier := 1.0
 
 var collision_area: Area2D
-var shape: SegmentShape2D
+# Array<SegmentShape2D>
+var collision_segments := []
 
 var _destroyed := false
 
@@ -66,21 +74,66 @@ func _create_collision_area() -> void:
     collision_area.collision_mask = 0
     collision_area.monitoring = false
     collision_area.monitorable = true
-    var collision_shape := CollisionShape2D.new()
-    self.shape = SegmentShape2D.new()
-    collision_shape.shape = shape
-    collision_area.add_child(collision_shape)
+    
+    for i in COLLISION_SEGMENT_COUNT:
+        var segment := SegmentShape2D.new()
+        collision_segments.push_back(segment)
+        
+        var collision_shape := CollisionShape2D.new()
+        collision_shape.shape = segment
+        collision_area.add_child(collision_shape)
+    
     self.add_child(collision_area)
+
+
+func _update_collision_segments() -> void:
+    _calculate_render_segment_lengths()
+    var target_collision_segment_length := \
+        _total_length / COLLISION_SEGMENT_COUNT
+    
+    assert(COLLISION_SEGMENT_COUNT < _vertices.size())
+    
+    var current_collision_segment_length := 0.0
+    var current_collision_segment_index := 0
+    var current_collision_segment_render_vertex_start_index := 0
+    
+    for i in range(1, _vertices.size()):
+        current_collision_segment_length += _render_segment_lengths[i - 1]
+        if current_collision_segment_length >= target_collision_segment_length:
+            var collision_segment: SegmentShape2D = \
+                collision_segments[current_collision_segment_index]
+            collision_segment.a = \
+                _vertices[current_collision_segment_render_vertex_start_index]
+            collision_segment.b = _vertices[i]
+            
+            current_collision_segment_length = 0
+            current_collision_segment_index += 1
+            current_collision_segment_render_vertex_start_index = i
+    
+    # Handle the fencepost problem.
+    if current_collision_segment_length > 0.0:
+        var collision_segment: SegmentShape2D = \
+            collision_segments[current_collision_segment_index]
+        collision_segment.a = \
+            _vertices[current_collision_segment_render_vertex_start_index]
+        collision_segment.b = _vertices.back()
+
+
+func _calculate_render_segment_lengths() -> void:
+    _total_length = 0.0
+    
+    _render_segment_lengths.resize(_vertices.size() - 1)
+    
+    for i in range(1, _vertices.size()):
+        var segment_length: float = _vertices[i - 1].distance_to(_vertices[i])
+        _render_segment_lengths[i - 1] = segment_length
+        _total_length += segment_length
 
 
 func _draw_polyline() -> void:
     # FIXME: Base color on health?
     var color := ROPE_COLOR
     var width := ROPE_WIDTH
-    
-    shape.a = _vertices[0]
-    shape.b = _vertices[_vertices.size() - 1]
-    
     draw_polyline(_vertices, Color.black, width * 2)
     Sc.draw.draw_dashed_polyline(
             self,

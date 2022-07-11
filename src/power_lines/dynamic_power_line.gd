@@ -61,6 +61,8 @@ func _physics_process(_delta: float) -> void:
             start_attachment.get_power_line_attachment_position(end_attachment),
             end_attachment.get_power_line_attachment_position(start_attachment))
     rope.on_physics_frame()
+    _update_vertices()
+    _update_collision_segments()
 
 
 func _process(_delta: float) -> void:
@@ -76,7 +78,6 @@ func _update_vertices() -> void:
 
 
 func _draw() -> void:
-    _update_vertices()
     _draw_polyline()
 
 

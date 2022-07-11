@@ -14,9 +14,9 @@ var number_of_neighbor_constraint_update_iterations_per_frame := 10
 var rope_length_to_distance_ratio := 0.4
 var node_mass := 0.8
 var node_damping := 0.7
-var distance_between_nodes := 4.0
+var relaxed_distance_between_nodes := 4.0
 
-var distance: float
+var distance_between_ends: float
 var node_count: int
 
 var total_physics_frame_count := 0
@@ -29,7 +29,7 @@ var nodes: Array
 
 
 func _init(
-        distance: float,
+        distance_between_ends: float,
         number_of_physics_frames_between_node_physics_frames := \
             DEFAULT_NUMBER_OF_PHYSICS_FRAMES_BETWEEN_NODE_PHYSICS_FRAMES,
         number_of_neighbor_constraint_update_iterations_per_frame := \
@@ -37,8 +37,8 @@ func _init(
         rope_length_to_distance_ratio := DEFAULT_ROPE_LENGTH_TO_DISTANCE_RATIO,
         node_mass := DEFAULT_NODE_MASS,
         node_damping := DEFAULT_NODE_DAMPING,
-        distance_between_nodes := DEFAULT_DISTANCE_BETWEEN_NODES) -> void:
-    self.distance = distance
+        relaxed_distance_between_nodes := DEFAULT_DISTANCE_BETWEEN_NODES) -> void:
+    self.distance_between_ends = distance_between_ends
     self.number_of_physics_frames_between_node_physics_frames = \
         number_of_physics_frames_between_node_physics_frames
     self.number_of_neighbor_constraint_update_iterations_per_frame = \
@@ -46,15 +46,15 @@ func _init(
     self.rope_length_to_distance_ratio = rope_length_to_distance_ratio
     self.node_mass = node_mass
     self.node_damping = node_damping
-    self.distance_between_nodes = distance_between_nodes
+    self.relaxed_distance_between_nodes = relaxed_distance_between_nodes
     _initialize_nodes()
 
 
 func _initialize_nodes() -> void:
     self.node_count = \
-        distance * \
+        distance_between_ends * \
         rope_length_to_distance_ratio / \
-        distance_between_nodes
+        relaxed_distance_between_nodes
     assert(node_count > 2)
     
     nodes = []
@@ -136,6 +136,13 @@ func on_new_attachment(
         current_node.previous_position = position
 
 
+func get_stretched_length() -> float:
+    var length := 0.0
+    for i in range(1, nodes.size()):
+        length += nodes[i - 1].position.distance_to(nodes[i].position)
+    return length
+
+
 # DynamicRope-simulation using Störmer–Verlet integration.
 class RopeNode extends Reference:
     
@@ -176,9 +183,9 @@ class RopeNode extends Reference:
     func update_for_neighbors() -> void:
         if next_node != null:
             var displacement := next_node.position - position
-            var distance := displacement.length()
+            var distance_between_ends := displacement.length()
             var direction := displacement.normalized()
-            var diff: float = distance - rope.distance_between_nodes
+            var diff: float = distance_between_ends - rope.relaxed_distance_between_nodes
             
             if !is_fixed:
                 position.x += direction.x * diff * 0.25
@@ -190,9 +197,9 @@ class RopeNode extends Reference:
         
         if previous_node != null:
             var displacement := previous_node.position - position
-            var distance := displacement.length()
+            var distance_between_ends := displacement.length()
             var direction := displacement.normalized()
-            var diff: float = distance - rope.distance_between_nodes
+            var diff: float = distance_between_ends - rope.relaxed_distance_between_nodes
             
             if !is_fixed:
                 position.x += direction.x * diff * 0.25
