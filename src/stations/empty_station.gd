@@ -33,8 +33,8 @@ func _get_radial_menu_item_types() -> Array:
     ]
 
 
-func _on_hit_by_meteor() -> void:
-    ._on_hit_by_meteor()
+func _on_hit_by_meteor(meteor) -> void:
+    ._on_hit_by_meteor(meteor)
     assert(false, "EmptyStation should not trigger meteor collisions.")
 
 

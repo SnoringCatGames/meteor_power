@@ -885,6 +885,7 @@ func on_bot_health_depleted(bot: Bot) -> void:
 
 func on_power_line_health_depleted(power_line: PowerLine) -> void:
     Sc.audio.play_sound("wire_break")
+    Sc.annotators.add_transient(PowerLineSnapAnnotator.new(power_line))
     if power_line.end_attachment is Bot:
         # NOTE: This is covered by drop_power_line.
 #        power_line.start_attachment \

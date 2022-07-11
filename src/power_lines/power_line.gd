@@ -20,6 +20,8 @@ var end_attachment
 
 var mode := UNKNOWN
 
+var latest_meteor_intersection_vertex_start_index := -1
+
 var _health := 0
 var _health_capacity := 0
 
@@ -145,9 +147,11 @@ func _draw_polyline() -> void:
             width)
 
 
-func _on_hit_by_meteor() -> void:
+func _on_hit_by_meteor(meteor) -> void:
     if _destroyed:
         return
+    latest_meteor_intersection_vertex_start_index = \
+        _get_meteor_intersection_vertex_start_index(meteor)
     Sc.level.session.meteors_collided_count += 1
     var damage := Health.METEOR_DAMAGE
     # FIXME: --------------- Consider modifying damage depending on Upgrade.
@@ -192,3 +196,37 @@ func modify_health(diff: int) -> void:
 #    status_overlay.update()
     if _health == 0:
         Sc.level.on_power_line_health_depleted(self)
+
+
+func _get_meteor_intersection_vertex_start_index(meteor) -> int:
+    var center: Vector2 = meteor.position
+    var radius: float = meteor.get_radius()
+    
+    var closest_vertex_index := -1
+    var closest_vertex_distance_squared := INF
+    
+    # Find the closest vertex.
+    for i in _vertices.size():
+        var current_vertex_distance_squared: float = \
+            center.distance_squared_to(_vertices[i])
+        if current_vertex_distance_squared < closest_vertex_distance_squared:
+            closest_vertex_distance_squared = current_vertex_distance_squared
+            closest_vertex_index = i
+    
+    # Handle edge cases.
+    if closest_vertex_index == 0:
+        return closest_vertex_index
+    if closest_vertex_index == _vertices.size() - 1:
+        return closest_vertex_index - 1
+    
+    var distance_squared_to_previous_vertex: float = \
+        center.distance_squared_to(_vertices[closest_vertex_index - 1])
+    var distance_squared_to_next_vertex: float = \
+        center.distance_squared_to(_vertices[closest_vertex_index + 1])
+    
+    # Decide which adjacent segment for the vertex is probably closer to the
+    # meteor.
+    if distance_squared_to_previous_vertex <= distance_squared_to_next_vertex:
+        return closest_vertex_index - 1
+    else:
+        return closest_vertex_index

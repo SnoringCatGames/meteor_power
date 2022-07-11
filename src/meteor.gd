@@ -59,6 +59,10 @@ func run() -> void:
     velocity = Vector2.DOWN.rotated(rotation) * speed
 
 
+func get_radius() -> float:
+    return LARGE_RADIUS if is_large else SMALL_RADIUS
+
+
 func _physics_process(delta: float) -> void:
     var current_scaled_time := Sc.time.get_scaled_play_time()
     var elapsed_scaled_time := current_scaled_time - _last_scaled_time
@@ -80,13 +84,13 @@ func _on_Meteor_body_entered(body) -> void:
 func _on_Meteor_area_entered(area) -> void:
     if area is Station and !area is EmptyStation:
 #        Sc.logger.print("Meteor hit station")
-        area._on_hit_by_meteor()
+        area._on_hit_by_meteor(self)
         Sc.audio.play_sound("meteor_land")
         _destroy()
     elif area.has_meta("PowerLine"):
 #        Sc.logger.print("Meteor hit power-line")
         var power_line = area.get_meta("PowerLine")
-        power_line._on_hit_by_meteor()
+        power_line._on_hit_by_meteor(self)
         Sc.audio.play_sound("meteor_land")
         _destroy()
 

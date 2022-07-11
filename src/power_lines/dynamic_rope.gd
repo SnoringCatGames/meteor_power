@@ -51,11 +51,11 @@ func _init(
 
 
 func _initialize_nodes() -> void:
-    self.node_count = \
+    self.node_count = ceil(
         distance_between_ends * \
         rope_length_to_distance_ratio / \
-        relaxed_distance_between_nodes
-    assert(node_count > 2)
+        relaxed_distance_between_nodes)
+    assert(node_count >= 2)
     
     nodes = []
     nodes.resize(node_count)
@@ -80,6 +80,40 @@ func _initialize_nodes() -> void:
     current_node.previous_node = nodes[nodes.size() - 2]
     current_node.next_node = null
     current_node.is_fixed = true
+
+
+func override_nodes(positions: Array) -> void:
+    assert(positions.size() >= 2)
+    
+    nodes = []
+    nodes.resize(positions.size())
+    
+    # Instantiate nodes.
+    for i in nodes.size():
+        nodes[i] = RopeNode.new(self)
+    
+    # Assign neigbor references.
+    
+    var current_node: RopeNode = nodes[0]
+    current_node.previous_node = null
+    current_node.next_node = nodes[1]
+    current_node.is_fixed = true
+    current_node.position = positions[0]
+    current_node.previous_position = positions[0]
+    
+    for i in range(1, nodes.size() - 1):
+        current_node = nodes[i]
+        current_node.previous_node = nodes[i - 1]
+        current_node.next_node = nodes[i + 1]
+        current_node.position = positions[i]
+        current_node.previous_position = positions[i]
+    
+    current_node = nodes[nodes.size() - 1]
+    current_node.previous_node = nodes[nodes.size() - 2]
+    current_node.next_node = null
+    current_node.is_fixed = true
+    current_node.position = positions.back()
+    current_node.previous_position = positions.back()
 
 
 func update_end_positions(

@@ -24,9 +24,9 @@ func _draw() -> void:
     _draw_polyline()
 
 
-func _on_hit_by_meteor() -> void:
+func _on_hit_by_meteor(meteor) -> void:
     if _destroyed:
         return
     Sc.logger.print("StaticPowerLine._on_hit_by_meteor")
     Sc.level.deduct_energy(Cost.STATIC_POWER_LINE_HIT)
-    ._on_hit_by_meteor()
+    ._on_hit_by_meteor(meteor)

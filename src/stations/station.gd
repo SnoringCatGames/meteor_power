@@ -600,7 +600,7 @@ func _on_plugged_into_station(origin_station: Station) -> void:
     pass
 
 
-func _on_hit_by_meteor() -> void:
+func _on_hit_by_meteor(meteor) -> void:
     Sc.level.session.meteors_collided_count += 1
     if !shield_activated:
         Sc.level.deduct_energy(Cost.STATION_HIT)

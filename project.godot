@@ -1774,6 +1774,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/power_lines/power_line_phantom.gd"
 }, {
+"base": "TransientAnnotator",
+"class": "PowerLineSnapAnnotator",
+"language": "GDScript",
+"path": "res://src/power_lines/power_line_snap_annotator.gd"
+}, {
 "base": "Screen",
 "class": "PrecomputePlatformGraphsScreen",
 "language": "GDScript",
@@ -3368,6 +3373,7 @@ _global_script_class_icons={
 "PositionAlongSurfaceFactory": "",
 "PowerLine": "",
 "PowerLinePhantom": "",
+"PowerLineSnapAnnotator": "",
 "PrecomputePlatformGraphsScreen": "",
 "PriorityQueue": "",
 "Profiler": "",
