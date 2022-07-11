@@ -3,7 +3,7 @@ extends TransientAnnotator
 
 
 const METEOR_EXPLOSION_SCENE := \
-    preload("res://src/meteor_explosion.tscn")
+    preload("res://src/meteors/meteor_explosion.tscn")
 
 const DURATION := 0.75
 

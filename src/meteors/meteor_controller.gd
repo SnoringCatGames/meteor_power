@@ -25,7 +25,7 @@ extends Node2D
 # - Add better level and playtest.
 # - Check notes
 
-var METEOR_CLASS := preload("res://src/meteor.tscn")
+var METEOR_CLASS := preload("res://src/meteors/meteor.tscn")
 
 var WAVE_PERIOD := 40.0
 var WAVE_DURATION_START := 10.0
