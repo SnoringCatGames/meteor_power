@@ -2,8 +2,13 @@ class_name PowerLineSnapAnnotator
 extends TransientAnnotator
 
 
+const POWER_LINE_SPARKS_SCENE := \
+    preload("res://src/power_lines/power_line_sparks.tscn")
+
 const DURATION := 2.0
 const OPACITY_DELAY := 1.0
+
+var snap_position: Vector2
 
 var start_rope: DynamicRope
 var end_rope: DynamicRope
@@ -19,7 +24,7 @@ func _init(power_line: PowerLine).(DURATION) -> void:
         power_line.cut_start_index if \
         power_line.cut_start_index >= 0 else \
         power_line._vertices.size() - 2
-    var snap_position: Vector2 = lerp(
+    snap_position = lerp(
         power_line._vertices[cut_start_index],
         power_line._vertices[cut_start_index + 1],
         0.5)
@@ -55,6 +60,9 @@ func _init(power_line: PowerLine).(DURATION) -> void:
         end_rope.nodes.front().is_fixed = false
         end_rope.nodes.back().is_fixed = \
             power_line.mode != PowerLine.HELD_BY_BOT
+    
+    var sparks := Sc.utils.add_scene(self, POWER_LINE_SPARKS_SCENE)
+    sparks.position = snap_position
     
     _update()
 

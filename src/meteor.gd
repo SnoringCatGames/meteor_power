@@ -77,27 +77,29 @@ func _physics_process(delta: float) -> void:
 func _on_Meteor_body_entered(body) -> void:
     if body is TileMap:
 #        Sc.logger.print("Meteor hit tilemap")
-        Sc.audio.play_sound("meteor_land")
-        _destroy()
+        _explode()
 
 
 func _on_Meteor_area_entered(area) -> void:
     if area is Station and !area is EmptyStation:
 #        Sc.logger.print("Meteor hit station")
         area._on_hit_by_meteor(self)
-        Sc.audio.play_sound("meteor_land")
-        _destroy()
+        _explode()
     elif area.has_meta("PowerLine"):
 #        Sc.logger.print("Meteor hit power-line")
         var power_line = area.get_meta("PowerLine")
         power_line._on_hit_by_meteor(self)
-        Sc.audio.play_sound("meteor_land")
-        _destroy()
+        _explode()
 
 
 func _on_collided_with_bot(bot) -> void:
     Sc.logger.print("Meteor hit bot")
+    _explode()
+
+
+func _explode() -> void:
     Sc.audio.play_sound("meteor_land")
+    Sc.annotators.add_transient(MeteorExplosionAnnotator.new(position))
     _destroy()
 
 

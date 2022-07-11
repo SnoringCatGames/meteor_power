@@ -1444,6 +1444,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/meteor_controller.gd"
 }, {
+"base": "Node2D",
+"class": "MeteorExplosion",
+"language": "GDScript",
+"path": "res://src/meteor_explosion.gd"
+}, {
+"base": "TransientAnnotator",
+"class": "MeteorExplosionAnnotator",
+"language": "GDScript",
+"path": "res://src/meteor_explosion_annotator.gd"
+}, {
 "base": "TextControlRow",
 "class": "MeteorWavesCompletedControlRow",
 "language": "GDScript",
@@ -1778,6 +1788,11 @@ _global_script_classes=[ {
 "class": "PowerLineSnapAnnotator",
 "language": "GDScript",
 "path": "res://src/power_lines/power_line_snap_annotator.gd"
+}, {
+"base": "Node2D",
+"class": "PowerLineSparks",
+"language": "GDScript",
+"path": "res://src/power_lines/power_line_sparks.gd"
 }, {
 "base": "Screen",
 "class": "PrecomputePlatformGraphsScreen",
@@ -3307,6 +3322,8 @@ _global_script_class_icons={
 "MainMenuScreen": "",
 "Meteor": "",
 "MeteorController": "",
+"MeteorExplosion": "",
+"MeteorExplosionAnnotator": "",
 "MeteorWavesCompletedControlRow": "",
 "MetronomeControlRow": "",
 "MoveBackAndForthBehavior": "res://addons/surfacer/assets/images/editor_icons/move_back_and_forth_behavior.png",
@@ -3374,6 +3391,7 @@ _global_script_class_icons={
 "PowerLine": "",
 "PowerLinePhantom": "",
 "PowerLineSnapAnnotator": "",
+"PowerLineSparks": "",
 "PrecomputePlatformGraphsScreen": "",
 "PriorityQueue": "",
 "Profiler": "",
