@@ -463,8 +463,6 @@ func deduct_energy(cost: int) -> void:
 
 
 func add_energy(energy: int) -> void:
-    if session.current_energy == 0:
-        return
     var previous_energy: int = session.current_energy
     session.current_energy += energy
     session.total_energy += energy

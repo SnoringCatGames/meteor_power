@@ -1434,7 +1434,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/scaffolder/src/gui/screens/main_menu_screen.gd"
 }, {
-"base": "Reference",
+"base": "Area2D",
 "class": "Meteor",
 "language": "GDScript",
 "path": "res://src/meteors/meteor.gd"
@@ -1444,7 +1444,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/meteors/meteor_controller.gd"
 }, {
-"base": "Reference",
+"base": "Node2D",
 "class": "MeteorExplosion",
 "language": "GDScript",
 "path": "res://src/meteors/meteor_explosion.gd"
