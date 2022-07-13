@@ -601,38 +601,43 @@ func _on_navigation_ended(
         return
     
     var stops: bool
-    match command.type:
-        CommandType.RUN_WIRE:
-            if is_instance_valid(held_power_line):
-                _on_reached_second_station_for_power_line()
+    if Sc.level.get_is_enough_energy_for_command(command):
+        match command.type:
+            CommandType.RUN_WIRE:
+                if is_instance_valid(held_power_line):
+                    _on_reached_second_station_for_power_line()
+                    stops = true
+                else:
+                    _on_reached_first_station_for_power_line()
+                    stops = false
+            CommandType.STATION_RECYCLE:
+                _on_reached_station_to_destroy()
                 stops = true
-            else:
-                _on_reached_first_station_for_power_line()
+            CommandType.STATION_REPAIR:
+                pass
+            CommandType.STATION_SOLAR, \
+            CommandType.STATION_SCANNER, \
+            CommandType.STATION_BATTERY:
+                _on_reached_station_to_build()
+                stops = true
+            CommandType.BOT_RECYCLE:
+                _on_reached_station_to_recycle_self()
                 stops = false
-        CommandType.STATION_RECYCLE:
-            _on_reached_station_to_destroy()
-            stops = true
-        CommandType.STATION_REPAIR:
-            pass
-        CommandType.STATION_SOLAR, \
-        CommandType.STATION_SCANNER, \
-        CommandType.STATION_BATTERY:
-            _on_reached_station_to_build()
-            stops = true
-        CommandType.BOT_RECYCLE:
-            _on_reached_station_to_recycle_self()
-            stops = false
-        CommandType.BOT_CONSTRUCTOR, \
-        CommandType.BOT_LINE_RUNNER, \
-        CommandType.BOT_BARRIER:
-            _on_reached_station_to_build_bot()
-            stops = true
-        CommandType.BOT_MOVE:
-            stops = true
-        _:
-            Sc.logger.error(
-                    "Bot._on_navigation_ended: command=%s" % \
-                    str(command.type))
+            CommandType.BOT_CONSTRUCTOR, \
+            CommandType.BOT_LINE_RUNNER, \
+            CommandType.BOT_BARRIER:
+                _on_reached_station_to_build_bot()
+                stops = true
+            CommandType.BOT_MOVE:
+                stops = true
+            _:
+                Sc.logger.error(
+                        "Bot._on_navigation_ended: command=%s" % \
+                        str(command.type))
+    else:
+        # FIXME: Play error sound
+        Sc.audio.play_sound("nav_select_fail")
+        stops = true
     
     if stops:
         clear_command_state()

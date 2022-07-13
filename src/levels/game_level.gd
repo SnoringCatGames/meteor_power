@@ -422,6 +422,12 @@ func _try_next_command_deferred() -> void:
             command_queue.remove(i)
             continue
         
+        if !get_is_enough_energy_for_command(command):
+            # Not enough energy for command.
+            # FIXME: ----------- Play (throttled) error sound.
+            command_queue.remove(i)
+            continue
+        
         var bot := get_bot_for_command(
             command.target_station, command.type)
         if !is_instance_valid(bot):
@@ -450,6 +456,10 @@ func cancel_command(
         command.bot.stop_on_surface(true)
         return
     Sc.gui.hud.command_queue_list.sync_queue()
+
+
+func get_is_enough_energy_for_command(command: Command) -> bool:
+    return session.current_energy >= CommandType.COSTS[command.type]
 
 
 func deduct_energy(cost: int) -> void:
