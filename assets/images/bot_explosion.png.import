@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/meteor_small.png-6bb7a0b821663b8148e4eab5960d7c71.stex"
+path="res://.import/bot_explosion.png-4dfdad715ff9a7617345502201463f59.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/images/meteor_small.png"
-dest_files=[ "res://.import/meteor_small.png-6bb7a0b821663b8148e4eab5960d7c71.stex" ]
+source_file="res://assets/images/bot_explosion.png"
+dest_files=[ "res://.import/bot_explosion.png-4dfdad715ff9a7617345502201463f59.stex" ]
 
 [params]
 

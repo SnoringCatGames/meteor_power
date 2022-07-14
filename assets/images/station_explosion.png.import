@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/meteor_small.png-6bb7a0b821663b8148e4eab5960d7c71.stex"
+path="res://.import/station_explosion.png-bfb0571012b889fd6520d88391066339.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/images/meteor_small.png"
-dest_files=[ "res://.import/meteor_small.png-6bb7a0b821663b8148e4eab5960d7c71.stex" ]
+source_file="res://assets/images/station_explosion.png"
+dest_files=[ "res://.import/station_explosion.png-bfb0571012b889fd6520d88391066339.stex" ]
 
 [params]
 
