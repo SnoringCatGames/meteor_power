@@ -370,7 +370,7 @@ func get_radial_position_in_screen_space() -> Vector2:
 
 
 func get_center() -> Vector2:
-    return $Center.position
+    return position + $Center.position
 
 
 static func get_opacity_for_camera_position(
