@@ -49,6 +49,9 @@ range_item_cull_mask = 2
 shadow_item_cull_mask = 2
 
 [node name="MovementParameters" parent="." instance=ExtResource( 3 )]
+__meta__ = {
+"_edit_lock_": true
+}
 collider_shape = SubResource( 3 )
 character_category_name = "construction_bot"
 __movement_params_identifier__ = "_"
@@ -66,17 +69,20 @@ collision_margin_for_waypoint_positions = 4.0
 oblique_collison_normal_aspect_ratio_threshold = 10.0
 
 [node name="ConstructionBotAnimator" parent="." instance=ExtResource( 2 )]
+position = Vector2( 0, 15 )
 is_outlined = true
 outline_color = Color( 0.878431, 0.705882, 0, 0.2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 0, -15 )
 shape = SubResource( 3 )
 __meta__ = {
 "_edit_lock_": true
 }
 
 [node name="WanderBehavior" parent="." instance=ExtResource( 5 )]
+__meta__ = {
+"_edit_lock_": true
+}
 can_leave_start_surface = false
 max_distance_from_behavior_start_position = 256.0
 surface_speed_multiplier = 0.3
