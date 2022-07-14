@@ -369,6 +369,10 @@ func get_radial_position_in_screen_space() -> Vector2:
     return Sc.utils.get_screen_position_of_node_in_level($Center)
 
 
+func get_center() -> Vector2:
+    return $Center.position
+
+
 static func get_opacity_for_camera_position(
         global_position: Vector2) -> float:
     var camera_bounds: Rect2 = Sc.level.camera.get_visible_region()

@@ -147,8 +147,11 @@ shape_offset = Vector2( 0, -24 )
 light_mask = 2
 position = Vector2( 0, -32 )
 frames = SubResource( 32 )
-frame = 16
+frame = 2
 playing = true
+__meta__ = {
+"non_slow_motion_speed_scale": 1.0
+}
 outline_color = Color( 0.309804, 1, 0.768627, 0 )
 adds_margins = false
 

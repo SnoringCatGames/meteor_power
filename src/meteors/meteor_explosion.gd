@@ -8,7 +8,7 @@ func _ready() -> void:
 
 func _on_AnimatedSprite_animation_finished() -> void:
     $Node2D/AnimatedSprite.stop()
-    $Node2D/AnimatedSprite.frame = 44
+    $Node2D/AnimatedSprite.frame = 30
 
 
 func set_is_small(value: bool) -> void:

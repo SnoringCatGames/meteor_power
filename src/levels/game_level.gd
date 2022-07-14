@@ -890,6 +890,8 @@ func _on_station_created(
 
 func on_station_health_depleted(station: Station) -> void:
     # FIXME: ------------------------ Play sound
+    Sc.annotators.add_transient(
+        StationExplosionAnnotator.new(station.get_center()))
     var is_command_center := station is CommandCenter
     replace_station(station, CommandType.STATION_EMPTY)
     if is_command_center:
@@ -898,6 +900,7 @@ func on_station_health_depleted(station: Station) -> void:
 
 func on_bot_health_depleted(bot: Bot) -> void:
     # FIXME: ------------------------ Play sound
+    Sc.annotators.add_transient(BotExplosionAnnotator.new(bot.position))
     remove_bot(bot)
 
 
