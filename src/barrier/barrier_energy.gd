@@ -1,0 +1,2 @@
+class_name BarrierEnergy
+extends Node2D

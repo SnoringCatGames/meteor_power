@@ -24,6 +24,8 @@ var meteor_controller: MeteorController
 
 var selected_station: Station
 var previous_selected_station: Station
+var selected_barrier_pylon: BarrierPylon
+var previous_selected_barrier_pylon: BarrierPylon
 var selected_bot: Bot
 var previous_selected_bot: Bot
 
@@ -43,6 +45,9 @@ var empty_stations := []
 
 # Array<Bot>
 var bots := []
+
+# Array<BarrierPylon>
+var barrier_pylons := []
 
 # Array<ConstructorBot>
 var constructor_bots := []
@@ -144,6 +149,8 @@ func _start() -> void:
         station._on_level_started()
     for bot in bots:
         bot._on_level_started()
+    for barrier_pylon in barrier_pylons:
+        barrier_pylon._on_level_started()
     
     meteor_controller = MeteorController.new()
     self.add_child(meteor_controller)
@@ -209,6 +216,9 @@ func _destroy() -> void:
     for station in stations:
         station._destroy()
     
+    for barrier_pylon in barrier_pylons:
+        barrier_pylon._destroy()
+    
     ._destroy()
 
 
@@ -260,6 +270,8 @@ func _on_panned() -> void:
         bot._on_panned()
     for station in stations:
         station._on_panned()
+    for barrier_pylon in barrier_pylons:
+        barrier_pylon._on_panned()
     for power_line in power_lines:
         power_line._on_panned()
 
@@ -269,6 +281,8 @@ func _on_zoomed() -> void:
         bot._on_zoomed()
     for station in stations:
         station._on_zoomed()
+    for barrier_pylon in barrier_pylons:
+        barrier_pylon._on_zoomed()
     for power_line in power_lines:
         power_line._on_zoomed()
 
@@ -352,6 +366,31 @@ func _on_station_selection_changed(
 #        _update_selected_bot(null)
 
 
+func _on_barrier_pylon_selection_changed(
+        barrier_pylon: BarrierPylon,
+        is_selected: bool) -> void:
+    if is_selected:
+        # Deselect any previously selected barrier_pylon.
+        if is_instance_valid(selected_barrier_pylon):
+            if barrier_pylon == selected_barrier_pylon:
+                # No change.
+                return
+            else:
+                selected_barrier_pylon.set_is_selected(false)
+        _update_selected_barrier_pylon(barrier_pylon)
+    else:
+        if barrier_pylon != selected_barrier_pylon:
+            # No change.
+            return
+        _update_selected_barrier_pylon(null)
+    
+    # Deselect any selected bot.
+#    if is_selected and \
+#            is_instance_valid(selected_bot):
+#        selected_bot.set_is_selected(false)
+#        _update_selected_bot(null)
+
+
 func _clear_selection() -> void:
     if is_instance_valid(selected_bot):
         selected_bot.set_is_selected(false)
@@ -359,6 +398,9 @@ func _clear_selection() -> void:
     if is_instance_valid(selected_station):
         selected_station.set_is_selected(false)
         _update_selected_station(null)
+    if is_instance_valid(selected_barrier_pylon):
+        selected_barrier_pylon.set_is_selected(false)
+        _update_selected_barrier_pylon(null)
 
 
 func _update_selected_bot(selected_bot: Bot) -> void:
@@ -373,6 +415,14 @@ func _update_selected_station(selected_station: Station) -> void:
         return
     previous_selected_station = self.selected_station
     self.selected_station = selected_station
+
+
+func _update_selected_barrier_pylon(
+        selected_barrier_pylon: BarrierPylon) -> void:
+    if self.selected_barrier_pylon == selected_barrier_pylon:
+        return
+    previous_selected_barrier_pylon = self.selected_barrier_pylon
+    self.selected_barrier_pylon = selected_barrier_pylon
 
 
 func _update_camera() -> void:
@@ -562,6 +612,8 @@ func update_command_enablement() -> void:
 #    command_enablement[CommandType.STATION_INFO]
 #
 #    command_enablement[CommandType.RUN_WIRE]
+#
+#    command_enablement[CommandType.BARRIER_PYLON]
     
     _update_energy_based_command_enablement_deferred(true)
     
@@ -577,7 +629,7 @@ func _check_for_command_enablement_changed() -> void:
     
     if changed:
         previous_command_enablement = command_enablement.duplicate()
-        for entities in [bots, stations]:
+        for entities in [bots, stations, barrier_pylons]:
             for entity in entities:
                 entity._on_command_enablement_changed()
 
@@ -859,6 +911,16 @@ func remove_station(station: Station) -> void:
     _update_session_counts()
 
 
+func remove_barrier_pylon(barrier_pylon: BarrierPylon) -> void:
+    assert(barrier_pylons.has(barrier_pylon))
+    barrier_pylons.erase(barrier_pylon)
+    
+    # FIXME: --------------------- Cancel any command for moving/recycling this.
+    
+    barrier_pylon._destroy()
+    _update_session_counts()
+
+
 func _on_station_created(
         station: Station,
         is_default_station := false) -> void:
@@ -888,8 +950,15 @@ func _on_station_created(
     _update_session_counts()
 
 
+# FIXME: LEFT OFF HERE: ---------------------- Call this.
+func _on_barrier_pylon_created(barrier_pylon: BarrierPylon) -> void:
+    session.barrier_pylons_built += 1
+    barrier_pylons.push_back(barrier_pylon)
+    _update_session_counts()
+
+
 func on_station_health_depleted(station: Station) -> void:
-    # FIXME: ------------------------ Play sound
+    # FIXME: ------------------------ Play sound.
     Sc.annotators.add_transient(
         StationExplosionAnnotator.new(station.get_center()))
     var is_command_center := station is CommandCenter
@@ -898,8 +967,16 @@ func on_station_health_depleted(station: Station) -> void:
         quit(false, false)
 
 
+func on_barrier_pylon_health_depleted(barrier_pylon: BarrierPylon) -> void:
+    # FIXME: ------------------------ Play sound.
+    # FIXME: ---------- Add a new explosion animation for pylons?
+    Sc.annotators.add_transient(
+        StationExplosionAnnotator.new(barrier_pylon.position))
+    remove_barrier_pylon(barrier_pylon)
+
+
 func on_bot_health_depleted(bot: Bot) -> void:
-    # FIXME: ------------------------ Play sound
+    # FIXME: ------------------------ Play sound.
     Sc.annotators.add_transient(BotExplosionAnnotator.new(bot.position))
     remove_bot(bot)
 
@@ -933,6 +1010,8 @@ func _update_session_counts() -> void:
     session.barrier_bot_count = barrier_bots.size()
     
     session.power_line_count = power_lines.size()
+    
+    session.barrier_pylon_count = barrier_pylons.size()
     
     update_command_enablement()
 

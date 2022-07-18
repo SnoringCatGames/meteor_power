@@ -10,6 +10,7 @@ const _CUMULATIVE_COLLIDED_METEORS_SETTINGS_KEY := "collided_meteors"
 const _CUMULATIVE_STATIONS_BUILT_SETTINGS_KEY := "stations_built"
 const _CUMULATIVE_BOTS_BUILT_SETTINGS_KEY := "bots_built"
 const _CUMULATIVE_WIRES_BUILT_SETTINGS_KEY := "wires_built"
+const _CUMULATIVE_BARRIER_PYLONS_BUILT_SETTINGS_KEY := "barrier_pylons_built"
 const _CUMULATIVE_BOT_PIXELS_TRAVELLED_SETTINGS_KEY := "bot_pixels_travelled"
 
 const _CUMULATIVE_CONSTRUCTOR_BOTS_BUILT_SETTINGS_KEY := "constructor_bots_built"
@@ -45,12 +46,14 @@ var barrier_bot_count := 0
 var total_bot_count: int setget ,_get_total_bot_count
 
 var power_line_count := 0
+var barrier_pylon_count := 0
 
 var meteors_collided_count := 0
 var bot_pixels_travelled := 0.0
 var bots_built_count := 0
 var stations_built_count := 0
 var power_lines_built_count := 0
+var barrier_pylons_built := 0
 
 var contructor_bots_built_count := 0
 var line_runner_bots_built_count := 0
@@ -82,12 +85,14 @@ func reset(id: String) -> void:
     barrier_bot_count = 0
     
     power_line_count = 0
+    barrier_pylon_count = 0
     
     meteors_collided_count = 0
     bot_pixels_travelled = 0.0
     bots_built_count = 0
     stations_built_count = 0
     power_lines_built_count = 0
+    barrier_pylons_built = 0
     
     contructor_bots_built_count = 0
     line_runner_bots_built_count = 0
@@ -124,6 +129,10 @@ func _update_for_level_end(has_finished: bool) -> void:
         [
             _CUMULATIVE_WIRES_BUILT_SETTINGS_KEY,
             power_lines_built_count,
+        ],
+        [
+            _CUMULATIVE_BARRIER_PYLONS_BUILT_SETTINGS_KEY,
+            barrier_pylons_built,
         ],
         [
             _CUMULATIVE_BOT_PIXELS_TRAVELLED_SETTINGS_KEY,

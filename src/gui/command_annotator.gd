@@ -22,7 +22,10 @@ const PHANTOM_SCENES := {
         "res://src/stations/solar_collector_phantom.tscn"),
     
     CommandType.RUN_WIRE: preload(
-        "res://src/power_lines/power_line_phantom.tscn")
+        "res://src/power_lines/power_line_phantom.tscn"),
+    
+    CommandType.BARRIER_PYLON: preload(
+        "res://src/barrier/barrier_pylon_phantom.tscn"),
 }
 
 var command: Command setget _set_command
@@ -110,6 +113,14 @@ func update_command() -> void:
                     phantom = Sc.utils.add_scene(
                         self, PHANTOM_SCENES[command.type])
                     phantom.position = command.target_station.position
+            
+            CommandType.BARRIER_PYLON:
+                # FIXME: --------------------------------------------------
+#                if is_instance_valid(command.target_station):
+#                    phantom = Sc.utils.add_scene(
+#                        self, PHANTOM_SCENES[command.type])
+#                    phantom.position = command.target_station.position
+                pass
         
             _:
                 Sc.logger.error("CommandAnnotator.update_command")

@@ -14,6 +14,8 @@ const STATION_EMPTY := -1
 
 const POWER_LINE := 100
 
+const BARRIER_PYLON := 200
+
 const METEOR_DAMAGE := 100
 
 
@@ -39,6 +41,9 @@ static func get_default_capacity(entity_command_type: int) -> int:
         
         CommandType.RUN_WIRE:
             return POWER_LINE
+        
+        CommandType.BARRIER_PYLON:
+            return BARRIER_PYLON
         
         _:
             Sc.logger.error("Health.get_default_capacity")

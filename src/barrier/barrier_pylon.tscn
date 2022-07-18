@@ -38,10 +38,17 @@ tracks/0/keys = {
 "values": [ 0, 1, 2, 3, 4, 5, 6, 7 ]
 }
 
-[node name="BarrierPylon" type="Node2D"]
+[node name="BarrierPylon" type="Area2D"]
+collision_layer = 1073741825
+monitoring = false
+monitorable = false
 script = ExtResource( 4 )
+screen_radius = 28.8
+is_desaturatable = true
+shape_rectangle_extents = Vector2( 14, 19 )
 
 [node name="TextureOutlineableSprite" parent="." instance=ExtResource( 1 )]
+position = Vector2( 0, 4 )
 texture = ExtResource( 2 )
 hframes = 8
 normal_texture = ExtResource( 2 )
@@ -50,3 +57,6 @@ outlined_texture = ExtResource( 3 )
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/RESET = SubResource( 1 )
 anims/pylon = SubResource( 2 )
+__meta__ = {
+"non_slow_motion_speed_scale": 1.0
+}

@@ -27,6 +27,8 @@ enum {
     RUN_WIRE,
     STATION_REPAIR,
     WIRE_REPAIR,
+    
+    BARRIER_PYLON,
 }
 
 const VALUES := [
@@ -54,6 +56,8 @@ const VALUES := [
     RUN_WIRE,
     STATION_REPAIR,
     WIRE_REPAIR,
+    
+    BARRIER_PYLON,
 ]
 
 const COSTS := {
@@ -81,6 +85,8 @@ const COSTS := {
     RUN_WIRE: Cost.RUN_WIRE,
     STATION_REPAIR: Cost.STATION_REPAIR,
     WIRE_REPAIR: Cost.WIRE_REPAIR,
+    
+    BARRIER_PYLON: Cost.BARRIER_PYLON,
 }
 
 const ENTITY_NAMES := {
@@ -93,6 +99,8 @@ const ENTITY_NAMES := {
     STATION_SOLAR: Description.ENTITY_NAMES.STATION_SOLAR,
     STATION_SCANNER: Description.ENTITY_NAMES.STATION_SCANNER,
     STATION_BATTERY: Description.ENTITY_NAMES.STATION_BATTERY,
+    
+    BARRIER_PYLON: Description.ENTITY_NAMES.BARRIER_PYLON,
 }
 
 const ENTITY_DESCRIPTIONS := {
@@ -105,6 +113,8 @@ const ENTITY_DESCRIPTIONS := {
     STATION_SOLAR: Description.ENTITY_DESCRIPTIONS.STATION_SOLAR,
     STATION_SCANNER: Description.ENTITY_DESCRIPTIONS.STATION_SCANNER,
     STATION_BATTERY: Description.ENTITY_DESCRIPTIONS.STATION_BATTERY,
+    
+    BARRIER_PYLON: Description.ENTITY_DESCRIPTIONS.BARRIER_PYLON,
 }
 
 const COMMAND_LABELS := {
@@ -132,6 +142,8 @@ const COMMAND_LABELS := {
     RUN_WIRE: Description.COMMAND_LABELS.RUN_WIRE,
     STATION_REPAIR: Description.COMMAND_LABELS.STATION_REPAIR,
     WIRE_REPAIR: Description.COMMAND_LABELS.WIRE_REPAIR,
+    
+    BARRIER_PYLON: Description.COMMAND_LABELS.BARRIER_PYLON,
 }
 
 const COMMAND_DESCRIPTIONS := {
@@ -159,6 +171,8 @@ const COMMAND_DESCRIPTIONS := {
     RUN_WIRE: Description.COMMAND_DESCRIPTIONS.RUN_WIRE,
     STATION_REPAIR: Description.COMMAND_DESCRIPTIONS.STATION_REPAIR,
     WIRE_REPAIR: Description.COMMAND_DESCRIPTIONS.WIRE_REPAIR,
+    
+    BARRIER_PYLON: Description.COMMAND_DESCRIPTIONS.BARRIER_PYLON,
 }
 
 const TEXTURES := {
@@ -186,6 +200,8 @@ const TEXTURES := {
     
     RUN_WIRE: preload("res://assets/images/gui/overlay_buttons/run_power_line_button.png"),
     WIRE_REPAIR: preload("res://assets/images/gui/overlay_buttons/repair_overlay_button.png"),
+    
+    BARRIER_PYLON: preload("res://assets/images/gui/overlay_buttons/barrier_pylon_button.png"),
 }
 
 
@@ -233,6 +249,8 @@ static func get_string(type: int) -> String:
             return "STATION_REPAIR"
         WIRE_REPAIR:
             return "WIRE_REPAIR"
+        BARRIER_PYLON:
+            return "BARRIER_PYLON"
         _:
             Sc.logger.error("CommandType.get_string: %s" % str(type))
             return ""

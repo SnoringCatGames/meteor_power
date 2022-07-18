@@ -32,6 +32,8 @@ const ENTITY_NAMES := {
     STATION_SOLAR = "Solar station",
     STATION_SCANNER = "Scanner station",
     STATION_BATTERY = "Battery station",
+    
+    BARRIER_PYLON = "Barrier pylon",
 }
 
 const ENTITY_DESCRIPTIONS := {
@@ -73,6 +75,11 @@ const ENTITY_DESCRIPTIONS := {
         "Stores energy.",
         "Useful when disconnected from the command center.",
     ],
+    
+    BARRIER_PYLON = [
+        "Generates a barrier.",
+        "Must be paired to a second pylon.",
+    ],
 }
 
 const COMMAND_LABELS := {
@@ -98,6 +105,8 @@ const COMMAND_LABELS := {
     RUN_WIRE = "Run wire",
     STATION_REPAIR = "Repair station",
     WIRE_REPAIR = "Repair wire",
+    
+    BARRIER_PYLON = "Build barrier pylon",
 }
 
 const COMMAND_DESCRIPTIONS := {
@@ -159,5 +168,9 @@ const COMMAND_DESCRIPTIONS := {
     ],
     WIRE_REPAIR = [
         "Repairs this wire.",
+    ],
+    
+    BARRIER_PYLON = [
+        "Builds a barrier pylon. A meteor-blocking barrier can be generated between two pylons.",
     ],
 }

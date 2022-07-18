@@ -26,9 +26,12 @@ const RUN_WIRE := 30
 const STATION_REPAIR := 30
 const WIRE_REPAIR := 10
 
+const BARRIER_PYLON := 800
+
 const DYNAMIC_POWER_LINE_HIT := 20
 const STATIC_POWER_LINE_HIT := 10
 const STATION_HIT := 40
+const BARRIER_PYLON_HIT := 40
 const BOT_HIT := 80
 const BOT_ALIVE := 0
 

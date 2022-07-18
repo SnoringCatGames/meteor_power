@@ -85,6 +85,11 @@ _global_script_classes=[ {
 "path": "res://src/characters/barrier_bot/barrier_bot.gd"
 }, {
 "base": "Node2D",
+"class": "BarrierEnergy",
+"language": "GDScript",
+"path": "res://src/barrier/barrier_energy.gd"
+}, {
+"base": "StationarySelectable",
 "class": "BarrierPylon",
 "language": "GDScript",
 "path": "res://src/barrier/barrier_pylon.gd"
@@ -2434,7 +2439,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/scaffolder/src/gui/control_row_list/static_text_control_row.gd"
 }, {
-"base": "ShapedLevelControl",
+"base": "StationarySelectable",
 "class": "Station",
 "language": "GDScript",
 "path": "res://src/stations/station.gd"
@@ -2448,6 +2453,11 @@ _global_script_classes=[ {
 "class": "StationExplosionAnnotator",
 "language": "GDScript",
 "path": "res://src/stations/station_explosion_annotator.gd"
+}, {
+"base": "ShapedLevelControl",
+"class": "StationarySelectable",
+"language": "GDScript",
+"path": "res://src/stationary_selectable.gd"
 }, {
 "base": "CustomControlRow",
 "class": "StationsControlRow",
@@ -3075,6 +3085,7 @@ _global_script_class_icons={
 "Audio": "",
 "Background": "",
 "BarrierBot": "",
+"BarrierEnergy": "",
 "BarrierPylon": "",
 "BatteryStation": "",
 "BeatTracker": "",
@@ -3545,9 +3556,10 @@ _global_script_class_icons={
 "StaticPowerLine": "",
 "StaticRope": "",
 "StaticTextControlRow": "",
-"Station": "res://addons/scaffolder/assets/images/editor_icons/scaffolder_node.png",
+"Station": "",
 "StationExplosion": "",
 "StationExplosionAnnotator": "",
+"StationarySelectable": "res://addons/scaffolder/assets/images/editor_icons/scaffolder_node.png",
 "StationsControlRow": "",
 "StatusBar": "res://addons/scaffolder/assets/images/editor_icons/scaffolder_node.png",
 "StatusOverlay": "res://addons/scaffolder/assets/images/editor_icons/scaffolder_node.png",
