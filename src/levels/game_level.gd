@@ -144,8 +144,10 @@ func _start() -> void:
         _on_station_created(empty_station, true)
     
     # Always start with a constructor bot.
+    # FIXME: ---------------------------------------------------
 #    var starting_bot := add_bot(CommandType.BOT_CONSTRUCTOR, true)
-    var starting_bot := add_bot(CommandType.BOT_LINE_RUNNER, true)
+#    var starting_bot := add_bot(CommandType.BOT_LINE_RUNNER, true)
+    var starting_bot := add_bot(CommandType.BOT_BARRIER, true)
     
     for station in stations:
         station._on_level_started()
@@ -455,12 +457,14 @@ func add_command(
         type: int,
         target_station: Station,
         next_target_station: Station = null,
-        destination: PositionAlongSurface = null) -> void:
+        destination: PositionAlongSurface = null,
+        meta = null) -> void:
     var command := Command.new(
         type,
         target_station,
         next_target_station,
-        destination)
+        destination,
+        meta)
     command_queue.push_back(command)
     _try_next_command()
 
@@ -478,7 +482,8 @@ func _try_next_command_deferred() -> void:
     while i < command_queue.size():
         var command: Command = command_queue[i]
         
-        if !is_instance_valid(command.target_station):
+        if !is_instance_valid(command.target_station) and \
+                command.get_depends_on_target_station():
             Sc.logger.warning(
                 "GameLevel._try_next_command_deferred: " +
                 "command.target_station has been freed.")
@@ -491,8 +496,7 @@ func _try_next_command_deferred() -> void:
             command_queue.remove(i)
             continue
         
-        var bot := get_bot_for_command(
-            command.target_station, command.type)
+        var bot := _get_bot_for_command(command)
         if !is_instance_valid(bot):
             # No idle bot was able to handle the command.
             i += 1
@@ -758,9 +762,7 @@ func replace_dynamic_power_line(
     remove_power_line(dynamic_power_line, false)
 
 
-func get_bot_for_command(
-        station: Station,
-        command_type: int) -> Bot:
+func _get_bot_for_command(command: Command) -> Bot:
     # FIXME: ---------------------------------------------
     # - If there was a selected-bot when pressing the first run-line button,
     #   then use that bot.
@@ -774,8 +776,8 @@ func get_bot_for_command(
             idle_bots.erase(bot)
             continue
         var current_distance_squared: float = \
-            bot.position.distance_squared_to(station.position) if \
-            bot.get_can_handle_command(command_type) else \
+            bot.position.distance_squared_to(command.get_position()) if \
+            bot.get_can_handle_command(command.type) else \
             INF
         if current_distance_squared < closest_distance_squared:
             closest_distance_squared = current_distance_squared

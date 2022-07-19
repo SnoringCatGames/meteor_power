@@ -9,7 +9,8 @@ var _barrier_pylon_phantom: Phantom
 
 
 func _draw() -> void:
-    if !Sc.level.is_in_barrier_pylon_placement_mode or \
+    if !is_instance_valid(Sc.level) or \
+            !Sc.level.is_in_barrier_pylon_placement_mode or \
             !is_instance_valid(last_player_character) or \
             !last_player_character.touch_listener.get_is_drag_active():
         if is_instance_valid(_barrier_pylon_phantom):
