@@ -29,6 +29,9 @@ enum {
     WIRE_REPAIR,
     
     BARRIER_PYLON,
+    BARRIER_CONNECT,
+    BARRIER_DISCONNECT,
+    BARRIER_MOVE,
 }
 
 const VALUES := [
@@ -58,6 +61,9 @@ const VALUES := [
     WIRE_REPAIR,
     
     BARRIER_PYLON,
+    BARRIER_CONNECT,
+    BARRIER_DISCONNECT,
+    BARRIER_MOVE,
 ]
 
 const COSTS := {
@@ -87,6 +93,9 @@ const COSTS := {
     WIRE_REPAIR: Cost.WIRE_REPAIR,
     
     BARRIER_PYLON: Cost.BARRIER_PYLON,
+    BARRIER_CONNECT: Cost.BARRIER_CONNECT,
+    BARRIER_DISCONNECT: Cost.BARRIER_DISCONNECT,
+    BARRIER_MOVE: Cost.BARRIER_MOVE,
 }
 
 const ENTITY_NAMES := {
@@ -144,6 +153,9 @@ const COMMAND_LABELS := {
     WIRE_REPAIR: Description.COMMAND_LABELS.WIRE_REPAIR,
     
     BARRIER_PYLON: Description.COMMAND_LABELS.BARRIER_PYLON,
+    BARRIER_CONNECT: Description.COMMAND_LABELS.BARRIER_CONNECT,
+    BARRIER_DISCONNECT: Description.COMMAND_LABELS.BARRIER_DISCONNECT,
+    BARRIER_MOVE: Description.COMMAND_LABELS.BARRIER_MOVE,
 }
 
 const COMMAND_DESCRIPTIONS := {
@@ -173,6 +185,9 @@ const COMMAND_DESCRIPTIONS := {
     WIRE_REPAIR: Description.COMMAND_DESCRIPTIONS.WIRE_REPAIR,
     
     BARRIER_PYLON: Description.COMMAND_DESCRIPTIONS.BARRIER_PYLON,
+    BARRIER_CONNECT: Description.COMMAND_DESCRIPTIONS.BARRIER_CONNECT,
+    BARRIER_DISCONNECT: Description.COMMAND_DESCRIPTIONS.BARRIER_DISCONNECT,
+    BARRIER_MOVE: Description.COMMAND_DESCRIPTIONS.BARRIER_MOVE,
 }
 
 const TEXTURES := {
@@ -202,6 +217,9 @@ const TEXTURES := {
     WIRE_REPAIR: preload("res://assets/images/gui/overlay_buttons/repair_overlay_button.png"),
     
     BARRIER_PYLON: preload("res://assets/images/gui/overlay_buttons/barrier_pylon_button.png"),
+    BARRIER_CONNECT: preload("res://assets/images/gui/overlay_buttons/connect_barrier_pylon_button.png"),
+    BARRIER_DISCONNECT: preload("res://assets/images/gui/overlay_buttons/stop_overlay_button.png"),
+    BARRIER_MOVE: preload("res://assets/images/gui/overlay_buttons/move_barrier_pylon_button.png"),
 }
 
 
@@ -251,6 +269,12 @@ static func get_string(type: int) -> String:
             return "WIRE_REPAIR"
         BARRIER_PYLON:
             return "BARRIER_PYLON"
+        BARRIER_CONNECT:
+            return "BARRIER_CONNECT"
+        BARRIER_DISCONNECT:
+            return "BARRIER_DISCONNECT"
+        BARRIER_MOVE:
+            return "BARRIER_MOVE"
         _:
             Sc.logger.error("CommandType.get_string: %s" % str(type))
             return ""

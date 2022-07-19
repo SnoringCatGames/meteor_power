@@ -614,6 +614,9 @@ func update_command_enablement() -> void:
 #    command_enablement[CommandType.RUN_WIRE]
 #
 #    command_enablement[CommandType.BARRIER_PYLON]
+#    command_enablement[CommandType.BARRIER_CONNECT]
+#    command_enablement[CommandType.BARRIER_DISCONNECT]
+#    command_enablement[CommandType.BARRIER_MOVE]
     
     _update_energy_based_command_enablement_deferred(true)
     

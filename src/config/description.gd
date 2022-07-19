@@ -107,6 +107,9 @@ const COMMAND_LABELS := {
     WIRE_REPAIR = "Repair wire",
     
     BARRIER_PYLON = "Build barrier pylon",
+    BARRIER_CONNECT = "Connect barrier pylons",
+    BARRIER_DISCONNECT = "Disconect barrier pylons",
+    BARRIER_MOVE = "Move barrier pylon",
 }
 
 const COMMAND_DESCRIPTIONS := {
@@ -172,5 +175,14 @@ const COMMAND_DESCRIPTIONS := {
     
     BARRIER_PYLON = [
         "Builds a barrier pylon. A meteor-blocking barrier can be generated between two pylons.",
+    ],
+    BARRIER_CONNECT = [
+        "Connect this pylon to another in order to create a meteor-blocking barrier. This barrier will constantly consume energy.",
+    ],
+    BARRIER_DISCONNECT = [
+        "Disconnect this pylon and stop generating the meteor-blocking barrier. This will stop the barrier from consuming energy.",
+    ],
+    BARRIER_MOVE = [
+        "Move this pylon to another position. If a barrier is active, it will stay active as long as the pylons are still within range.",
     ],
 }

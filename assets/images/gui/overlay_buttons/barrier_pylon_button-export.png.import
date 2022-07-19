@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/repair_overlay_button.png-56bf7024c587572d7cc012af231b4f2f.stex"
+path="res://.import/barrier_pylon_button-export.png-b6bd38981c0e832df3a0947252f84dc7.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/images/gui/overlay_buttons/repair_overlay_button.png"
-dest_files=[ "res://.import/repair_overlay_button.png-56bf7024c587572d7cc012af231b4f2f.stex" ]
+source_file="res://assets/images/gui/overlay_buttons/barrier_pylon_button-export.png"
+dest_files=[ "res://.import/barrier_pylon_button-export.png-b6bd38981c0e832df3a0947252f84dc7.stex" ]
 
 [params]
 

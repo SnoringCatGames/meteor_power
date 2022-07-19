@@ -865,7 +865,11 @@ func get_can_handle_command(type: int) -> bool:
         CommandType.BOT_INFO, \
         CommandType.STATION_EMPTY, \
         CommandType.STATION_STOP, \
-        CommandType.STATION_INFO:
+        CommandType.STATION_INFO, \
+        CommandType.BARRIER_PYLON, \
+        CommandType.BARRIER_CONNECT, \
+        CommandType.BARRIER_DISCONNECT, \
+        CommandType.BARRIER_MOVE:
             return false
         
         CommandType.UNKNOWN, \

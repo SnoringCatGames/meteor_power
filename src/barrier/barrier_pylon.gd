@@ -3,12 +3,11 @@ class_name BarrierPylon
 extends StationarySelectable
 
 
-func _set_up() -> void:
+func _ready() -> void:
     Sc.slow_motion.set_time_scale_for_node($AnimationPlayer)
     $AnimationPlayer.current_animation = "pylon"
     $AnimationPlayer.seek(
         randf() * $AnimationPlayer.current_animation_length, true)
-    ._set_up()
 
 
 func _update_outline() -> void:
@@ -38,8 +37,10 @@ func get_is_selected() -> bool:
 
 func _get_radial_menu_item_types() -> Array:
     return [
-        # FIXME: -----------------------------------------
         CommandType.STATION_INFO,
+        CommandType.BARRIER_CONNECT,
+        CommandType.BARRIER_DISCONNECT,
+        CommandType.BARRIER_MOVE,
     ]
 
 
@@ -49,6 +50,12 @@ func get_disabled_message(command_type: int) -> String:
         return message
     match command_type:
         # FIXME: -----------------------------
+        CommandType.BARRIER_CONNECT:
+            pass
+        CommandType.BARRIER_DISCONNECT:
+            pass
+        CommandType.BARRIER_MOVE:
+            pass
         _:
             pass
     return ""
@@ -59,6 +66,14 @@ func _on_button_pressed(button_type: int) -> void:
     
     match button_type:
         # FIXME: -------------------------------------------
+        CommandType.STATION_INFO:
+            pass
+        CommandType.BARRIER_CONNECT:
+            pass
+        CommandType.BARRIER_DISCONNECT:
+            pass
+        CommandType.BARRIER_MOVE:
+            pass
         
         _:
             Sc.logger.error("BarrierPylon._on_button_pressed")

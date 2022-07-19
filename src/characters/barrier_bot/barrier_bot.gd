@@ -19,7 +19,8 @@ func get_can_handle_command(type: int) -> bool:
         CommandType.BOT_COMMAND, \
         CommandType.BOT_STOP, \
         CommandType.BOT_MOVE, \
-        CommandType.BOT_RECYCLE:
+        CommandType.BOT_RECYCLE, \
+        CommandType.BARRIER_PYLON:
             return true
         
         _:
