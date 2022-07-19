@@ -47,6 +47,9 @@ func _create_annotator(annotator_type: String) -> void:
             if Sc.level != null:
                 command_annotator = CommandAnnotator.new()
                 annotation_layer.add_child(command_annotator)
+        ScaffolderAnnotatorTypes.PATH_PRESELECTION:
+            path_preselection_annotator = GamePathPreselectionAnnotator.new()
+            annotation_layer.add_child(path_preselection_annotator)
         _:
             ._create_annotator(annotator_type)
 

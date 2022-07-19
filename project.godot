@@ -94,6 +94,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/barrier/barrier_pylon.gd"
 }, {
+"base": "PlayerTouchListener",
+"class": "BarrierPylonTouchListener",
+"language": "GDScript",
+"path": "res://src/barrier/barrier_pylon_touch_listener.gd"
+}, {
 "base": "Station",
 "class": "BatteryStation",
 "language": "GDScript",
@@ -1038,6 +1043,11 @@ _global_script_classes=[ {
 "class": "GameOverScreen",
 "language": "GDScript",
 "path": "res://addons/scaffolder/src/gui/screens/game_over_screen.gd"
+}, {
+"base": "PathPreselectionAnnotator",
+"class": "GamePathPreselectionAnnotator",
+"language": "GDScript",
+"path": "res://src/gui/game_path_preselection_annotator.gd"
 }, {
 "base": "FrameworkPlugin",
 "class": "GamePlugin",
@@ -3087,6 +3097,7 @@ _global_script_class_icons={
 "BarrierBot": "",
 "BarrierEnergy": "",
 "BarrierPylon": "",
+"BarrierPylonTouchListener": "",
 "BatteryStation": "",
 "BeatTracker": "",
 "Behavior": "",
@@ -3276,6 +3287,7 @@ _global_script_class_icons={
 "GameLevel": "",
 "GameMetadata": "",
 "GameOverScreen": "",
+"GamePathPreselectionAnnotator": "",
 "GamePlugin": "",
 "GameRadialMenu": "",
 "GameRadialMenuItem": "",

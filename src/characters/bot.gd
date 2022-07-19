@@ -183,6 +183,12 @@ func _on_interaction_mode_changed(interaction_mode: int) -> void:
     _update_status()
 
 
+func _initialize_touch_listener() -> void:
+    # Override parent.
+    self.touch_listener = BarrierPylonTouchListener.new(self)
+    add_child(touch_listener)
+
+
 func set_is_player_control_active(
         value: bool,
         should_also_update_level := true) -> void:
@@ -191,6 +197,10 @@ func set_is_player_control_active(
         set_is_selected(true)
         update_info_panel_visibility(false)
     _update_status()
+
+
+func _on_is_in_barrier_pylon_placement_mode_changed() -> void:
+    touch_listener._on_is_in_barrier_pylon_placement_mode_changed()
 
 
 func set_is_selected(is_selected: bool) -> void:
@@ -509,6 +519,12 @@ func _on_reached_station_to_build_bot() -> void:
     Sc.level.deduct_energy(CommandType.COSTS[command.type])
 
 
+func _on_reached_position_to_build_barrier_pylon() -> void:
+    Sc.logger.error(
+        "Abstract Bot._on_reached_position_to_build_barrier_pylon " +
+        "is not implemented.")
+
+
 func _navigate_command(station: Station = null) -> void:
     assert(is_instance_valid(command))
     
@@ -630,10 +646,13 @@ func _on_navigation_ended(
                 stops = true
             CommandType.BOT_MOVE:
                 stops = true
+            CommandType.BARRIER_PYLON:
+                _on_reached_position_to_build_barrier_pylon()
+                stops = true
             _:
                 Sc.logger.error(
-                        "Bot._on_navigation_ended: command=%s" % \
-                        str(command.type))
+                    "Bot._on_navigation_ended: command=%s" % \
+                    str(command.type))
     else:
         # FIXME: Play error sound
         Sc.audio.play_sound("nav_select_fail")
@@ -778,7 +797,7 @@ func _get_radial_menu_items() -> Array:
 
 func _get_radial_menu_item_types() -> Array:
     Sc.logger.error(
-            "Abstract Bot._get_radial_menu_item_types is not implemented")
+        "Abstract Bot._get_radial_menu_item_types is not implemented")
     return []
 
 

@@ -132,10 +132,11 @@ animations = [ {
 } ]
 
 [node name="CommandCenterPhantom" type="Node2D"]
+modulate = Color( 0.690196, 0.309804, 1, 0.65 )
 script = ExtResource( 2 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 position = Vector2( 0, -32 )
 frames = SubResource( 1 )
-frame = 17
+frame = 5
 playing = true

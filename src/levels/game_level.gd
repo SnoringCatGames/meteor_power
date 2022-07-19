@@ -76,6 +76,8 @@ var previous_command_enablement := []
 
 var tutorial_mode := TutorialMode.NONE
 
+var is_in_barrier_pylon_placement_mode := false
+
 var first_selected_station_for_running_power_line: Station = null
 
 # FIXME: ------------------------------
@@ -391,6 +393,12 @@ func _on_barrier_pylon_selection_changed(
 #        _update_selected_bot(null)
 
 
+func _set_active_player_character(character: ScaffolderCharacter) -> void:
+    if !is_instance_valid(character):
+        _set_is_in_barrier_pylon_placement_mode(false)
+    ._set_active_player_character(character)
+
+
 func _clear_selection() -> void:
     if is_instance_valid(selected_bot):
         selected_bot.set_is_selected(false)
@@ -433,7 +441,10 @@ func _update_camera() -> void:
     elif is_instance_valid(_active_player_character):
         _nav_preselection_camera.target_character = _active_player_character
         swap_camera(_nav_preselection_camera, true)
-        extra_zoom = 1.4
+        if is_in_barrier_pylon_placement_mode:
+            extra_zoom = 1.0
+        else:
+            extra_zoom = 1.4
     else:
         swap_camera(_default_camera, true)
         extra_zoom = 1.0
@@ -443,11 +454,13 @@ func _update_camera() -> void:
 func add_command(
         type: int,
         target_station: Station,
-        next_target_station: Station = null) -> void:
+        next_target_station: Station = null,
+        destination: PositionAlongSurface = null) -> void:
     var command := Command.new(
         type,
         target_station,
-        next_target_station)
+        next_target_station,
+        destination)
     command_queue.push_back(command)
     _try_next_command()
 
@@ -635,6 +648,22 @@ func _check_for_command_enablement_changed() -> void:
         for entities in [bots, stations, barrier_pylons]:
             for entity in entities:
                 entity._on_command_enablement_changed()
+
+
+func enter_barrier_pylon_placement_mode() -> void:
+    if !is_in_barrier_pylon_placement_mode:
+        _set_is_in_barrier_pylon_placement_mode(true)
+        _update_camera()
+
+
+func _set_is_in_barrier_pylon_placement_mode(value: bool) -> void:
+    var was_in_barrier_pylon_placement_mode := \
+        is_in_barrier_pylon_placement_mode
+    is_in_barrier_pylon_placement_mode = value
+    if was_in_barrier_pylon_placement_mode != \
+            is_in_barrier_pylon_placement_mode:
+        for bot in bots:
+            bot._on_is_in_barrier_pylon_placement_mode_changed()
 
 
 func set_selected_station_for_running_power_line(station: Station) -> void:
