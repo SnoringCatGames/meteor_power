@@ -47,12 +47,22 @@ func _on_pointer_released(
         pointer_screen_position,
         pointer_level_position,
         has_corresponding_touch_down)
+    
     if Sc.level.is_in_barrier_pylon_placement_mode:
-        var destination := \
+        var pylon_position := \
             PositionAlongSurfaceFactory.create_position_without_surface(
                 pointer_level_position)
+        var navigation_destination := \
+            _player_nav.new_selection.nearby_position_along_surface
+        
+        # Cancel the normal imperative-player-navigation command.
+        _player_nav.new_selection.clear()
+        _player_nav.pre_selection.clear()
+        
+        # Trigger a barrier-pylon-build command.
         Sc.level.add_command(
             CommandType.BARRIER_PYLON,
             null,
             null,
-            destination)
+            navigation_destination,
+            pylon_position)
