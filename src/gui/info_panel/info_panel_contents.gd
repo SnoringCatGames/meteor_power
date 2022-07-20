@@ -59,7 +59,8 @@ func set_up(entity) -> void:
     var commands: Array = entity._get_radial_menu_item_types()
     for command in commands:
         if command == CommandType.STATION_INFO or \
-                command == CommandType.BOT_INFO:
+                command == CommandType.BOT_INFO or \
+                command == CommandType.BARRIER_INFO:
             continue
         var row: InfoPanelCommandRow = \
             Sc.utils.add_scene($Commands, _INFO_PANEL_COMMAND_ROW_SCENE)
@@ -81,7 +82,8 @@ func set_up(entity) -> void:
 func update() -> void:
     if entity is CommandCenter or \
             entity is EmptyStation or \
-            entity is Bot:
+            entity is Bot or \
+            entity is BarrierPylon:
         $ConnectionStatus.visible = false
     elif entity is Station:
         $ConnectionStatus.visible = true
@@ -95,6 +97,19 @@ func update() -> void:
             Description.IS_DISCONNECTED
     else:
         Sc.logger.error("InfoPanelContents.update")
+    
+    if entity is BarrierPylon:
+        $BarrierActiveStatus.visible = true
+        $BarrierActiveStatus/ScaffolderPanelContainer.color_override = \
+            CONNECTION_STATUS_CONNECTED_COLOR if \
+            entity.get_is_active() else \
+            CONNECTION_STATUS_DISCONNECTED_COLOR
+        $BarrierActiveStatus/ScaffolderPanelContainer/HBoxContainer/ScaffolderLabel.text = \
+            Description.BARRIER_IS_ACTIVE if \
+            entity.get_is_active() else \
+            Description.BARRIER_IS_INACTIVE
+    else:
+        $BarrierActiveStatus.visible = false
     
     if entity.get_health_capacity() < 0:
         $Status.visible = false

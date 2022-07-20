@@ -258,5 +258,5 @@ script = ExtResource( 2 )
 modulate = Color( 1, 1, 1, 0.717647 )
 scale = Vector2( 0.5, 0.5 )
 frames = SubResource( 61 )
-frame = 16
+frame = 59
 playing = true

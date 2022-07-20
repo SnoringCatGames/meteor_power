@@ -13,6 +13,7 @@ const _COMMAND_CENTER_SCENE := preload("res://src/stations/command_center.tscn")
 const _EMPTY_STATION_SCENE := preload("res://src/stations/empty_station.tscn")
 const _SOLAR_COLLECTOR_SCENE := preload(
         "res://src/stations/solar_collector.tscn")
+const _BARRIER_PYLON_SCENE := preload("res://src/barrier/barrier_pylon.tscn")
 
 const _OVERLAY_BUTTONS_FADE_DURATION := 0.3
 
@@ -601,6 +602,11 @@ func update_command_enablement() -> void:
         command_enablement[CommandType.RUN_WIRE] = \
             Description.CANNOT_RUN_WIRE_WITH_ONE_STATION
     
+    # Disable barrier-activation when there's only one pylon left.
+    if barrier_pylons.size() < 2:
+        command_enablement[CommandType.BARRIER_CONNECT] = \
+            Description.NEED_A_SECOND_PYLON_TO_ACTIVATE_BARRIER
+    
     if did_level_succeed:
         # FIXME: --------------- Add support for second and third links.
         command_enablement[CommandType.STATION_LINK_TO_MOTHERSHIP] = \
@@ -634,6 +640,8 @@ func update_command_enablement() -> void:
 #    command_enablement[CommandType.BARRIER_CONNECT]
 #    command_enablement[CommandType.BARRIER_DISCONNECT]
 #    command_enablement[CommandType.BARRIER_MOVE]
+#    command_enablement[CommandType.BARRIER_RECYCLE]
+#    command_enablement[CommandType.BARRIER_INFO]
     
     _update_energy_based_command_enablement_deferred(true)
     
@@ -945,16 +953,6 @@ func remove_station(station: Station) -> void:
     _update_session_counts()
 
 
-func remove_barrier_pylon(barrier_pylon: BarrierPylon) -> void:
-    assert(barrier_pylons.has(barrier_pylon))
-    barrier_pylons.erase(barrier_pylon)
-    
-    # FIXME: --------------------- Cancel any command for moving/recycling this.
-    
-    barrier_pylon._destroy()
-    _update_session_counts()
-
-
 func _on_station_created(
         station: Station,
         is_default_station := false) -> void:
@@ -984,10 +982,34 @@ func _on_station_created(
     _update_session_counts()
 
 
-# FIXME: LEFT OFF HERE: ---------------------- Call this.
-func _on_barrier_pylon_created(barrier_pylon: BarrierPylon) -> void:
+func add_barrier_pylon(position: Vector2) -> BarrierPylon:
+    var barrier_pylon: BarrierPylon = \
+        Sc.utils.add_scene(self, _BARRIER_PYLON_SCENE)
+    barrier_pylon.position = position
     session.barrier_pylons_built += 1
     barrier_pylons.push_back(barrier_pylon)
+    _update_session_counts()
+    return barrier_pylon
+
+
+func remove_barrier_pylon(barrier_pylon: BarrierPylon) -> void:
+    assert(barrier_pylons.has(barrier_pylon))
+    
+    if selected_barrier_pylon == barrier_pylon:
+        _clear_selection()
+    
+    barrier_pylons.erase(barrier_pylon)
+    
+    var commands_to_cancel := []
+    for collection in [command_queue, in_progress_commands]:
+        for command in collection:
+            if command.meta == barrier_pylon:
+                commands_to_cancel.push_back(command)
+    for command in commands_to_cancel:
+        cancel_command(command)
+    
+    barrier_pylon._destroy()
+    
     _update_session_counts()
 
 

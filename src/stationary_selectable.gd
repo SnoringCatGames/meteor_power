@@ -18,6 +18,8 @@ const _MAX_HIGHLIGHT_VIEWPORT_BOUNDS_RATIO := 0.05
 
 const SCREEN_RADIUS_INCHES := 0.15
 
+var entity_command_type := CommandType.UNKNOWN
+
 var camera_detector: CameraDetector
 
 var status_overlay: StatusOverlay
@@ -32,6 +34,10 @@ var previous_total_time := INF
 
 var _health := 0
 var _health_capacity := 0
+
+
+func _init(entity_command_type: int) -> void:
+    self.entity_command_type = entity_command_type
 
 
 func _ready() -> void:

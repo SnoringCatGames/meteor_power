@@ -4,6 +4,7 @@ extends Reference
 
 # FIXME: ----------- Update descriptions after finishing and polishing gameplay.
 
+# Disablement messages.
 const NOT_ENOUGH_ENERGY := "Not enough energy."
 const MAX_BOT_CAPACITY := "The max number of bots already exist."
 const CANNOT_TRASH_LAST_BOT := "The last bot cannot be recycled."
@@ -13,6 +14,8 @@ const ALREADY_LINKED_TO_MOTHERSHIP := "Already linked to mothership."
 const ALREADY_AT_FULL_HEALTH := "Already at full health."
 const ALREADY_STOPPED := "Already stopped."
 const ALREADY_BUILDING_STATION := "Already building a station at this site."
+const NEED_A_SECOND_PYLON_TO_ACTIVATE_BARRIER := \
+    "There must be two pylons to activate the barrier."
 
 const LEVEL_SUCCESS_EXPLANATION := \
     "You succeeded in linking back to the mother ship!"
@@ -21,6 +24,9 @@ const LEVEL_FAILURE_EXPLANATION := \
 
 const IS_CONNECTED := "Online"
 const IS_DISCONNECTED := "Disconnected from command center!"
+
+const BARRIER_IS_ACTIVE := "Barrier is active"
+const BARRIER_IS_INACTIVE := "Barrier is inactive"
 
 const ENTITY_NAMES := {
     BOT_CONSTRUCTOR = "Constructor bot",
@@ -110,6 +116,8 @@ const COMMAND_LABELS := {
     BARRIER_CONNECT = "Connect barrier pylons",
     BARRIER_DISCONNECT = "Disconect barrier pylons",
     BARRIER_MOVE = "Move barrier pylon",
+    BARRIER_RECYCLE = "Recycle",
+    BARRIER_INFO = "Info",
 }
 
 const COMMAND_DESCRIPTIONS := {
@@ -184,5 +192,11 @@ const COMMAND_DESCRIPTIONS := {
     ],
     BARRIER_MOVE = [
         "Move this pylon to another position. If a barrier is active, it will stay active as long as the pylons are still within range.",
+    ],
+    BARRIER_RECYCLE = [
+        "Recycles this barrier pylon.",
+    ],
+    BARRIER_INFO = [
+        "Shows more information about this barrier.",
     ],
 }

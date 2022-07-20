@@ -525,6 +525,18 @@ func _on_reached_position_to_build_barrier_pylon() -> void:
         "is not implemented.")
 
 
+func _on_reached_position_to_move_barrier_pylon() -> void:
+    Sc.logger.error(
+        "Abstract Bot._on_reached_position_to_move_barrier_pylon " +
+        "is not implemented.")
+
+
+func _on_reached_position_to_recycle_barrier_pylon() -> void:
+    Sc.logger.error(
+        "Abstract Bot._on_reached_position_to_recycle_barrier_pylon " +
+        "is not implemented.")
+
+
 func _navigate_command(station: Station = null) -> void:
     assert(is_instance_valid(command))
     
@@ -648,6 +660,12 @@ func _on_navigation_ended(
                 stops = true
             CommandType.BARRIER_PYLON:
                 _on_reached_position_to_build_barrier_pylon()
+                stops = true
+            CommandType.BARRIER_MOVE:
+                _on_reached_position_to_move_barrier_pylon()
+                stops = true
+            CommandType.BARRIER_RECYCLE:
+                _on_reached_position_to_recycle_barrier_pylon()
                 stops = true
             _:
                 Sc.logger.error(
@@ -888,6 +906,7 @@ func get_can_handle_command(type: int) -> bool:
         CommandType.BARRIER_PYLON, \
         CommandType.BARRIER_CONNECT, \
         CommandType.BARRIER_DISCONNECT, \
+        CommandType.BARRIER_INFO, \
         CommandType.BARRIER_MOVE:
             return false
         

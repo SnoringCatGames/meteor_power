@@ -20,14 +20,12 @@ var bot_connections := {}
 
 var is_connected_to_command_center := false
 
-var entity_command_type := CommandType.UNKNOWN
-
 var shield_activated := false
 
 var total_shield_time := INF
 
 
-func _init(entity_command_type: int) -> void:
+func _init(entity_command_type: int).(entity_command_type) -> void:
     self.entity_command_type = entity_command_type
 
 

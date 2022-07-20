@@ -32,6 +32,8 @@ enum {
     BARRIER_CONNECT,
     BARRIER_DISCONNECT,
     BARRIER_MOVE,
+    BARRIER_RECYCLE,
+    BARRIER_INFO,
 }
 
 const VALUES := [
@@ -64,6 +66,8 @@ const VALUES := [
     BARRIER_CONNECT,
     BARRIER_DISCONNECT,
     BARRIER_MOVE,
+    BARRIER_RECYCLE,
+    BARRIER_INFO,
 ]
 
 const COSTS := {
@@ -96,6 +100,8 @@ const COSTS := {
     BARRIER_CONNECT: Cost.BARRIER_CONNECT,
     BARRIER_DISCONNECT: Cost.BARRIER_DISCONNECT,
     BARRIER_MOVE: Cost.BARRIER_MOVE,
+    BARRIER_RECYCLE: Cost.BARRIER_RECYCLE,
+    BARRIER_INFO: Cost.BARRIER_INFO,
 }
 
 const ENTITY_NAMES := {
@@ -156,6 +162,8 @@ const COMMAND_LABELS := {
     BARRIER_CONNECT: Description.COMMAND_LABELS.BARRIER_CONNECT,
     BARRIER_DISCONNECT: Description.COMMAND_LABELS.BARRIER_DISCONNECT,
     BARRIER_MOVE: Description.COMMAND_LABELS.BARRIER_MOVE,
+    BARRIER_RECYCLE: Description.COMMAND_LABELS.BARRIER_RECYCLE,
+    BARRIER_INFO: Description.COMMAND_LABELS.BARRIER_INFO,
 }
 
 const COMMAND_DESCRIPTIONS := {
@@ -188,6 +196,8 @@ const COMMAND_DESCRIPTIONS := {
     BARRIER_CONNECT: Description.COMMAND_DESCRIPTIONS.BARRIER_CONNECT,
     BARRIER_DISCONNECT: Description.COMMAND_DESCRIPTIONS.BARRIER_DISCONNECT,
     BARRIER_MOVE: Description.COMMAND_DESCRIPTIONS.BARRIER_MOVE,
+    BARRIER_RECYCLE: Description.COMMAND_DESCRIPTIONS.BARRIER_RECYCLE,
+    BARRIER_INFO: Description.COMMAND_DESCRIPTIONS.BARRIER_INFO,
 }
 
 const TEXTURES := {
@@ -220,6 +230,8 @@ const TEXTURES := {
     BARRIER_CONNECT: preload("res://assets/images/gui/overlay_buttons/connect_barrier_pylon_button.png"),
     BARRIER_DISCONNECT: preload("res://assets/images/gui/overlay_buttons/stop_overlay_button.png"),
     BARRIER_MOVE: preload("res://assets/images/gui/overlay_buttons/move_barrier_pylon_button.png"),
+    BARRIER_RECYCLE: preload("res://assets/images/gui/overlay_buttons/destroy_overlay_button.png"),
+    BARRIER_INFO: preload("res://assets/images/gui/overlay_buttons/info_overlay_button.png"),
 }
 
 
@@ -275,6 +287,10 @@ static func get_string(type: int) -> String:
             return "BARRIER_DISCONNECT"
         BARRIER_MOVE:
             return "BARRIER_MOVE"
+        BARRIER_RECYCLE:
+            return "BARRIER_RECYCLE"
+        BARRIER_INFO:
+            return "BARRIER_INFO"
         _:
             Sc.logger.error("CommandType.get_string: %s" % str(type))
             return ""

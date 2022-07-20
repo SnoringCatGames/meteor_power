@@ -89,6 +89,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/barrier/barrier_energy.gd"
 }, {
+"base": "Node2D",
+"class": "BarrierEnergyField",
+"language": "GDScript",
+"path": "res://src/barrier/barrier_energy_field.gd"
+}, {
 "base": "StationarySelectable",
 "class": "BarrierPylon",
 "language": "GDScript",
@@ -3096,6 +3101,7 @@ _global_script_class_icons={
 "Background": "",
 "BarrierBot": "",
 "BarrierEnergy": "",
+"BarrierEnergyField": "",
 "BarrierPylon": "",
 "BarrierPylonTouchListener": "",
 "BatteryStation": "",

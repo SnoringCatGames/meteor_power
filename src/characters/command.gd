@@ -33,6 +33,7 @@ func _init(
 func get_depends_on_target_station() -> bool:
     return type != CommandType.BARRIER_PYLON and \
             type != CommandType.BARRIER_MOVE and \
+            type != CommandType.BARRIER_RECYCLE and \
             type != CommandType.BOT_MOVE
 
 
