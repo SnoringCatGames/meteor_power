@@ -261,6 +261,10 @@ func _on_hit_by_meteor(meteor) -> void:
         modify_health(-damage)
 
 
+func _on_health_depleted() -> void:
+    Sc.level.on_station_health_depleted(self)
+
+
 func _on_touch_down(
         level_position: Vector2,
         is_already_handled: bool) -> void:

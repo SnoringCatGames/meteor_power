@@ -90,6 +90,12 @@ func _on_Meteor_area_entered(area) -> void:
         var power_line = area.get_meta("PowerLine")
         power_line._on_hit_by_meteor(self)
         _explode()
+    elif area is BarrierPylon:
+        area._on_hit_by_meteor(self)
+        _explode()
+    elif area is BarrierEnergyField:
+        area._on_hit_by_meteor(self)
+        _explode()
 
 
 func _on_collided_with_bot(bot) -> void:

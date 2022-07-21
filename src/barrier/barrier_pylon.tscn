@@ -9,7 +9,7 @@
 length = 0.001
 loop = true
 tracks/0/type = "value"
-tracks/0/path = NodePath("TextureOutlineableSprite:my_frame")
+tracks/0/path = NodePath("TextureOutlineableSprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -26,7 +26,7 @@ resource_name = "pylon"
 length = 0.8
 loop = true
 tracks/0/type = "value"
-tracks/0/path = NodePath("TextureOutlineableSprite:my_frame")
+tracks/0/path = NodePath("TextureOutlineableSprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -39,7 +39,9 @@ tracks/0/keys = {
 }
 
 [node name="BarrierPylon" type="Area2D"]
-collision_layer = 1073741825
+z_index = 2
+collision_layer = 1073741952
+collision_mask = 0
 monitoring = false
 monitorable = false
 script = ExtResource( 4 )

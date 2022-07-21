@@ -309,7 +309,12 @@ func modify_health(diff: int) -> void:
             previous_health == _health_capacity:
         _on_command_enablement_changed()
     if _health == 0:
-        Sc.level.on_station_health_depleted(self)
+        _on_health_depleted()
+
+
+func _on_health_depleted() -> void:
+    Sc.logger.error(
+        "Abstract StationarySelectable._on_health_depleted is not implemented.")
 
 
 func _get_meteor_hit_cost() -> int:

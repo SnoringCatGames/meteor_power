@@ -41,6 +41,11 @@ func _init().(ENTITY_COMMAND_TYPE) -> void:
     pass
 
 
+func _destroy() -> void:
+    _set_is_connected(false)
+    ._destroy()
+
+
 func _ready() -> void:
     Sc.slow_motion.set_time_scale_for_node($AnimationPlayer)
     $AnimationPlayer.current_animation = "pylon"
@@ -148,25 +153,30 @@ func _on_button_pressed(button_type: int) -> void:
             Sc.logger.error("BarrierPylon._on_button_pressed")
 
 
+func _on_health_depleted() -> void:
+    Sc.level.on_barrier_pylon_health_depleted(self)
+
+
 func _set_is_connected(value: bool) -> void:
     var other_pylon := get_other_pylon()
     if value:
         if !is_instance_valid(other_pylon) or \
                 get_is_active():
-            # This should never happen.
             return
+        
         var energy_field := \
             Sc.utils.add_scene(Sc.level, ENERGY_FIELD_SCENE)
+        energy_field.set_pylons(self, other_pylon)
         _set_energy_field(energy_field)
         other_pylon._set_energy_field(energy_field)
     else:
-        if !is_instance_valid(other_pylon) or \
-                !get_is_active():
-            # This should never happen.
+        if !get_is_active():
             return
+        
         self.energy_field.queue_free()
         self._set_energy_field(null)
-        other_pylon._set_energy_field(null)
+        if is_instance_valid(other_pylon):
+            other_pylon._set_energy_field(null)
 
 
 func _get_health_capacity() -> int:
