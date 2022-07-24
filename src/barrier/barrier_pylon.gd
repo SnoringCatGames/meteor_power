@@ -4,17 +4,11 @@ extends StationarySelectable
 
 
 # FIXME: LEFT OFF HERE: ----------------------------------
-# - Swap connect/disconnect when toggling is_active.
-# - Add logic to render barrier-energy animations.
-# - Add logic to add barrier collision geometry (line segment) and to
-#   handle collisions.
-# - Add logic to handle barrier health, collisions, destruction, explosions,
-#   auto disconnection from pair.
 # - Add disablement messages:
 #   - Too many pylons.
 #   - No barrier bots remain.
 #   - Too far from other pylon(s).
-# - Add pylon connect/disconnect command logic.
+# - Deduct energy when building pylon.
 # - Add logic to decrement energy while pylons are connected.
 # - Add pylon-move command logic.
 # - Update HUD to display the number of pylons.
