@@ -24,13 +24,6 @@ func set_pylons(
     collision_segment.a = first_pylon.position
     collision_segment.b = second_pylon.position
     
-    # FIXME: ---------------------------------------
-    # - Show some indication for how much energy is consumed by the force-field
-    #   according to the distance.
-    #   - Probably add an outlined version of the animation?
-    #     - BUT, would need to force the outline to have a lower z-index, so no
-    #       outlines appear above adjacent energy animations.
-    
     var animation_rotation: float = \
         first_pylon.position.angle_to_point(second_pylon.position)
     var direction: Vector2 = \

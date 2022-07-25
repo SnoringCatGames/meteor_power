@@ -10,7 +10,9 @@ extends StationarySelectable
 #   - Too far from other pylon(s).
 # - Deduct energy when building pylon.
 # - Add logic to decrement energy while pylons are connected.
+#   - Decrement more energy when further apart (up to some max-distance limit).
 # - Add pylon-move command logic.
+#   - Auto-disconnect when pylons move too far apart.
 # - Update HUD to display the number of pylons.
 # - Impose limit on number of pylons.
 #   - Only two?
@@ -21,6 +23,14 @@ extends StationarySelectable
 #   capacity (or when current queued commands would put us at max capacity).
 # - Add logic to prevent finishing new barrier-pylon commands when at max
 #   capacity (or when current queued commands would put us at max capacity).
+# - Energy-field updates:
+#   - Show some indication for how much energy is consumed by the force-field
+#     according to the distance.
+#     - Probably add an outlined version of the animation?
+#       - BUT, would need to force the outline to have a lower z-index, so no
+#         outlines appear above adjacent energy animations.
+#   - Also add the periodic floating-away overlay icon annotations to indicate
+#     energy being spent at this location in the level.
 
 
 const ENTITY_COMMAND_TYPE := CommandType.BARRIER_PYLON
