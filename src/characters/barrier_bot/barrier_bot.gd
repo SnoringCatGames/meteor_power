@@ -45,6 +45,7 @@ func _on_radial_menu_item_selected(item: RadialMenuItem) -> void:
 func _on_reached_position_to_build_barrier_pylon() -> void:
     assert(command.meta is PositionAlongSurface)
     Sc.level.add_barrier_pylon(command.meta.target_point)
+    Sc.level.deduct_energy(Cost.BARRIER_PYLON)
     # FIXME: ------------------ Play sound.
 
 
