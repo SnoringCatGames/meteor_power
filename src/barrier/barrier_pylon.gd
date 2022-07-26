@@ -106,9 +106,11 @@ func get_disabled_message(command_type: int) -> String:
         return message
     # FIXME: ----------------------------
     match command_type:
+        CommandType.BARRIER_MOVE:
+            # FIXME: --------------------------------
+            return Description.NOT_IMPLEMENTED
         CommandType.BARRIER_CONNECT, \
         CommandType.BARRIER_DISCONNECT, \
-        CommandType.BARRIER_MOVE, \
         CommandType.BARRIER_RECYCLE, \
         _:
             pass

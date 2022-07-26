@@ -410,9 +410,15 @@ func get_disabled_message(command_type: int) -> String:
             if _health >= _health_capacity:
                 return Description.ALREADY_AT_FULL_HEALTH
         
-        CommandType.STATION_COMMAND, \
+        CommandType.STATION_LINK_TO_MOTHERSHIP:
+            # FIXME: ---------- Remove this case entirely.
+            #                   (handled by the default cost-based disablement).
+            return Description.NOT_IMPLEMENTED
         CommandType.STATION_BATTERY, \
-        CommandType.STATION_SCANNER, \
+        CommandType.STATION_SCANNER:
+            # FIXME: ---------- Combine these with the other station-type case.
+            return Description.NOT_IMPLEMENTED
+        CommandType.STATION_COMMAND, \
         CommandType.STATION_SOLAR:
             for collection in [
                     Sc.level.command_queue, 

@@ -5,6 +5,7 @@ extends Reference
 # FIXME: ----------- Update descriptions after finishing and polishing gameplay.
 
 # Disablement messages.
+const NOT_IMPLEMENTED := "Not implemented yet!"
 const NOT_ENOUGH_ENERGY := "Not enough energy."
 const MAX_BOT_CAPACITY := "The max number of bots already exist."
 const CANNOT_TRASH_LAST_BOT := "The last bot cannot be recycled."
