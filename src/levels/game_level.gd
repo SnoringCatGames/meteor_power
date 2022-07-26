@@ -607,6 +607,11 @@ func update_command_enablement() -> void:
         command_enablement[CommandType.BARRIER_CONNECT] = \
             Description.NEED_A_SECOND_PYLON_TO_ACTIVATE_BARRIER
     
+    # Disable pylon-creation when at max pylon capacity.
+    if barrier_pylons.size() >= BarrierPylon.MAX_PYLON_COUNT:
+        command_enablement[CommandType.BARRIER_PYLON] = \
+            Description.MAX_PYLON_CAPACITY
+    
     if did_level_succeed:
         # FIXME: --------------- Add support for second and third links.
         command_enablement[CommandType.STATION_LINK_TO_MOTHERSHIP] = \

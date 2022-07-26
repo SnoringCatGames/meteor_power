@@ -15,6 +15,7 @@ const ALREADY_LINKED_TO_MOTHERSHIP := "Already linked to mothership."
 const ALREADY_AT_FULL_HEALTH := "Already at full health."
 const ALREADY_STOPPED := "Already stopped."
 const ALREADY_BUILDING_STATION := "Already building a station at this site."
+const MAX_PYLON_CAPACITY := "The max number of pylons already exist."
 const NEED_A_SECOND_PYLON_TO_ACTIVATE_BARRIER := \
     "There must be two pylons to activate the barrier."
 const PYLONS_ARE_TOO_FAR_TO_CONNECT := "Pylons are too far apart to connect."
