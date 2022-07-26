@@ -366,6 +366,7 @@ var _gui_manifest := {
         LevelEnergyControlRow,
         StationsControlRow,
         BotsControlRow,
+        BarrierPylonsControlRow,
         MeteorWavesCompletedControlRow,
         TimeControlRow,
         HighScoreEnergyControlRow,
@@ -417,6 +418,12 @@ var _gui_manifest := {
             {
                 item_class = StationsControlRow,
                 settings_enablement_label = "Stations",
+                enabled_by_default = true,
+                settings_group_key = "hud",
+            },
+            {
+                item_class = BarrierPylonsControlRow,
+                settings_enablement_label = "Barrier pylons",
                 enabled_by_default = true,
                 settings_group_key = "hud",
             },

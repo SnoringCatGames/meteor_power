@@ -14,9 +14,9 @@ const _LINE_RUNNER_BOT_ICON := preload(
 const _BARRIER_BOT_ICON := preload(
     "res://assets/images/gui/hud_icons/barrier_bot_hud_icon.png")
 
-var constructor_bot_count: int
-var line_runner_bot_count: int
-var barrier_bot_count: int
+var constructor_bot_count := -1
+var line_runner_bot_count := -1
+var barrier_bot_count := -1
 
 var constructor_bot_label: ScaffolderLabel
 var line_runner_bot_label: ScaffolderLabel
@@ -53,9 +53,9 @@ func _update_control() -> void:
         var total_count: int = Sc.levels.session.total_bot_count
         var bot_capacity: int = Sc.levels.session.bot_capacity
         
-        constructor_bot_label.text = "x%s  " % constructor_bot_count
-        line_runner_bot_label.text = "x%s  " % line_runner_bot_count
-        barrier_bot_label.text = "x%s  " % barrier_bot_count
+        constructor_bot_label.text = "x%s" % constructor_bot_count
+        line_runner_bot_label.text = "x%s" % line_runner_bot_count
+        barrier_bot_label.text = "x%s" % barrier_bot_count
         totals_label.text = "  (%s/%s)" % [total_count, bot_capacity]
         
         var totals_color := _get_color(total_count, bot_capacity)
@@ -115,6 +115,14 @@ func create_control() -> Control:
     barrier_bot_label.add_color_override("font_color", counts_color)
     barrier_bot_label.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
     
+    var intra_spacer_1 := Control.new()
+    intra_spacer_1.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+    intra_spacer_1.rect_min_size.x = 3.0
+    
+    var intra_spacer_2 := Control.new()
+    intra_spacer_2.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+    intra_spacer_2.rect_min_size.x = 3.0
+    
     if is_in_hud:
         # Display in two centered rows.
         
@@ -150,8 +158,10 @@ func create_control() -> Control:
         
         hbox.add_child(constructor_bot_texture)
         hbox.add_child(constructor_bot_label)
+        hbox.add_child(intra_spacer_1)
         hbox.add_child(line_runner_bot_texture)
         hbox.add_child(line_runner_bot_label)
+        hbox.add_child(intra_spacer_2)
         hbox.add_child(barrier_bot_texture)
         hbox.add_child(barrier_bot_label)
         
@@ -170,13 +180,20 @@ func create_control() -> Control:
         var hbox := HBoxContainer.new()
         hbox.size_flags_horizontal = Control.SIZE_SHRINK_END
         container.add_child(hbox)
+    
+        var intra_spacer_3 := Control.new()
+        intra_spacer_3.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+        intra_spacer_3.rect_min_size.x = 3.0
         
         hbox.add_child(constructor_bot_texture)
         hbox.add_child(constructor_bot_label)
+        hbox.add_child(intra_spacer_1)
         hbox.add_child(line_runner_bot_texture)
         hbox.add_child(line_runner_bot_label)
+        hbox.add_child(intra_spacer_2)
         hbox.add_child(barrier_bot_texture)
         hbox.add_child(barrier_bot_label)
+        hbox.add_child(intra_spacer_3)
         hbox.add_child(totals_label)
     
     container.size_flags_horizontal = Control.SIZE_EXPAND_FILL

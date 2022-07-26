@@ -14,11 +14,11 @@ const _SCANNER_STATION_ICON := preload(
 const _BATTERY_STATION_ICON := preload(
     "res://assets/images/gui/hud_icons/battery_station_hud_icon.png")
 
-var command_center_count: int
-var solar_collector_count: int
-var scanner_station_count: int
-var battery_station_count: int
-var empty_station_count: int
+var command_center_count := -1
+var solar_collector_count := -1
+var scanner_station_count := -1
+var battery_station_count := -1
+var empty_station_count := -1
 
 var command_center_label: ScaffolderLabel
 var solar_collector_label: ScaffolderLabel
@@ -61,10 +61,10 @@ func _update_control() -> void:
         var total_count: int = Sc.levels.session.total_station_count
         var capacity: int = Sc.levels.session.total_station_site_count
         
-        command_center_label.text = "x%s  " % command_center_count
-        solar_collector_label.text = "x%s  " % solar_collector_count
-        scanner_station_label.text = "x%s  " % scanner_station_count
-        battery_station_label.text = "x%s  " % battery_station_count
+        command_center_label.text = "x%s" % command_center_count
+        solar_collector_label.text = "x%s" % solar_collector_count
+        scanner_station_label.text = "x%s" % scanner_station_count
+        battery_station_label.text = "x%s" % battery_station_count
         totals_label.text = "  (%s/%s)" % [total_count, capacity]
         
         var totals_color := _get_color(total_count, capacity)
@@ -136,6 +136,18 @@ func create_control() -> Control:
     battery_station_label.add_color_override("font_color", counts_color)
     battery_station_label.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
     
+    var intra_spacer_1 := Control.new()
+    intra_spacer_1.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+    intra_spacer_1.rect_min_size.x = 3.0
+    
+    var intra_spacer_2 := Control.new()
+    intra_spacer_2.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+    intra_spacer_2.rect_min_size.x = 3.0
+    
+    var intra_spacer_3 := Control.new()
+    intra_spacer_3.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+    intra_spacer_3.rect_min_size.x = 3.0
+    
     if is_in_hud:
         # Display in two centered rows.
         
@@ -171,10 +183,13 @@ func create_control() -> Control:
         
         hbox.add_child(command_center_texture)
         hbox.add_child(command_center_label)
+        hbox.add_child(intra_spacer_1)
         hbox.add_child(solar_collector_texture)
         hbox.add_child(solar_collector_label)
+        hbox.add_child(intra_spacer_2)
         hbox.add_child(scanner_station_texture)
         hbox.add_child(scanner_station_label)
+        hbox.add_child(intra_spacer_3)
         hbox.add_child(battery_station_texture)
         hbox.add_child(battery_station_label)
         
@@ -193,15 +208,23 @@ func create_control() -> Control:
         var hbox := HBoxContainer.new()
         hbox.size_flags_horizontal = Control.SIZE_SHRINK_END
         container.add_child(hbox)
+    
+        var intra_spacer_4 := Control.new()
+        intra_spacer_4.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+        intra_spacer_4.rect_min_size.x = 3.0
         
         hbox.add_child(command_center_texture)
         hbox.add_child(command_center_label)
+        hbox.add_child(intra_spacer_1)
         hbox.add_child(solar_collector_texture)
         hbox.add_child(solar_collector_label)
+        hbox.add_child(intra_spacer_2)
         hbox.add_child(scanner_station_texture)
         hbox.add_child(scanner_station_label)
+        hbox.add_child(intra_spacer_3)
         hbox.add_child(battery_station_texture)
         hbox.add_child(battery_station_label)
+        hbox.add_child(intra_spacer_4)
         hbox.add_child(totals_label)
     
     container.size_flags_horizontal = Control.SIZE_EXPAND_FILL

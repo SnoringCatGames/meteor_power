@@ -104,6 +104,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/barrier/barrier_pylon_touch_listener.gd"
 }, {
+"base": "CustomControlRow",
+"class": "BarrierPylonsControlRow",
+"language": "GDScript",
+"path": "res://src/gui/control_rows/barrier_pylons_control_row.gd"
+}, {
 "base": "Station",
 "class": "BatteryStation",
 "language": "GDScript",
@@ -3104,6 +3109,7 @@ _global_script_class_icons={
 "BarrierEnergyField": "",
 "BarrierPylon": "",
 "BarrierPylonTouchListener": "",
+"BarrierPylonsControlRow": "",
 "BatteryStation": "",
 "BeatTracker": "",
 "Behavior": "",

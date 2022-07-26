@@ -38,6 +38,8 @@ const MAX_CONNECTION_DISTANCE := 512.0
 const ENERGY_PER_SECOND_PER_64_PIXELS := 10.0
 const ENERGY_DRAIN_PERIOD := 0.4
 
+const MAX_PYLON_COUNT := 2
+
 var energy_field: BarrierEnergyField
 
 var total_connected_time := 0.0
