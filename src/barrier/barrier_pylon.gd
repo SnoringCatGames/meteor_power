@@ -7,11 +7,7 @@ extends StationarySelectable
 # - Add disablement messages:
 #   - Too many pylons.
 #   - No barrier bots remain.
-#   - Too far from other pylon(s).
-# - Add logic to decrement energy while pylons are connected.
-#   - Decrement more energy when further apart (up to some max-distance limit).
 # - Add pylon-move command logic.
-#   - Auto-disconnect when pylons move too far apart.
 # - Update HUD to display the number of pylons.
 # - Impose limit on number of pylons.
 #   - Only two?
@@ -36,6 +32,8 @@ const ENTITY_COMMAND_TYPE := CommandType.BARRIER_PYLON
 
 const ENERGY_FIELD_SCENE := preload(
     "res://src/barrier/barrier_energy_field.tscn")
+
+const MAX_CONNECTION_DISTANCE := 512.0
 
 const ENERGY_PER_SECOND_PER_64_PIXELS := 10.0
 const ENERGY_DRAIN_PERIOD := 0.4
@@ -75,6 +73,10 @@ func _physics_process(delta: float) -> void:
         if is_moving:
             var other_pylon := get_other_pylon()
             distance = self.position.distance_to(other_pylon.position)
+            
+            # Auto-disconnect when pylons move too far apart.
+            if distance > MAX_CONNECTION_DISTANCE:
+                _set_is_connected(false)
         
         var cost := \
             ENERGY_PER_SECOND_PER_64_PIXELS * \
@@ -149,7 +151,13 @@ func get_disabled_message(command_type: int) -> String:
         CommandType.BARRIER_MOVE:
             # FIXME: --------------------------------
             return Description.NOT_IMPLEMENTED
-        CommandType.BARRIER_CONNECT, \
+        CommandType.BARRIER_CONNECT:
+            var other_pylon := get_other_pylon()
+            if !is_instance_valid(other_pylon):
+                return ""
+            distance = self.position.distance_to(other_pylon.position)
+            if distance > MAX_CONNECTION_DISTANCE:
+                return Description.PYLONS_ARE_TOO_FAR_TO_CONNECT
         CommandType.BARRIER_DISCONNECT, \
         CommandType.BARRIER_RECYCLE, \
         _:
@@ -165,6 +173,12 @@ func _on_button_pressed(button_type: int) -> void:
             set_is_selected(true)
             update_info_panel_visibility(true)
         CommandType.BARRIER_CONNECT:
+            var other_pylon := get_other_pylon()
+            if !is_instance_valid(other_pylon):
+                return
+            distance = self.position.distance_to(other_pylon.position)
+            if distance > MAX_CONNECTION_DISTANCE:
+                return
             set_is_selected(false)
             update_info_panel_visibility(false)
             _set_is_connected(true, true)

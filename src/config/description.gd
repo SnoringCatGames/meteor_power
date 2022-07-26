@@ -17,6 +17,7 @@ const ALREADY_STOPPED := "Already stopped."
 const ALREADY_BUILDING_STATION := "Already building a station at this site."
 const NEED_A_SECOND_PYLON_TO_ACTIVATE_BARRIER := \
     "There must be two pylons to activate the barrier."
+const PYLONS_ARE_TOO_FAR_TO_CONNECT := "Pylons are too far apart to connect."
 
 const LEVEL_SUCCESS_EXPLANATION := \
     "You succeeded in linking back to the mother ship!"
