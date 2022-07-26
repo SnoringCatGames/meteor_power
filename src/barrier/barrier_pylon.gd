@@ -12,7 +12,7 @@ const ENTITY_COMMAND_TYPE := CommandType.BARRIER_PYLON
 const ENERGY_FIELD_SCENE := preload(
     "res://src/barrier/barrier_energy_field.tscn")
 
-const MAX_CONNECTION_DISTANCE := 512.0
+const MAX_CONNECTION_DISTANCE := 768.0
 
 const ENERGY_PER_SECOND_PER_64_PIXELS := 10.0
 const ENERGY_DRAIN_PERIOD := 0.4
@@ -27,7 +27,7 @@ var is_primary := false
 
 var is_moving := false
 
-var distance := INF
+var distance_squared := INF
 
 
 func _init().(ENTITY_COMMAND_TYPE) -> void:
@@ -53,16 +53,18 @@ func _physics_process(delta: float) -> void:
     if get_is_active() and is_primary:
         if is_moving:
             var other_pylon := get_other_pylon()
-            distance = self.position.distance_to(other_pylon.position)
+            distance_squared = \
+                self.position.distance_squared_to(other_pylon.position)
             
             # Auto-disconnect when pylons move too far apart.
-            if distance > MAX_CONNECTION_DISTANCE:
+            if distance_squared > \
+                    MAX_CONNECTION_DISTANCE * MAX_CONNECTION_DISTANCE:
                 _set_is_connected(false)
         
         var cost := \
             ENERGY_PER_SECOND_PER_64_PIXELS * \
             ENERGY_DRAIN_PERIOD * \
-            distance / 64.0
+            distance_squared / 64.0
         
         # Auto-disconnect when there isn't enough energy.
         if Sc.level.session.current_energy < cost:
@@ -141,8 +143,9 @@ func get_disabled_message(command_type: int) -> String:
             var other_pylon := get_other_pylon()
             if !is_instance_valid(other_pylon):
                 return ""
-            distance = self.position.distance_to(other_pylon.position)
-            if distance > MAX_CONNECTION_DISTANCE:
+            distance_squared = self.position.distance_squared_to(other_pylon.position)
+            if distance_squared > \
+                    MAX_CONNECTION_DISTANCE * MAX_CONNECTION_DISTANCE:
                 return Description.PYLONS_ARE_TOO_FAR_TO_CONNECT
         CommandType.BARRIER_DISCONNECT, \
         CommandType.BARRIER_RECYCLE, \
@@ -162,8 +165,10 @@ func _on_button_pressed(button_type: int) -> void:
             var other_pylon := get_other_pylon()
             if !is_instance_valid(other_pylon):
                 return
-            distance = self.position.distance_to(other_pylon.position)
-            if distance > MAX_CONNECTION_DISTANCE:
+            distance_squared = \
+                self.position.distance_squared_to(other_pylon.position)
+            if distance_squared > \
+                    MAX_CONNECTION_DISTANCE * MAX_CONNECTION_DISTANCE:
                 return
             set_is_selected(false)
             update_info_panel_visibility(false)
@@ -219,7 +224,8 @@ func _set_is_connected(
         
         total_connected_time = 0.0
         
-        distance = self.position.distance_to(other_pylon.position)
+        distance_squared = \
+            self.position.distance_squared_to(other_pylon.position)
         
         var energy_field := \
             Sc.utils.add_scene(Sc.level, ENERGY_FIELD_SCENE)

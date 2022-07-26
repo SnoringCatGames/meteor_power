@@ -31,7 +31,6 @@ id = "0_inner"
 [node name="IntroChoreographyDestination" type="Position2D" parent="." groups=["intro_choreography_destination"]]
 
 [node name="SurfaceEnablement" parent="." instance=ExtResource( 5 )]
-modulate = Color( 0, 1, 0.0999999, 0.7 )
 character_categories = 0
 
 [node name="PowerLines" type="Node2D" parent="."]
@@ -44,36 +43,27 @@ z_index = 1
 
 [node name="EmptyStation" parent="Stations" instance=ExtResource( 4 )]
 position = Vector2( 640, 256 )
-monitorable = false
 
 [node name="EmptyStation2" parent="Stations" instance=ExtResource( 4 )]
 position = Vector2( 256, 128 )
-monitorable = false
 
 [node name="EmptyStation3" parent="Stations" instance=ExtResource( 4 )]
 position = Vector2( -96, -288 )
-monitorable = false
 
 [node name="EmptyStation7" parent="Stations" instance=ExtResource( 4 )]
 position = Vector2( -384, -544 )
-monitorable = false
 
 [node name="EmptyStation8" parent="Stations" instance=ExtResource( 4 )]
 position = Vector2( -1024, -768 )
-monitorable = false
 
 [node name="EmptyStation9" parent="Stations" instance=ExtResource( 4 )]
 position = Vector2( -640, -672 )
-monitorable = false
 
 [node name="EmptyStation4" parent="Stations" instance=ExtResource( 4 )]
 position = Vector2( 448, -448 )
-monitorable = false
 
 [node name="EmptyStation6" parent="Stations" instance=ExtResource( 4 )]
 position = Vector2( 768, -640 )
-monitorable = false
 
 [node name="EmptyStation5" parent="Stations" instance=ExtResource( 4 )]
 position = Vector2( -544, 256 )
-monitorable = false

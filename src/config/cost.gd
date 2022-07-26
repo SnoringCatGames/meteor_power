@@ -3,8 +3,8 @@ extends Reference
 
 
 const BOT_CONSTRUCTOR := 200
-const BOT_LINE_RUNNER := 1000
-const BOT_BARRIER := 1000
+const BOT_LINE_RUNNER := 600
+const BOT_BARRIER := 500
 const BOT_COMMAND := -1
 const BOT_STOP := 0
 const BOT_MOVE := 1
@@ -26,18 +26,18 @@ const RUN_WIRE := 30
 const STATION_REPAIR := 30
 const WIRE_REPAIR := 10
 
-const BARRIER_PYLON := 800
+const BARRIER_PYLON := 300
 const BARRIER_CONNECT := 0
 const BARRIER_DISCONNECT := 0
 const BARRIER_MOVE := 0
 const BARRIER_RECYCLE := 10
 const BARRIER_INFO := 0
 
-const DYNAMIC_POWER_LINE_HIT := 20
-const STATIC_POWER_LINE_HIT := 10
-const STATION_HIT := 40
-const BARRIER_PYLON_HIT := 40
-const BOT_HIT := 80
+const DYNAMIC_POWER_LINE_HIT := 0
+const STATIC_POWER_LINE_HIT := 0
+const STATION_HIT := 0
+const BARRIER_PYLON_HIT := 0
+const BOT_HIT := 0
 const BOT_ALIVE := 0
 
 const LOW_ENERGY_THRESHOLD := 800
