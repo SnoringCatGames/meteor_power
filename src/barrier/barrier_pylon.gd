@@ -8,7 +8,6 @@ extends StationarySelectable
 #   - Too many pylons.
 #   - No barrier bots remain.
 #   - Too far from other pylon(s).
-# - Deduct energy when building pylon.
 # - Add logic to decrement energy while pylons are connected.
 #   - Decrement more energy when further apart (up to some max-distance limit).
 # - Add pylon-move command logic.
@@ -38,7 +37,18 @@ const ENTITY_COMMAND_TYPE := CommandType.BARRIER_PYLON
 const ENERGY_FIELD_SCENE := preload(
     "res://src/barrier/barrier_energy_field.tscn")
 
+const ENERGY_PER_SECOND_PER_64_PIXELS := 10.0
+const ENERGY_DRAIN_PERIOD := 0.4
+
 var energy_field: BarrierEnergyField
+
+var total_connected_time := 0.0
+
+var is_primary := false
+
+var is_moving := false
+
+var distance := INF
 
 
 func _init().(ENTITY_COMMAND_TYPE) -> void:
@@ -55,6 +65,36 @@ func _ready() -> void:
     $AnimationPlayer.current_animation = "pylon"
     $AnimationPlayer.seek(
         randf() * $AnimationPlayer.current_animation_length, true)
+
+
+func _physics_process(delta: float) -> void:
+    if Engine.editor_hint:
+        return
+    
+    if get_is_active() and is_primary:
+        if is_moving:
+            var other_pylon := get_other_pylon()
+            distance = self.position.distance_to(other_pylon.position)
+        
+        var cost := \
+            ENERGY_PER_SECOND_PER_64_PIXELS * \
+            ENERGY_DRAIN_PERIOD * \
+            distance / 64.0
+        
+        # Auto-disconnect when there isn't enough energy.
+        if Sc.level.session.current_energy < cost:
+            _set_is_connected(false)
+        
+        var previous_total_connected_time := total_connected_time
+        var current_connected_time := \
+            Sc.time.get_scaled_time_step() if \
+            get_is_active() else \
+            0.0
+        total_connected_time += current_connected_time
+        
+        if int(previous_total_connected_time / ENERGY_DRAIN_PERIOD) != \
+                int(total_connected_time / ENERGY_DRAIN_PERIOD):
+            Sc.level.deduct_energy(cost)
 
 
 func _update_outline() -> void:
@@ -127,7 +167,7 @@ func _on_button_pressed(button_type: int) -> void:
         CommandType.BARRIER_CONNECT:
             set_is_selected(false)
             update_info_panel_visibility(false)
-            _set_is_connected(true)
+            _set_is_connected(true, true)
         CommandType.BARRIER_DISCONNECT:
             set_is_selected(false)
             update_info_panel_visibility(false)
@@ -163,12 +203,23 @@ func _on_health_depleted() -> void:
     Sc.level.on_barrier_pylon_health_depleted(self)
 
 
-func _set_is_connected(value: bool) -> void:
+func _set_is_connected(
+        value: bool,
+        is_primary := false) -> void:
+    # FIXME: ------------------- Play a sound effect for power-on and power-off.
+    
     var other_pylon := get_other_pylon()
     if value:
         if !is_instance_valid(other_pylon) or \
                 get_is_active():
             return
+        
+        self.is_primary = is_primary
+        other_pylon.is_primary = false
+        
+        total_connected_time = 0.0
+        
+        distance = self.position.distance_to(other_pylon.position)
         
         var energy_field := \
             Sc.utils.add_scene(Sc.level, ENERGY_FIELD_SCENE)
@@ -178,6 +229,11 @@ func _set_is_connected(value: bool) -> void:
     else:
         if !get_is_active():
             return
+        
+        self.is_primary = false
+        other_pylon.is_primary = false
+        
+        total_connected_time = 0.0
         
         self.energy_field.queue_free()
         self._set_energy_field(null)
@@ -221,6 +277,3 @@ func get_is_active() -> bool:
 
 func _set_energy_field(energy_field: BarrierEnergyField) -> void:
     self.energy_field = energy_field
-    # FIXME: ------------------------------
-    # - Toggle radial buttons.
-    # - ...

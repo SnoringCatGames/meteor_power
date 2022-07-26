@@ -5,7 +5,8 @@ extends Station
 
 const ENTITY_COMMAND_TYPE := CommandType.STATION_SOLAR
 
-var seconds_per_one_energy_value := 0.05
+const SECONDS_PER_ONE_ENERGY_VALUE := 0.05
+
 var total_seconds := 0.0
 
 
@@ -19,8 +20,8 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
     if is_connected_to_command_center:
-        if int(previous_total_time / seconds_per_one_energy_value) != \
-                int(total_time / seconds_per_one_energy_value):
+        if int(previous_total_time / SECONDS_PER_ONE_ENERGY_VALUE) != \
+                int(total_time / SECONDS_PER_ONE_ENERGY_VALUE):
             Sc.level.add_energy(1)
 
 
