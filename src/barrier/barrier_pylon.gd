@@ -4,9 +4,6 @@ extends StationarySelectable
 
 
 # FIXME: LEFT OFF HERE: ----------------------------------
-# - Add disablement messages:
-#   - No barrier bots remain.
-# 
 # - Add pylon-move command logic.
 # 
 # - Energy-field updates:
@@ -139,7 +136,12 @@ func get_disabled_message(command_type: int) -> String:
     var message: String = Sc.level.command_enablement[command_type]
     if message != "":
         return message
-    # FIXME: ----------------------------
+    
+    if (command_type == CommandType.BARRIER_MOVE or \
+                command_type == CommandType.BARRIER_RECYCLE) and \
+            Sc.level.barrier_bots.empty():
+        return Description.NEED_A_BARRIER_BOT
+    
     match command_type:
         CommandType.BARRIER_MOVE:
             # FIXME: --------------------------------

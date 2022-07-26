@@ -8,7 +8,6 @@ extends Reference
 const NOT_IMPLEMENTED := "Not implemented yet!"
 const NOT_ENOUGH_ENERGY := "Not enough energy."
 const MAX_BOT_CAPACITY := "The max number of bots already exist."
-const CANNOT_TRASH_LAST_BOT := "The last bot cannot be recycled."
 const CANNOT_RUN_WIRE_WITH_ONE_STATION := \
     "There must be at least two stations to run a power line."
 const ALREADY_LINKED_TO_MOTHERSHIP := "Already linked to mothership."
@@ -19,6 +18,7 @@ const MAX_PYLON_CAPACITY := "The max number of pylons already exist."
 const NEED_A_SECOND_PYLON_TO_ACTIVATE_BARRIER := \
     "There must be two pylons to activate the barrier."
 const PYLONS_ARE_TOO_FAR_TO_CONNECT := "Pylons are too far apart to connect."
+const NEED_A_BARRIER_BOT := "There is no barrier bot to execute this command."
 
 const LEVEL_SUCCESS_EXPLANATION := \
     "You succeeded in linking back to the mother ship!"

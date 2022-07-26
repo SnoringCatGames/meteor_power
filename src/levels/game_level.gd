@@ -529,6 +529,12 @@ func _get_is_command_still_valid(command: Command) -> bool:
         # Already reached max pylon capacity.
         return false
     
+    if (command.type == CommandType.BARRIER_MOVE or \
+                command.type == CommandType.BARRIER_RECYCLE) and \
+            Sc.level.barrier_bots.empty():
+        # This is a barrier-bot-only command, and there are no barrier bots.
+        return false
+    
     return true
 
 
@@ -611,11 +617,6 @@ func update_command_enablement() -> void:
             Description.MAX_BOT_CAPACITY
         command_enablement[CommandType.BOT_BARRIER] = \
             Description.MAX_BOT_CAPACITY
-    
-    # Disable bot-recycling when there's only one bot left.
-    if session.total_bot_count <= 1:
-        command_enablement[CommandType.BOT_RECYCLE] = \
-            Description.CANNOT_TRASH_LAST_BOT
     
     # Disable wire-running when there's only one station left.
     if session.total_station_count <= 1:
