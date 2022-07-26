@@ -2,6 +2,17 @@ class_name BarrierEnergyField
 extends Node2D
 
 
+
+# FIXME: LEFT OFF HERE: ----------------------------------
+# - Show some indication for how much energy is consumed by the force-field
+#   according to the distance.
+#   - Probably add an outlined version of the animation?
+#     - BUT, would need to force the outline to have a lower z-index, so no
+#       outlines appear above adjacent energy animations.
+# - Also add the periodic floating-away overlay icon annotations to indicate
+#   energy being spent at this location in the level.
+
+
 const BARRIER_ENERGY_SCENE := preload("res://src/barrier/barrier_energy.tscn")
 const BARRIER_ENERGY_WIDTH := 88.0
 

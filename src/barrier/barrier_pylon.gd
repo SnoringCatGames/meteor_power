@@ -5,15 +5,6 @@ extends StationarySelectable
 
 # FIXME: LEFT OFF HERE: ----------------------------------
 # - Add pylon-move command logic.
-# 
-# - Energy-field updates:
-#   - Show some indication for how much energy is consumed by the force-field
-#     according to the distance.
-#     - Probably add an outlined version of the animation?
-#       - BUT, would need to force the outline to have a lower z-index, so no
-#         outlines appear above adjacent energy animations.
-#   - Also add the periodic floating-away overlay icon annotations to indicate
-#     energy being spent at this location in the level.
 
 
 const ENTITY_COMMAND_TYPE := CommandType.BARRIER_PYLON
