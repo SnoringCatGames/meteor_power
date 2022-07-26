@@ -483,16 +483,7 @@ func _try_next_command_deferred() -> void:
     while i < command_queue.size():
         var command: Command = command_queue[i]
         
-        if !is_instance_valid(command.target_station) and \
-                command.get_depends_on_target_station():
-            Sc.logger.warning(
-                "GameLevel._try_next_command_deferred: " +
-                "command.target_station has been freed.")
-            command_queue.remove(i)
-            continue
-        
-        if !get_is_enough_energy_for_command(command):
-            # Not enough energy for command.
+        if !_get_is_command_still_valid(command):
             # FIXME: ----------- Play (throttled) error sound.
             command_queue.remove(i)
             continue
@@ -510,6 +501,35 @@ func _try_next_command_deferred() -> void:
             break
     
     Sc.gui.hud.command_queue_list.sync_queue()
+
+
+func _get_is_command_still_valid(command: Command) -> bool:
+    if !is_instance_valid(command.target_station) and \
+            command.get_depends_on_target_station():
+        # Station has been freed.
+        Sc.logger.warning(
+            "GameLevel._try_next_command_deferred: " +
+            "command.target_station has been freed.")
+        return false
+    
+    if !get_is_enough_energy_for_command(command):
+        # Not enough energy for command.
+        return false
+    
+    if (command.type == CommandType.BOT_CONSTRUCTOR or \
+                command.type == CommandType.BOT_LINE_RUNNER or \
+                command.type == CommandType.BOT_BARRIER) and \
+            bots.size() >= Sc.level.session.bot_capacity:
+        # Already reached max bot capacity.
+        return false
+    
+    if command.type == CommandType.BARRIER_PYLON and \
+            Sc.level.session.barrier_pylon_count >= \
+                BarrierPylon.MAX_PYLON_COUNT:
+        # Already reached max pylon capacity.
+        return false
+    
+    return true
 
 
 func cancel_command(

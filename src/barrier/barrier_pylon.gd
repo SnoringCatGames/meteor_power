@@ -5,19 +5,10 @@ extends StationarySelectable
 
 # FIXME: LEFT OFF HERE: ----------------------------------
 # - Add disablement messages:
-#   - Too many pylons.
 #   - No barrier bots remain.
+# 
 # - Add pylon-move command logic.
-# - Update HUD to display the number of pylons.
-# - Impose limit on number of pylons.
-#   - Only two?
-#   - Or do I need to also add support for targeting which pylon to pair to
-#     which?
-# - Automatically trigger connection by default?
-# - Add logic to prevent starting new barrier-pylon commands when at max
-#   capacity (or when current queued commands would put us at max capacity).
-# - Add logic to prevent finishing new barrier-pylon commands when at max
-#   capacity (or when current queued commands would put us at max capacity).
+# 
 # - Energy-field updates:
 #   - Show some indication for how much energy is consumed by the force-field
 #     according to the distance.
