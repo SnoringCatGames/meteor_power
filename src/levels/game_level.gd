@@ -146,9 +146,9 @@ func _start() -> void:
     
     # Always start with a constructor bot.
     # FIXME: ---------------------------------------------------
-#    var starting_bot := add_bot(CommandType.BOT_CONSTRUCTOR, true)
+    var starting_bot := add_bot(CommandType.BOT_CONSTRUCTOR, true)
 #    var starting_bot := add_bot(CommandType.BOT_LINE_RUNNER, true)
-    var starting_bot := add_bot(CommandType.BOT_BARRIER, true)
+#    var starting_bot := add_bot(CommandType.BOT_BARRIER, true)
     
     for station in stations:
         station._on_level_started()
