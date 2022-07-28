@@ -557,7 +557,7 @@ var _additive_overrides := {
                             "res://assets/images/tiles/collidable_tiles.png",
                         tile_corner_type_annotations_path = \
                             "res://assets/images/tiles/tileset_corner_type_annotations.png",
-                        subtile_collision_margin = 0.0,
+                        subtile_collision_margin = 3.0,
                         are_45_degree_subtiles_used = true,
                         are_27_degree_subtiles_used = false,
                         properties = "default",

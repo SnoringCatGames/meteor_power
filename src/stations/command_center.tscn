@@ -139,23 +139,15 @@ collision_mask = 0
 monitoring = false
 monitorable = false
 script = ExtResource( 1 )
-is_disabled = false
-is_focused = false
 screen_radius = 28.8
-distance_squared_offset_for_selection_priority = 0.0
-mouse_filter = 0
-is_desaturatable = false
-shape_is_rectangular = true
 shape_rectangle_extents = Vector2( 29, 24 )
-shape_circle_radius = -1.0
-shape_offset = Vector2( 0, -24 )
-wire_attachment_offset = Vector2( 0, 0 )
+shape_offset = Vector2( 0, -21 )
 
 [node name="ShaderOutlineableAnimatedSprite" parent="." groups=["slow_motionables"] instance=ExtResource( 3 )]
 light_mask = 2
-position = Vector2( 0, -32 )
+position = Vector2( 1, -29 )
 frames = SubResource( 32 )
-frame = 22
+frame = 16
 playing = true
 __meta__ = {
 "non_slow_motion_speed_scale": 1.0

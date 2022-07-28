@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/decorative_tileset.png-d9e34a3afbe072d694cc3987a9c43873.stex"
+path="res://.import/station_site_marker_outlined.png-19bd7f8742446e2ce875a9d1556c5a25.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/images/tiles/decorative_tileset.png"
-dest_files=[ "res://.import/decorative_tileset.png-d9e34a3afbe072d694cc3987a9c43873.stex" ]
+source_file="res://assets/images/stations/station_site_marker_outlined.png"
+dest_files=[ "res://.import/station_site_marker_outlined.png-19bd7f8742446e2ce875a9d1556c5a25.stex" ]
 
 [params]
 
@@ -20,7 +20,7 @@ compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
-flags/filter=false
+flags/filter=true
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2

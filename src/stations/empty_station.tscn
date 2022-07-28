@@ -12,11 +12,11 @@ monitorable = false
 script = ExtResource( 1 )
 screen_radius = 28.8
 shape_rectangle_extents = Vector2( 32, 20 )
-shape_offset = Vector2( 0, -20 )
+shape_offset = Vector2( 0, -17 )
 
 [node name="ShaderOutlineableSprite" parent="." instance=ExtResource( 3 )]
 light_mask = 2
-position = Vector2( 0, -23 )
+position = Vector2( 0, -20 )
 texture = ExtResource( 2 )
 outline_color = Color( 0, 0, 0, 0 )
 
