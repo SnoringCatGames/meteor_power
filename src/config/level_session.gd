@@ -70,6 +70,9 @@ var waves_completed_count := 0
 func reset(id: String) -> void:
     .reset(id)
     
+    if Engine.editor_hint:
+        return
+    
     total_energy = config.start_energy
     current_energy = config.start_energy
     bot_capacity = config.bot_capacity
